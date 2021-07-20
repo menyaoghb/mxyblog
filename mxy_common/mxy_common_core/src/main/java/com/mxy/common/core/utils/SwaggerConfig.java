@@ -1,4 +1,4 @@
-package com.mygzs.base;
+package com.mxy.common.core.utils;
 
 import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
