@@ -2,6 +2,7 @@ package ${package.Service};
 
 import ${package.Entity}.${entity};
 import ${superServiceClassPackage};
+import ${package.Entity}.vo.${entity}VO;
 
 /**
  * <p>
@@ -15,6 +16,26 @@ import ${superServiceClassPackage};
 interface ${table.serviceName} : ${superServiceClass}<${entity}>
 #else
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+
+    /**
+     * 获取${table.comment}列表
+     */
+    public String getList(${entity}VO ${table.entityPath}VO);
+
+    /**
+    * 新增${table.comment}
+    */
+    public String add(${entity}VO ${table.entityPath}VO);
+
+    /**
+    * 编辑${table.comment}
+    */
+    public String edit(${entity}VO ${table.entityPath}VO);
+
+    /**
+    * 删除${table.comment}
+    */
+    public String delete(${entity}VO ${table.entityPath}VO);
 
 }
 #end

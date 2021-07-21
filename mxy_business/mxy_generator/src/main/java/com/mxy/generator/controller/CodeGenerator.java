@@ -103,8 +103,8 @@ public class CodeGenerator {
 
         // 自定义需要填充的字段 数据库中的字段
         List<TableFill> tableFillList = new ArrayList<>();
-        tableFillList.add(new TableFill("createTime", FieldFill.INSERT));
-        tableFillList.add(new TableFill("updateTime", FieldFill.UPDATE));
+        tableFillList.add(new TableFill("create_time", FieldFill.INSERT));
+        tableFillList.add(new TableFill("update_time", FieldFill.UPDATE));
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
@@ -121,7 +121,7 @@ public class CodeGenerator {
         //自动填充设置
         strategy.setTableFillList(tableFillList);
         //逻辑删除属性名称
-        strategy.setLogicDeleteFieldName("isDelete");
+        strategy.setLogicDeleteFieldName("is_delete");
 
         strategy.setSuperEntityClass("com.mxy.common.core.entity.BaseEntity");
 
@@ -180,7 +180,7 @@ public class CodeGenerator {
         tc.setService("/templates/service.java.vm");
         tc.setServiceImpl("/templates/serviceImpl.java.vm");
         tc.setMapper("/templates/mapper.java.vm");
-        //tc.setXml("/templates/mapper.xml.vm");
+        tc.setXml(null);
         mpg.setTemplate(tc);
 
         // 执行

@@ -29,10 +29,12 @@
 #if(${baseColumnList})
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-#foreach($field in ${table.commonFields})
-        ${field.columnName},
+        WHERE 1 = 1
+#foreach($field in ${table.fields})
+    <if test="${field.propertyName}!=null and ${field.propertyName}!=''">
+        AND ${field.name} = #{${field.propertyName}}
+    </if>
 #end
-        ${table.fieldNames}
     </sql>
 
 #end

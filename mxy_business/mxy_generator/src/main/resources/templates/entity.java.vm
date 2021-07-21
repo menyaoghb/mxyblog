@@ -84,7 +84,7 @@ public class ${entity} implements Serializable {
   #if(${field.convert})
     @TableField(value = "${field.annotationColumnName}", fill = FieldFill.${field.fill})
   #else
-    @TableField(fill = FieldFill.${field.fill})
+  @TableField(fill = FieldFill.${field.fill})
   #end
 #elseif(${field.convert})
     @TableField("${field.annotationColumnName}")

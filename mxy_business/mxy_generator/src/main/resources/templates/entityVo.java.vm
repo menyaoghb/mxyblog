@@ -36,13 +36,9 @@ public class ${entity}VO extends BaseVO<${entity}> {
 ## ----------  BEGIN 字段循环遍历  ----------
 #foreach($field in ${table.fields})
   #if("$!field.comment" != "")
-    #if(${swagger2})
-    @ApiModelProperty(value = "${field.comment}")
-    #else
     /**
      * ${field.comment}
      */
-    #end
   #end
     private ${field.propertyType} ${field.propertyName};
 #end
