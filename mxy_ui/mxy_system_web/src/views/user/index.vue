@@ -1,87 +1,42 @@
 <template>
   <div class="app-container">
+    <!--查询-->
     <div class="filter-container">
-      <el-input v-model="listQuery.title" placeholder="账号" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <!--<el-select v-model="listQuery.importance" placeholder="Imp" clearable style="width: 90px" class="filter-item">
-        <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item" />
-      </el-select>
-      <el-select v-model="listQuery.type" placeholder="Type" clearable class="filter-item" style="width: 130px">
-        <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key" />
-      </el-select>
-      <el-select v-model="listQuery.sort" style="width: 140px" class="filter-item" @change="handleFilter">
-        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
-      </el-select>-->
+      <el-input v-model="listQuery.userName" placeholder="账号" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
         新增用户
       </el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
-        导出
-      </el-button>
-<!--      <el-checkbox v-model="showReviewer" class="filter-item" style="margin-left:15px;" @change="tableKey=tableKey+1">
-        reviewer
-      </el-checkbox>-->
     </div>
-
+    <!--表格-->
     <el-table
-      :key="tableKey"
-      v-loading="listLoading"
       :data="list"
-      border
-      fit
-      highlight-current-row
-      style="width: 100%;"
-      @sort-change="sortChange"
-    >
-<!-- <el-table-column label="ID" prop="id" sortable="custom" align="center" width="80" :class-name="getSortClass('id')">
+      style="width: 100%" :row-style="{height:'40px'}"
+      :cell-style="{padding:'0px'}" v-loading="listLoading">
+      <el-table-column type="index" width="50" align="center" />
+      <el-table-column prop="nickName" label="姓名" align="center"></el-table-column>
+      <el-table-column prop="userName" label="账号" align="center"></el-table-column>
+      <el-table-column label="权限" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.id }}</span>
-        </template>
-      </el-table-column>-->
-      <el-table-column label="账号" min-width="150px">
-        <template slot-scope="{row}">
-          <span class="link-type" @click="handleUpdate(row)">{{ row.title }}</span>
-          <el-tag>{{ row.type | typeFilter }}</el-tag>
+          <span v-for="item in userTypeOptions" v-if="row.userType===item.key">{{ item.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="昵称" width="110px" align="center">
+      <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
+      <el-table-column label="最后登录时间" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.author }}</span>
-        </template>
+        <span>{{ row.loginDate | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+      </template>
       </el-table-column>
-      <el-table-column label="邮箱" width="110px" align="center">
+      <el-table-column label="状态" width="90" class-name="status-col">
         <template slot-scope="{row}">
-          <span>{{ row.reviewer }}</span>
-        </template>
-      </el-table-column>
-<!--      <el-table-column v-if="showReviewer" label="邮箱" width="110px" align="center">
-        <template slot-scope="{row}">
-          <span style="color:red;">{{ row.reviewer }}</span>
-        </template>
-      </el-table-column>-->
-      <el-table-column label="权限" width="80px">
-        <template slot-scope="{row}">
-          <svg-icon v-for="n in + row.importance" :key="n" icon-class="star" class="meta-item__icon" />
-        </template>
-      </el-table-column>
-      <el-table-column label="最后登录IP" align="center" width="95">
-        <template slot-scope="{row}">
-          <span v-if="row.pageviews" class="link-type" @click="handleFetchPv(row.pageviews)">{{ row.pageviews }}</span>
-          <span v-else>0</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="最后登录时间" width="150px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="状态" class-name="status-col" width="100">
-        <template slot-scope="{row}">
-          <el-tag :type="row.status | statusFilter">
-            {{ row.status }}
-          </el-tag>
+          <el-button v-if="row.status!='0'" size="mini" type="success" @click="handleModifyStatus(row,'0')">
+            已启用
+          </el-button>
+          <el-button v-if="row.status!='1'" size="mini" type="info" @click="handleModifyStatus(row,'1')">
+            已禁用
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
@@ -89,48 +44,41 @@
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             编辑
           </el-button>
-          <el-button v-if="row.status!='published'" size="mini" type="success" @click="handleModifyStatus(row,'published')">
-            启用
-          </el-button>
-          <el-button v-if="row.status!='draft'" size="mini" @click="handleModifyStatus(row,'draft')">
-            禁用
-          </el-button>
           <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row,$index)">
             删除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+    <!--分页-->
+    <pagination v-show="total>0" :total="total" :page.sync="listQuery.pages" :limit.sync="listQuery.size" @pagination="getList" />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-
-<!--        <el-form-item label="Date" prop="timestamp">
-          <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date" />
-        </el-form-item>-->
-        <el-form-item label="账号" prop="username">
-          <el-input v-model="temp.title" />
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:160px;">
+        <el-form-item label="姓名">
+          <el-input v-model="temp.nickName" />
         </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="temp.title" />
+        <el-form-item label="账号">
+          <el-input v-model="temp.userName" />
         </el-form-item>
-        <el-form-item label="权限" prop="type">
-          <el-select v-model="temp.type" class="filter-item" placeholder="请选择账号权限">
-            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
+        <el-form-item label="密码">
+          <el-input v-model="temp.password" />
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input v-model="temp.email" />
+        </el-form-item>
+        <el-form-item label="权限">
+          <el-select v-model="temp.userType" class="filter-item" style="width: 100%;">
+            <el-option v-for="item in userTypeOptions" :key="item.key" :label="item.name" :value="item.key" />
           </el-select>
         </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-select v-model="temp.status" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item" />
+        <el-form-item label="状态">
+          <el-select v-model="temp.status" class="filter-item" style="width: 100%;">
+            <el-option v-for="item in statusOptions" :key="item.key" :label="item.name" :value="item.key" />
           </el-select>
         </el-form-item>
-<!--        <el-form-item label="Imp">
-          <el-rate v-model="temp.importance" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" :max="3" style="margin-top:8px;" />
-        </el-form-item>-->
         <el-form-item label="备注">
-          <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+          <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -144,7 +92,7 @@
     </el-dialog>
 
     <el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">
-      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
+      <el-table :data="pvData" border fit highlight-current-row style="width: 100%"></el-table>
       <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
         <el-table-column prop="key" label="Channel" />
         <el-table-column prop="pv" label="Pv" />
@@ -157,21 +105,29 @@
 </template>
 
 <script>
-import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
+import { getSysUserList, fetchPv, createArticle, updateArticle } from '@/api/user/user'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
-const calendarTypeOptions = [
-  { key: 'CN', display_name: 'China' },
-  { key: 'US', display_name: 'USA' },
-  { key: 'JP', display_name: 'Japan' },
-  { key: 'EU', display_name: 'Eurozone' }
+// 权限
+const userTypeOptions = [
+  { key: '01', name: 'S级管理员' },
+  { key: '02', name: 'A级管理员' },
+  { key: '03', name: 'B级管理员' },
+  { key: '04', name: 'C级管理员' },
+  { key: '05', name: 'D级管理员' },
+  { key: '06', name: 'E级管理员' },
+  { key: '07', name: 'F级参观者' }
+]
+// 状态
+const statusOptions = [
+  { key: '0', name: '启用' },
+  { key: '1', name: '禁用' }
 ]
 
-// arr to obj, such as { CN : "China", US : "USA" }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
+const calendarTypeKeyValue = userTypeOptions.reduce((acc, cur) => {
+  acc[cur.key] = cur.name
   return acc
 }, {})
 
@@ -183,7 +139,7 @@ export default {
     statusFilter(status) {
       const statusMap = {
         published: 'success',
-        draft: 'info',
+        draft: 'danger',
         deleted: 'danger'
       }
       return statusMap[status]
@@ -199,26 +155,22 @@ export default {
       total: 0,
       listLoading: true,
       listQuery: {
-        page: 1,
-        limit: 20,
-        importance: undefined,
-        title: undefined,
-        type: undefined,
-        sort: '+id'
+        pages: 1,
+        size: 10,
+        userName: undefined
       },
       importanceOptions: [1, 2, 3],
-      calendarTypeOptions,
+      userTypeOptions,
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
-      statusOptions: ['published', 'draft', 'deleted'],
+      statusOptions,
       showReviewer: false,
       temp: {
-        id: undefined,
-        importance: 1,
-        remark: '',
-        timestamp: new Date(),
-        title: '',
-        type: '',
-        status: 'published'
+        userId: undefined,
+        userName: '',
+        password: '',
+        userType: '',
+        status: '0',
+        remark: ''
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -244,8 +196,9 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      fetchList(this.listQuery).then(response => {
-        this.list = response.data.items
+      const tempD = Object.assign({}, this.listQuery)
+      getSysUserList(this.listQuery).then(response => {
+        this.list = response.data.records
         this.total = response.data.total
 
         // Just to simulate the time of the request
@@ -255,16 +208,35 @@ export default {
       })
     },
     handleFilter() {
-      this.listQuery.page = 1
+      this.listQuery.pages = 1
       this.getList()
     },
-    handleModifyStatus(row, status) {
-      this.$message({
-        message: '操作Success',
-        type: 'success'
-      })
+/*    handleModifyStatus(row, status) {
+      if (status==='0'){
+        this.$message({
+          message: '操作Success',
+          type: 'success'
+        })
+      }
+
       row.status = status
+    },*/
+
+    handleModifyStatus(row) {
+      let text = row.status === "0" ? "启用" : "禁用";
+      this.$confirm('确认要"' + text + '""' + row.userName + '"这个用户吗?', "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        row.status = '0';
+      }).then(() => {
+        this.msg(text + "成功");
+      }).catch(function() {
+        row.status = row.status === "0" ? "1" : "0";
+      });
     },
+
     sortChange(data) {
       const { prop, order } = data
       if (prop === 'id') {
@@ -279,15 +251,17 @@ export default {
       }
       this.handleFilter()
     },
+    // 表单重置
     resetTemp() {
       this.temp = {
-        id: undefined,
-        importance: 1,
+        userId: undefined,
+        userName: '',
+        nickName: '',
+        password: '',
+        email: '',
+        userType: '',
+        status: '0',
         remark: '',
-        timestamp: new Date(),
-        title: '',
-        status: 'published',
-        type: ''
       }
     },
     handleCreate() {

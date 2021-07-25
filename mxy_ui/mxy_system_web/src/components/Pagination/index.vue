@@ -92,8 +92,16 @@ export default {
 
 <style scoped>
 .pagination-container {
+  position: relative;
+  height: 25px;
+  margin-bottom: 10px;
+  margin-top: 10px;
   background: #fff;
-  padding: 32px 16px;
+  padding: 10px 20px!important;
+}
+.el-pagination{
+  right: 0;
+  position: absolute;
 }
 .pagination-container.hidden {
   display: none;
