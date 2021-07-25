@@ -1,6 +1,6 @@
 package ${package.Entity}.vo;
 
-import java.util.Date;
+#if(${entityLombokModel})
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 #if(${chainModel})

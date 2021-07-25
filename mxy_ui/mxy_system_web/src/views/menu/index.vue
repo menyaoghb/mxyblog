@@ -2,10 +2,10 @@
   <div class="app-container">
     <!--查询-->
     <div class="filter-container">
-      <el-input v-model="listQuery.nickName" prefix-icon="el-icon-search" placeholder="姓名" style="width: 200px;"
+      <el-input v-model="listQuery.menuName" prefix-icon="el-icon-search" placeholder="菜单名称" style="width: 200px;"
                 class="filter-item"
                 @keyup.enter.native="handleFilter" clearable/>
-      <el-input v-model="listQuery.userName" prefix-icon="el-icon-search" placeholder="账号" style="width: 200px;margin-left: 5px;"
+      <el-input v-model="listQuery.menuType" prefix-icon="el-icon-search" placeholder="菜单类型" style="width: 200px;margin-left: 5px;"
                 class="filter-item"
                 @keyup.enter.native="handleFilter" clearable/>
       <el-button class="filter-item" style="margin-left: 10px;" icon="el-icon-search" @click="handleFilter" round>
@@ -13,7 +13,7 @@
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="plain" icon="el-icon-plus"
                  @click="handleCreate" round>
-        新增用户
+        新增菜单
       </el-button>
     </div>
     <!--表格-->
@@ -22,19 +22,12 @@
       style="width: 100%" :row-style="{height:'40px'}"
       :cell-style="{padding:'0px'}" v-loading="listLoading">
       <el-table-column type="index" width="50" align="center"/>
-      <el-table-column prop="nickName" label="姓名" align="center"></el-table-column>
-      <el-table-column prop="userName" label="账号" align="center"></el-table-column>
-      <el-table-column label="权限" align="center">
-        <template slot-scope="{row}">
-          <span v-for="item in userTypeOptions" v-if="row.userType===item.key">{{ item.name }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
-      <el-table-column label="最后登录时间" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.loginDate | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column prop="menuName" label="菜单名称" align="center"></el-table-column>
+      <el-table-column prop="parentId" label="父菜单ID" align="center"></el-table-column>
+      <el-table-column prop="path" label="路由地址" align="center"></el-table-column>
+      <el-table-column prop="component" label="组件路径" align="center"></el-table-column>
+      <el-table-column prop="perms" label="权限标识" align="center"></el-table-column>
+      <el-table-column prop="menuType" label="菜单类型" align="center"></el-table-column>
       <el-table-column label="状态" width="90" class-name="status-col">
         <template slot-scope="{row}">
           <el-button v-if="row.status==='0'" size="mini" type="success" @click="handleModifyStatus(row,'0')" round>
@@ -62,20 +55,26 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px"
                style="width: 400px; margin-left:160px;">
-        <el-form-item label="姓名">
-          <el-input v-model="temp.nickName"/>
+        <el-form-item label="菜单名称">
+          <el-input v-model="temp.menuName"/>
         </el-form-item>
-        <el-form-item label="账号">
-          <el-input v-model="temp.userName"/>
+        <el-form-item label="父菜单ID">
+          <el-input v-model="temp.parentId"/>
         </el-form-item>
-        <el-form-item label="密码">
-          <el-input v-model="temp.password"/>
+        <el-form-item label="路由地址">
+          <el-input v-model="temp.path"/>
         </el-form-item>
-        <el-form-item label="邮箱">
-          <el-input v-model="temp.email"/>
+        <el-form-item label="组件路径">
+          <el-input v-model="temp.component"/>
         </el-form-item>
-        <el-form-item label="权限">
-          <el-select v-model="temp.userType" class="filter-item" style="width: 100%;">
+        <el-form-item label="权限标识">
+          <el-input v-model="temp.perms"/>
+        </el-form-item>
+        <el-form-item label="菜单图标">
+          <el-input v-model="temp.icon"/>
+        </el-form-item>
+        <el-form-item label="菜单类型">
+          <el-select v-model="temp.menuType" class="filter-item" style="width: 100%;">
             <el-option v-for="item in userTypeOptions" :key="item.key" :label="item.name" :value="item.key"/>
           </el-select>
         </el-form-item>
@@ -101,19 +100,15 @@
 </template>
 
 <script>
-  import {getSysUserList, addUser, editUser, deleteUser} from '@/api/user/user'
+  import {getSysMenuList, addMenu, editMenu, deleteMenu} from '@/api/menu/menu'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // 分页
 
   // 权限
   const userTypeOptions = [
-    {key: '01', name: 'S级管理员'},
-    {key: '02', name: 'A级管理员'},
-    {key: '03', name: 'B级管理员'},
-    {key: '04', name: 'C级管理员'},
-    {key: '05', name: 'D级管理员'},
-    {key: '06', name: 'E级管理员'},
-    {key: '07', name: 'F级参观者'}
+    {key: '01', name: '目录'},
+    {key: '02', name: '菜单'},
+    {key: '03', name: '按钮'}
   ]
   // 状态
   const statusOptions = [
@@ -134,18 +129,24 @@
         listQuery: {
           currentPage: 1,
           pageSize: 10,
-          nickName: undefined,
-          userName: undefined
+          menuName: undefined,
+          menuType: undefined
         },
         userTypeOptions, // 用户权限
         statusOptions, // 用户状态
         temp: {
-          userId: undefined,
-          nickName: '',
-          userName: '',
-          password: '',
-          email: '',
-          userType: '',
+          menuId: undefined,
+          menuName: '',
+          parentId: '',
+          orderNum: '',
+          path: '',
+          component: '',
+          isFrame: '',
+          isCache: '',
+          menuType: '',
+          visible: '',
+          perms: '',
+          icon: '',
           status: '0',
           remark: ''
         },
@@ -165,7 +166,7 @@
       /*列表查询*/
       getList() {
         this.listLoading = true
-        getSysUserList(this.listQuery).then(response => {
+        getSysMenuList(this.listQuery).then(response => {
           this.list = response.data.records
           this.total = response.data.total
           this.listLoading = false
@@ -173,22 +174,21 @@
       },
       /*条件查询*/
       handleFilter() {
-        this.listQuery.pages = 1
+        this.listQuery.currentPage = 1
         this.getList()
       },
       /*用户状态改变*/
       handleModifyStatus(row) {
         let text = row.status === "1" ? "启用" : "禁用";
-        this.$confirm('确认要"' + text + '""' + row.userName + '"这个用户吗?', "警告", {
+        this.$confirm('确认要"' + text + '""' + row.menuName + '"这个菜单吗?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(() => {
-          this.temp.userId = row.userId;
           let param = {};
-          param.userId = row.userId;
+          param.menuId = row.menuId;
           param.status = row.status === "1" ? "0" : "1";
-          editUser(param).then(() => {
+          editMenu(param).then(() => {
             this.$message({
               message: text + '成功',
               type: 'success'
@@ -201,14 +201,20 @@
       /*表单重置*/
       resetTemp() {
         this.temp = {
-          userId: undefined,
-          userName: '',
-          nickName: '',
-          password: '',
-          email: '',
-          userType: '',
+          menuId: undefined,
+          menuName: '',
+          parentId: '',
+          orderNum: '',
+          path: '',
+          component: '',
+          isFrame: '',
+          isCache: '',
+          menuType: '',
+          visible: '',
+          perms: '',
+          icon: '',
           status: '0',
-          remark: '',
+          remark: ''
         }
       },
       /*新增跳转*/
@@ -224,7 +230,7 @@
       createData() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            addUser(this.temp).then(() => {
+            addMenu(this.temp).then(() => {
               this.$message({
                 message: '新增成功',
                 type: 'success'
@@ -248,7 +254,7 @@
       updateData() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            editUser(this.temp).then(() => {
+            editMenu(this.temp).then(() => {
               this.$message({
                 message: '修改成功',
                 type: 'success'
@@ -261,13 +267,13 @@
       },
       /*数据删除*/
       handleDelete(row) {
-        this.$confirm('是否确认删除用户账号为"' + row.userName + '"的数据?', "警告", {
+        this.$confirm('是否确认删除"' + row.menuName + '"的数据?', "警告", {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.temp.userId = row.userId;
-          deleteUser(this.temp).then(() => {
+          this.temp.menuId = row.menuId;
+          deleteMenu(this.temp).then(() => {
             this.$message({
               message: '删除成功',
               type: 'success'

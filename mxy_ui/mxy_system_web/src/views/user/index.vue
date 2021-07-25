@@ -173,7 +173,7 @@
       },
       /*条件查询*/
       handleFilter() {
-        this.listQuery.pages = 1
+        this.listQuery.currentPage = 1
         this.getList()
       },
       /*用户状态改变*/

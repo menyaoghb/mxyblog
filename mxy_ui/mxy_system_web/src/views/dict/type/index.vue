@@ -2,10 +2,11 @@
   <div class="app-container">
     <!--查询-->
     <div class="filter-container">
-      <el-input v-model="listQuery.nickName" prefix-icon="el-icon-search" placeholder="姓名" style="width: 200px;"
+      <el-input v-model="listQuery.dictName" prefix-icon="el-icon-search" placeholder="字典名称" style="width: 200px;"
                 class="filter-item"
                 @keyup.enter.native="handleFilter" clearable/>
-      <el-input v-model="listQuery.userName" prefix-icon="el-icon-search" placeholder="账号" style="width: 200px;margin-left: 5px;"
+      <el-input v-model="listQuery.dictType" prefix-icon="el-icon-search" placeholder="字典类型"
+                style="width: 200px;margin-left: 5px;"
                 class="filter-item"
                 @keyup.enter.native="handleFilter" clearable/>
       <el-button class="filter-item" style="margin-left: 10px;" icon="el-icon-search" @click="handleFilter" round>
@@ -13,7 +14,7 @@
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="plain" icon="el-icon-plus"
                  @click="handleCreate" round>
-        新增用户
+        新增
       </el-button>
     </div>
     <!--表格-->
@@ -22,17 +23,17 @@
       style="width: 100%" :row-style="{height:'40px'}"
       :cell-style="{padding:'0px'}" v-loading="listLoading">
       <el-table-column type="index" width="50" align="center"/>
-      <el-table-column prop="nickName" label="姓名" align="center"></el-table-column>
-      <el-table-column prop="userName" label="账号" align="center"></el-table-column>
-      <el-table-column label="权限" align="center">
+      <el-table-column prop="dictName" label="字典名称" align="center"></el-table-column>
+      <el-table-column prop="dictType" label="字典类型" align="center"></el-table-column>
+      <el-table-column prop="parentId" label="父菜单ID" align="center"></el-table-column>
+      <el-table-column label="创建时间" align="center">
         <template slot-scope="{row}">
-          <span v-for="item in userTypeOptions" v-if="row.userType===item.key">{{ item.name }}</span>
+          <span>{{ row.createTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
-      <el-table-column label="最后登录时间" align="center">
+      <el-table-column label="更新时间" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.loginDate | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+          <span>{{ row.updateTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态" width="90" class-name="status-col">
@@ -62,22 +63,14 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px"
                style="width: 400px; margin-left:160px;">
-        <el-form-item label="姓名">
-          <el-input v-model="temp.nickName"/>
+        <el-form-item label="字典名称">
+          <el-input v-model="temp.dictName"/>
         </el-form-item>
-        <el-form-item label="账号">
-          <el-input v-model="temp.userName"/>
+        <el-form-item label="字典类型">
+          <el-input v-model="temp.dictType"/>
         </el-form-item>
-        <el-form-item label="密码">
-          <el-input v-model="temp.password"/>
-        </el-form-item>
-        <el-form-item label="邮箱">
-          <el-input v-model="temp.email"/>
-        </el-form-item>
-        <el-form-item label="权限">
-          <el-select v-model="temp.userType" class="filter-item" style="width: 100%;">
-            <el-option v-for="item in userTypeOptions" :key="item.key" :label="item.name" :value="item.key"/>
-          </el-select>
+        <el-form-item label="父菜单ID">
+          <el-input v-model="temp.parentId"/>
         </el-form-item>
         <el-form-item label="状态">
           <el-select v-model="temp.status" class="filter-item" style="width: 100%;">
@@ -101,20 +94,12 @@
 </template>
 
 <script>
-  import {getSysUserList, addUser, editUser, deleteUser} from '@/api/user/user'
+  import {getSysDictTypeList, addDictType, editDictType, deleteDictType} from '@/api/dict/type/type'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // 分页
 
   // 权限
-  const userTypeOptions = [
-    {key: '01', name: 'S级管理员'},
-    {key: '02', name: 'A级管理员'},
-    {key: '03', name: 'B级管理员'},
-    {key: '04', name: 'C级管理员'},
-    {key: '05', name: 'D级管理员'},
-    {key: '06', name: 'E级管理员'},
-    {key: '07', name: 'F级参观者'}
-  ]
+  const userTypeOptions = []
   // 状态
   const statusOptions = [
     {key: '0', name: '启用'},
@@ -134,18 +119,16 @@
         listQuery: {
           currentPage: 1,
           pageSize: 10,
-          nickName: undefined,
-          userName: undefined
+          dictName: undefined,
+          dictType: undefined
         },
         userTypeOptions, // 用户权限
         statusOptions, // 用户状态
         temp: {
-          userId: undefined,
-          nickName: '',
-          userName: '',
-          password: '',
-          email: '',
-          userType: '',
+          dictId: undefined,
+          dictName: '',
+          dictType: '',
+          parentId: '',
           status: '0',
           remark: ''
         },
@@ -165,7 +148,7 @@
       /*列表查询*/
       getList() {
         this.listLoading = true
-        getSysUserList(this.listQuery).then(response => {
+        getSysDictTypeList(this.listQuery).then(response => {
           this.list = response.data.records
           this.total = response.data.total
           this.listLoading = false
@@ -173,22 +156,21 @@
       },
       /*条件查询*/
       handleFilter() {
-        this.listQuery.pages = 1
+        this.listQuery.currentPage = 1
         this.getList()
       },
       /*用户状态改变*/
       handleModifyStatus(row) {
         let text = row.status === "1" ? "启用" : "禁用";
-        this.$confirm('确认要"' + text + '""' + row.userName + '"这个用户吗?', "警告", {
+        this.$confirm('确认要"' + text + '""' + row.dictName + '"这个类型吗?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(() => {
-          this.temp.userId = row.userId;
           let param = {};
-          param.userId = row.userId;
+          param.dictId = row.dictId;
           param.status = row.status === "1" ? "0" : "1";
-          editUser(param).then(() => {
+          editDictType(param).then(() => {
             this.$message({
               message: text + '成功',
               type: 'success'
@@ -201,14 +183,12 @@
       /*表单重置*/
       resetTemp() {
         this.temp = {
-          userId: undefined,
-          userName: '',
-          nickName: '',
-          password: '',
-          email: '',
-          userType: '',
+          dictId: undefined,
+          dictName: '',
+          dictType: '',
+          parentId: '',
           status: '0',
-          remark: '',
+          remark: ''
         }
       },
       /*新增跳转*/
@@ -224,7 +204,7 @@
       createData() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            addUser(this.temp).then(() => {
+            addDictType(this.temp).then(() => {
               this.$message({
                 message: '新增成功',
                 type: 'success'
@@ -248,7 +228,7 @@
       updateData() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            editUser(this.temp).then(() => {
+            editDictType(this.temp).then(() => {
               this.$message({
                 message: '修改成功',
                 type: 'success'
@@ -261,13 +241,13 @@
       },
       /*数据删除*/
       handleDelete(row) {
-        this.$confirm('是否确认删除用户账号为"' + row.userName + '"的数据?', "警告", {
+        this.$confirm('是否确认删除"' + row.dictName + '"的数据?', "警告", {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.temp.userId = row.userId;
-          deleteUser(this.temp).then(() => {
+          this.temp.dictId = row.dictId;
+          deleteDictType(this.temp).then(() => {
             this.$message({
               message: '删除成功',
               type: 'success'
