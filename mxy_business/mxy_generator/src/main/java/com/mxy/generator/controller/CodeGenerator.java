@@ -23,7 +23,8 @@ public class CodeGenerator {
     public static void main(String[] args) {
         String schemaName = "mxy_blog";
         // 表名，多个英文逗号分割
-        String tableName = "sys_user";
+        //String[] tableName = new String[] { "sys_role_menu","sys_oper_log","sys_menu","sys_dict_type","sys_dict_data" };
+        String[] tableName = new String[] { "sys_oper_log" };
 
         String url = "jdbc:mysql://localhost:3306/mxy_blog?characterEncoding=utf8&useUnicode=true&serverTimezone=UTC";
         String driverName = "com.mysql.cj.jdbc.Driver";

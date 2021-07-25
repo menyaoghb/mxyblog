@@ -396,24 +396,24 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/user',
+    path: '/role',
     component: Layout,
     children: [
       {
         path: 'index',
-        component: () => import('@/views/user/index'),
+        component: () => import('@/views/role/index'),
         name: 'user',
         meta: {title: '角色管理', icon: 'el-icon-cherry'}
       }
     ]
   },
   {
-    path: '/user',
+    path: '/menu',
     component: Layout,
     children: [
       {
         path: 'index',
-        component: () => import('@/views/user/index'),
+        component: () => import('@/views/menu/index'),
         name: 'user',
         meta: {title: '菜单管理', icon: 'el-icon-grape'}
       }
@@ -443,12 +443,12 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/user',
+    path: '/log',
     component: Layout,
     children: [
       {
         path: 'index',
-        component: () => import('@/views/user/index'),
+        component: () => import('@/views/log/index'),
         name: 'user',
         meta: {title: '操作日志', icon: 'el-icon-watermelon'}
       }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mxy.system.mapper.SysDictTypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mxy.system.entity.SysDictType">
+        <id column="dict_id" property="dictId" />
+        <result column="dict_name" property="dictName" />
+        <result column="dict_type" property="dictType" />
+        <result column="parent_id" property="parentId" />
+        <result column="status" property="status" />
+        <result column="is_delete" property="isDelete" />
+        <result column="create_user" property="createUser" />
+        <result column="create_time" property="createTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        WHERE 1 = 1
+    <if test="dictId!=null and dictId!=''">
+        AND dict_id = #{dictId}
+    </if>
+    <if test="dictName!=null and dictName!=''">
+        AND dict_name = #{dictName}
+    </if>
+    <if test="dictType!=null and dictType!=''">
+        AND dict_type = #{dictType}
+    </if>
+    <if test="parentId!=null and parentId!=''">
+        AND parent_id = #{parentId}
+    </if>
+    <if test="status!=null and status!=''">
+        AND status = #{status}
+    </if>
+    <if test="isDelete!=null and isDelete!=''">
+        AND is_delete = #{isDelete}
+    </if>
+    <if test="createUser!=null and createUser!=''">
+        AND create_user = #{createUser}
+    </if>
+    <if test="createTime!=null and createTime!=''">
+        AND create_time = #{createTime}
+    </if>
+    <if test="updateUser!=null and updateUser!=''">
+        AND update_user = #{updateUser}
+    </if>
+    <if test="updateTime!=null and updateTime!=''">
+        AND update_time = #{updateTime}
+    </if>
+    <if test="remark!=null and remark!=''">
+        AND remark = #{remark}
+    </if>
+    </sql>
+
+</mapper>

@@ -1,13 +1,6 @@
 package ${package.Entity}.vo;
 
-#foreach($pkg in ${table.importPackages})
-import ${pkg};
-#end
-#if(${swagger2})
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-#end
-#if(${entityLombokModel})
+import java.util.Date;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 #if(${chainModel})

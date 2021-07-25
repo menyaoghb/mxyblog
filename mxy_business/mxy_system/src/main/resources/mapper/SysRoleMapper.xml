@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mxy.system.mapper.SysRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mxy.system.entity.SysRole">
+        <id column="role_id" property="roleId" />
+        <result column="role_name" property="roleName" />
+        <result column="role_key" property="roleKey" />
+        <result column="role_sort" property="roleSort" />
+        <result column="data_scope" property="dataScope" />
+        <result column="menu_check_strictly" property="menuCheckStrictly" />
+        <result column="status" property="status" />
+        <result column="is_delete" property="isDelete" />
+        <result column="create_user" property="createUser" />
+        <result column="create_time" property="createTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        WHERE 1 = 1
+    <if test="roleId!=null and roleId!=''">
+        AND role_id = #{roleId}
+    </if>
+    <if test="roleName!=null and roleName!=''">
+        AND role_name = #{roleName}
+    </if>
+    <if test="roleKey!=null and roleKey!=''">
+        AND role_key = #{roleKey}
+    </if>
+    <if test="roleSort!=null and roleSort!=''">
+        AND role_sort = #{roleSort}
+    </if>
+    <if test="dataScope!=null and dataScope!=''">
+        AND data_scope = #{dataScope}
+    </if>
+    <if test="menuCheckStrictly!=null and menuCheckStrictly!=''">
+        AND menu_check_strictly = #{menuCheckStrictly}
+    </if>
+    <if test="status!=null and status!=''">
+        AND status = #{status}
+    </if>
+    <if test="isDelete!=null and isDelete!=''">
+        AND is_delete = #{isDelete}
+    </if>
+    <if test="createUser!=null and createUser!=''">
+        AND create_user = #{createUser}
+    </if>
+    <if test="createTime!=null and createTime!=''">
+        AND create_time = #{createTime}
+    </if>
+    <if test="updateUser!=null and updateUser!=''">
+        AND update_user = #{updateUser}
+    </if>
+    <if test="updateTime!=null and updateTime!=''">
+        AND update_time = #{updateTime}
+    </if>
+    <if test="remark!=null and remark!=''">
+        AND remark = #{remark}
+    </if>
+    </sql>
+
+</mapper>
