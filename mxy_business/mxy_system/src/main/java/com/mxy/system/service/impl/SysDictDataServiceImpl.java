@@ -10,6 +10,7 @@ import com.mxy.system.entity.vo.SysDictDataVO;
 import com.mxy.system.mapper.SysDictDataMapper;
 import com.mxy.system.service.SysDictDataService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
 
@@ -26,7 +27,16 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
 
     @Override
     public String getList(SysDictDataVO sysDictDataVO) {
-        QueryWrapper queryWrapper = new QueryWrapper();
+        QueryWrapper<SysDictData> queryWrapper = new QueryWrapper<>();
+        if (StringUtils.isNotEmpty(sysDictDataVO.getDictName())) {
+            queryWrapper.like("dict_name", sysDictDataVO.getDictName());
+        }
+        if (StringUtils.isNotEmpty(sysDictDataVO.getDictType())) {
+            queryWrapper.eq("dict_type", sysDictDataVO.getDictType());
+        }
+        if (StringUtils.isNotEmpty(sysDictDataVO.getDictValue())) {
+            queryWrapper.eq("dict_value", sysDictDataVO.getDictValue());
+        }
         Page<SysDictData> page = new Page<>();
         page.setCurrent(sysDictDataVO.getCurrentPage());
         page.setSize(sysDictDataVO.getPageSize());

@@ -105,8 +105,8 @@
         listQuery: {
           currentPage: 1,
           pageSize: 10,
-          nickName: undefined,
-          userName: undefined
+          title: undefined,
+          businessType: undefined
         },
         userTypeOptions, // 用户权限
         statusOptions, // 用户状态

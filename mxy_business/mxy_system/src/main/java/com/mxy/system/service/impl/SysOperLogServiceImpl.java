@@ -10,6 +10,7 @@ import com.mxy.system.entity.vo.SysOperLogVO;
 import com.mxy.system.mapper.SysOperLogMapper;
 import com.mxy.system.service.SysOperLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
 
@@ -26,7 +27,13 @@ public class SysOperLogServiceImpl extends ServiceImpl<SysOperLogMapper, SysOper
 
     @Override
     public String getList(SysOperLogVO sysOperLogVO) {
-        QueryWrapper queryWrapper = new QueryWrapper();
+        QueryWrapper<SysOperLog> queryWrapper = new QueryWrapper<>();
+        if (StringUtils.isNotEmpty(sysOperLogVO.getTitle())) {
+            queryWrapper.like("title", sysOperLogVO.getTitle());
+        }
+        if (null != sysOperLogVO.getBusinessType()) {
+            queryWrapper.eq("business_type", sysOperLogVO.getBusinessType());
+        }
         Page<SysOperLog> page = new Page<>();
         page.setCurrent(sysOperLogVO.getCurrentPage());
         page.setSize(sysOperLogVO.getPageSize());

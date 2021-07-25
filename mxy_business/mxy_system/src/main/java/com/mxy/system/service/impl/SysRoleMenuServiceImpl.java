@@ -26,7 +26,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 
     @Override
     public String getList(SysRoleMenuVO sysRoleMenuVO) {
-        QueryWrapper queryWrapper = new QueryWrapper();
+        QueryWrapper<SysRoleMenu> queryWrapper = new QueryWrapper<>();
         Page<SysRoleMenu> page = new Page<>();
         page.setCurrent(sysRoleMenuVO.getCurrentPage());
         page.setSize(sysRoleMenuVO.getPageSize());

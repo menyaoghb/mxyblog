@@ -26,7 +26,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
     @Override
     public String getList(SysUserRoleVO sysUserRoleVO) {
-        QueryWrapper queryWrapper = new QueryWrapper();
+        QueryWrapper<SysUserRole> queryWrapper = new QueryWrapper<>();
         Page<SysUserRole> page = new Page<>();
         page.setCurrent(sysUserRoleVO.getCurrentPage());
         page.setSize(sysUserRoleVO.getPageSize());

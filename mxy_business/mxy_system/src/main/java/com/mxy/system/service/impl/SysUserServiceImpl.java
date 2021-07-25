@@ -27,7 +27,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public String getList(SysUserVO sysUserVO) {
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<SysUser>();
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotEmpty(sysUserVO.getNickName())) {
             queryWrapper.like("nick_name", sysUserVO.getNickName());
         }

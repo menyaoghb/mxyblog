@@ -10,6 +10,7 @@ import com.mxy.system.entity.vo.SysRoleVO;
 import com.mxy.system.mapper.SysRoleMapper;
 import com.mxy.system.service.SysRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
 
@@ -26,7 +27,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public String getList(SysRoleVO sysRoleVO) {
-        QueryWrapper queryWrapper = new QueryWrapper();
+        QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
+        if (StringUtils.isNotEmpty(sysRoleVO.getRoleName())) {
+            queryWrapper.like("role_name", sysRoleVO.getRoleName());
+        }
         Page<SysRole> page = new Page<>();
         page.setCurrent(sysRoleVO.getCurrentPage());
         page.setSize(sysRoleVO.getPageSize());
