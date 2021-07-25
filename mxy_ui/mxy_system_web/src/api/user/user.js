@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 
+/*列表查询*/
 export function getSysUserList(data) {
   return request({
     url: '/sysUser/getList',
@@ -7,34 +8,26 @@ export function getSysUserList(data) {
     data
   })
 }
-
-export function fetchArticle(id) {
+/*新增*/
+export function addUser(data) {
   return request({
-    url: '/article/detail',
-    method: 'get',
-    params: {id}
-  })
-}
-
-export function fetchPv(pv) {
-  return request({
-    url: '/article/pv',
-    method: 'get',
-    params: {pv}
-  })
-}
-
-export function createArticle(data) {
-  return request({
-    url: '/article/create',
+    url: '/sysUser/add',
     method: 'post',
     data
   })
 }
-
-export function updateArticle(data) {
+/*修改*/
+export function editUser(data) {
   return request({
-    url: '/vue-element-admin/article/update',
+    url: '/sysUser/edit',
+    method: 'post',
+    data
+  })
+}
+/*删除*/
+export function deleteUser(data) {
+  return request({
+    url: '/sysUser/delete',
     method: 'post',
     data
   })

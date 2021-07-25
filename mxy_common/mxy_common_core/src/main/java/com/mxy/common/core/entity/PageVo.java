@@ -20,12 +20,12 @@ public class PageVo<T> {
     /**
      * 当前页
      */
-    private Long pages;
+    private Long currentPage;
 
     /**
      * 页大小
      */
-    private Long size;
+    private Long pageSize;
 
 
 
