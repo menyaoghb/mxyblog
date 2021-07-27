@@ -10,13 +10,16 @@
         <el-col :span="18" :xs="24">
           <el-card>
             <el-tabs v-model="activeTab">
-              <el-tab-pane label="Activity" name="activity">
+              <el-tab-pane label="个人信息" name="activity">
                 <activity />
+                <div class="text-center">
+                  <userAvatar :user="user" />
+                </div>
               </el-tab-pane>
-              <el-tab-pane label="Timeline" name="timeline">
+              <el-tab-pane label="心情语录" name="timeline">
                 <timeline />
               </el-tab-pane>
-              <el-tab-pane label="Account" name="account">
+              <el-tab-pane label="密码修改" name="account">
                 <account :user="user" />
               </el-tab-pane>
             </el-tabs>
@@ -34,10 +37,12 @@ import UserCard from './components/UserCard'
 import Activity from './components/Activity'
 import Timeline from './components/Timeline'
 import Account from './components/Account'
+import userPhoto from './components/userPhoto'
+
 
 export default {
   name: 'Profile',
-  components: { UserCard, Activity, Timeline, Account },
+  components: { UserCard, Activity, Timeline, Account ,userPhoto},
   data() {
     return {
       user: {},
@@ -57,10 +62,10 @@ export default {
   methods: {
     getUser() {
       this.user = {
-        name: this.name,
-        role: this.roles.join(' | '),
-        email: 'admin@test.com',
-        avatar: this.avatar
+        name: "阿云",
+        role: "S级管理员",
+        email: 'mxy@qq.com',
+        avatar: "y"
       }
     }
   }
