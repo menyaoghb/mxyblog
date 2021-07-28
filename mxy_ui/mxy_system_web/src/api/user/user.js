@@ -32,3 +32,12 @@ export function deleteUser(data) {
     data
   })
 }
+
+// 用户头像上传
+export function uploadPhoto(data) {
+  return request({
+    url: '/system/user/profile/avatar',
+    method: 'post',
+    data: data
+  })
+}
