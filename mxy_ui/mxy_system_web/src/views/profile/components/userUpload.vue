@@ -24,13 +24,12 @@
     },
     methods: {
       handleAvatarSuccess(res, file) {
-        debugger
         this.imageUrl = URL.createObjectURL(file.raw);
         // 调用上传头像接口
-        const data = {};
-        data.imageUrl= this.imageUrl;
-        data.userId = store.getters.name;
-        uploadPhoto(data).then(() => {
+        let formData = new FormData();
+        formData.append("userId","1419124227385073665");
+        formData.append("imageUrl", file.raw);
+        uploadPhoto(formData).then(() => {
           this.$message({
             message: '修改成功',
             type: 'success'
@@ -41,13 +40,13 @@
         const isJPG = file.type === 'image/jpeg';
         const isLt2M = file.size / 1024 / 1024 < 2;
 
-        if (!isJPG) {
+        /*if (!isJPG) {
           this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
+        }*/
         if (!isLt2M) {
           this.$message.error('上传头像图片大小不能超过 2MB!');
         }
-        return isJPG && isLt2M;
+        return isJPG || isLt2M;
       }
     }
   }
