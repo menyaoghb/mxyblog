@@ -92,7 +92,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             List<Map<String, Object>> childList = this.baseMapper.getSysMenuTreeData(String.valueOf(map.get("id")));
             if (childList != null) {
                 map.put("children", childList);
-                treeData(childList);
+                childList = treeData(childList);
             }
         });
         return mapList;

@@ -3,12 +3,17 @@
     <el-col :span="6">
       <div class="app-container">
         <el-divider content-position="center">菜单结构</el-divider>
+        <el-input
+          placeholder="输入关键字进行过滤"
+          v-model="filterText">
+        </el-input>
         <el-tree
           :data="data"
           show-checkbox
           node-key="id"
           ref="tree"
           highlight-current
+          :filter-node-method="filterNode"
           :props="defaultProps">
         </el-tree>
       </div>
@@ -36,13 +41,14 @@
         <el-table
           :data="list"
           style="width: 100%" :row-style="{height:'40px'}"
+          :show-overflow-tooltip="true"
           :cell-style="{padding:'0px'}" v-loading="listLoading">
           <el-table-column type="index" width="50" align="center"/>
           <el-table-column prop="menuName" label="菜单名称" align="center"></el-table-column>
           <el-table-column prop="parentId" label="父菜单ID" align="center"></el-table-column>
-          <el-table-column prop="path" label="路由地址" align="center"></el-table-column>
-          <el-table-column prop="component" label="组件路径" align="center"></el-table-column>
-          <el-table-column prop="perms" label="权限标识" align="center"></el-table-column>
+          <el-table-column prop="path" show-overflow-tooltip label="路由地址" align="center"></el-table-column>
+          <el-table-column prop="component" show-overflow-tooltip label="组件路径" align="center"></el-table-column>
+          <el-table-column prop="perms" show-overflow-tooltip label="权限标识" align="center"></el-table-column>
           <el-table-column prop="menuType" label="菜单类型" align="center"></el-table-column>
           <el-table-column label="状态" width="90" class-name="status-col">
             <template slot-scope="{row}">
@@ -118,7 +124,7 @@
 </template>
 
 <script>
-  import {getSysMenuList, addMenu, editMenu, deleteMenu,getTreeData} from '@/api/menu/menu'
+  import {getSysMenuList, addMenu, editMenu, deleteMenu, getTreeData} from '@/api/menu/menu'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // 分页
 
@@ -142,6 +148,7 @@
     data() {
       return {
         data: [],
+        filterText: '',
         defaultProps: {
           children: 'children',
           label: 'label'
@@ -182,6 +189,11 @@
         rules: {}
       }
     },
+    watch: {
+      filterText(val) {
+        this.$refs.tree.filter(val);
+      }
+    },
     created() {
       this.getList();
       this.getTreeData();
@@ -198,9 +210,15 @@
       },
       /*菜单树数据*/
       getTreeData() {
+        this.listLoading = true
         getTreeData().then(response => {
           this.data = response.data
+          this.listLoading = false
         })
+      },
+      filterNode(value, data) {
+        if (!value) return true;
+        return data.label.indexOf(value) !== -1;
       },
       /*条件查询*/
       handleFilter() {

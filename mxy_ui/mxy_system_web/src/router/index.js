@@ -418,7 +418,7 @@ export const asyncRoutes = [
         meta: {title: '菜单管理', icon: 'el-icon-grape'}
       }
     ]
-  },{
+  }, {
     path: '/dict',
     component: Layout,
     redirect: 'noRedirect',
@@ -432,13 +432,13 @@ export const asyncRoutes = [
         path: 'type',
         component: () => import('@/views/dict/type/index'),
         name: 'DictType',
-        meta: {title: '字典类型', icon:'el-icon-lollipop'}
+        meta: {title: '字典类型', icon: 'el-icon-lollipop'}
       },
       {
         path: 'data',
         component: () => import('@/views/dict/data/index'),
         name: 'DictData',
-        meta: {title: '字典数据', icon:'el-icon-sugar'}
+        meta: {title: '字典数据', icon: 'el-icon-sugar'}
       }
     ]
   },
@@ -451,6 +451,30 @@ export const asyncRoutes = [
         component: () => import('@/views/log/index'),
         name: 'user',
         meta: {title: '操作日志', icon: 'el-icon-watermelon'}
+      }
+    ]
+  },
+  {
+    path: '/test',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'DictPages',
+    meta: {
+      title: '测试页面',
+      icon: 'el-icon-orange'
+    },
+    children: [
+      {
+        path: 'test',
+        component: () => import('@/views/test/index'),
+        name: 'DictType',
+        meta: {title: '报表一', icon: 'el-icon-lollipop'}
+      },
+      {
+        path: 'test2',
+        component: () => import('@/views/test/index2'),
+        name: 'DictData',
+        meta: {title: '报表二', icon: 'el-icon-sugar'}
       }
     ]
   },
