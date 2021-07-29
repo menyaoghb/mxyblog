@@ -4,23 +4,19 @@
       <el-row :gutter="20">
         <el-col :span="6" :xs="24">
           <user-card :user="user" />
-<!--          <div class="text-center">
-            <userPhoto :user="user" />
-          </div>-->
         </el-col>
-
 
         <el-col :span="18" :xs="24">
           <el-card>
             <el-tabs v-model="activeTab">
-              <el-tab-pane label="个人信息" name="activity">
-                <activity />
-              </el-tab-pane>
-              <el-tab-pane label="心情语录" name="timeline">
-                <timeline />
+              <el-tab-pane label="个人信息" name="timeline">
+                <timeline  :user="user"/>
               </el-tab-pane>
               <el-tab-pane label="密码修改" name="account">
                 <account :user="user" />
+              </el-tab-pane>
+              <el-tab-pane label="心情语录" name="activity">
+                <activity />
               </el-tab-pane>
             </el-tabs>
           </el-card>
@@ -46,7 +42,7 @@ export default {
   data() {
     return {
       user: {},
-      activeTab: 'activity'
+      activeTab: 'timeline'
     }
   },
   computed: {

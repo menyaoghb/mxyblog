@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!--<div class="user-info-head" @click="editCropper()"><img v-bind:src="options.img" title="点击上传头像" class="img-circle img-lg" /></div>-->
     <el-upload
       class="avatar-uploader"
       action="https://jsonplaceholder.typicode.com/posts/"
@@ -37,7 +36,7 @@
         })
       },
       beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
+        //const isJPG = file.type === 'image/jpeg';
         const isLt2M = file.size / 1024 / 1024 < 2;
 
         /*if (!isJPG) {
@@ -46,35 +45,12 @@
         if (!isLt2M) {
           this.$message.error('上传头像图片大小不能超过 2MB!');
         }
-        return isJPG || isLt2M;
+        return isLt2M;
       }
     }
   }
 </script>
 <style>
-/*.user-info-head {
-  position: relative;
-  display: inline-block;
-  height: 120px;
-}
-
-.user-info-head:hover:after {
-  content: '+';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  color: #eee;
-  background: rgba(0, 0, 0, 0.5);
-  font-size: 24px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  cursor: pointer;
-  line-height: 110px;
-  border-radius: 50%;
-}*/
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
@@ -94,8 +70,8 @@
   text-align: center;
 }
 .avatar {
-  width: 178px;
-  height: 178px;
+  width: 130px;
+  height: 130px;
   display: block;
 }
 </style>

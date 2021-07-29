@@ -1,43 +1,43 @@
 <template>
   <div class="block">
-    <el-timeline>
-      <el-timeline-item v-for="(item,index) of timeline" :key="index" :timestamp="item.timestamp" placement="top">
-        <el-card>
-          <h4>{{ item.title }}</h4>
-          <p>{{ item.content }}</p>
-        </el-card>
-      </el-timeline-item>
-    </el-timeline>
+    <el-form>
+      <el-form-item label="姓名">
+        <el-input v-model.trim="user.name" />
+      </el-form-item>
+      <el-form-item label="邮箱">
+        <el-input v-model.trim="user.email" />
+      </el-form-item>
+      <el-form-item label="手机号">
+        <el-input v-model.trim="user.name" />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submit">保存</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      timeline: [
-        {
-          timestamp: '2019/4/20',
-          title: 'Update Github template',
-          content: 'PanJiaChen committed 2019/4/20 20:46'
-        },
-        {
-          timestamp: '2019/4/21',
-          title: 'Update Github template',
-          content: 'PanJiaChen committed 2019/4/21 20:46'
-        },
-        {
-          timestamp: '2019/4/22',
-          title: 'Build Template',
-          content: 'PanJiaChen committed 2019/4/22 20:46'
-        },
-        {
-          timestamp: '2019/4/23',
-          title: 'Release New Version',
-          content: 'PanJiaChen committed 2019/4/23 20:46'
+  export default {
+    props: {
+      user: {
+        type: Object,
+        default: () => {
+          return {
+            name: '',
+            email: ''
+          }
         }
-      ]
+      }
+    },
+    methods: {
+      submit() {
+        this.$message({
+          message: '修改成功',
+          type: 'success',
+          duration:  1500
+        })
+      }
     }
   }
-}
 </script>

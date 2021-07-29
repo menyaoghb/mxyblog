@@ -1,9 +1,9 @@
 <template>
   <el-form>
-    <el-form-item label="Name">
+    <el-form-item label="旧密码">
       <el-input v-model.trim="user.name" />
     </el-form-item>
-    <el-form-item label="Email">
+    <el-form-item label="新密码">
       <el-input v-model.trim="user.email" />
     </el-form-item>
     <el-form-item>
@@ -28,9 +28,9 @@ export default {
   methods: {
     submit() {
       this.$message({
-        message: 'User information has been updated successfully',
+        message: '修改成功',
         type: 'success',
-        duration: 5 * 1000
+        duration: 1500
       })
     }
   }
