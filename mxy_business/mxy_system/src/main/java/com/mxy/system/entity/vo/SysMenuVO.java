@@ -29,7 +29,7 @@ public class SysMenuVO extends BaseVO<SysMenu> {
     /**
      * 父菜单ID
      */
-    private Long parentId;
+    private String parentId;
     /**
      * 显示顺序
      */

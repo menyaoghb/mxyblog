@@ -8,6 +8,7 @@ export function getSysMenuList(data) {
     data
   })
 }
+
 /*新增*/
 export function addMenu(data) {
   return request({
@@ -16,6 +17,7 @@ export function addMenu(data) {
     data
   })
 }
+
 /*修改*/
 export function editMenu(data) {
   return request({
@@ -24,11 +26,20 @@ export function editMenu(data) {
     data
   })
 }
+
 /*删除*/
 export function deleteMenu(data) {
   return request({
     url: '/sysMenu/delete',
     method: 'post',
     data
+  })
+}
+
+/*菜单树数据*/
+export function getTreeData() {
+  return request({
+    url: '/sysMenu/treeData',
+    method: 'post'
   })
 }

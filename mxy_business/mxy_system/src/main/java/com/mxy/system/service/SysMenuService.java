@@ -34,4 +34,9 @@ public interface SysMenuService extends IService<SysMenu> {
     */
     public String delete(SysMenuVO sysMenuVO);
 
+    /**
+     * 获取菜单树数据
+     */
+    public String treeData();
+
 }

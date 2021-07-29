@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author 孟小耀
  * @since 2021-07-25
  */
-@Api(value = "菜单权限",tags = "菜单权限")
+@Api(value = "菜单权限", tags = "菜单权限")
 @RestController
 @RequestMapping("/system/sysMenu")
 public class SysMenuController {
@@ -47,7 +47,7 @@ public class SysMenuController {
     @PostMapping("/add")
     public String add(@RequestBody SysMenuVO sysMenuVO) {
         return sysMenuService.add(sysMenuVO);
-        }
+    }
 
     /**
      * @Description 编辑菜单权限
@@ -58,7 +58,7 @@ public class SysMenuController {
     @PostMapping("/edit")
     public String edit(@RequestBody SysMenuVO sysMenuVO) {
         return sysMenuService.edit(sysMenuVO);
-        }
+    }
 
     /**
      * @Description 删除菜单权限
@@ -69,7 +69,17 @@ public class SysMenuController {
     @PostMapping("/delete")
     public String delete(@RequestBody SysMenuVO sysMenuVO) {
         return sysMenuService.delete(sysMenuVO);
-        }
+    }
 
+    /**
+     * @Description: 获取菜单树数据
+     * @Author: 孟耀
+     * @Date: 2021/7/29 0029
+     */
+    @ApiOperation(value = "获取菜单树数据")
+    @PostMapping("/treeData")
+    public String treeData(){
+        return sysMenuService.treeData();
+    }
 }
 

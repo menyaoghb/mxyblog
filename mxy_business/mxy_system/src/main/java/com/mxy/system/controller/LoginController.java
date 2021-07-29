@@ -7,6 +7,7 @@ import com.mxy.system.entity.vo.SysUserVO;
 import com.mxy.system.service.impl.SysUserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ import java.util.Map;
 @Api(value = "模拟登录", tags = "模拟登录")
 @RestController
 @CrossOrigin
+@Slf4j
 @RequestMapping("/system")
 public class LoginController {
 
@@ -43,6 +45,7 @@ public class LoginController {
         Map map = new HashMap();
         map.put("token", "admin");
         map.put("name", userName);
+        log.info("登录成功");
         return ServiceResult.success(map);
     }
 

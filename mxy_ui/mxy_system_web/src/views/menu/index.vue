@@ -1,106 +1,124 @@
 <template>
-  <div class="app-container">
-    <!--查询-->
-    <div class="filter-container">
-      <el-input v-model="listQuery.menuName" prefix-icon="el-icon-search" placeholder="菜单名称" style="width: 200px;"
-                class="filter-item"
-                @keyup.enter.native="handleFilter" clearable/>
-      <el-input v-model="listQuery.menuType" prefix-icon="el-icon-search" placeholder="菜单类型" style="width: 200px;margin-left: 5px;"
-                class="filter-item"
-                @keyup.enter.native="handleFilter" clearable/>
-      <el-button class="filter-item" style="margin-left: 10px;" icon="el-icon-search" @click="handleFilter" round>
-        查询
-      </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="plain" icon="el-icon-plus"
-                 @click="handleCreate" round>
-        新增菜单
-      </el-button>
-    </div>
-    <!--表格-->
-    <el-table
-      :data="list"
-      style="width: 100%" :row-style="{height:'40px'}"
-      :cell-style="{padding:'0px'}" v-loading="listLoading">
-      <el-table-column type="index" width="50" align="center"/>
-      <el-table-column prop="menuName" label="菜单名称" align="center"></el-table-column>
-      <el-table-column prop="parentId" label="父菜单ID" align="center"></el-table-column>
-      <el-table-column prop="path" label="路由地址" align="center"></el-table-column>
-      <el-table-column prop="component" label="组件路径" align="center"></el-table-column>
-      <el-table-column prop="perms" label="权限标识" align="center"></el-table-column>
-      <el-table-column prop="menuType" label="菜单类型" align="center"></el-table-column>
-      <el-table-column label="状态" width="90" class-name="status-col">
-        <template slot-scope="{row}">
-          <el-button v-if="row.status==='0'" size="mini" type="success" @click="handleModifyStatus(row,'0')" round>
-            已启用
-          </el-button>
-          <el-button v-if="row.status==='1'" size="mini" type="info" @click="handleModifyStatus(row,'1')" round>
-            已禁用
-          </el-button>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding">
-        <template slot-scope="{row,$index}">
-          <el-button size="mini" @click="handleUpdate(row)" type="primary" icon="el-icon-edit">
-          </el-button>
-          <el-button size="mini" @click="handleDelete(row)" type="danger" icon="el-icon-delete">
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!--分页-->
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.currentPage" :limit.sync="listQuery.pageSize"
-                @pagination="getList"/>
-
-    <!--新增/修改页-->
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px"
-               style="width: 400px; margin-left:160px;">
-        <el-form-item label="菜单名称">
-          <el-input v-model="temp.menuName"/>
-        </el-form-item>
-        <el-form-item label="父菜单ID">
-          <el-input v-model="temp.parentId"/>
-        </el-form-item>
-        <el-form-item label="路由地址">
-          <el-input v-model="temp.path"/>
-        </el-form-item>
-        <el-form-item label="组件路径">
-          <el-input v-model="temp.component"/>
-        </el-form-item>
-        <el-form-item label="权限标识">
-          <el-input v-model="temp.perms"/>
-        </el-form-item>
-        <el-form-item label="菜单图标">
-          <el-input v-model="temp.icon"/>
-        </el-form-item>
-        <el-form-item label="菜单类型">
-          <el-select v-model="temp.menuType" class="filter-item" style="width: 100%;">
-            <el-option v-for="item in userTypeOptions" :key="item.key" :label="item.name" :value="item.key"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="状态">
-          <el-select v-model="temp.status" class="filter-item" style="width: 100%;">
-            <el-option v-for="item in statusOptions" :key="item.key" :label="item.name" :value="item.key"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="备注">
-          <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"/>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogStatus==='add'?createData():updateData()">
-          提交
-        </el-button>
-        <el-button @click="dialogFormVisible = false">
-          取消
-        </el-button>
+  <el-row :gutter="20">
+    <el-col :span="6">
+      <div class="app-container">
+        <el-divider content-position="center">菜单结构</el-divider>
+        <el-tree
+          :data="data"
+          show-checkbox
+          node-key="id"
+          ref="tree"
+          highlight-current
+          :props="defaultProps">
+        </el-tree>
       </div>
-    </el-dialog>
-  </div>
+    </el-col>
+    <el-col :span="18">
+      <div class="app-container">
+        <!--查询-->
+        <div class="filter-container">
+          <el-input v-model="listQuery.menuName" prefix-icon="el-icon-search" placeholder="菜单名称" style="width: 200px;"
+                    class="filter-item"
+                    @keyup.enter.native="handleFilter" clearable/>
+          <el-input v-model="listQuery.menuType" prefix-icon="el-icon-search" placeholder="菜单类型"
+                    style="width: 200px;margin-left: 5px;"
+                    class="filter-item"
+                    @keyup.enter.native="handleFilter" clearable/>
+          <el-button class="filter-item" style="margin-left: 10px;" icon="el-icon-search" @click="handleFilter" round>
+            查询
+          </el-button>
+          <el-button class="filter-item" style="margin-left: 10px;" type="plain" icon="el-icon-plus"
+                     @click="handleCreate" round>
+            新增菜单
+          </el-button>
+        </div>
+        <!--表格-->
+        <el-table
+          :data="list"
+          style="width: 100%" :row-style="{height:'40px'}"
+          :cell-style="{padding:'0px'}" v-loading="listLoading">
+          <el-table-column type="index" width="50" align="center"/>
+          <el-table-column prop="menuName" label="菜单名称" align="center"></el-table-column>
+          <el-table-column prop="parentId" label="父菜单ID" align="center"></el-table-column>
+          <el-table-column prop="path" label="路由地址" align="center"></el-table-column>
+          <el-table-column prop="component" label="组件路径" align="center"></el-table-column>
+          <el-table-column prop="perms" label="权限标识" align="center"></el-table-column>
+          <el-table-column prop="menuType" label="菜单类型" align="center"></el-table-column>
+          <el-table-column label="状态" width="90" class-name="status-col">
+            <template slot-scope="{row}">
+              <el-button v-if="row.status==='0'" size="mini" type="success" @click="handleModifyStatus(row,'0')" round>
+                已启用
+              </el-button>
+              <el-button v-if="row.status==='1'" size="mini" type="info" @click="handleModifyStatus(row,'1')" round>
+                已禁用
+              </el-button>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" align="center" width="230" class-name="small-padding">
+            <template slot-scope="{row,$index}">
+              <el-button size="mini" @click="handleUpdate(row)" type="primary" icon="el-icon-edit">
+              </el-button>
+              <el-button size="mini" @click="handleDelete(row)" type="danger" icon="el-icon-delete">
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!--分页-->
+        <pagination v-show="total>0" :total="total" :page.sync="listQuery.currentPage" :limit.sync="listQuery.pageSize"
+                    @pagination="getList"/>
+
+        <!--新增/修改页-->
+        <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+          <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px"
+                   style="width: 400px; margin-left:160px;">
+            <el-form-item label="菜单名称">
+              <el-input v-model="temp.menuName"/>
+            </el-form-item>
+            <el-form-item label="父菜单ID">
+              <el-input v-model="temp.parentId"/>
+            </el-form-item>
+            <el-form-item label="路由地址">
+              <el-input v-model="temp.path"/>
+            </el-form-item>
+            <el-form-item label="组件路径">
+              <el-input v-model="temp.component"/>
+            </el-form-item>
+            <el-form-item label="权限标识">
+              <el-input v-model="temp.perms"/>
+            </el-form-item>
+            <el-form-item label="菜单图标">
+              <el-input v-model="temp.icon"/>
+            </el-form-item>
+            <el-form-item label="菜单类型">
+              <el-select v-model="temp.menuType" class="filter-item" style="width: 100%;">
+                <el-option v-for="item in userTypeOptions" :key="item.key" :label="item.name" :value="item.key"/>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="状态">
+              <el-select v-model="temp.status" class="filter-item" style="width: 100%;">
+                <el-option v-for="item in statusOptions" :key="item.key" :label="item.name" :value="item.key"/>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="备注">
+              <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"/>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="dialogStatus==='add'?createData():updateData()">
+              提交
+            </el-button>
+            <el-button @click="dialogFormVisible = false">
+              取消
+            </el-button>
+          </div>
+        </el-dialog>
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
-  import {getSysMenuList, addMenu, editMenu, deleteMenu} from '@/api/menu/menu'
+  import {getSysMenuList, addMenu, editMenu, deleteMenu,getTreeData} from '@/api/menu/menu'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // 分页
 
@@ -123,6 +141,11 @@
     filters: {},
     data() {
       return {
+        data: [],
+        defaultProps: {
+          children: 'children',
+          label: 'label'
+        },
         list: null, //表格列表数据
         total: 0, // 总条数
         listLoading: true,
@@ -160,7 +183,8 @@
       }
     },
     created() {
-      this.getList()
+      this.getList();
+      this.getTreeData();
     },
     methods: {
       /*列表查询*/
@@ -170,6 +194,12 @@
           this.list = response.data.records
           this.total = response.data.total
           this.listLoading = false
+        })
+      },
+      /*菜单树数据*/
+      getTreeData() {
+        getTreeData().then(response => {
+          this.data = response.data
         })
       },
       /*条件查询*/
@@ -191,7 +221,8 @@
           editMenu(param).then(() => {
             this.$message({
               message: text + '成功',
-              type: 'success'
+              type: 'success',
+              center: true
             });
             this.getList();
           })
@@ -233,7 +264,8 @@
             addMenu(this.temp).then(() => {
               this.$message({
                 message: '新增成功',
-                type: 'success'
+                type: 'success',
+                center: true
               });
               this.dialogFormVisible = false
               this.getList();
@@ -257,7 +289,8 @@
             editMenu(this.temp).then(() => {
               this.$message({
                 message: '修改成功',
-                type: 'success'
+                type: 'success',
+                center: true
               });
               this.dialogFormVisible = false
               this.getList();
@@ -276,7 +309,8 @@
           deleteMenu(this.temp).then(() => {
             this.$message({
               message: '删除成功',
-              type: 'success'
+              type: 'success',
+              center: true
             });
             this.dialogFormVisible = false
             this.getList();

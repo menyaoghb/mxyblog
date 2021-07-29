@@ -87,4 +87,8 @@
     </if>
     </sql>
 
+
+    <select id="getSysMenuTreeData" resultType="map">
+        select menu_id as "id",menu_name as "label" from sys_menu where parent_id = #{parentId}
+    </select>
 </mapper>

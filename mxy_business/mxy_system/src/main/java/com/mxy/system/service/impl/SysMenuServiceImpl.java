@@ -14,6 +14,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 菜单权限 服务实现类
@@ -75,6 +78,24 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         } else {
             return ServiceResult.successMsg(BaseMessage.DELETE_FAIL);
         }
+    }
+
+    @Override
+    public String treeData() {
+        //获取父节点数据
+        List<Map<String, Object>> mapList = this.baseMapper.getSysMenuTreeData("0");
+        return ServiceResult.success(treeData(mapList));
+    }
+
+    public List<Map<String, Object>> treeData(List<Map<String, Object>> mapList) {
+        mapList.forEach(map -> {
+            List<Map<String, Object>> childList = this.baseMapper.getSysMenuTreeData(String.valueOf(map.get("id")));
+            if (childList != null) {
+                map.put("children", childList);
+                treeData(childList);
+            }
+        });
+        return mapList;
     }
 
 }
