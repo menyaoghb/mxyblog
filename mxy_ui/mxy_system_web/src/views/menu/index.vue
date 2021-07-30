@@ -9,7 +9,7 @@
         </el-input>
         <el-tree
           :data="data"
-          show-checkbox
+
           node-key="id"
           ref="tree"
           highlight-current
