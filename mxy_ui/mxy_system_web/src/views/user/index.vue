@@ -5,7 +5,8 @@
       <el-input v-model="listQuery.nickName" prefix-icon="el-icon-search" placeholder="姓名" style="width: 200px;"
                 class="filter-item"
                 @keyup.enter.native="handleFilter" clearable/>
-      <el-input v-model="listQuery.userName" prefix-icon="el-icon-search" placeholder="账号" style="width: 200px;margin-left: 5px;"
+      <el-input v-model="listQuery.userName" prefix-icon="el-icon-search" placeholder="账号"
+                style="width: 200px;margin-left: 5px;"
                 class="filter-item"
                 @keyup.enter.native="handleFilter" clearable/>
       <el-button class="filter-item" style="margin-left: 10px;" icon="el-icon-search" @click="handleFilter" round>
@@ -13,7 +14,7 @@
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="plain" icon="el-icon-plus"
                  @click="handleCreate" round>
-        新增用户
+        新增
       </el-button>
     </div>
     <!--表格-->
@@ -60,21 +61,21 @@
 
     <!--新增/修改页-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px"
-               style="width: 400px; margin-left:160px;">
-        <el-form-item label="姓名">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="100px"
+               style="width: 400px; margin-left:160px;" size="mini">
+        <el-form-item label="姓名" prop="nickName">
           <el-input v-model="temp.nickName"/>
         </el-form-item>
-        <el-form-item label="账号">
+        <el-form-item label="账号" prop="userName">
           <el-input v-model="temp.userName"/>
         </el-form-item>
-        <el-form-item label="密码">
+        <el-form-item label="密码" prop="password">
           <el-input v-model="temp.password"/>
         </el-form-item>
-        <el-form-item label="邮箱">
+        <el-form-item label="邮箱" prop="email">
           <el-input v-model="temp.email"/>
         </el-form-item>
-        <el-form-item label="权限">
+        <el-form-item label="权限" prop="userType">
           <el-select v-model="temp.userType" class="filter-item" style="width: 100%;">
             <el-option v-for="item in userTypeOptions" :key="item.key" :label="item.name" :value="item.key"/>
           </el-select>
@@ -104,6 +105,7 @@
   import {getSysUserList, addUser, editUser, deleteUser} from '@/api/user/user'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // 分页
+  import {validEmail} from '@/utils/validate'
 
   // 权限
   const userTypeOptions = [
@@ -155,7 +157,39 @@
           add: '新增',
           edit: '编辑'
         },
-        rules: {}
+        rules: {
+          nickName: [
+            {required: true, message: '请输入姓名', trigger: 'blur'},
+            {min: 2, max: 6, message: '长度在 2 到 6 个字符', trigger: 'blur'}
+          ],
+          userName: [
+            {required: true, message: '请输入账号', trigger: 'blur'},
+            {min: 4, max: 12, message: '长度在 4 到 12 个字符', trigger: 'blur'}
+          ],
+          password: [
+            {required: true, message: '请输入密码', trigger: 'blur'}
+          ],
+          email: [
+            {required: true, message: '请输入邮箱', trigger: 'blur'}, {
+              validator: validEmail, trigger: 'blur'
+            }
+          ],
+          date1: [
+            {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
+          ],
+          date2: [
+            {type: 'date', required: true, message: '请选择时间', trigger: 'change'}
+          ],
+          type: [
+            {type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change'}
+          ],
+          userType: [
+            {required: true, message: '请选择用户权限', trigger: 'change'}
+          ],
+          desc: [
+            {required: true, message: '请填写活动形式', trigger: 'blur'}
+          ]
+        }
       }
     },
     created() {

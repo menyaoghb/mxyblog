@@ -45,11 +45,15 @@
           :cell-style="{padding:'0px'}" v-loading="listLoading">
           <el-table-column type="index" width="50" align="center"/>
           <el-table-column prop="menuName" label="菜单名称" align="center"></el-table-column>
-          <el-table-column prop="parentId" label="父菜单ID" align="center"></el-table-column>
+          <!--<el-table-column prop="parentId" label="父菜单ID" align="center"></el-table-column>-->
           <el-table-column prop="path" show-overflow-tooltip label="路由地址" align="center"></el-table-column>
           <el-table-column prop="component" show-overflow-tooltip label="组件路径" align="center"></el-table-column>
           <el-table-column prop="perms" show-overflow-tooltip label="权限标识" align="center"></el-table-column>
-          <el-table-column prop="menuType" label="菜单类型" align="center"></el-table-column>
+          <el-table-column label="菜单类型" align="center">
+            <template slot-scope="{row}">
+              <span v-for="item in userTypeOptions" v-if="row.menuType===item.key">{{ item.name }}</span>
+            </template>
+          </el-table-column>
           <el-table-column label="状态" width="90" class-name="status-col">
             <template slot-scope="{row}">
               <el-button v-if="row.status==='0'" size="mini" type="success" @click="handleModifyStatus(row,'0')" round>

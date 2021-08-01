@@ -18,7 +18,7 @@
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="plain" icon="el-icon-plus"
                  @click="handleCreate" round>
-        新增用户
+        新增
       </el-button>
     </div>
     <!--表格-->
