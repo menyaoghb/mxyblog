@@ -32,8 +32,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="180" class-name="small-padding">
         <template slot-scope="{row,$index}">
-          <el-button size="mini" @click="handleView(row)" type="text">详情
-          </el-button>
+          <el-button size="mini" @click="handleView(row)" type="text">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -141,6 +140,7 @@
         this.listQuery.currentPage = 1
         this.getList()
       },
+      /*数据详情*/
       handleView(row) {
         this.dialogFormVisible = true;
         this.temp = row;

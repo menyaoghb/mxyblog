@@ -38,20 +38,23 @@
       </el-table-column>
       <el-table-column label="状态" width="90" class-name="status-col">
         <template slot-scope="{row}">
-          <el-button v-if="row.status==='0'" size="mini" type="success" @click="handleModifyStatus(row,'0')" round>
-            已启用
-          </el-button>
-          <el-button v-if="row.status==='1'" size="mini" type="info" @click="handleModifyStatus(row,'1')" round>
-            已禁用
-          </el-button>
+          <el-tooltip v-for="item in statusOptions" v-if="row.status===item.key" :content="item.name" placement="right">
+          <el-switch
+            v-model="row.status"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            active-value="0"
+            inactive-value="1"
+            @change="handleModifyStatus(row)">
+          </el-switch>
+          </el-tooltip>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding">
         <template slot-scope="{row,$index}">
-          <el-button size="mini" @click="handleUpdate(row)" type="primary" icon="el-icon-edit">
-          </el-button>
-          <el-button size="mini" @click="handleDelete(row)" type="danger" icon="el-icon-delete">
-          </el-button>
+          <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
+          <el-button size="mini" @click="handleView(row)" type="text">详情</el-button>
+          <el-button size="mini" @click="handleDelete(row)" type="text">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -62,14 +65,14 @@
     <!--新增/修改页-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="100px"
-               style="width: 400px; margin-left:160px;" size="mini">
+               style="width: 400px; margin-left:160px;">
         <el-form-item label="姓名" prop="nickName">
           <el-input v-model="temp.nickName"/>
         </el-form-item>
         <el-form-item label="账号" prop="userName">
           <el-input v-model="temp.userName"/>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="密码" prop="password" style="margin-bottom: 30px;">
           <el-input v-model="temp.password"/>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
@@ -98,6 +101,59 @@
         </el-button>
       </div>
     </el-dialog>
+
+    <!-- 详情 -->
+    <el-dialog title="详情" :visible.sync="dialogFormVisibleView" width="700px" append-to-body>
+      <el-form ref="dataForm" :model="temp" label-width="120px" size="mini">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="姓名：">{{ temp.nickName }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="账号：">{{ temp.userName }}</el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="权限：" v-for="item in userTypeOptions" v-if="temp.userType===item.key">{{ item.name }}
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="手机号码：">{{ temp.phoneNumber }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="邮箱：">{{ temp.email }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="性别：" v-for="item in sexOptions" v-if="temp.sex===item.key">{{ item.name }}
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="账号状态：" v-for="item in statusOptions" v-if="temp.status===item.key">{{ item.name }}
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="最后登录IP：">{{ temp.loginIp }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="最后登录时间：">{{ temp.loginDate | parseTime('{y}-{m}-{d} {h}:{i}')}}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="创建时间：">{{ temp.createTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="更新时间：">{{ temp.updateTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="备注：">
+              <div>{{ temp.remark }}</div>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleView = false">关 闭</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -105,7 +161,7 @@
   import {getSysUserList, addUser, editUser, deleteUser} from '@/api/user/user'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // 分页
-  import {validEmail} from '@/utils/validate'
+  import {validateEmail, validateAccount, validatePassword} from '@/utils/validate'
 
   // 权限
   const userTypeOptions = [
@@ -121,6 +177,12 @@
   const statusOptions = [
     {key: '0', name: '启用'},
     {key: '1', name: '禁用'}
+  ]
+  // 性别
+  const sexOptions = [
+    {key: '0', name: '男'},
+    {key: '1', name: '女'},
+    {key: '2', name: '未知'}
   ]
 
   export default {
@@ -141,17 +203,25 @@
         },
         userTypeOptions, // 用户权限
         statusOptions, // 用户状态
+        sexOptions, // 用户性别
         temp: {
           userId: undefined,
           nickName: '',
           userName: '',
           password: '',
           email: '',
+          phoneNumber: '',
           userType: '',
+          sex: '',
+          loginIp: '',
+          loginDate: '',
+          createTime: '',
+          updateTime: '',
           status: '0',
           remark: ''
         },
         dialogFormVisible: false, //控制新增页关闭
+        dialogFormVisibleView: false, //控制新增页关闭
         dialogStatus: '', // 判断当前操作是新增还是修改
         textMap: {
           add: '新增',
@@ -164,15 +234,15 @@
           ],
           userName: [
             {required: true, message: '请输入账号', trigger: 'blur'},
-            {min: 4, max: 12, message: '长度在 4 到 12 个字符', trigger: 'blur'}
+            {validator: validateAccount, trigger: 'blur'}
           ],
           password: [
-            {required: true, message: '请输入密码', trigger: 'blur'}
+            {required: true, message: '请输入密码', trigger: 'blur'},
+            {validator: validatePassword, trigger: 'blur'}
           ],
           email: [
-            {required: true, message: '请输入邮箱', trigger: 'blur'}, {
-              validator: validEmail, trigger: 'blur'
-            }
+            {required: true, message: '请输入邮箱', trigger: 'blur'},
+            {validator: validateEmail, trigger: 'blur'}
           ],
           date1: [
             {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
@@ -212,7 +282,8 @@
       },
       /*用户状态改变*/
       handleModifyStatus(row) {
-        let text = row.status === "1" ? "启用" : "禁用";
+        debugger
+        let text = row.status === "0" ? "启用" : "禁用";
         this.$confirm('确认要"' + text + '""' + row.userName + '"这个用户吗?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
@@ -221,7 +292,7 @@
           this.temp.userId = row.userId;
           let param = {};
           param.userId = row.userId;
-          param.status = row.status === "1" ? "0" : "1";
+          param.status = row.status;
           editUser(param).then(() => {
             this.$message({
               message: text + '成功',
@@ -230,6 +301,7 @@
             this.getList();
           })
         }).catch(() => {
+          row.status = row.status === "0" ? "1" : "0";
         });
       },
       /*表单重置*/
@@ -311,6 +383,11 @@
           })
         }).catch(() => {
         });
+      },
+      /*数据详情*/
+      handleView(row) {
+        this.dialogFormVisibleView = true;
+        this.temp = row;
       }
     }
   }

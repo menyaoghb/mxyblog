@@ -43,10 +43,8 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding">
         <template slot-scope="{row,$index}">
-          <el-button size="mini" @click="handleUpdate(row)" type="primary" icon="el-icon-edit">
-          </el-button>
-          <el-button size="mini" @click="handleDelete(row)" type="danger" icon="el-icon-delete">
-          </el-button>
+          <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
+          <el-button size="mini" @click="handleDelete(row)" type="text">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

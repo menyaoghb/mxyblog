@@ -9,7 +9,6 @@
         </el-input>
         <el-tree
           :data="data"
-
           node-key="id"
           ref="tree"
           highlight-current
@@ -66,10 +65,8 @@
           </el-table-column>
           <el-table-column label="操作" align="center" width="230" class-name="small-padding">
             <template slot-scope="{row,$index}">
-              <el-button size="mini" @click="handleUpdate(row)" type="primary" icon="el-icon-edit">
-              </el-button>
-              <el-button size="mini" @click="handleDelete(row)" type="danger" icon="el-icon-delete">
-              </el-button>
+              <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
+              <el-button size="mini" @click="handleDelete(row)" type="text">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -219,6 +216,23 @@
           this.data = response.data
           this.listLoading = false
         })
+      },
+      loadNode(node, resolve) {
+        if (node.level === 0) {
+          return resolve([{ name: 'region' }]);
+        }
+        if (node.level > 1) return resolve([]);
+
+        setTimeout(() => {
+          const data = [{
+            name: 'leaf',
+            leaf: true
+          }, {
+            name: 'zone'
+          }];
+
+          resolve(data);
+        }, 500);
       },
       filterNode(value, data) {
         if (!value) return true;
