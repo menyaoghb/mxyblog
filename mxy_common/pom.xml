@@ -14,6 +14,7 @@
     <modules>
         <module>mxy_common_core</module>
         <module>mxy_common_file</module>
+        <module>mxy_common_log</module>
     </modules>
 
 
@@ -21,33 +22,34 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <scope>provided </scope>
+            <scope>provided</scope>
         </dependency>
 
         <!--mybatis-plus-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <scope>provided </scope>
+            <scope>provided</scope>
         </dependency>
 
         <!--lombok用来简化实体类：需要安装lombok插件-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>provided </scope>
+            <scope>provided</scope>
         </dependency>
 
         <!--swagger-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <scope>provided </scope>
+            <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <scope>provided </scope>
+            <scope>provided</scope>
         </dependency>
 
         <!-- redis -->
@@ -57,15 +59,18 @@
         </dependency>
 
         <dependency>
-        <groupId>com.alibaba</groupId>
-        <artifactId>fastjson</artifactId>
-        <version>1.2.76</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-        <!-- spring2.X集成redis所需common-pool2
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
-            <version>2.6.0</version>
-        </dependency>-->
+        </dependency>
     </dependencies>
 </project>
