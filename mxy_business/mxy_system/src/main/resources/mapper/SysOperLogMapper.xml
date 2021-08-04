@@ -3,7 +3,7 @@
 <mapper namespace="com.mxy.system.mapper.SysOperLogMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mxy.system.entity.SysOperLog">
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysOperLog">
         <id column="oper_id" property="operId" />
         <result column="title" property="title" />
         <result column="business_type" property="businessType" />

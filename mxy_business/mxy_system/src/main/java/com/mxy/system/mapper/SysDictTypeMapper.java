@@ -1,6 +1,6 @@
 package com.mxy.system.mapper;
 
-import com.mxy.system.entity.SysDictType;
+import com.mxy.common.core.entity.SysDictType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

@@ -11,5 +11,12 @@
 
     <artifactId>mxy_common_log</artifactId>
 
-
+    <dependencies>
+        <!--公共服务-->
+        <dependency>
+            <groupId>com.mxy</groupId>
+            <artifactId>mxy_common_core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

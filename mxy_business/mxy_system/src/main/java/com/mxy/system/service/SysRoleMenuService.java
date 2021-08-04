@@ -1,6 +1,6 @@
 package com.mxy.system.service;
 
-import com.mxy.system.entity.SysRoleMenu;
+import com.mxy.common.core.entity.SysRoleMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mxy.system.entity.vo.SysRoleMenuVO;
 

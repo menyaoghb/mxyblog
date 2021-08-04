@@ -3,7 +3,7 @@
 <mapper namespace="com.mxy.system.mapper.SysDictTypeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mxy.system.entity.SysDictType">
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysDictType">
         <id column="dict_id" property="dictId" />
         <result column="dict_name" property="dictName" />
         <result column="dict_type" property="dictType" />

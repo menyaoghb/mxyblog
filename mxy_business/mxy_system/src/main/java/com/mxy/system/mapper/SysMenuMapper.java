@@ -1,6 +1,6 @@
 package com.mxy.system.mapper;
 
-import com.mxy.system.entity.SysMenu;
+import com.mxy.common.core.entity.SysMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;

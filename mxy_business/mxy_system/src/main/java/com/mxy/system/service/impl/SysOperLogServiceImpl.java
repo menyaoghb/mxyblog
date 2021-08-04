@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.utils.ServiceResult;
-import com.mxy.system.entity.SysOperLog;
+import com.mxy.common.core.entity.SysOperLog;
 import com.mxy.system.entity.vo.SysOperLogVO;
 import com.mxy.system.mapper.SysOperLogMapper;
 import com.mxy.system.service.SysOperLogService;
@@ -34,6 +34,7 @@ public class SysOperLogServiceImpl extends ServiceImpl<SysOperLogMapper, SysOper
         if (null != sysOperLogVO.getBusinessType()) {
             queryWrapper.eq("business_type", sysOperLogVO.getBusinessType());
         }
+        queryWrapper.orderByDesc("oper_time");
         Page<SysOperLog> page = new Page<>();
         page.setCurrent(sysOperLogVO.getCurrentPage());
         page.setSize(sysOperLogVO.getPageSize());

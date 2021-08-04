@@ -2,8 +2,8 @@ package com.mxy.system.entity.vo;
 
 import java.util.Date;
 import lombok.Data;
-import com.mxy.common.core.entity.BaseVO;
-import com.mxy.system.entity.SysOperLog;
+import com.mxy.common.core.entity.vo.BaseVO;
+import com.mxy.common.core.entity.SysOperLog;
 
 /**
  * <p>
@@ -65,6 +65,10 @@ public class SysOperLogVO extends BaseVO<SysOperLog> {
      * 返回参数
      */
     private String jsonResult;
+    /**
+     * 请求时长
+     */
+    private Integer resTime;
     /**
      * 操作状态（0正常 1异常）
      */

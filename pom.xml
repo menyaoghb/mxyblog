@@ -179,6 +179,27 @@
                 <scope>true</scope>
             </dependency>
 
+
+            <!--公用资源-->
+            <dependency>
+                <groupId>com.mxy</groupId>
+                <artifactId>mxy_common_core</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!--日志服务-->
+            <dependency>
+                <groupId>com.mxy</groupId>
+                <artifactId>mxy_common_log</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+
+
+
+
+
+
         </dependencies>
     </dependencyManagement>
 

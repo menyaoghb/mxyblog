@@ -20,9 +20,21 @@
       :cell-style="{padding:'0px'}" v-loading="listLoading">
       <el-table-column type="index" width="50" align="center"/>
       <el-table-column prop="title" label="模块标题" align="center"></el-table-column>
-      <el-table-column prop="businessType" label="业务类型" align="center"></el-table-column>
-      <el-table-column prop="method" label="方法名称" align="center"></el-table-column>
-      <el-table-column prop="operUrl" label="请求URL" align="center"></el-table-column>
+      <el-table-column label="操作类型" align="center">
+        <template slot-scope="{row}">
+          <span v-for="item in TypeOptions" v-if="row.businessType===item.key">{{ item.name }}</span>
+        </template>
+      </el-table-column>
+      <!--<el-table-column prop="method" label="方法名称" align="center"></el-table-column>-->
+      <el-table-column prop="operUrl" show-overflow-tooltip label="请求URL" align="center"></el-table-column>
+      <el-table-column label="请求时间" align="center">
+
+        <template slot-scope="{row}">
+          <div slot="reference" class="name-wrapper">
+            <el-tag size="medium">{{ row.resTime }}ms</el-tag>
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="operIp" label="主机地址" align="center"></el-table-column>
       <el-table-column prop="operLocation" label="操作地点" align="center"></el-table-column>
       <el-table-column label="操作时间" align="center">
@@ -64,8 +76,8 @@
             <el-form-item label="返回参数：">{{ temp.jsonResult }}</el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="操作状态：">
-              <div>{{ temp.status }}</div>
+            <el-form-item label="操作状态：" v-for="item in statusOptions" v-if="temp.status===item.key">
+              {{ item.name }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -86,10 +98,21 @@
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // 分页
 
-  // 权限
-  const userTypeOptions = []
-  // 状态
-  const statusOptions = []
+  // 操作类型
+  const TypeOptions = [
+    {key: 0, name: '其他'},
+    {key: 1, name: '新增'},
+    {key: 2, name: '删除'},
+    {key: 3, name: '修改'},
+    {key: 4, name: '查询'},
+    {key: 5, name: '导入'},
+    {key: 6, name: '导出'}
+  ]
+  // 操作状态
+  const statusOptions = [
+    {key: 0, name: '成功'},
+    {key: 1, name: '失败'}
+  ]
 
   export default {
     name: 'ComplexTable',
@@ -107,8 +130,8 @@
           title: undefined,
           businessType: undefined
         },
-        userTypeOptions, // 用户权限
-        statusOptions, // 用户状态
+        TypeOptions, // 操作类型
+        statusOptions, // 操作状态
         temp: {
           userId: undefined,
           nickName: '',
@@ -116,7 +139,7 @@
           password: '',
           email: '',
           userType: '',
-          status: '0',
+          status: '',
           remark: ''
         },
         dialogFormVisible: false //控制新增页关闭

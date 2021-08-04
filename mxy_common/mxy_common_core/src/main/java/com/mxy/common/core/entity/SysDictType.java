@@ -1,12 +1,13 @@
-package com.mxy.system.entity;
+package com.mxy.common.core.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.mxy.common.core.entity.BaseEntity;
+import com.mxy.common.core.entity.vo.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
@@ -15,7 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 字典数据
+ * 字典类型
  * </p>
  *
  * @author 孟小耀
@@ -23,27 +24,22 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("sys_dict_data")
-@ApiModel(value="SysDictData对象", description="字典数据")
-public class SysDictData extends BaseEntity<SysDictData> {
+@TableName("sys_dict_type")
+@ApiModel(value="SysDictType对象", description="字典类型")
+public class SysDictType extends BaseEntity<SysDictType> {
 
     private static final long serialVersionUID=1L;
 
     /**
      * 字典主键
      */
-      @TableId(value = "dict_code", type = IdType.ID_WORKER_STR)
-    private String dictCode;
+      @TableId(value = "dict_id", type = IdType.ID_WORKER_STR)
+    private String dictId;
 
     /**
      * 字典名称
      */
     private String dictName;
-
-    /**
-     * 字典编码
-     */
-    private String dictValue;
 
     /**
      * 字典类型
@@ -54,11 +50,6 @@ public class SysDictData extends BaseEntity<SysDictData> {
      * 父菜单ID
      */
     private Long parentId;
-
-    /**
-     * 字典排序
-     */
-    private Integer dictSort;
 
     /**
      * 状态（0正常 1停用）
@@ -101,7 +92,7 @@ public class SysDictData extends BaseEntity<SysDictData> {
 
     @Override
     protected Serializable pkVal() {
-        return this.dictCode;
+        return this.dictId;
     }
 
 }

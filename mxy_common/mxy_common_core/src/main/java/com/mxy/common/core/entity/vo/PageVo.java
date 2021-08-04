@@ -1,4 +1,4 @@
-package com.mxy.common.core.entity;
+package com.mxy.common.core.entity.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;

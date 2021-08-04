@@ -1,24 +1,21 @@
-package com.mxy.system.entity;
+package com.mxy.common.core.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.mxy.common.core.entity.BaseEntity;
+import com.mxy.common.core.entity.vo.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.mxy.common.core.entity.BaseEntity;
 
 /**
  * <p>
- * 角色信息
+ * 字典数据
  * </p>
  *
  * @author 孟小耀
@@ -26,45 +23,45 @@ import com.mxy.common.core.entity.BaseEntity;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("sys_role")
-@ApiModel(value="SysRole对象", description="角色信息")
-public class SysRole extends BaseEntity<SysRole> {
+@TableName("sys_dict_data")
+@ApiModel(value="SysDictData对象", description="字典数据")
+public class SysDictData extends BaseEntity<SysDictData> {
 
     private static final long serialVersionUID=1L;
 
     /**
-     * 角色ID
+     * 字典主键
      */
-      @TableId(value = "role_id", type = IdType.ID_WORKER_STR)
-    private String roleId;
+      @TableId(value = "dict_code", type = IdType.ID_WORKER_STR)
+    private String dictCode;
 
     /**
-     * 角色名称
+     * 字典名称
      */
-    private String roleName;
+    private String dictName;
 
     /**
-     * 角色权限字符串
+     * 字典编码
      */
-    private String roleKey;
+    private String dictValue;
 
     /**
-     * 显示顺序
+     * 字典类型
      */
-    private Integer roleSort;
+    private String dictType;
 
     /**
-     * 数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+     * 父菜单ID
      */
-    private String dataScope;
+    private Long parentId;
 
     /**
-     * 菜单树选择项是否关联显示
+     * 字典排序
      */
-    private Boolean menuCheckStrictly;
+    private Integer dictSort;
 
     /**
-     * 角色状态（0正常 1停用）
+     * 状态（0正常 1停用）
      */
     private String status;
 
@@ -104,7 +101,7 @@ public class SysRole extends BaseEntity<SysRole> {
 
     @Override
     protected Serializable pkVal() {
-        return this.roleId;
+        return this.dictCode;
     }
 
 }

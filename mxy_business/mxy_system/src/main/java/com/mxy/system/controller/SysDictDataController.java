@@ -1,6 +1,8 @@
 package com.mxy.system.controller;
 
 
+import com.mxy.common.log.annotation.SysLog;
+import com.mxy.common.log.enums.OperType;
 import com.mxy.system.entity.vo.SysDictDataVO;
 import com.mxy.system.service.SysDictDataService;
 import io.swagger.annotations.Api;
@@ -32,6 +34,7 @@ public class SysDictDataController {
      * @author 孟小耀
      * @date 2021-07-25
      */
+    @SysLog(module = "获取字典数据列表",operType = OperType.SELECT)
     @ApiOperation(value = "获取字典数据列表")
     @PostMapping("/getList")
     public String getList(@RequestBody SysDictDataVO sysDictDataVO) {
@@ -43,6 +46,7 @@ public class SysDictDataController {
      * @author 孟小耀
      * @date 2021-07-25
      */
+    @SysLog(module = "新增字典数据")
     @ApiOperation(value = "新增字典数据")
     @PostMapping("/add")
     public String add(@RequestBody SysDictDataVO sysDictDataVO) {
@@ -54,6 +58,7 @@ public class SysDictDataController {
      * @author 孟小耀
      * @date 2021-07-25
      */
+    @SysLog(module = "编辑字典数据")
     @ApiOperation(value = "编辑字典数据")
     @PostMapping("/edit")
     public String edit(@RequestBody SysDictDataVO sysDictDataVO) {
@@ -65,6 +70,7 @@ public class SysDictDataController {
      * @author 孟小耀
      * @date 2021-07-25
      */
+    @SysLog(module = "删除字典数据")
     @ApiOperation(value = "删除字典数据")
     @PostMapping("/delete")
     public String delete(@RequestBody SysDictDataVO sysDictDataVO) {

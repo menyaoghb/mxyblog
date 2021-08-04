@@ -3,7 +3,7 @@
 <mapper namespace="com.mxy.system.mapper.SysRoleMenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mxy.system.entity.SysRoleMenu">
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysRoleMenu">
         <id column="role_id" property="roleId" />
         <result column="menu_id" property="menuId" />
     </resultMap>

@@ -3,7 +3,7 @@
 <mapper namespace="com.mxy.system.mapper.SysUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mxy.system.entity.SysUser">
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysUser">
         <id column="user_id" property="userId" />
         <result column="user_name" property="userName" />
         <result column="nick_name" property="nickName" />

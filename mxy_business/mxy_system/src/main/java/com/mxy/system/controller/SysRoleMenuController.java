@@ -1,6 +1,7 @@
 package com.mxy.system.controller;
 
 
+import com.mxy.common.log.annotation.SysLog;
 import com.mxy.system.entity.vo.SysRoleMenuVO;
 import com.mxy.system.service.SysRoleMenuService;
 import io.swagger.annotations.Api;
@@ -32,6 +33,7 @@ public class SysRoleMenuController {
      * @author 孟小耀
      * @date 2021-07-25
      */
+    @SysLog(module = "获取角色和菜单关联列表")
     @ApiOperation(value = "获取角色和菜单关联列表")
     @PostMapping("/getList")
     public String getList(@RequestBody SysRoleMenuVO sysRoleMenuVO) {
@@ -43,6 +45,7 @@ public class SysRoleMenuController {
      * @author 孟小耀
      * @date 2021-07-25
      */
+    @SysLog(module = "新增角色和菜单关联")
     @ApiOperation(value = "新增角色和菜单关联")
     @PostMapping("/add")
     public String add(@RequestBody SysRoleMenuVO sysRoleMenuVO) {
@@ -54,6 +57,7 @@ public class SysRoleMenuController {
      * @author 孟小耀
      * @date 2021-07-25
      */
+    @SysLog(module = "编辑角色和菜单关联")
     @ApiOperation(value = "编辑角色和菜单关联")
     @PostMapping("/edit")
     public String edit(@RequestBody SysRoleMenuVO sysRoleMenuVO) {
@@ -65,6 +69,7 @@ public class SysRoleMenuController {
      * @author 孟小耀
      * @date 2021-07-25
      */
+    @SysLog(module = "删除角色和菜单关联")
     @ApiOperation(value = "删除角色和菜单关联")
     @PostMapping("/delete")
     public String delete(@RequestBody SysRoleMenuVO sysRoleMenuVO) {

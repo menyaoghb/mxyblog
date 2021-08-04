@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 #end
 #end
-import com.mxy.common.core.entity.BaseEntity;
+import com.mxy.common.core.entity.vo.BaseEntity;
 
 /**
  * <p>

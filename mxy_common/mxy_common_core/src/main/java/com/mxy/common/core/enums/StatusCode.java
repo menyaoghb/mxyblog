@@ -7,8 +7,14 @@ package com.mxy.common.core.enums;
  */
 public enum StatusCode {
 
+    /**
+     * 成功
+     */
     SUCCESS("200", "成功"),
 
+    /**
+     * 失败
+     */
     FAIL("500", "失败");
 
     private final String key;

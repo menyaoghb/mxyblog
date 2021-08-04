@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.utils.ServiceResult;
-import com.mxy.system.entity.SysUserRole;
+import com.mxy.common.core.entity.SysUserRole;
 import com.mxy.system.entity.vo.SysUserRoleVO;
 import com.mxy.system.mapper.SysUserRoleMapper;
 import com.mxy.system.service.SysUserRoleService;

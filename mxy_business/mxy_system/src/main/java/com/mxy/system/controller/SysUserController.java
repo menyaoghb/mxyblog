@@ -1,5 +1,6 @@
 package com.mxy.system.controller;
 
+import com.mxy.common.log.annotation.SysLog;
 import com.mxy.system.entity.vo.SysUserVO;
 import com.mxy.system.service.SysUserService;
 import io.swagger.annotations.Api;
@@ -29,6 +30,7 @@ public class SysUserController {
      * @author 孟小耀
      * @date 2021-07-21
      */
+    @SysLog(module = "获取用户信息列表")
     @ApiOperation(value = "获取用户信息列表")
     @PostMapping(value = "/getList")
     public String getList(@RequestBody(required = false) SysUserVO sysUserVO) {
@@ -40,6 +42,7 @@ public class SysUserController {
      * @author 孟小耀
      * @date 2021-07-21
      */
+    @SysLog(module = "新增用户信息")
     @ApiOperation(value = "新增用户信息")
     @PostMapping("/add")
     public String add(@RequestBody SysUserVO sysUserVO) {
@@ -51,6 +54,7 @@ public class SysUserController {
      * @author 孟小耀
      * @date 2021-07-21
      */
+    @SysLog(module = "编辑用户信息")
     @ApiOperation(value = "编辑用户信息")
     @PostMapping("/edit")
     public String edit(@RequestBody SysUserVO sysUserVO) {
@@ -62,6 +66,7 @@ public class SysUserController {
      * @author 孟小耀
      * @date 2021-07-21
      */
+    @SysLog(module = "删除用户信息")
     @ApiOperation(value = "删除用户信息")
     @PostMapping("/delete")
     public String delete(@RequestBody SysUserVO sysUserVO) {

@@ -3,7 +3,7 @@
 <mapper namespace="com.mxy.system.mapper.SysMenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mxy.system.entity.SysMenu">
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysMenu">
         <id column="menu_id" property="menuId" />
         <result column="menu_name" property="menuName" />
         <result column="parent_id" property="parentId" />

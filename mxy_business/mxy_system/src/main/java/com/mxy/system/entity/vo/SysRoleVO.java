@@ -2,8 +2,8 @@ package com.mxy.system.entity.vo;
 
 import java.util.Date;
 import lombok.Data;
-import com.mxy.common.core.entity.BaseVO;
-import com.mxy.system.entity.SysRole;
+import com.mxy.common.core.entity.vo.BaseVO;
+import com.mxy.common.core.entity.SysRole;
 
 /**
  * <p>

@@ -51,6 +51,7 @@ public class ${table.controllerName} {
      * @author ${author}
      * @date ${date}
      */
+    @Log(module = "获取${table.comment}列表")
     @ApiOperation(value = "获取${table.comment}列表")
     @PostMapping("/getList")
     public String getList(@RequestBody ${entity}VO ${table.entityPath}VO) {

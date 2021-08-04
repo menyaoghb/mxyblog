@@ -1,17 +1,15 @@
-package com.mxy.system.entity;
+package com.mxy.common.core.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.mxy.common.core.entity.BaseEntity;
+import com.mxy.common.core.entity.vo.BaseEntity;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.mxy.common.core.entity.BaseEntity;
 
 /**
  * <p>
@@ -89,6 +87,10 @@ public class SysOperLog extends BaseEntity<SysOperLog> {
      * 返回参数
      */
     private String jsonResult;
+    /**
+     * 请求时长
+     */
+    private Integer resTime;
 
     /**
      * 操作状态（0正常 1异常）

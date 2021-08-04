@@ -1,8 +1,8 @@
 package com.mxy.system.entity.vo;
 
 import lombok.Data;
-import com.mxy.common.core.entity.BaseVO;
-import com.mxy.system.entity.SysRoleMenu;
+import com.mxy.common.core.entity.vo.BaseVO;
+import com.mxy.common.core.entity.SysRoleMenu;
 
 /**
  * <p>

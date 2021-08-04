@@ -26,7 +26,7 @@
         this.imageUrl = URL.createObjectURL(file.raw);
         // 调用上传头像接口
         let formData = new FormData();
-        formData.append("userId","1419124227385073665");
+        formData.append("userId","1");
         formData.append("imageUrl", file.raw);
         uploadPhoto(formData).then(() => {
           this.$message({

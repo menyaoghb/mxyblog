@@ -1,4 +1,4 @@
-package com.mxy.common.core.entity;
+package com.mxy.common.core.entity.vo;
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 

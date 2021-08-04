@@ -1,6 +1,6 @@
 package com.mxy.system.mapper;
 
-import com.mxy.system.entity.SysOperLog;
+import com.mxy.common.core.entity.SysOperLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

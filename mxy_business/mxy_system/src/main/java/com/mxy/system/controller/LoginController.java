@@ -2,7 +2,8 @@ package com.mxy.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mxy.common.core.utils.ServiceResult;
-import com.mxy.system.entity.SysUser;
+import com.mxy.common.log.annotation.SysLog;
+import com.mxy.common.core.entity.SysUser;
 import com.mxy.system.entity.vo.SysUserVO;
 import com.mxy.system.service.impl.SysUserServiceImpl;
 import io.swagger.annotations.Api;
@@ -29,6 +30,7 @@ public class LoginController {
     @Autowired
     SysUserServiceImpl sysUserService;
 
+    @SysLog(module = "用户登录")
     @ApiOperation(value = "用户登录", notes = "用户登录")
     @PostMapping("/login")
     public String login(@RequestBody SysUserVO sysUserVO) {
@@ -49,6 +51,7 @@ public class LoginController {
         return ServiceResult.success(map);
     }
 
+    @SysLog(module = "用户信息")
     @ApiOperation(value = "用户信息", notes = "用户信息")
     @GetMapping("/info")
     public String info(@RequestParam(value = "token") String token,@RequestParam(value = "name") String name) {

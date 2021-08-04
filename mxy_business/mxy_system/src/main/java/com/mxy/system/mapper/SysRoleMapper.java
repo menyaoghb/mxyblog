@@ -1,6 +1,6 @@
 package com.mxy.system.mapper;
 
-import com.mxy.system.entity.SysRole;
+import com.mxy.common.core.entity.SysRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

@@ -1,24 +1,22 @@
-package com.mxy.system.entity;
+package com.mxy.common.core.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.mxy.common.core.entity.BaseEntity;
+import com.mxy.common.core.entity.vo.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.mxy.common.core.entity.BaseEntity;
 
 /**
  * <p>
- * 菜单权限
+ * 角色信息
  * </p>
  *
  * @author 孟小耀
@@ -26,77 +24,47 @@ import com.mxy.common.core.entity.BaseEntity;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("sys_menu")
-@ApiModel(value="SysMenu对象", description="菜单权限")
-public class SysMenu extends BaseEntity<SysMenu> {
+@TableName("sys_role")
+@ApiModel(value="SysRole对象", description="角色信息")
+public class SysRole extends BaseEntity<SysRole> {
 
     private static final long serialVersionUID=1L;
 
     /**
-     * 菜单ID
+     * 角色ID
      */
-      @TableId(value = "menu_id", type = IdType.ID_WORKER_STR)
-    private String menuId;
+      @TableId(value = "role_id", type = IdType.ID_WORKER_STR)
+    private String roleId;
 
     /**
-     * 菜单名称
+     * 角色名称
      */
-    private String menuName;
+    private String roleName;
 
     /**
-     * 父菜单ID
+     * 角色权限字符串
      */
-    private String parentId;
+    private String roleKey;
 
     /**
      * 显示顺序
      */
-    private Integer orderNum;
+    private Integer roleSort;
 
     /**
-     * 路由地址
+     * 数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
      */
-    private String path;
+    private String dataScope;
 
     /**
-     * 组件路径
+     * 菜单树选择项是否关联显示
      */
-    private String component;
+    private Boolean menuCheckStrictly;
 
     /**
-     * 是否为外链（0是 1否）
-     */
-    private Integer isFrame;
-
-    /**
-     * 是否缓存（0缓存 1不缓存）
-     */
-    private Integer isCache;
-
-    /**
-     * 菜单类型（M目录 C菜单 F按钮）
-     */
-    private String menuType;
-
-    /**
-     * 菜单状态（0显示 1隐藏）
-     */
-    private String visible;
-
-    /**
-     * 菜单状态（0正常 1停用）
+     * 角色状态（0正常 1停用）
      */
     private String status;
-
-    /**
-     * 权限标识
-     */
-    private String perms;
-
-    /**
-     * 菜单图标
-     */
-    private String icon;
 
     /**
      * 是否删除（0未删除1已删除）
@@ -134,7 +102,7 @@ public class SysMenu extends BaseEntity<SysMenu> {
 
     @Override
     protected Serializable pkVal() {
-        return this.menuId;
+        return this.roleId;
     }
 
 }

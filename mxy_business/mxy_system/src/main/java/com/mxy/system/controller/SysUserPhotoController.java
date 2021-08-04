@@ -1,7 +1,8 @@
 package com.mxy.system.controller;
 
 import com.mxy.common.core.utils.ServiceResult;
-import com.mxy.system.entity.SysUser;
+import com.mxy.common.log.annotation.SysLog;
+import com.mxy.common.core.entity.SysUser;
 import com.mxy.system.service.impl.SysUserServiceImpl;
 import com.mxy.system.utils.QiniuUploadUtil;
 import io.swagger.annotations.Api;
@@ -28,6 +29,7 @@ public class SysUserPhotoController {
     /**
      * 用户头像上传
      */
+    @SysLog(module = "用户头像上传")
     @ApiOperation(value = "用户头像上传", notes = "用户头像上传")
     @PostMapping("/uploadPhoto")
     public String uploadImage(@RequestParam("userId") String userId, @RequestParam("imageUrl") MultipartFile file) throws Exception {

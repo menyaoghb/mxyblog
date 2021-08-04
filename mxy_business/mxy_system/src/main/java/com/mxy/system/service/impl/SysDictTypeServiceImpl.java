@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.utils.ServiceResult;
-import com.mxy.system.entity.SysDictType;
+import com.mxy.common.core.entity.SysDictType;
 import com.mxy.system.entity.vo.SysDictTypeVO;
 import com.mxy.system.mapper.SysDictTypeMapper;
 import com.mxy.system.service.SysDictTypeService;
