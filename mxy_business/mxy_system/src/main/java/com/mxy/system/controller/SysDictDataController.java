@@ -46,7 +46,7 @@ public class SysDictDataController {
      * @author 孟小耀
      * @date 2021-07-25
      */
-    @SysLog(module = "新增字典数据")
+    @SysLog(module = "新增字典数据",operType = OperType.ADD)
     @ApiOperation(value = "新增字典数据")
     @PostMapping("/add")
     public String add(@RequestBody SysDictDataVO sysDictDataVO) {
@@ -58,7 +58,7 @@ public class SysDictDataController {
      * @author 孟小耀
      * @date 2021-07-25
      */
-    @SysLog(module = "编辑字典数据")
+    @SysLog(module = "编辑字典数据",operType = OperType.UPDATE)
     @ApiOperation(value = "编辑字典数据")
     @PostMapping("/edit")
     public String edit(@RequestBody SysDictDataVO sysDictDataVO) {
@@ -70,7 +70,7 @@ public class SysDictDataController {
      * @author 孟小耀
      * @date 2021-07-25
      */
-    @SysLog(module = "删除字典数据")
+    @SysLog(module = "删除字典数据",operType = OperType.DELETE)
     @ApiOperation(value = "删除字典数据")
     @PostMapping("/delete")
     public String delete(@RequestBody SysDictDataVO sysDictDataVO) {

@@ -97,6 +97,9 @@ public class LogAspect {
             String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
             // 主机地址
             sysOperLog.setOperIp(ip);
+            // 操作地址
+            String ipName = IpUtils.recordIp("220.248.243.122");
+            sysOperLog.setOperLocation(ipName);
             // 请求URL
             sysOperLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
             // 请求时长
@@ -111,7 +114,6 @@ public class LogAspect {
                 } else {
                     sysOperLog.setErrorMsg("无错误消息");
                 }
-
             }
             // 操作时间
             sysOperLog.setOperTime(new Date());

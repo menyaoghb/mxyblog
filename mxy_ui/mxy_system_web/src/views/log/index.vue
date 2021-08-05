@@ -106,7 +106,11 @@
     {key: 3, name: '修改'},
     {key: 4, name: '查询'},
     {key: 5, name: '导入'},
-    {key: 6, name: '导出'}
+    {key: 6, name: '导出'},
+    {key: 7, name: '上传'},
+    {key: 8, name: '下载'},
+    {key: 9, name: '登入'},
+    {key: 10, name: '登出'}
   ]
   // 操作状态
   const statusOptions = [

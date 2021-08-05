@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.common.log.annotation.SysLog;
 import com.mxy.common.core.entity.SysUser;
+import com.mxy.common.log.enums.OperType;
 import com.mxy.system.entity.vo.SysUserVO;
 import com.mxy.system.service.impl.SysUserServiceImpl;
 import io.swagger.annotations.Api;
@@ -18,7 +19,7 @@ import java.util.Map;
 /**
  * @Description 模拟登录
  * @Author 孟小耀
- * @Date 2021/7/22 0022 19:35
+ * @Date 2021/7/22  19:35
  */
 @Api(value = "模拟登录", tags = "模拟登录")
 @RestController
@@ -30,7 +31,14 @@ public class LoginController {
     @Autowired
     SysUserServiceImpl sysUserService;
 
-    @SysLog(module = "用户登录")
+    /**
+     * @Description: 登录
+     * @Param: [sysUserVO]
+     * @return: java.lang.String
+     * @Author: 孟耀
+     * @Date: 2021/8/5
+     */
+    @SysLog(module = "用户登录",operType = OperType.LOGIN)
     @ApiOperation(value = "用户登录", notes = "用户登录")
     @PostMapping("/login")
     public String login(@RequestBody SysUserVO sysUserVO) {
@@ -51,7 +59,14 @@ public class LoginController {
         return ServiceResult.success(map);
     }
 
-    @SysLog(module = "用户信息")
+    /**
+     * @Description: 获取用户信息
+     * @Param: [token, name]
+     * @return: java.lang.String
+     * @Author: 孟耀
+     * @Date: 2021/8/5
+     */
+    @SysLog(module = "用户信息",operType = OperType.SELECT)
     @ApiOperation(value = "用户信息", notes = "用户信息")
     @GetMapping("/info")
     public String info(@RequestParam(value = "token") String token,@RequestParam(value = "name") String name) {
@@ -67,6 +82,14 @@ public class LoginController {
         return ServiceResult.success(map);
     }
 
+    /**
+     * @Description: 登出
+     * @Param: []
+     * @return: java.lang.String
+     * @Author: 孟耀
+     * @Date: 2021/8/5
+     */
+    @SysLog(module = "登出",operType = OperType.LOGOUT)
     @ApiOperation(value = "用户登出", notes = "用户登出")
     @PostMapping("/logout")
     public String logout() {

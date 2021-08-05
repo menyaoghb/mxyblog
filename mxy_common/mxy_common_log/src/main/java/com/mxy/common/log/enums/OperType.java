@@ -40,5 +40,25 @@ public enum OperType {
     /**
      * 导出
      */
-    EXPORT
+    EXPORT,
+
+    /**
+     * 上传
+     */
+    UPLOAD,
+
+    /**
+     * 下载
+     */
+    DOWNLOAD,
+
+    /**
+     * 登入
+     */
+    LOGIN,
+
+    /**
+     * 登出
+     */
+    LOGOUT
 }

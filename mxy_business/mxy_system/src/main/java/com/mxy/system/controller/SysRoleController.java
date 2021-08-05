@@ -2,6 +2,7 @@ package com.mxy.system.controller;
 
 
 import com.mxy.common.log.annotation.SysLog;
+import com.mxy.common.log.enums.OperType;
 import com.mxy.system.entity.vo.SysRoleVO;
 import com.mxy.system.service.SysRoleService;
 import io.swagger.annotations.Api;
@@ -33,7 +34,7 @@ public class SysRoleController {
      * @author 孟小耀
      * @date 2021-07-25
      */
-    @SysLog(module = "获取角色信息列表")
+    @SysLog(module = "获取角色信息列表",operType = OperType.SELECT)
     @ApiOperation(value = "获取角色信息列表")
     @PostMapping("/getList")
     public String getList(@RequestBody SysRoleVO sysRoleVO) {
@@ -45,7 +46,7 @@ public class SysRoleController {
      * @author 孟小耀
      * @date 2021-07-25
      */
-    @SysLog(module = "新增角色信息")
+    @SysLog(module = "新增角色信息",operType = OperType.ADD)
     @ApiOperation(value = "新增角色信息")
     @PostMapping("/add")
     public String add(@RequestBody SysRoleVO sysRoleVO) {
@@ -57,7 +58,7 @@ public class SysRoleController {
      * @author 孟小耀
      * @date 2021-07-25
      */
-    @SysLog(module = "编辑角色信息")
+    @SysLog(module = "编辑角色信息",operType = OperType.UPDATE)
     @ApiOperation(value = "编辑角色信息")
     @PostMapping("/edit")
     public String edit(@RequestBody SysRoleVO sysRoleVO) {
@@ -69,7 +70,7 @@ public class SysRoleController {
      * @author 孟小耀
      * @date 2021-07-25
      */
-    @SysLog(module = "删除角色信息")
+    @SysLog(module = "删除角色信息",operType = OperType.DELETE)
     @ApiOperation(value = "删除角色信息")
     @PostMapping("/delete")
     public String delete(@RequestBody SysRoleVO sysRoleVO) {

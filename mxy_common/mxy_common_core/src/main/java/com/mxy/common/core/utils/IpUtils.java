@@ -1,6 +1,12 @@
 package com.mxy.common.core.utils;
 
+import com.alibaba.fastjson.JSONObject;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * @Description IP工具类
@@ -12,6 +18,7 @@ public class IpUtils {
 
     /**
      * 解析IP地址
+     * 例：127.0.0.1
      */
     public static String getIpAddr(HttpServletRequest request) {
         if (request == null) {
@@ -47,5 +54,34 @@ public class IpUtils {
             ip = request.getRemoteAddr();
         }
         return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
+    }
+
+
+    /**
+     * 解析IP地址
+     * 例：中国-安徽-合肥-联通
+     */
+    public static String recordIp(String ip) {
+        String url = "http://ip.taobao.com/outGetIpInfo?ip=" + ip + "&accessKey=alibaba-inc";
+        String jsonStr = OkGetArt(url);
+        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+        JSONObject result = (JSONObject) jsonObject.get("data");
+        return result.get("country") + "-" + result.get("region") + "-" + result.get("city")+"-"+result.get("isp");
+
+    }
+
+    /**
+     * 解析IP地址
+     */
+    public static String OkGetArt(String url) {
+        String html = null;
+        OkHttpClient client = new OkHttpClient();
+        Request requestObj = new Request.Builder().url(url).addHeader("Content-type", "charset=utf-8").build();
+        try (Response responseObj = client.newCall(requestObj).execute()) {
+            html = responseObj.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return html;
     }
 }

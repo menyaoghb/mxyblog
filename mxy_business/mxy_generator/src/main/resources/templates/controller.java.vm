@@ -1,6 +1,7 @@
 package ${package.Controller};
 
-
+import com.mxy.common.log.annotation.SysLog;
+import com.mxy.common.log.enums.OperType;
 import ${package.Entity}.vo.${entity}VO;
 import ${package.Service}.${table.serviceName};
 import io.swagger.annotations.Api;
@@ -51,7 +52,7 @@ public class ${table.controllerName} {
      * @author ${author}
      * @date ${date}
      */
-    @Log(module = "获取${table.comment}列表")
+    @SysLog(module = "获取${table.comment}列表")
     @ApiOperation(value = "获取${table.comment}列表")
     @PostMapping("/getList")
     public String getList(@RequestBody ${entity}VO ${table.entityPath}VO) {
@@ -63,6 +64,7 @@ public class ${table.controllerName} {
      * @author ${author}
      * @date ${date}
      */
+    @SysLog(module = "新增${table.comment}", operType = OperType.ADD)
     @ApiOperation(value = "新增${table.comment}")
     @PostMapping("/add")
     public String add(@RequestBody ${entity}VO ${table.entityPath}VO) {
@@ -74,6 +76,7 @@ public class ${table.controllerName} {
      * @author ${author}
      * @date ${date}
      */
+    @SysLog(module = "编辑${table.comment}", operType = OperType.UPDATE)
     @ApiOperation(value = "编辑${table.comment}")
     @PostMapping("/edit")
     public String edit(@RequestBody ${entity}VO ${table.entityPath}VO) {
@@ -85,6 +88,7 @@ public class ${table.controllerName} {
      * @author ${author}
      * @date ${date}
      */
+    @SysLog(module = "删除${table.comment}", operType = OperType.DELETE)
     @ApiOperation(value = "删除${table.comment}")
     @PostMapping("/delete")
     public String delete(@RequestBody ${entity}VO ${table.entityPath}VO) {
