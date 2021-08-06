@@ -24,7 +24,7 @@ public class CodeGenerator {
         String schemaName = "mxy_blog";
         // 表名，多个英文逗号分割
         //String[] tableName = new String[] { "sys_role_menu","sys_oper_log","sys_menu","sys_dict_type","sys_dict_data" };
-        String[] tableName = new String[] { "sys_oper_log" };
+        String[] tableName = new String[] { "beautiful_words" };
 
         String url = "jdbc:mysql://localhost:3306/mxy_blog?characterEncoding=utf8&useUnicode=true&serverTimezone=UTC";
         String driverName = "com.mysql.cj.jdbc.Driver";
@@ -124,7 +124,7 @@ public class CodeGenerator {
         //逻辑删除属性名称
         strategy.setLogicDeleteFieldName("is_delete");
 
-        strategy.setSuperEntityClass("com.mxy.common.core.entity.BaseEntity");
+        strategy.setSuperEntityClass("com.mxy.common.core.entity.vo.BaseEntity");
 
         // 自定义实体父类
 //        strategy.setSuperEntityClass("com.baomidou.mybatisplus.extension.activerecord.Model");

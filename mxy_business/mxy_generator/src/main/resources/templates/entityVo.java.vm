@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 import com.mxy.common.core.entity.vo.BaseVO;
 import ${package.Entity}.${entity};
 
+import java.util.Date;
 /**
  * <p>
  * $!{table.comment}-VO
