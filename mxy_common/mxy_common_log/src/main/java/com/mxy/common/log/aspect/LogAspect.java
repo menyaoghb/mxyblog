@@ -110,7 +110,7 @@ public class LogAspect {
             if (e != null) {
                 sysOperLog.setStatus(Status.FAIL.ordinal());
                 if (!StringUtils.isEmpty(e.getMessage())) {
-                    sysOperLog.setErrorMsg(e.getMessage().substring(0, 2000));
+                    sysOperLog.setErrorMsg(e.getMessage().substring(0, e.getMessage().length()-1));
                 } else {
                     sysOperLog.setErrorMsg("无错误消息");
                 }

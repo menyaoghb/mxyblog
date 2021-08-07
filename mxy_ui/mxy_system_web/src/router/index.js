@@ -414,7 +414,7 @@ export const asyncRoutes = [
       {
         path: 'index',
         component: () => import('@/views/menu/index'),
-        name: 'user',
+        name: 'menu',
         meta: {title: '菜单管理', icon: 'el-icon-grape'}
       }
     ]
@@ -443,14 +443,44 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/beautifulWords',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/mxy/beautifulWords/index'),
+        name: 'beautifulWords',
+        meta: {title: '佳句记忆', icon: 'el-icon-grape'}
+      }
+    ]
+  },
+  {
     path: '/log',
     component: Layout,
     children: [
       {
         path: 'index',
         component: () => import('@/views/log/index'),
-        name: 'user',
+        name: 'log',
         meta: {title: '操作日志', icon: 'el-icon-watermelon'}
+      }
+    ]
+  },
+  {
+    path: '/config',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'configPages',
+    meta: {
+      title: '系统配置',
+      icon: 'el-icon-orange'
+    },
+    children: [
+      {
+        path: 'sysConfig',
+        component: () => import('@/views/config/sysConfig/index'),
+        name: 'sysConfigName',
+        meta: {title: '平台参数', icon: 'el-icon-lollipop'}
       }
     ]
   },

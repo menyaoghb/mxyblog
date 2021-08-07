@@ -38,7 +38,7 @@ public class LoginController {
      * @Author: 孟耀
      * @Date: 2021/8/5
      */
-    @SysLog(module = "用户登录",operType = OperType.LOGIN)
+    @SysLog(module = "登录",operType = OperType.LOGIN)
     @ApiOperation(value = "用户登录", notes = "用户登录")
     @PostMapping("/login")
     public String login(@RequestBody SysUserVO sysUserVO) {
