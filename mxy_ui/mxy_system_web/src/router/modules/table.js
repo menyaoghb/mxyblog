@@ -1,5 +1,6 @@
 /** 当你的路由表太长时，你可以把它分成小模块 **/
 
+/*
 import Layout from '@/layout'
 
 const tableRouter = {
@@ -39,3 +40,4 @@ const tableRouter = {
   ]
 }
 export default tableRouter
+*/

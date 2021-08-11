@@ -505,6 +505,12 @@ export const asyncRoutes = [
         component: () => import('@/views/test/index2'),
         name: 'DictData',
         meta: {title: '报表二', icon: 'el-icon-sugar'}
+      },
+      {
+        path: 'home',
+        component: () => import('@/views/index/home'),
+        name: 'home',
+        meta: {title: '欢迎页', icon: 'el-icon-loading'}
       }
     ]
   },

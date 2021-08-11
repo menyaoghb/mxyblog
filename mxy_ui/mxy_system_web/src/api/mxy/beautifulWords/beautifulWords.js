@@ -8,7 +8,7 @@ export function getList(data) {
     data
   })
 }
-/*列表查询*/
+/*数据查询*/
 export function getAdviceList(data) {
   return request({
     url: '/beautifulWords/getAdviceList',

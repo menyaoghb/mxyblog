@@ -1,6 +1,6 @@
 /** When your routing table is too long, you can split it into small modules **/
 
-import Layout from '@/layout'
+/*import Layout from '@/layout'
 
 const componentsRouter = {
   path: '/components',
@@ -99,4 +99,4 @@ const componentsRouter = {
   ]
 }
 
-export default componentsRouter
+export default componentsRouter*/
