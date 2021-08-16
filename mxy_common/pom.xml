@@ -15,6 +15,7 @@
         <module>mxy_common_core</module>
         <module>mxy_common_file</module>
         <module>mxy_common_log</module>
+        <module>mxy_common_security</module>
     </modules>
 
 

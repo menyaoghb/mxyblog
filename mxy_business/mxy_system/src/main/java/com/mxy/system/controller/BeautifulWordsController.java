@@ -77,7 +77,7 @@ public class BeautifulWordsController {
         }
 
     /**
-     * @Description 获取优美的句子列表
+     * @Description 佳句-标签/来源列表
      * @author 孟小耀
      * @date 2021-08-06
      */

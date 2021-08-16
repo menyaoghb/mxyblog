@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Description
+ * @Description 统一结果返回
  * @Author 孟小耀
  * @Date 2021/7/20 8:52
  */
