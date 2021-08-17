@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mxy.system.mapper.SysArticleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mxy.system.entity.SysArticle">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="summary" property="summary" />
+        <result column="content" property="content" />
+        <result column="page_views" property="pageViews" />
+        <result column="file_path" property="filePath" />
+        <result column="author" property="author" />
+        <result column="source" property="source" />
+        <result column="sort" property="sort" />
+        <result column="status" property="status" />
+        <result column="is_delete" property="isDelete" />
+        <result column="create_user" property="createUser" />
+        <result column="create_time" property="createTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        WHERE 1 = 1
+    <if test="id!=null and id!=''">
+        AND id = #{id}
+    </if>
+    <if test="title!=null and title!=''">
+        AND title = #{title}
+    </if>
+    <if test="summary!=null and summary!=''">
+        AND summary = #{summary}
+    </if>
+    <if test="content!=null and content!=''">
+        AND content = #{content}
+    </if>
+    <if test="pageViews!=null and pageViews!=''">
+        AND page_views = #{pageViews}
+    </if>
+    <if test="filePath!=null and filePath!=''">
+        AND file_path = #{filePath}
+    </if>
+    <if test="author!=null and author!=''">
+        AND author = #{author}
+    </if>
+    <if test="source!=null and source!=''">
+        AND source = #{source}
+    </if>
+    <if test="sort!=null and sort!=''">
+        AND sort = #{sort}
+    </if>
+    <if test="status!=null and status!=''">
+        AND status = #{status}
+    </if>
+    <if test="isDelete!=null and isDelete!=''">
+        AND is_delete = #{isDelete}
+    </if>
+    <if test="createUser!=null and createUser!=''">
+        AND create_user = #{createUser}
+    </if>
+    <if test="createTime!=null and createTime!=''">
+        AND create_time = #{createTime}
+    </if>
+    <if test="updateUser!=null and updateUser!=''">
+        AND update_user = #{updateUser}
+    </if>
+    <if test="updateTime!=null and updateTime!=''">
+        AND update_time = #{updateTime}
+    </if>
+    <if test="remark!=null and remark!=''">
+        AND remark = #{remark}
+    </if>
+    </sql>
+
+</mapper>
