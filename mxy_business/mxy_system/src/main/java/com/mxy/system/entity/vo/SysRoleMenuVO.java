@@ -13,7 +13,6 @@ import com.mxy.common.core.entity.SysRoleMenu;
  * @since 2021-07-25
  */
 @Data
-
 public class SysRoleMenuVO extends BaseVO<SysRoleMenu> {
 
     /**

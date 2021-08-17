@@ -1,75 +1,72 @@
 <template>
     <div class="home">
         <banner isHome="true"></banner>
-        <div class="site-content animate" style="width: 100%;display: flex;justify-content: center;align-items: center;">
+        <div class="site-content animate" style="width: 100%;">
             <!--通-->
-<!--            <div style="margin-top: 100px;    text-align: center;">
+            <div style="margin-top: 100px;    text-align: center;">
                 <div style="display: inline-block;vertical-align: middle;">
-                    <h1 style="font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;">博客分类</h1>
+                    <h1 style="font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;color: #000000;">
+                        About</h1>
                     <p style="margin-top: 20px;line-height: 22px;color: #888;">
-                        只要朝着一个方向努力
-                        <br>一切都会变得得心应手
+                        The avenue is simple,
+                        <br>and the rich soul is from this.
                     </p>
                 </div>
-            </div>-->
-            <!--焦点图-->
-<!--            <div class="top-feature" v-if="!hideSlogan"
-                 style="background-image: url('http://xyule.top/home_page.jpg');    height: 600px;">
-                <div style="width: 25%;float: left">
-
-
-
-                    <a>
-                        <div style="width: 280px;height: 400px;background-color: red;">
-                            <h1 style="">Our Solutions</h1>
-                            <p class="paragraph-5">We measure the drivers behind sustainable farmland, helping you make
-                                decisions that benefit your fields and the planet.<br></p><a href="/solutions"
-                                                                                             class="button w-button">Learn&nbsp;More</a>
-                        </div>
-                    </a>
-                </div>
-                <div style="width: 25%;float: left">
-                    <a>
-                        <div style="width: 280px;height: 400px;background-color: red;"></div>
-                    </a>
-                </div>
-                <div style="width: 25%;float: left">
-                    <a>
-                        <div style="width: 280px;height: 400px;background-color: red;"></div>
-                    </a>
-                </div>
-                <div style="width: 25%;float: left">
-                    <a>
-                        <div style="width: 280px;height: 400px;background-color: red;"></div>
-                    </a>
-                </div>
-
-
-                <section-title>
-                    <div style="display: flex;align-items: flex-end;">聚焦
-                        <small-ico></small-ico>
-                    </div>
-                </section-title>
-                <div class="feature-content">
-                    <div class="feature-item" v-for="item in features" :key="item.title">
-                        <Feature :data="item"></Feature>
-                    </div>
-                </div>
-            </div>-->
-            <div style="display: inline-block;vertical-align: middle;">
-                <h1 style="font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;">博客分类</h1>
-                <p style="margin-top: 20px;line-height: 22px;color: #888;">
-                    只要朝着一个方向努力
-                    <br>一切都会变得得心应手
-                </p>
             </div>
+            <!--焦点图-->
+            <!--            <div class="top-feature" v-if="!hideSlogan"
+                             style="background-image: url('http://xyule.top/home_page.jpg');    height: 600px;">
+                            <div style="width: 25%;float: left">
+
+
+
+                                <a>
+                                    <div style="width: 280px;height: 400px;background-color: red;">
+                                        <h1 style="">Our Solutions</h1>
+                                        <p class="paragraph-5">We measure the drivers behind sustainable farmland, helping you make
+                                            decisions that benefit your fields and the planet.<br></p><a href="/solutions"
+                                                                                                         class="button w-button">Learn&nbsp;More</a>
+                                    </div>
+                                </a>
+                            </div>
+                            <div style="width: 25%;float: left">
+                                <a>
+                                    <div style="width: 280px;height: 400px;background-color: red;"></div>
+                                </a>
+                            </div>
+                            <div style="width: 25%;float: left">
+                                <a>
+                                    <div style="width: 280px;height: 400px;background-color: red;"></div>
+                                </a>
+                            </div>
+                            <div style="width: 25%;float: left">
+                                <a>
+                                    <div style="width: 280px;height: 400px;background-color: red;"></div>
+                                </a>
+                            </div>
+
+
+                            <section-title>
+                                <div style="display: flex;align-items: flex-end;">聚焦
+                                    <small-ico></small-ico>
+                                </div>
+                            </section-title>
+                            <div class="feature-content">
+                                <div class="feature-item" v-for="item in features" :key="item.title">
+                                    <Feature :data="item"></Feature>
+                                </div>
+                            </div>
+                        </div>-->
             <!--文章列表-->
-            <main class="site-main" :class="{'search':hideSlogan}" style="width: 80%;">
-                <!--<section-title v-if="!hideSlogan">推荐</section-title>-->
-                <template v-for="item in postList">
-                    <post :post="item" :key="item.id"></post>
-                </template>
-            </main>
+            <div>
+                <main class="site-main" :class="{'search':hideSlogan}" style="width: 100%;">
+                    <!--<section-title v-if="!hideSlogan">推荐</section-title>-->
+                    <template v-for="item in postList">
+                        <post :post="item" :key="item.id"></post>
+                    </template>
+                </main>
+            </div>
+
 
             <!--加载更多-->
             <!--            <div class="more" v-show="hasNextPage">

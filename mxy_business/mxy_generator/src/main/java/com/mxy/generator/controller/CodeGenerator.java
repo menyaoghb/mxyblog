@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.mxy.common.core.entity.BeautifulWords;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class CodeGenerator {
         String schemaName = "mxy_blog";
         // 表名，多个英文逗号分割
         //String[] tableName = new String[] { "sys_role_menu","sys_oper_log","sys_menu","sys_dict_type","sys_dict_data" };
-        String[] tableName = new String[] { "tbl_gdzx_batchsend" };
+        String[] tableName = new String[]{"sys_web_config", "sys_article"};
 
         String url = "jdbc:mysql://localhost:3306/mxy_blog?characterEncoding=utf8&useUnicode=true&serverTimezone=UTC";
         String driverName = "com.mysql.cj.jdbc.Driver";
@@ -42,8 +43,7 @@ public class CodeGenerator {
         String mapperPath = "mapper";
 
         String path = "G:\\B\\mxy_blog\\mxy_business\\mxy_system";
-        String genPath = "G:/B/mxy_blog/mxy_business/mxy_generator";
-
+        String genPath = "G:\\B\\mxy_blog\\mxy_common\\mxy_common_core";
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
@@ -169,6 +169,14 @@ public class CodeGenerator {
             }
         });
 
+        //调整 entity 生成目录
+        focList.add(new FileOutConfig("/templates/entity.java.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return genPath + "/src/main/java/com/mxy/common/core/entity/" + tableInfo.getEntityName() + ".java";
+            }
+        });
+
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
@@ -177,7 +185,7 @@ public class CodeGenerator {
         TemplateConfig tc = new TemplateConfig();
         tc.setController("/templates/controller.java.vm");
         // 如上任何一个模块如果设置 空 OR Null 将不生成该模块。
-        tc.setEntity("/templates/entity.java.vm");
+        tc.setEntity(null);
         tc.setService("/templates/service.java.vm");
         tc.setServiceImpl("/templates/serviceImpl.java.vm");
         tc.setMapper("/templates/mapper.java.vm");

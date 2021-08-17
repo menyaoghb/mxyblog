@@ -15,7 +15,6 @@ import com.mxy.common.core.entity.SysMenu;
  * @since 2021-07-25
  */
 @Data
-
 public class SysMenuVO extends BaseVO<SysMenu> {
 
     /**

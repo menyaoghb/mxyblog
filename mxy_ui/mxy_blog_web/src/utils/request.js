@@ -3,7 +3,7 @@ import store from '@/store'
 
 // create an axios instance
 const service = axios.create({
-    baseURL: process.env.VUE_APP_BASE_API,
+    baseURL: '/system',
     timeout: 5000 // request timeout
 })
 
@@ -27,21 +27,21 @@ service.interceptors.request.use(
 // response interceptor
 service.interceptors.response.use(
     /**
-     * If you want to get http information such as headers or status
-     * Please return  response => response
+     * 如果您想获得http信息，如头信息或状态
+     * 请将  response => response
      */
 
     /**
-     * Determine the request status by custom code
-     * Here is just an example
-     * You can also judge the status by HTTP Status Code
+     * 通过自定义代码确定请求状态
+     * 这里只是一个例子
+     * 您也可以通过HTTP状态码来判断状态
      */
     response => {
         const res = response.data
         // store.commit('SET_LOADING',false);
 
-        // if the custom code is not 20000, it is judged as an error.
-        if (res.code !== 20000) {
+        // 如果定制代码不是200，则判定为错误。
+        if (res.code !== 200) {
             return Promise.reject(new Error(res.message || 'Error'))
         } else {
             return res

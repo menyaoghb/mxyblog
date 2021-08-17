@@ -14,7 +14,6 @@ import com.mxy.common.core.entity.SysOperLog;
  * @since 2021-07-25
  */
 @Data
-
 public class SysOperLogVO extends BaseVO<SysOperLog> {
 
     /**

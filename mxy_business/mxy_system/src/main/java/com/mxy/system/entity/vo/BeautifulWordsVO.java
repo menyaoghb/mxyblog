@@ -15,7 +15,6 @@ import java.util.Date;
  * @since 2021-08-06
  */
 @Data
-
 public class BeautifulWordsVO extends BaseVO<BeautifulWords> {
 
     /**

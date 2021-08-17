@@ -14,7 +14,6 @@ import com.mxy.common.core.entity.SysDictType;
  * @since 2021-07-25
  */
 @Data
-
 public class SysDictTypeVO extends BaseVO<SysDictType> {
 
     /**

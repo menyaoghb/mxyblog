@@ -14,7 +14,6 @@ import com.mxy.common.core.entity.SysRole;
  * @since 2021-07-25
  */
 @Data
-
 public class SysRoleVO extends BaseVO<SysRole> {
 
     /**

@@ -33,11 +33,12 @@ export function fetchFriend() {
 }
 
 export function fetchSocial() {
+    const data = {};
     return request({
-        url: '/social',
-        method: 'get',
-        params: {}
-    });
+        url: '/beautifulWords/getList',
+        method: 'post',
+        data
+    })
 }
 
 export function fetchSiteInfo() {
