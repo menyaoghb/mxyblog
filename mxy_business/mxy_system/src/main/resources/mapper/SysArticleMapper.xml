@@ -3,7 +3,7 @@
 <mapper namespace="com.mxy.system.mapper.SysArticleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mxy.system.entity.SysArticle">
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysArticle">
         <id column="id" property="id" />
         <result column="title" property="title" />
         <result column="summary" property="summary" />

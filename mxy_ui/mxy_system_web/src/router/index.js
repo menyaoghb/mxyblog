@@ -408,6 +408,66 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/web',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'configPages',
+    meta: {
+      title: '网站管理',
+      icon: 'el-icon-orange'
+    },
+    children: [
+      {
+        path: 'webView',
+        component: () => import('@/views/config/sysConfig/index'),
+        name: 'sysConfigName',
+        meta: {title: '首页预览', icon: 'el-icon-lollipop'}
+      },
+      {
+        path: 'createBlog',
+        component: () => import('@/views/web/blog/create'),
+        name: 'sysConfigName',
+        meta: {title: '创建博客', icon: 'el-icon-lollipop'}
+      },
+      {
+        path: 'blogList',
+        component: () => import('@/views/web/blog/index'),
+        name: 'sysConfigName',
+        meta: {title: '博客管理', icon: 'el-icon-lollipop'}
+      },
+      {
+        path: 'webConfig',
+        component: () => import('@/views/config/sysConfig/index'),
+        name: 'sysConfigName',
+        meta: {title: '网站配置', icon: 'el-icon-lollipop'}
+      }
+    ]
+  },
+  {
+    path: '/file',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'filePages',
+    meta: {
+      title: '文件管理',
+      icon: 'el-icon-orange'
+    },
+    children: [
+      {
+        path: 'filePath',
+        component: () => import('@/views/file/file/index'),
+        name: 'fileName',
+        meta: {title: '文件管理', icon: 'el-icon-lollipop'}
+      },
+      {
+        path: 'imagePath',
+        component: () => import('@/views/file/image/index'),
+        name: 'imageName',
+        meta: {title: '图片管理', icon: 'el-icon-lollipop'}
+      }
+    ]
+  },
+  {
     path: '/menu',
     component: Layout,
     children: [

@@ -3,7 +3,7 @@
 <mapper namespace="com.mxy.system.mapper.SysWebConfigMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mxy.system.entity.SysWebConfig">
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysWebConfig">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="value" property="value" />
