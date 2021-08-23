@@ -10,6 +10,7 @@ import com.mxy.system.entity.vo.SysPictureVO;
 import com.mxy.system.mapper.SysPictureMapper;
 import com.mxy.system.service.SysPictureService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
 
@@ -27,6 +28,9 @@ public class SysPictureServiceImpl extends ServiceImpl<SysPictureMapper, SysPict
     @Override
     public String getList(SysPictureVO sysPictureVO) {
         QueryWrapper queryWrapper = new QueryWrapper();
+        if (StringUtils.isNotEmpty(sysPictureVO.getPictureName())) {
+            queryWrapper.like("picture_name", sysPictureVO.getPictureName());
+        }
         Page<SysPicture> page = new Page<>();
         page.setCurrent(sysPictureVO.getCurrentPage());
         page.setSize(sysPictureVO.getPageSize());
