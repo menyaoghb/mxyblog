@@ -31,6 +31,7 @@ public class SysPictureServiceImpl extends ServiceImpl<SysPictureMapper, SysPict
         if (StringUtils.isNotEmpty(sysPictureVO.getPictureName())) {
             queryWrapper.like("picture_name", sysPictureVO.getPictureName());
         }
+        queryWrapper.orderByDesc("create_time");
         Page<SysPicture> page = new Page<>();
         page.setCurrent(sysPictureVO.getCurrentPage());
         page.setSize(sysPictureVO.getPageSize());

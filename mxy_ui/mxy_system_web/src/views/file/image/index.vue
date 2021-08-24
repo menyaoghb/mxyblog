@@ -15,7 +15,7 @@
     <el-tabs tab-position="left" @tab-click="handleClick">
       <el-tab-pane v-for="type in types" :key="type">
         <span slot="label"><i class="el-icon-date"></i> {{type}}</span>
-        <div class="demo-image":key="comKey">
+        <div class="demo-image" :key="comKey">
           <div class="block" v-for="(url,index) in urlList" :key="index" v-if="type===url.type">
             <el-image
               style="width: 100px; height: 100px"
@@ -36,14 +36,16 @@
 
 
     <!--新增/修改页-->
-    <el-dialog title="图片上传" :visible.sync="dialogFormVisible">
+    <el-dialog title="图片上传" :visible.sync="dialogFormVisible" style="text-align: center">
       <el-upload
         class="upload-demo"
         ref="upload"
-        action="https://jsonplaceholder.typicode.com/posts/"
+        action="http://localhost:7999/system/sysPicture/uploadPicture"
         :on-preview="handlePreview"
         :on-remove="handleRemove"
+        :data="fileData"
         :file-list="fileList"
+        list-type="picture"
         :auto-upload="false">
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
         <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
@@ -61,28 +63,6 @@
   import Pagination from '@/components/Pagination' // 分页
   import {validateEmail, validateAccount, validatePassword} from '@/utils/validate'
 
-  // 权限
-  const userTypeOptions = [
-    {key: '01', name: 'S级管理员'},
-    {key: '02', name: 'A级管理员'},
-    {key: '03', name: 'B级管理员'},
-    {key: '04', name: 'C级管理员'},
-    {key: '05', name: 'D级管理员'},
-    {key: '06', name: 'E级管理员'},
-    {key: '07', name: 'F级参观者'}
-  ]
-  // 状态
-  const statusOptions = [
-    {key: '0', name: '启用'},
-    {key: '1', name: '禁用'}
-  ]
-  // 性别
-  const sexOptions = [
-    {key: '0', name: '男'},
-    {key: '1', name: '女'},
-    {key: '2', name: '未知'}
-  ]
-
   export default {
     name: 'ComplexTable',
     components: {Pagination},
@@ -90,58 +70,45 @@
     filters: {},
     data() {
       return {
-        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
-
-        comKey:0,
+        /*图片上传-额外参数*/
+        fileData: {
+          fileType: '缘分', // 图片类型
+          fileName: ''  // 图片名称
+        },
+        /*待上传图片列表*/
+        fileList: [],
+        /*控制刷新左侧标签内容*/
+        comKey: 0,
         /*标签*/
-        types:['缘分','情感','学习','励志'],
+        types: ['缘分', '情感', '学习', '励志'],
         /*预览图*/
         srcList: [],
         /*图片集合*/
         urlList: [],
-        list: null, //表格列表数据
-        total: 0, // 总条数
         listLoading: true,
+        /*查询参数*/
         listQuery: {
-          currentPage: 1,
-          pageSize: 1000,
-          pictureName: undefined,
-          userName: undefined
+          currentPage: 1, // 当前页
+          pageSize: 1000, // 页数
+          pictureName: undefined // 图片名称
         },
-        userTypeOptions, // 用户权限
-        statusOptions, // 用户状态
-        sexOptions, // 用户性别
         temp: {
-          userId: undefined,
-          nickName: '',
-          userName: '',
-          password: '',
-          email: '',
-          phoneNumber: '',
-          userType: '',
-          sex: '',
-          loginIp: '',
-          loginDate: '',
-          createTime: '',
-          updateTime: '',
-          status: '0',
-          remark: ''
+          userId: undefined
         },
         dialogFormVisible: false, //控制新增页关闭
-        dialogFormVisibleView: false, //控制新增页关闭
         dialogStatus: '', // 判断当前操作是新增还是修改
         textMap: {
           add: '新增',
           edit: '编辑'
         },
-        rules: {
-        }
+        rules: {}
       }
     },
     created() {
       this.getList()
     },
     methods: {
+      /*图片上传*/
       submitUpload() {
         this.$refs.upload.submit();
       },
@@ -167,44 +134,13 @@
       handleFilter() {
         this.listQuery.currentPage = 1
         this.getList()
-        this.comKey+=1;
-      },
-      /*用户状态改变*/
-      handleModifyStatus(row) {
-        debugger
-        let text = row.status === "0" ? "启用" : "禁用";
-        this.$confirm('确认要"' + text + '""' + row.userName + '"这个用户吗?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(() => {
-          this.temp.userId = row.userId;
-          let param = {};
-          param.userId = row.userId;
-          param.status = row.status;
-          editUser(param).then(() => {
-            this.$message({
-              message: text + '成功',
-              type: 'success'
-            });
-            this.getList();
-          })
-        }).catch(() => {
-          row.status = row.status === "0" ? "1" : "0";
-        });
+        this.comKey += 1;
       },
       /*表单重置*/
       resetTemp() {
-        this.temp = {
-          userId: undefined,
-          userName: '',
-          nickName: '',
-          password: '',
-          email: '',
-          userType: '',
-          status: '0',
-          remark: '',
-        }
+        this.temp = {userId: undefined};
+        /*清空图片列表*/
+        this.fileList = [];
       },
       /*新增跳转*/
       handleCreate() {
@@ -273,15 +209,11 @@
         }).catch(() => {
         });
       },
-      /*数据详情*/
-      handleView(row) {
-        this.dialogFormVisibleView = true;
-        this.temp = row;
-      },
-      previewUrl(url){
+      /*图片点击预览*/
+      previewUrl(url) {
         const preUrl = [];
         preUrl.push(url);
-        this.srcList=preUrl;
+        this.srcList = preUrl;
         console.log(preUrl);
       }
     }
