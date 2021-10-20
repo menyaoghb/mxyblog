@@ -2,9 +2,11 @@ package com.mxy.system.controller;
 
 import com.mxy.common.core.entity.SysPicture;
 import com.mxy.common.core.entity.SysUser;
+import com.mxy.common.core.utils.DateUtils;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.common.log.annotation.SysLog;
 import com.mxy.common.log.enums.OperType;
+import com.mxy.system.entity.vo.BeautifulWordsVO;
 import com.mxy.system.entity.vo.SysPictureVO;
 import com.mxy.system.service.SysPictureService;
 import com.mxy.system.utils.QiniuUploadUtil;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -91,34 +94,20 @@ public class SysPictureController {
     @SysLog(module = "图片上传", operType = OperType.UPLOAD)
     @ApiOperation(value = "图片上传", notes = "图片上传")
     @PostMapping("/uploadPicture")
-    public String uploadPicture(@RequestParam Map<String, Object> map, @RequestParam("file") MultipartFile[] file) throws Exception {
-        Boolean b = false;
-        for (int i = 0; i < file.length; i++) {
-            MultipartFile multipartFile = file[i];
-            String name = multipartFile.getOriginalFilename();
-            String key = QiniuUploadUtil.upload(name, multipartFile.getBytes());
-            if (key != null) {
-                SysPicture sysPicture = new SysPicture();
-                sysPicture.setPictureId(key);
-                if (StringUtils.isNotEmpty(MapUtils.getString(map, "fileType"))) {
-                    sysPicture.setType(MapUtils.getString(map, "fileType"));
-                } else {
-                    sysPicture.setType(MapUtils.getString(map, "缘分"));
-                }
-                if (StringUtils.isNotEmpty(MapUtils.getString(map, "fileName"))) {
-                    sysPicture.setPictureName(MapUtils.getString(map, "fileName"));
-                } else {
-                    sysPicture.setPictureName(MapUtils.getString(map, name));
-                }
+    public String uploadPicture(@RequestParam Map<String, Object> map, @RequestParam("file") MultipartFile[] file) {
+        return sysPictureService.uploadPicture(map, file);
+    }
 
-                b = sysPicture.insert();
-            }
-        }
-        if (b) {
-            return ServiceResult.success();
-        } else {
-            return ServiceResult.error();
-        }
+    /**
+     * @Description: 图片标签
+     * @Author: 孟耀
+     * @Date: 2021/8/24 0024
+     */
+    @SysLog(module = "图片标签列表")
+    @ApiOperation(value = "图片标签列表")
+    @PostMapping("/getFileTypeList")
+    public String getFileTypeList(@RequestBody SysPictureVO sysPictureVO) {
+        return sysPictureService.getFileTypeList(sysPictureVO);
     }
 
 

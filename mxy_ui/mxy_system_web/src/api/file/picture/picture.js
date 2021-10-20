@@ -33,3 +33,12 @@ export function deleteUser(data) {
   })
 }
 
+/*数据查询*/
+export function getFileTypeList(data) {
+  return request({
+    url: '/sysPicture/getFileTypeList',
+    method: 'post',
+    data
+  })
+}
+

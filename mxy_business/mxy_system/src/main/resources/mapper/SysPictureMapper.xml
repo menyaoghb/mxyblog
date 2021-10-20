@@ -55,4 +55,9 @@
     </if>
     </sql>
 
+    <!--统计 图片标签 数据-->
+    <select id="selectFileTypeData" resultType="map">
+        SELECT DISTINCT type AS "value" FROM sys_picture WHERE is_delete = '0' ORDER BY create_time DESC
+    </select>
+
 </mapper>

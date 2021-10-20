@@ -200,19 +200,19 @@
             </dependency>
 
 
-            <!--公用资源-->
+<!--            &lt;!&ndash;公用资源&ndash;&gt;
             <dependency>
                 <groupId>com.mxy</groupId>
                 <artifactId>mxy_common_core</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
 
-            <!--日志服务-->
+            &lt;!&ndash;日志服务&ndash;&gt;
             <dependency>
                 <groupId>com.mxy</groupId>
                 <artifactId>mxy_common_log</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
-            </dependency>
+            </dependency>-->
 
 
 
@@ -223,17 +223,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <!--fork:如果没有该项配置,整个devtools不会起作用-->
-                    <fork>true</fork>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+
 
 </project>

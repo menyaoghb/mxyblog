@@ -37,6 +37,24 @@
 
     <!--新增/修改页-->
     <el-dialog title="图片上传" :visible.sync="dialogFormVisible" style="text-align: center">
+
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="100px"
+      >
+        <el-form-item label="图片标签" align="left">
+          <el-autocomplete
+            class="inline-input"
+            v-model="fileData.fileType"
+            :fetch-suggestions="querySearchIns"
+            placeholder="请输入标签"
+            @select="handleSelect"
+            clearable
+          ></el-autocomplete>
+        </el-form-item>
+        <el-form-item label="图片名称" prop="fileName">
+          <el-input v-model="fileData.fileName"/>
+        </el-form-item>
+      </el-form>
+
       <el-upload
         class="upload-demo"
         ref="upload"
@@ -58,10 +76,11 @@
 </template>
 
 <script>
-  import {getList, addUser, editUser, deleteUser} from '@/api/file/picture/picture'
+  import {getList, addUser, editUser, deleteUser, getFileTypeList} from '@/api/file/picture/picture'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // 分页
   import {validateEmail, validateAccount, validatePassword} from '@/utils/validate'
+  import {getAdviceList} from "@/api/mxy/beautifulWords/beautifulWords";
 
   export default {
     name: 'ComplexTable',
@@ -70,9 +89,11 @@
     filters: {},
     data() {
       return {
+        /*图片标签-新增*/
+        imageType: [],
         /*图片上传-额外参数*/
         fileData: {
-          fileType: '缘分', // 图片类型
+          fileType: '', // 图片类型
           fileName: ''  // 图片名称
         },
         /*待上传图片列表*/
@@ -93,7 +114,7 @@
           pictureName: undefined // 图片名称
         },
         temp: {
-          userId: undefined
+          id: undefined
         },
         dialogFormVisible: false, //控制新增页关闭
         dialogStatus: '', // 判断当前操作是新增还是修改
@@ -105,12 +126,21 @@
       }
     },
     created() {
-      this.getList()
+      this.getList();
+      this.getFileTypeList();
     },
     methods: {
       /*图片上传*/
       submitUpload() {
         this.$refs.upload.submit();
+        /*清空图片列表*/
+        this.fileList = [];
+        this.$message({
+          message: '上传成功',
+          type: 'success'
+        });
+        this.dialogFormVisible = false;
+        this.handleFilter();
       },
       handleRemove(file, fileList) {
         console.log(file, fileList);
@@ -215,6 +245,27 @@
         preUrl.push(url);
         this.srcList = preUrl;
         console.log(preUrl);
+      },
+      handleSelect(item) {
+        console.log(item);
+      },
+      /*输入建议查询*/
+      getFileTypeList() {
+        getFileTypeList(this.temp).then(response => {
+          this.imageType = response.data.typeMap
+          let arr = this.imageType;
+          let type = [];
+          for (let i = 0; i < arr.length; i++) {
+            type.push(arr[i].value);
+          }
+          this.types = type;
+        })
+      },
+      /*输入建议*/
+      querySearchIns(queryString, cb) {
+        const restaurants = this.imageType;
+        const results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+        cb(results);
       }
     }
   }
