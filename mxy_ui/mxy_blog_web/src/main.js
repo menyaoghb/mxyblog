@@ -8,7 +8,7 @@ import './assets/font/iconfont.css'
 import {parseTime} from './utils'
 
 Vue.config.productionTip = false
-Vue.filter('parseTime', (v) => parseTime(v,'{y}-{m}-{d}'))
+Vue.filter('parseTime', (v) => parseTime(v,'{y}-{m}-{d} {h}:{i}:{s}'))
 new Vue({
   router,
   store,

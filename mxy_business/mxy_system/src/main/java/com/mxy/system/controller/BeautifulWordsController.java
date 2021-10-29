@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author 孟小耀
  * @since 2021-08-06
  */
-@Api(value = "优美的句子",tags = "优美的句子")
+@Api(value = "佳句",tags = "佳句")
 @RestController
 @RequestMapping("/system/beautifulWords")
 public class BeautifulWordsController {

@@ -128,15 +128,15 @@
             },
             fetchList() {
                 fetchList().then(res => {
-                    this.postList = res.data.items || []
-                    this.currPage = res.data.page
-                    this.hasNextPage = res.data.hasNextPage
+                    this.postList = res.data.records || []
+                    this.currPage = res.data.total
+                    this.hasNextPage = res.data.total
                 }).catch(err => {
                     console.log(err)
                 })
             },
             loadMore() {
-                fetchList({page: this.currPage + 1}).then(res => {
+                fetchList().then(res => {
                     this.postList = this.postList.concat(res.data.items || [])
                     this.currPage = res.data.page
                     this.hasNextPage = res.data.hasNextPage

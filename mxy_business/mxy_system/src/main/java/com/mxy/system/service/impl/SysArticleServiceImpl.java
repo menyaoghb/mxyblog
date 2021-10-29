@@ -70,4 +70,9 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
         }
     }
 
+    @Override
+    public String getDataById(SysArticleVO sysArticleVO) {
+        SysArticle sysArticle = this.baseMapper.selectById(sysArticleVO.getId());
+        return ServiceResult.success(sysArticle);
+    }
 }

@@ -34,4 +34,9 @@ public interface SysArticleService extends IService<SysArticle> {
     */
     public String delete(SysArticleVO sysArticleVO);
 
+    /**
+     * 获取文章详情
+     */
+    public String getDataById(SysArticleVO sysArticleVO);
+
 }

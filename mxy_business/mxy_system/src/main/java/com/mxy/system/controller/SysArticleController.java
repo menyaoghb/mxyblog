@@ -76,5 +76,13 @@ public class SysArticleController {
         return sysArticleService.delete(sysArticleVO);
         }
 
+
+    @SysLog(module = "获取文章详细")
+    @ApiOperation(value = "获取文章详细")
+    @PostMapping("/getDataById")
+    public String getDataById(@RequestBody SysArticleVO sysArticleVO) {
+        return sysArticleService.getDataById(sysArticleVO);
+    }
+
 }
 

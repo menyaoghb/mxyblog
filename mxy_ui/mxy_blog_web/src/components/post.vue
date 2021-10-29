@@ -13,7 +13,7 @@
                 <i class="iconfont iconmeditor-time"></i> {{post.pubTime | parseTime}}<i v-if="post.isHot" class="iconfont iconfire" style="margin-left: 5px;color: #ff6d6d;"></i>
             </div>-->
             <p class="summary" style="margin-right: 17%;">{{post.summary}}</p>
-            <p class="summary" style="margin-right: 17%;text-align: right;"><i class="iconfont iconeyes"></i>    {{post.viewsCount}}    |    <i class="iconfont iconmeditor-time"></i>    {{post.pubTime | parseTime}}</p>
+            <p class="summary" style="margin-right: 17%;text-align: right;"><i class="iconfont iconeyes"></i>    {{post.pageViews}}    |    <i class="iconfont iconmeditor-time"></i>    {{post.createTime | parseTime}}</p>
 <!--            <footer class="entry-footer">
                 <div class="post-more">
                     <router-link :to="`/article/${post.id}`"><i class="iconfont iconfish-li" style="font-size: 25px;"></i></router-link>

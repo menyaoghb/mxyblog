@@ -39,9 +39,8 @@ service.interceptors.response.use(
     response => {
         const res = response.data
         // store.commit('SET_LOADING',false);
-
         // 如果定制代码不是200，则判定为错误。
-        if (res.code !== 200) {
+        if (res.code != 200) {
             return Promise.reject(new Error(res.message || 'Error'))
         } else {
             return res

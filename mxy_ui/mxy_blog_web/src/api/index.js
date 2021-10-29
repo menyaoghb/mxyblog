@@ -1,10 +1,11 @@
 import request from '@/utils/request'
 
 export function fetchList(params) {
+    const data = {pageSize: 10, currentPage: 1};
     return request({
-        url: '/post/list',
-        method: 'get',
-        params: params
+        url: '/sysArticle/getList',
+        method: 'post',
+        data
     })
 }
 
@@ -54,5 +55,14 @@ export function fetchComment() {
         url: '/comment',
         method: 'get',
         params: {}
+    })
+}
+
+export function getDataById(params) {
+    const data = {id: params};
+    return request({
+        url: '/sysArticle/getDataById',
+        method: 'post',
+        data
     })
 }

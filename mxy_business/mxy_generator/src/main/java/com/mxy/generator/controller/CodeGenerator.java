@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Description 代码生成器
  * @author 孟小耀
+ * @Description 代码生成器
  * @since 2021-17-18
  */
 public class CodeGenerator {
@@ -26,12 +26,12 @@ public class CodeGenerator {
         String schemaName = "mxy_blog";
         // 表名，多个英文逗号分割
         //String[] tableName = new String[] { "sys_role_menu","sys_oper_log","sys_menu","sys_dict_type","sys_dict_data" };
-        String[] tableName = new String[]{"sys_picture"};
+        String[] tableName = new String[]{"tbl_gdzx_apply_delay"};
 
-        String url = "jdbc:mysql://localhost:3306/mxy_blog?characterEncoding=utf8&useUnicode=true&serverTimezone=UTC";
-        String driverName = "com.mysql.cj.jdbc.Driver";
+        String url = "jdbc:mysql://110.42.135.120:3306/mxy_blog?serverTimezone=GMT%2B8";
+        String driverName = "com.mysql.jdbc.Driver";
         String userName = "root";
-        String password = "1234";
+        String password = "Aa123456.";
         String author = "孟小耀";
 
         String parent = "com.mxy";
