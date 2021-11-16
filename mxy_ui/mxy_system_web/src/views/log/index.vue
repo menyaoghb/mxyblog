@@ -30,8 +30,11 @@
       <el-table-column label="请求时间" align="center">
 
         <template slot-scope="{row}">
-          <div slot="reference" class="name-wrapper">
+          <div slot="reference" class="name-wrapper" v-if="row.status=== 0">
             <el-tag size="medium">{{ row.resTime }}ms</el-tag>
+          </div>
+          <div slot="reference" class="name-wrapper" v-if="row.status=== 1">
+            <el-tag size="medium" style="color: red">{{ row.resTime }}ms</el-tag>
           </div>
         </template>
       </el-table-column>
@@ -39,7 +42,7 @@
       <el-table-column prop="operLocation" label="操作地点" align="center"></el-table-column>
       <el-table-column label="操作时间" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.operTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+          <span>{{ row.operTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="180" class-name="small-padding">
@@ -60,7 +63,8 @@
             <el-form-item label="操作模块：">{{ temp.title }}</el-form-item>
             <el-form-item
               label="登录信息："
-            >{{ temp.operName }} / {{ temp.operIp }}</el-form-item>
+            >{{ temp.operName }} / {{ temp.operIp }}
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="请求地址：">{{ temp.operUrl }}</el-form-item>

@@ -8,9 +8,18 @@ import './assets/font/iconfont.css'
 import {parseTime} from './utils'
 
 Vue.config.productionTip = false
-Vue.filter('parseTime', (v) => parseTime(v,'{y}-{m}-{d} {h}:{i}:{s}'))
+Vue.filter('parseTime', (v) => parseTime(v, '{y}-{m}-{d} {h}:{i}:{s}'))
+Vue.filter('unescape', function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.replace(value ? /&(?!#?\w+;)/g : /&/g, '&amp;')
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, "\"")
+        .replace(/&#39;/g, "\'");
+})
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')

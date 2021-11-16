@@ -17,7 +17,7 @@ export function getAdviceList(data) {
   })
 }
 /*新增*/
-export function addUser(data) {
+export function addArticle(data) {
   return request({
     url: '/sysArticle/add',
     method: 'post',
@@ -25,7 +25,7 @@ export function addUser(data) {
   })
 }
 /*修改*/
-export function editUser(data) {
+export function editArticle(data) {
   return request({
     url: '/sysArticle/edit',
     method: 'post',
@@ -33,7 +33,7 @@ export function editUser(data) {
   })
 }
 /*删除*/
-export function deleteUser(data) {
+export function deleteArticle(data) {
   return request({
     url: '/sysArticle/delete',
     method: 'post',

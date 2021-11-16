@@ -37,7 +37,7 @@
     import sectionTitle from '@/components/section-title'
     import comment from '@/components/comment'
     import menuTree from '@/components/menu-tree'
-    import {getDataById,fetchComment, fetchList} from '../api'
+    import {getDataById, fetchComment, fetchList} from '../api'
 
     export default {
         name: 'articles',

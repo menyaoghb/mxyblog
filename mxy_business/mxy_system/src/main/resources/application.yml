@@ -13,7 +13,7 @@ spring:
     datasource:
         driver-class-name: com.mysql.jdbc.Driver
         password: Aa123456.
-        url: jdbc:mysql://110.42.135.120:3306/mxy_blog?serverTimezone=GMT%2B8
+        url: jdbc:mysql://110.42.135.120:3306/mxy_blog?serverTimezone=GMT%2B8&useSSL=false
         username: root
     jackson:
         date-format: yyyy-MM-dd HH:mm:ss

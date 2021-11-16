@@ -2,27 +2,9 @@
   <div class="app-container">
     <!--查询-->
     <div class="filter-container">
-      <el-input v-model="listQuery.beautifulWords" prefix-icon="el-icon-search" placeholder="佳句" style="width: 200px;"
+      <el-input v-model="listQuery.title" prefix-icon="el-icon-search" placeholder="标题" style="width: 200px;"
                 class="filter-item"
                 @keyup.enter.native="handleFilter" clearable/>
-      <el-autocomplete
-        class="filter-item"
-        v-model="listQuery.inspiration"
-        :fetch-suggestions="querySearchIns"
-        placeholder="请输入灵感"
-        style="margin-left: 10px;" prefix-icon="el-icon-search"
-        @select="handleSelect"
-        @keyup.enter.native="handleFilter" clearable
-      ></el-autocomplete>
-      <el-autocomplete
-        class="filter-item"
-        v-model="listQuery.label"
-        :fetch-suggestions="querySearchLab"
-        placeholder="请输入标签"
-        style="margin-left: 10px;" prefix-icon="el-icon-search"
-        @select="handleSelect"
-        @keyup.enter.native="handleFilter" clearable
-      ></el-autocomplete>
       <el-button class="filter-item" style="margin-left: 10px;" icon="el-icon-search" @click="handleFilter" round>
         查询
       </el-button>
@@ -36,33 +18,34 @@
       :data="list"
       style="width: 100%" :row-style="{height:'40px'}"
       :cell-style="{padding:'0px'}" v-loading="listLoading">
-      <el-table-column prop="beautifulWords" label="佳句" align="center"></el-table-column>
-
-
-
-
-      <el-table-column label="灵感" align="center" width="100">
+      <el-table-column type="index" width="50" align="center"/>
+      <el-table-column prop="title" label="标题" align="center"></el-table-column>
+      <el-table-column prop="summary" label="简介" align="center"></el-table-column>
+      <el-table-column prop="pageViews" label="浏览量" align="center"></el-table-column>
+      <el-table-column label="创建时间" align="center">
         <template slot-scope="{row}">
-          <div slot="reference" class="name-wrapper">
-            <el-tag size="medium" class="ins_tag">{{ row.inspiration }}</el-tag>
-          </div>
+          <span>{{ row.createTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="标签" align="center" width="100">
+      <el-table-column label="状态" width="90" class-name="status-col">
         <template slot-scope="{row}">
-          <div slot="reference" class="name-wrapper">
-            <el-tag size="medium" class="lab_tag">{{ row.label }}</el-tag>
-          </div>
+          <el-tooltip v-for="item in statusOptions" v-if="row.status===item.key" :content="item.name" placement="right">
+            <el-switch
+              v-model="row.status"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-value="0"
+              inactive-value="1"
+              @change="handleModifyStatus(row)">
+            </el-switch>
+          </el-tooltip>
         </template>
       </el-table-column>
-
       <el-table-column label="操作" align="center" width="230" class-name="small-padding">
         <template slot-scope="{row,$index}">
           <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
-          <el-popconfirm confirm-button-text='好的' cancel-button-text='不用了' icon="el-icon-info"
-                         icon-color="red" title="确定删除吗？" @onConfirm="handleDelete(row)">
-            <el-button slot="reference" size="mini" type="text">删除</el-button>
-          </el-popconfirm>
+          <el-button size="mini" @click="handleView(row)" type="text">详情</el-button>
+          <el-button size="mini" @click="handleDelete(row)" type="text">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -70,136 +53,53 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.currentPage" :limit.sync="listQuery.pageSize"
                 @pagination="getList"/>
 
-    <!--新增/修改页-->
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="100px"
-      >
-        <el-form-item label="灵感">
-          <el-autocomplete
-            class="inline-input"
-            v-model="temp.inspiration"
-            :fetch-suggestions="querySearchIns"
-            placeholder="请输入灵感"
-            @select="handleSelect"
-            clearable
-          ></el-autocomplete>
-          <div class="tag-group">
-            <el-tag
-              v-for="item in itemsIns"
-              :key="item.value"
-              type=""
-              effect="plain">
-              {{ item.value }}
-            </el-tag>
-          </div>
-        </el-form-item>
-        <el-form-item label="标签">
-          <el-autocomplete
-            class="inline-input"
-            v-model="temp.label"
-            :fetch-suggestions="querySearchLab"
-            placeholder="请输入标签"
-            @select="handleSelect"
-            clearable
-          ></el-autocomplete>
-          <div class="tag-group">
-            <el-tag
-              v-for="item in itemsLab"
-              :key="item.value"
-              type="success"
-              effect="plain">
-              {{ item.value }}
-            </el-tag>
-          </div>
-        </el-form-item>
-        <el-form-item label="佳句" prop="beautifulWords">
-          <el-input class="inline-input" v-model="temp.beautifulWords" autosize type="textarea"/>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogStatus==='add'?createData():updateData()">
-          提交
-        </el-button>
-        <el-button @click="dialogFormVisible = false">
-          取消
-        </el-button>
-      </div>
-    </el-dialog>
-
   </div>
 </template>
 
 <script>
-  import {getList, getAdviceList, addUser, editUser, deleteUser} from '@/api/mxy/beautifulWords/beautifulWords'
+  import {getList, deleteArticle, editArticle, addArticle} from '@/api/web/blog/blog'
   import waves from '@/directive/waves' // waves directive
-  import Pagination from '@/components/Pagination/index' // 分页
+  import Pagination from '@/components/Pagination' // 分页
   import {validateEmail, validateAccount, validatePassword} from '@/utils/validate'
+
+  // 状态
+  const statusOptions = [
+    {key: '0', name: '已发布'},
+    {key: '1', name: '未发布'}
+  ]
 
   export default {
     name: 'ComplexTable',
     components: {Pagination},
     directives: {waves},
+    filters: {},
     data() {
       return {
-        restaurantsIns: [],// 输入建议-灵感
-        restaurantsLab: [],// 输入建议-标签
-        itemsIns: [
-          {type: '', label: '标签一'},
-          {type: 'success', label: '标签二'},
-          {type: 'info', label: '标签三'},
-          {type: 'danger', label: '标签四'},
-          {type: 'warning', label: '标签五'}
-        ],
-        itemsLab: [
-          {type: '', label: '标签一'},
-          {type: 'success', label: '标签二'},
-          {type: 'info', label: '标签三'},
-          {type: 'danger', label: '标签四'},
-          {type: 'warning', label: '标签五'}
-        ],
         list: null, //表格列表数据
         total: 0, // 总条数
         listLoading: true,
         listQuery: {
           currentPage: 1,
           pageSize: 10,
-          beautifulWords: undefined,
-          label: undefined,
-          inspiration: undefined
+          title: undefined
         },
+        statusOptions, // 用户状态
         temp: {
           id: undefined,
-          inspiration: '',
-          label: '',
-          beautifulWords: '',
-          type: '',
-          status: '',
-          createTime: '',
-          updateTime: '',
-          updateUser: '',
-          createUser: '',
-          remark: ''
+          title: '',
+          status: '0'
         },
         dialogFormVisible: false, //控制新增页关闭
-        dialogFormVisibleView: false, //控制详情页关闭
+        dialogFormVisibleView: false, //控制新增页关闭
         dialogStatus: '', // 判断当前操作是新增还是修改
         textMap: {
           add: '新增',
           edit: '编辑'
-        },
-        rules: {
-          type: [
-            {type: 'array', required: true, message: '请至少选择一个类型', trigger: 'change'}
-          ],
-          beautifulWords: [
-            {required: true, message: '请输入优美的句子', trigger: 'blur'}
-          ]
         }
       }
     },
     created() {
-      this.getList();
-      this.getAdviceList();
+      this.getList()
     },
     methods: {
       /*列表查询*/
@@ -211,43 +111,29 @@
           this.listLoading = false
         })
       },
-      /*输入建议查询*/
-      getAdviceList() {
-        getAdviceList(this.temp).then(response => {
-          this.restaurantsIns = response.data.insMap
-          this.restaurantsLab = response.data.labMap
-
-          this.itemsIns = response.data.insMap
-          this.itemsLab = response.data.labMap
-
-        })
-      },
       /*条件查询*/
       handleFilter() {
         this.listQuery.currentPage = 1
-        this.getList();
-        this.getAdviceList();
+        this.getList()
       },
       /*用户状态改变*/
       handleModifyStatus(row) {
-        debugger
-        let text = row.status === "0" ? "启用" : "禁用";
-        this.$confirm('确认要"' + text + '""' + row.userName + '"这个用户吗?', "警告", {
+        let text = row.status === "0" ? "发布" : "下架";
+        this.$confirm('确认要"' + text + '"这个博客吗?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(() => {
-          this.temp.userId = row.userId;
+          this.temp.id = row.id;
           let param = {};
-          param.userId = row.userId;
+          param.id = row.id;
           param.status = row.status;
-          editUser(param).then(() => {
+          editArticle(param).then(() => {
             this.$message({
               message: text + '成功',
               type: 'success'
             });
             this.getList();
-            this.getAdviceList();
           })
         }).catch(() => {
           row.status = row.status === "0" ? "1" : "0";
@@ -257,9 +143,8 @@
       resetTemp() {
         this.temp = {
           id: undefined,
-          inspiration: '',
-          label: '',
-          beautifulWords: ''
+          title: '',
+          status: '0'
         }
       },
       /*新增跳转*/
@@ -275,14 +160,13 @@
       createData() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            addUser(this.temp).then(() => {
+            addArticle(this.temp).then(() => {
               this.$message({
                 message: '新增成功',
                 type: 'success'
               });
               this.dialogFormVisible = false
               this.getList();
-              this.getAdviceList();
             })
           }
         })
@@ -300,55 +184,40 @@
       updateData() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            editUser(this.temp).then(() => {
+            editArticle(this.temp).then(() => {
               this.$message({
                 message: '修改成功',
                 type: 'success'
               });
               this.dialogFormVisible = false
               this.getList();
-              this.getAdviceList();
             })
           }
         })
       },
       /*数据删除*/
       handleDelete(row) {
-        this.temp.id = row.id;
-        deleteUser(this.temp).then(() => {
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          });
-          this.getList();
-          this.getAdviceList();
-        })
+        this.$confirm('是否确认删除用户账号为"' + row.userName + '"的数据?', "警告", {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.temp.id = row.id;
+          deleteArticle(this.temp).then(() => {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            });
+            this.dialogFormVisible = false
+            this.getList();
+          })
+        }).catch(() => {
+        });
       },
       /*数据详情*/
       handleView(row) {
         this.dialogFormVisibleView = true;
         this.temp = row;
-      },
-      /*输入建议*/
-      querySearchIns(queryString, cb) {
-        const restaurants = this.restaurantsIns;
-        const results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-        // 调用 callback 返回建议列表的数据
-        cb(results);
-      },
-      querySearchLab(queryString, cb) {
-        const restaurants = this.restaurantsLab;
-        const results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-        // 调用 callback 返回建议列表的数据
-        cb(results);
-      },
-      createFilter(queryString) {
-        return (restaurant) => {
-          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-        };
-      },
-      handleSelect(item) {
-        console.log(item);
       }
     }
   }
@@ -357,39 +226,5 @@
   /*新增页按钮居中--（写法暂定）*/
   .dialog-footer {
     text-align: center;
-  }
-
-  .word-table-expand {
-    font-size: 0;
-  }
-
-  .word-table-expand label {
-    width: 40px;
-    color: #99a9bf;
-  }
-
-  .word-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 100%;
-  }
-
-  .tag-group {
-    display: inline;
-    margin-left: 10px;
-  }
-
-  .tag-group span {
-    margin-right: 10px;
-  }
-
-  .lab_tag{
-    border-color: #a1ebc2;
-    color: #13ce66;
-  }
-
-  .ins_tag{
-    border-color: #a3d3ff;
-    color: #1890ff;
   }
 </style>
