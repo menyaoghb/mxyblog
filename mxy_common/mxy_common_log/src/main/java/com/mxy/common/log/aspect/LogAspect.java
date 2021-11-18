@@ -98,7 +98,12 @@ public class LogAspect {
             // 主机地址
             sysOperLog.setOperIp(ip);
             // 操作地址
-            String ipName = IpUtils.recordIp("220.248.243.122");
+            String ipName = "";
+            if ("127.0.0.1".equals(ip)) {
+                ipName = IpUtils.recordIp("220.248.243.122");
+            } else {
+                ipName = IpUtils.recordIp(ip);
+            }
             sysOperLog.setOperLocation(ipName);
             // 请求URL
             sysOperLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
@@ -110,7 +115,7 @@ public class LogAspect {
             if (e != null) {
                 sysOperLog.setStatus(Status.FAIL.ordinal());
                 if (!StringUtils.isEmpty(e.getMessage())) {
-                    sysOperLog.setErrorMsg(e.getMessage().substring(0, e.getMessage().length()-1));
+                    sysOperLog.setErrorMsg(e.getMessage().substring(0, e.getMessage().length() - 1));
                 } else {
                     sysOperLog.setErrorMsg("无错误消息");
                 }

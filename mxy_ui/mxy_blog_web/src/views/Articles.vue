@@ -94,7 +94,7 @@
             },
 
             getDataById() {
-                getDataById(1).then(res => {
+                getDataById(this.$route.params.id).then(res => {
                     this.postList = res.data || {}
                 }).catch(err => {
                     console.log(err)

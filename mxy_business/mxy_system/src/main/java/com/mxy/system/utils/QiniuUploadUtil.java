@@ -21,7 +21,7 @@ public class QiniuUploadUtil {
     private static final String accessKey = "A9pDMhTAilBkwGDNwmdBurQhDB4fP2PiM-VL6HDg";
     private static final String secretKey = "gg3-J39diOyaGqkj1haxcUeBrAAmlsgY89oExA6B";
     private static final String bucket = "mxy-blog";
-    private static final String prix = "http://xyule.top/";
+    private static final String prix = "http://mxy.mxyit.com/";
 
     /**
      * @Description: 上传七牛云图片

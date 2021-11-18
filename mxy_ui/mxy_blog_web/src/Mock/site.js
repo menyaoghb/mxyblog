@@ -8,7 +8,7 @@ export default [
             return {
                 code: 20000,
                 data: {
-                    avatar: 'http://xyule.top/1419124227385073665',
+                    avatar: 'http://mxy.mxyit.com/1419124227385073665',
                     slogan: '既然选择了远方，便只顾风雨兼程.',
                     name: 'FZY′blog',
                     domain: 'https://www.fengziy.cn',

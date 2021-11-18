@@ -7,15 +7,19 @@
                 <div style="display: inline-block;vertical-align: middle;">
                     <h1 style="font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;color: #000000;">
                         About</h1>
-                    <p style="margin-top: 20px;line-height: 22px;color: #888;">
+                    <!--<p style="margin-top: 20px;line-height: 22px;color: #888;">
                         The avenue is simple,
                         <br>and the rich soul is from this.
+                    </p>-->
+                    <p style="margin-top: 20px;line-height: 22px;color: #888;">
+                        人生最好的三种状态
+                        <br>不期而遇、不言而喻、不药而愈.
                     </p>
                 </div>
             </div>
             <!--焦点图-->
             <!--            <div class="top-feature" v-if="!hideSlogan"
-                             style="background-image: url('http://xyule.top/home_page.jpg');    height: 600px;">
+                             style="background-image: url('http://mxy.mxyit.com/home_page.jpg');    height: 600px;">
                             <div style="width: 25%;float: left">
 
 
@@ -69,9 +73,9 @@
 
 
             <!--加载更多-->
-            <!--            <div class="more" v-show="hasNextPage">
+                        <div class="more" v-show="hasNextPage">
                             <div class="more-btn" @click="loadMore">More</div>
-                        </div>-->
+                        </div>
         </div>
     </div>
 </template>
