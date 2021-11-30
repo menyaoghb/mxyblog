@@ -18,9 +18,20 @@
       :data="list"
       style="width: 100%" :row-style="{height:'40px'}"
       :cell-style="{padding:'0px'}" v-loading="listLoading">
-      <el-table-column type="index" width="50" align="center"/>
-      <el-table-column prop="title" label="标题" align="center"></el-table-column>
-      <el-table-column prop="summary" label="简介" align="center"></el-table-column>
+      <el-table-column type="expand">
+        <template slot-scope="{row}">
+          <el-form label-position="left" inline class="word-table-expand">
+            <el-form-item label="标题">
+              <span>{{ row.title }}</span>
+            </el-form-item>
+            <el-form-item label="简介">
+              <span>{{ row.summary }}</span>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
+      <el-table-column prop="title" label="标题" show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column prop="summary" label="简介" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="pageViews" label="浏览量" align="center"></el-table-column>
       <el-table-column label="创建时间" align="center">
         <template slot-scope="{row}">

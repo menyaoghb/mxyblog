@@ -2,7 +2,7 @@
   <div>
     <el-upload
       class="avatar-uploader"
-      action="https://jsonplaceholder.typicode.com/posts/"
+      action="https://localhost:8088/sysUserPhoto/uploadPhoto/"
       :show-file-list="false"
       :on-success="handleAvatarSuccess"
       :before-upload="beforeAvatarUpload">

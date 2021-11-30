@@ -1,6 +1,6 @@
 <template>
     <div id="layout-footer">
-        <div class="copyright">© 2021 by 好小一只妖怪</div>
+        <div class="copyright">© 2021 by 好小一只妖怪·<a target="_blank" href="https://beian.miit.gov.cn">皖ICP备2021016442号</a></div>
     </div>
 </template>
 

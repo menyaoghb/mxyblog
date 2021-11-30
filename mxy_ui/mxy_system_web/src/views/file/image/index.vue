@@ -58,7 +58,8 @@
       <el-upload
         class="upload-demo"
         ref="upload"
-        action="http://localhost:7999/system/sysPicture/uploadPicture"
+        action="http://110.42.135.120:8001/system/sysPicture/uploadPicture"
+
         :on-preview="handlePreview"
         :on-remove="handleRemove"
         :data="fileData"

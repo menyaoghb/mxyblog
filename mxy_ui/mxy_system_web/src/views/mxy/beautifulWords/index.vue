@@ -51,7 +51,7 @@
           </el-form>
         </template>
       </el-table-column>
-      <el-table-column prop="beautifulWords" label="佳句" align="center"></el-table-column>
+      <el-table-column prop="beautifulWords" label="佳句" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column label="灵感" align="center" width="100">
         <template slot-scope="{row}">
           <div slot="reference" class="name-wrapper">
