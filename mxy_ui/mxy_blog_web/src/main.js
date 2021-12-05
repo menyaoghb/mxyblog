@@ -7,6 +7,11 @@ import './assets/font/iconfont.css'
 /*require('./Mock')*/
 import {parseTime} from './utils'
 
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
+Vue.use(ElementUI);
+
 Vue.config.productionTip = false
 Vue.filter('parseTime', (v) => parseTime(v, '{y}-{m}-{d} {h}:{i}:{s}'))
 Vue.filter('unescape', function (value) {

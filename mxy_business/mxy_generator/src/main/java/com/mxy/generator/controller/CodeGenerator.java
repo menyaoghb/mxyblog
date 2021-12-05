@@ -26,7 +26,7 @@ public class CodeGenerator {
         String schemaName = "mxy_blog";
         // 表名，多个英文逗号分割
         //String[] tableName = new String[] { "sys_role_menu","sys_oper_log","sys_menu","sys_dict_type","sys_dict_data" };
-        String[] tableName = new String[]{"tbl_gdzx_apply_delay"};
+        String[] tableName = new String[]{"order_monitor_analysis"};
 
         String url = "jdbc:mysql://110.42.135.120:3306/mxy_blog?serverTimezone=GMT%2B8";
         String driverName = "com.mysql.jdbc.Driver";

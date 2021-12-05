@@ -56,7 +56,10 @@
         <template slot-scope="{row,$index}">
           <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
           <el-button size="mini" @click="handleView(row)" type="text">详情</el-button>
-          <el-button size="mini" @click="handleDelete(row)" type="text">删除</el-button>
+          <el-popconfirm confirm-button-text='好的' cancel-button-text='不用了' icon="el-icon-info"
+                         icon-color="red" title="确定删除吗？" @onConfirm="handleDelete(row)">
+            <el-button slot="reference" size="mini" type="text">删除</el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -72,6 +75,7 @@
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // 分页
   import {validateEmail, validateAccount, validatePassword} from '@/utils/validate'
+  import {deleteUser} from "@/api/mxy/beautifulWords/beautifulWords";
 
   // 状态
   const statusOptions = [
@@ -208,22 +212,15 @@
       },
       /*数据删除*/
       handleDelete(row) {
-        this.$confirm('是否确认删除用户账号为"' + row.userName + '"的数据?', "警告", {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.temp.id = row.id;
-          deleteArticle(this.temp).then(() => {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            });
-            this.dialogFormVisible = false
-            this.getList();
-          })
-        }).catch(() => {
-        });
+        this.temp.id = row.id;
+        deleteArticle(this.temp).then(() => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+          this.dialogFormVisible = false
+          this.getList();
+        })
       },
       /*数据详情*/
       handleView(row) {

@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 export function fetchList(params) {
-    const data = {pageSize: 10, currentPage: 1};
+    const data = {pageSize: 5, currentPage: params, status: "0"};
     return request({
         url: '/sysArticle/getList',
         method: 'post',

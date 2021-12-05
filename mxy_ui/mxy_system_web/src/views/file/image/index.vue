@@ -58,8 +58,7 @@
       <el-upload
         class="upload-demo"
         ref="upload"
-        action="http://110.42.135.120:8001/system/sysPicture/uploadPicture"
-
+        action="http://10.0.4.4:8001/system/sysPicture/uploadPicture"
         :on-preview="handlePreview"
         :on-remove="handleRemove"
         :data="fileData"
@@ -102,7 +101,7 @@
         /*控制刷新左侧标签内容*/
         comKey: 0,
         /*标签*/
-        types: ['缘分', '情感', '学习', '励志'],
+        types: [],
         /*预览图*/
         srcList: [],
         /*图片集合*/

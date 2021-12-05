@@ -7,75 +7,24 @@
                 <div style="display: inline-block;vertical-align: middle;">
                     <h1 style="font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;color: #000000;">
                         About</h1>
-                    <!--<p style="margin-top: 20px;line-height: 22px;color: #888;">
-                        The avenue is simple,
-                        <br>and the rich soul is from this.
-                    </p>-->
                     <p style="margin-top: 20px;line-height: 22px;color: #888;">
                         人生最好的三种状态
                         <br>不期而遇、不言而喻、不药而愈.
                     </p>
                 </div>
             </div>
-            <!--焦点图-->
-            <!--            <div class="top-feature" v-if="!hideSlogan"
-                             style="background-image: url('http://mxy.mxyit.com/home_page.jpg');    height: 600px;">
-                            <div style="width: 25%;float: left">
-
-
-
-                                <a>
-                                    <div style="width: 280px;height: 400px;background-color: red;">
-                                        <h1 style="">Our Solutions</h1>
-                                        <p class="paragraph-5">We measure the drivers behind sustainable farmland, helping you make
-                                            decisions that benefit your fields and the planet.<br></p><a href="/solutions"
-                                                                                                         class="button w-button">Learn&nbsp;More</a>
-                                    </div>
-                                </a>
-                            </div>
-                            <div style="width: 25%;float: left">
-                                <a>
-                                    <div style="width: 280px;height: 400px;background-color: red;"></div>
-                                </a>
-                            </div>
-                            <div style="width: 25%;float: left">
-                                <a>
-                                    <div style="width: 280px;height: 400px;background-color: red;"></div>
-                                </a>
-                            </div>
-                            <div style="width: 25%;float: left">
-                                <a>
-                                    <div style="width: 280px;height: 400px;background-color: red;"></div>
-                                </a>
-                            </div>
-
-
-                            <section-title>
-                                <div style="display: flex;align-items: flex-end;">聚焦
-                                    <small-ico></small-ico>
-                                </div>
-                            </section-title>
-                            <div class="feature-content">
-                                <div class="feature-item" v-for="item in features" :key="item.title">
-                                    <Feature :data="item"></Feature>
-                                </div>
-                            </div>
-                        </div>-->
-            <!--文章列表-->
             <div>
                 <main class="site-main" :class="{'search':hideSlogan}" style="width: 100%;">
-                    <!--<section-title v-if="!hideSlogan">推荐</section-title>-->
                     <template v-for="item in postList">
                         <post :post="item" :key="item.id"></post>
                     </template>
                 </main>
             </div>
-
-
-            <!--加载更多-->
-                        <div class="more" v-show="hasNextPage">
-                            <div class="more-btn" @click="loadMore">More</div>
-                        </div>
+            <div style="text-align: center">
+                <pagination v-show="total>0" :total="total" :page.sync="listQuery.currentPage"
+                            :limit.sync="listQuery.pageSize"
+                            @pagination="fetchList"/>
+            </div>
         </div>
     </div>
 </template>
@@ -88,6 +37,7 @@
     import SmallIco from '@/components/small-ico'
     import Quote from '@/components/quote'
     import {fetchFocus, fetchList} from '../api'
+    import Pagination from '@/components/Pagination' // 分页
 
     export default {
         name: 'Home',
@@ -97,7 +47,10 @@
                 features: [],
                 postList: [],
                 currPage: 1,
-                hasNextPage: false
+                total: 0, // 总条数
+                listQuery: {
+                    pageSize: 5, currentPage: 1, status: "0"
+                }
             }
         },
         components: {
@@ -106,7 +59,8 @@
             sectionTitle,
             Post,
             SmallIco,
-            Quote
+            Quote,
+            Pagination
         },
         computed: {
             searchWords() {
@@ -124,26 +78,19 @@
         },
         methods: {
             fetchFocus() {
-                fetchFocus().then(res => {
-                    this.features = res.data || []
+                fetchList(this.listQuery.currentPage).then(res => {
+                    this.postList = res.data.records || []
+                    this.total = res.data.total
                 }).catch(err => {
                     console.log(err)
                 })
             },
             fetchList() {
-                fetchList().then(res => {
+                fetchList(this.listQuery.currentPage).then(res => {
                     this.postList = res.data.records || []
-                    this.currPage = res.data.total
-                    this.hasNextPage = res.data.total
+                    this.total = res.data.total
                 }).catch(err => {
                     console.log(err)
-                })
-            },
-            loadMore() {
-                fetchList().then(res => {
-                    this.postList = this.postList.concat(res.data.items || [])
-                    this.currPage = res.data.page
-                    this.hasNextPage = res.data.hasNextPage
                 })
             }
         },

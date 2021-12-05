@@ -1,39 +1,14 @@
 <template>
     <article class="post post-list">
         <div class="post-entry">
-            <!--<div class="feature">
-                <router-link :to="`/article/${post.id}`">
-                    <img :src="post.banner"/>
-                </router-link>
-            </div>-->
             <h1 class="entry-title">
                 <router-link :to="`/article/${post.id}`"><!--<span v-if="post.isTop" style="color:#ff6d6d;font-weight:600">[置顶] </span>-->{{post.title}}</router-link>
             </h1>
-<!--            <div class="p-time">
-                <i class="iconfont iconmeditor-time"></i> {{post.pubTime | parseTime}}<i v-if="post.isHot" class="iconfont iconfire" style="margin-left: 5px;color: #ff6d6d;"></i>
-            </div>-->
             <p class="summary" style="margin-right: 17%;">{{post.summary}}</p>
+<!--
             <p class="summary" style="margin-right: 17%;text-align: right;"><i class="iconfont iconeyes"></i>    {{post.pageViews}}    |    <i class="iconfont iconmeditor-time"></i>    {{post.createTime | parseTime}}</p>
-<!--            <footer class="entry-footer">
-                <div class="post-more">
-                    <router-link :to="`/article/${post.id}`"><i class="iconfont iconfish-li" style="font-size: 25px;"></i></router-link>
-                </div>
-&lt;!&ndash;                <div class="info-meta">
-                    <div class="comnum">
-                        <span>
-                            <i class="iconfont iconcomment"></i>
-                            <a href="https://zhebk.cn/Web/Akina.html">{{post.commentsCount}} 条评论</a>
-                        </span>
-                    </div>
-                    <div class="views">
-                        <span><i class="iconfont iconeyes"></i>{{post.viewsCount}} 热度</span>
-                    </div>
-                </div>&ndash;&gt;
-            </footer>-->
+-->
         </div>
-<!--        <div>
-            第一篇文章
-        </div>-->
         <hr/>
     </article>
 </template>

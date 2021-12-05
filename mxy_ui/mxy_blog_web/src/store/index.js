@@ -44,13 +44,13 @@ const actions = {
             if (state.websiteInfo){
                 resolve(state.websiteInfo)
             }else {
-                fetchSiteInfo().then(res => {
+                /*fetchSiteInfo().then(res => {
                     let data = res.data || {}
                     commit('SET_SITE_INFO',data);
                     resolve(data);
                 }).catch(err => {
                     resolve({});
-                })
+                })*/
             }
         })
     },

@@ -33,8 +33,8 @@ public class BeautifulWordsController {
      * @author 孟小耀
      * @date 2021-08-06
      */
-    @SysLog(module = "优美的句子列表")
-    @ApiOperation(value = "获取优美的句子列表")
+    @SysLog(module = "佳句列表")
+    @ApiOperation(value = "获取佳句列表")
     @PostMapping("/getList")
     public String getList(@RequestBody BeautifulWordsVO beautifulWordsVO) {
         return beautifulWordsService.getList(beautifulWordsVO);
@@ -45,8 +45,8 @@ public class BeautifulWordsController {
      * @author 孟小耀
      * @date 2021-08-06
      */
-    @SysLog(module = "新增优美的句子", operType = OperType.ADD)
-    @ApiOperation(value = "新增优美的句子")
+    @SysLog(module = "新增佳句", operType = OperType.ADD)
+    @ApiOperation(value = "新增佳句")
     @PostMapping("/add")
     public String add(@RequestBody BeautifulWordsVO beautifulWordsVO) {
         return beautifulWordsService.add(beautifulWordsVO);
@@ -57,8 +57,8 @@ public class BeautifulWordsController {
      * @author 孟小耀
      * @date 2021-08-06
      */
-    @SysLog(module = "编辑优美的句子", operType = OperType.UPDATE)
-    @ApiOperation(value = "编辑优美的句子")
+    @SysLog(module = "编辑佳句", operType = OperType.UPDATE)
+    @ApiOperation(value = "编辑佳句")
     @PostMapping("/edit")
     public String edit(@RequestBody BeautifulWordsVO beautifulWordsVO) {
         return beautifulWordsService.edit(beautifulWordsVO);
@@ -69,8 +69,8 @@ public class BeautifulWordsController {
      * @author 孟小耀
      * @date 2021-08-06
      */
-    @SysLog(module = "删除优美的句子", operType = OperType.DELETE)
-    @ApiOperation(value = "删除优美的句子")
+    @SysLog(module = "删除佳句", operType = OperType.DELETE)
+    @ApiOperation(value = "删除佳句")
     @PostMapping("/delete")
     public String delete(@RequestBody BeautifulWordsVO beautifulWordsVO) {
         return beautifulWordsService.delete(beautifulWordsVO);
@@ -81,7 +81,6 @@ public class BeautifulWordsController {
      * @author 孟小耀
      * @date 2021-08-06
      */
-    @SysLog(module = "佳句-标签/来源列表")
     @ApiOperation(value = "佳句-标签/来源列表")
     @PostMapping("/getAdviceList")
     public String getAdviceList(@RequestBody BeautifulWordsVO beautifulWordsVO) {

@@ -44,11 +44,11 @@
         },
         methods: {
             fetchCategory() {
-                fetchCategory().then(res => {
+                /*fetchCategory().then(res => {
                     this.category = res.data
                 }).catch(err => {
                     console.log(err)
-                })
+                })*/
             }
         }
     }

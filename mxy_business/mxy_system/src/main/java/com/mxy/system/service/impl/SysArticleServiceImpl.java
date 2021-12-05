@@ -10,8 +10,10 @@ import com.mxy.system.entity.vo.SysArticleVO;
 import com.mxy.system.mapper.SysArticleMapper;
 import com.mxy.system.service.SysArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * <p>
@@ -27,6 +29,10 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
     @Override
     public String getList(SysArticleVO sysArticleVO) {
         QueryWrapper queryWrapper = new QueryWrapper();
+        if (StringUtils.isNotEmpty(sysArticleVO.getStatus())){
+            queryWrapper.eq("status",sysArticleVO.getStatus());
+        }
+        queryWrapper.orderByDesc("create_time");
         Page<SysArticle> page = new Page<>();
         page.setCurrent(sysArticleVO.getCurrentPage());
         page.setSize(sysArticleVO.getPageSize());
@@ -38,6 +44,7 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
     public String add(SysArticleVO sysArticleVO) {
         SysArticle sysArticle = new SysArticle();
         BeanUtils.copyProperties(sysArticleVO, sysArticle);
+        HtmlUtils.htmlEscapeHex(sysArticle.getContent());
         Boolean result = sysArticle.insert();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.INSERT_SUCCESS);
@@ -73,6 +80,7 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
     @Override
     public String getDataById(SysArticleVO sysArticleVO) {
         SysArticle sysArticle = this.baseMapper.selectById(sysArticleVO.getId());
+        sysArticle.setContent(HtmlUtils.htmlUnescape(sysArticle.getContent()));
         return ServiceResult.success(sysArticle);
     }
 }

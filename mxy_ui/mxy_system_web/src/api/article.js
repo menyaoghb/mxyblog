@@ -39,3 +39,10 @@ export function updateArticle(data) {
     data
   })
 }
+export function addArticle(data) {
+  return request({
+    url: '/sysArticle/add',
+    method: 'post',
+    data
+  })
+}
