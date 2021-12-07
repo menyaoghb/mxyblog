@@ -2,7 +2,7 @@
   <div>
     <el-upload
       class="avatar-uploader"
-      action="https://localhost:8088/sysUserPhoto/uploadPhoto/"
+      action="https://jsonplaceholder.typicode.com/posts/"
       :show-file-list="false"
       :on-success="handleAvatarSuccess"
       :before-upload="beforeAvatarUpload">
@@ -18,7 +18,8 @@
   export default {
     data() {
       return {
-        imageUrl: store.getters.avatar
+        imageUrl: store.getters.avatar,
+        userId: store.getters.userId
       };
     },
     methods: {
@@ -26,7 +27,7 @@
         this.imageUrl = URL.createObjectURL(file.raw);
         // 调用上传头像接口
         let formData = new FormData();
-        formData.append("userId","1");
+        formData.append("userId",this.userId);
         formData.append("imageUrl", file.raw);
         uploadPhoto(formData).then(() => {
           this.$message({
