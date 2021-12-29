@@ -26,9 +26,9 @@ public class CodeGenerator {
         String schemaName = "mxy_blog";
         // 表名，多个英文逗号分割
         //String[] tableName = new String[] { "sys_role_menu","sys_oper_log","sys_menu","sys_dict_type","sys_dict_data" };
-        String[] tableName = new String[]{"order_monitor_analysis"};
+        String[] tableName = new String[]{"tbl_gdzx_sheet_dispatch_record"};
 
-        String url = "jdbc:mysql://110.42.135.120:3306/mxy_blog?serverTimezone=GMT%2B8";
+        String url = "jdbc:mysql://110.42.135.120:3306/mxy_blog?serverTimezone=GMT%2B8&useSSL=false";
         String driverName = "com.mysql.jdbc.Driver";
         String userName = "root";
         String password = "Aa123456.";
@@ -43,8 +43,8 @@ public class CodeGenerator {
         String mapperXmlPath = "mapper.xml";
         String mapperPath = "mapper";
 
-        String path = "G:\\B\\mxy_blog\\mxy_business\\mxy_system";
-        String genPath = "G:\\B\\mxy_blog\\mxy_common\\mxy_common_core";
+        String path = "D:\\work\\my\\mxy_blog\\mxy_blog\\mxy_business\\mxy_system";
+        String genPath = "D:\\work\\my\\mxy_blog\\mxy_blog\\mxy_common\\mxy_common_core";
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
