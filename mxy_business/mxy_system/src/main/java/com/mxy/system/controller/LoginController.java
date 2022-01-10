@@ -6,13 +6,20 @@ import com.mxy.common.log.annotation.SysLog;
 import com.mxy.common.core.entity.SysUser;
 import com.mxy.common.log.enums.OperType;
 import com.mxy.system.entity.vo.SysUserVO;
+import com.mxy.system.security.common.config.JWTConfig;
+import com.mxy.system.security.common.util.JWTTokenUtil;
+import com.mxy.system.security.common.util.ResultUtil;
+import com.mxy.system.security.security.entity.SelfUserEntity;
 import com.mxy.system.service.impl.SysUserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +32,7 @@ import java.util.Map;
 @RestController
 @CrossOrigin
 @Slf4j
-@RequestMapping("/system")
+@RequestMapping("/login/system")
 public class LoginController {
 
     @Autowired
@@ -41,7 +48,7 @@ public class LoginController {
     @SysLog(module = "登录",operType = OperType.LOGIN)
     @ApiOperation(value = "用户登录", notes = "用户登录")
     @PostMapping("/login")
-    public String login(@RequestBody SysUserVO sysUserVO) {
+    public String login(HttpServletRequest request, HttpServletResponse response, Authentication authentication,@RequestBody SysUserVO sysUserVO) {
         String userName = sysUserVO.getUserName();
         String password = sysUserVO.getPassword();
         // 查询用户是否存在
@@ -52,11 +59,20 @@ public class LoginController {
         if (sysUser == null) {
             return ServiceResult.error();
         }
-        Map map = new HashMap();
-        map.put("token", "admin");
-        map.put("name", userName);
+
+        // 组装JWT
+        SelfUserEntity selfUserEntity =  (SelfUserEntity) authentication.getPrincipal();
+        String token = JWTTokenUtil.createAccessToken(selfUserEntity);
+        token = JWTConfig.tokenPrefix + token;
+        // 封装返回参数
+        Map<String,Object> resultData = new HashMap<>();
+        resultData.put("code","200");
+        resultData.put("msg", "登录成功");
+        resultData.put("token",token);
+        resultData.put("name", userName);
+        ResultUtil.responseJson(response,resultData);
         log.info("登录成功");
-        return ServiceResult.success(map);
+        return ServiceResult.success(resultData);
     }
 
     /**

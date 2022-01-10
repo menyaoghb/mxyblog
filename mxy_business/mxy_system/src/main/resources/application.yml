@@ -24,3 +24,15 @@ spring:
         multipart:
             max-file-size: 10MB
             max-request-size: 100MB
+# JWT配置
+jwt:
+    # 密匙KEY
+    secret: MXYSecret
+    # HeaderKEY
+    tokenHeader: Authorization
+    # Token前缀字符
+    tokenPrefix: Mxy-
+    # 过期时间 单位秒 1天后过期=86400 7天后过期=604800
+    expiration: 86400
+    # 配置不需要认证的接口
+    antMatchers: /index/**,/login/**,/favicon.ico
