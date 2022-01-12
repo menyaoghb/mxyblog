@@ -21,7 +21,7 @@ public class SelfUserEntity implements Serializable, UserDetails {
 	/**
 	 * 用户ID
 	 */
-	private Long userId;
+	private String userId;
 	/**
 	 * 用户名
 	 */
@@ -62,6 +62,12 @@ public class SelfUserEntity implements Serializable, UserDetails {
 	public Collection<GrantedAuthority> getAuthorities() {
 		return authorities;
 	}
+
+	@Override
+	public String getUsername() {
+		return null;
+	}
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return isAccountNonExpired;

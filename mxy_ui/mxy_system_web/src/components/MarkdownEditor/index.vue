@@ -1,3 +1,4 @@
+<!--
 <template>
   <div :id="id" />
 </template>
@@ -116,3 +117,4 @@ export default {
   }
 }
 </script>
+-->

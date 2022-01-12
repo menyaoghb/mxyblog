@@ -25,7 +25,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @Param  userId 用户ID
      * @Return List<SysRoleEntity> 角色名集合
      */
-    List<SysRole> selectSysRoleByUserId(Long userId);
+    List<SysRole> selectSysRoleByUserId(String userId);
     /**
      * 通过用户ID查询权限集合
      * @Author Mxy
@@ -33,6 +33,6 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @Param  userId 用户ID
      * @Return List<SysMenuEntity> 角色名集合
      */
-    List<SysMenu> selectSysMenuByUserId(Long userId);
+    List<SysMenu> selectSysMenuByUserId(String userId);
 
 }

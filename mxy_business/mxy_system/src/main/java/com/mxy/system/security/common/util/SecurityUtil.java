@@ -25,7 +25,7 @@ public class SecurityUtil {
     /**
      * 获取当前用户ID
      */
-    public static Long getUserId(){
+    public static String getUserId(){
         return getUserInfo().getUserId();
     }
     /**

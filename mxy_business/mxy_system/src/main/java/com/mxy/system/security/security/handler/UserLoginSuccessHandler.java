@@ -1,5 +1,7 @@
 package com.mxy.system.security.security.handler;
 
+import com.mxy.common.log.annotation.SysLog;
+import com.mxy.common.log.enums.OperType;
 import com.mxy.system.security.common.config.JWTConfig;
 import com.mxy.system.security.common.util.JWTTokenUtil;
 import com.mxy.system.security.common.util.ResultUtil;
@@ -27,7 +29,9 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
      * @Author Mxy
      * @CreateTime 2022/01/10 21:20
      */
+
     @Override
+    @SysLog(module = "新登录",operType = OperType.LOGIN)
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
         // 组装JWT
         SelfUserEntity selfUserEntity =  (SelfUserEntity) authentication.getPrincipal();

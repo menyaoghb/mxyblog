@@ -35,8 +35,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (StringUtils.isNotEmpty(sysUserVO.getNickName())) {
             queryWrapper.like("nick_name", sysUserVO.getNickName());
         }
-        if (StringUtils.isNotEmpty(sysUserVO.getUserName())) {
-            queryWrapper.eq("user_name", sysUserVO.getUserName());
+        if (StringUtils.isNotEmpty(sysUserVO.getUsername())) {
+            queryWrapper.eq("username", sysUserVO.getUsername());
         }
         Page<SysUser> page = new Page<>();
         page.setCurrent(sysUserVO.getCurrentPage());
@@ -85,13 +85,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * 根据用户名查询实体
      * @Author Mxy
      * @CreateTime 2022/01/14 16:30
-     * @Param  username 用户名
+     * @Param  userName 用户名
      * @Return SysUserEntity 用户实体
      */
     @Override
-    public SysUser selectUserByName(String username) {
+    public SysUser selectUserByName(String userName) {
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(SysUser::getUserName,username);
+        queryWrapper.lambda().eq(SysUser::getUsername,userName);
         return this.baseMapper.selectOne(queryWrapper);
     }
     /**
@@ -102,7 +102,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @Return List<SysRoleEntity> 角色名集合
      */
     @Override
-    public List<SysRole> selectSysRoleByUserId(Long userId) {
+    public List<SysRole> selectSysRoleByUserId(String userId) {
         return this.baseMapper.selectSysRoleByUserId(userId);
     }
 
@@ -114,7 +114,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @Return List<SysMenuEntity> 角色名集合
      */
     @Override
-    public List<SysMenu> selectSysMenuByUserId(Long userId) {
+    public List<SysMenu> selectSysMenuByUserId(String userId) {
         return this.baseMapper.selectSysMenuByUserId(userId);
     }
 

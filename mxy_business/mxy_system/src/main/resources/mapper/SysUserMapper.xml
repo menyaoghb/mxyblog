@@ -5,7 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysUser">
         <id column="user_id" property="userId" />
-        <result column="user_name" property="userName" />
+        <result column="user_name" property="username" />
         <result column="nick_name" property="nickName" />
         <result column="user_type" property="userType" />
         <result column="email" property="email" />
@@ -30,8 +30,8 @@
     <if test="userId!=null and userId!=''">
         AND user_id = #{userId}
     </if>
-    <if test="userName!=null and userName!=''">
-        AND user_name = #{userName}
+    <if test="username!=null and username!=''">
+        AND username = #{username}
     </if>
     <if test="nickName!=null and nickName!=''">
         AND nick_name = #{nickName}
@@ -85,7 +85,7 @@
 
 
     <!-- 查询用户的所有权限 -->
-    <select id="selectSysMenuByUserId" resultType="com.mxy.common.core.entity.SysMenu" parameterType="long">
+    <select id="selectSysMenuByUserId" resultType="com.mxy.common.core.entity.SysMenu">
         SELECT DISTINCT m.* FROM sys_user_role ur
                                      LEFT JOIN sys_role_menu rm ON ur.role_id = rm.role_id
                                      LEFT JOIN sys_menu m ON rm.menu_id = m.menu_id
@@ -93,7 +93,7 @@
     </select>
 
     <!-- 查询用户所有角色 -->
-    <select id="selectSysRoleByUserId" resultType="com.mxy.common.core.entity.SysRole" parameterType="long">
+    <select id="selectSysRoleByUserId" resultType="com.mxy.common.core.entity.SysRole">
         SELECT sr.* FROM sys_role sr
                              LEFT JOIN sys_user_role se ON se.role_id = sr.role_id
         WHERE se.user_id = #{userId}

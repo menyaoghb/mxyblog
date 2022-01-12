@@ -34,7 +34,7 @@ public class Test {
     public void contextLoads() {
         // 注册用户
         SysUser sysUserEntity = new SysUser();
-        sysUserEntity.setUserName("mxy");
+        sysUserEntity.setUsername("mxy");
         sysUserEntity.setPassword(bCryptPasswordEncoder.encode("123456"));
         // 设置用户状态
         sysUserEntity.setStatus("NORMAL");

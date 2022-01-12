@@ -24,13 +24,13 @@ public class SelfUserDetailsService implements UserDetailsService {
      * 查询用户信息
      * @Author Mxy
      * @CreateTime 2022/01/13 17:23
-     * @Param  username  用户名
+     * @Param  userName  用户名
      * @Return UserDetails SpringSecurity用户信息
      */
     @Override
-    public SelfUserEntity loadUserByUsername(String username) throws UsernameNotFoundException {
+    public SelfUserEntity loadUserByUsername(String userName) throws UsernameNotFoundException {
         // 查询用户信息
-        SysUser sysUserEntity =sysUserService.selectUserByName(username);
+        SysUser sysUserEntity =sysUserService.selectUserByName(userName);
         if (sysUserEntity!=null){
             // 组装参数
             SelfUserEntity selfUserEntity = new SelfUserEntity();

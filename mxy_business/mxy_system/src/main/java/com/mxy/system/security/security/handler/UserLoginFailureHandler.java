@@ -1,5 +1,7 @@
 package com.mxy.system.security.security.handler;
 
+import com.mxy.common.log.annotation.SysLog;
+import com.mxy.common.log.enums.OperType;
 import com.mxy.system.security.common.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,6 +27,7 @@ public class UserLoginFailureHandler implements AuthenticationFailureHandler {
      * @Author Mxy
      * @CreateTime 2022/01/10 21:20
      */
+    @SysLog(module = "新登录失败",operType = OperType.ERROR)
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception){
         // 这些对于操作的处理类可以根据不同异常进行不同处理

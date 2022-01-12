@@ -60,5 +60,10 @@ public enum OperType {
     /**
      * 登出
      */
-    LOGOUT
+    LOGOUT,
+
+    /**
+     * 错误
+     */
+    ERROR
 }

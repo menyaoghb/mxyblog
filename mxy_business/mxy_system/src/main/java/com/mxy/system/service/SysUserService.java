@@ -42,10 +42,10 @@ public interface SysUserService extends IService<SysUser> {
      * 根据用户名查询实体
      * @Author Mxy
      * @CreateTime 2022/01/14 16:30
-     * @Param  username 用户名
+     * @Param  userName 用户名
      * @Return SysUserEntity 用户实体
      */
-    SysUser selectUserByName(String username);
+    SysUser selectUserByName(String userName);
     /**
      * 根据用户ID查询角色集合
      * @Author Mxy
@@ -53,7 +53,7 @@ public interface SysUserService extends IService<SysUser> {
      * @Param  userId 用户ID
      * @Return List<SysRoleEntity> 角色名集合
      */
-    List<SysRole> selectSysRoleByUserId(Long userId);
+    List<SysRole> selectSysRoleByUserId(String userId);
     /**
      * 根据用户ID查询权限集合
      * @Author Mxy
@@ -61,6 +61,6 @@ public interface SysUserService extends IService<SysUser> {
      * @Param  userId 用户ID
      * @Return List<SysMenuEntity> 角色名集合
      */
-    List<SysMenu> selectSysMenuByUserId(Long userId);
+    List<SysMenu> selectSysMenuByUserId(String userId);
 
 }

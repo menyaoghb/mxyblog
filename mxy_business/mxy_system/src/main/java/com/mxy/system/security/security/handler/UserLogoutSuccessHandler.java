@@ -1,5 +1,7 @@
 package com.mxy.system.security.security.handler;
 
+import com.mxy.common.log.annotation.SysLog;
+import com.mxy.common.log.enums.OperType;
 import com.mxy.system.security.common.util.ResultUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,11 +26,12 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
      * @Author Mxy
      * @CreateTime 2022/01/10 21:20
      */
+    @SysLog(module = "新注销",operType = OperType.LOGOUT)
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
         Map<String,Object> resultData = new HashMap<>();
         resultData.put("code","200");
-        resultData.put("msg", "登出成功");
+        resultData.put("msg", "注销成功");
         SecurityContextHolder.clearContext();
         ResultUtil.responseJson(response,ResultUtil.resultSuccess(resultData));
     }

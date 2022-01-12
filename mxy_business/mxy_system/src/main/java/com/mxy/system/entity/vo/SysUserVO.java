@@ -23,7 +23,7 @@ public class SysUserVO extends BaseVO<SysUser> {
     /**
      * 用户账号
      */
-    private String userName;
+    private String username;
     /**
      * 用户昵称
      */

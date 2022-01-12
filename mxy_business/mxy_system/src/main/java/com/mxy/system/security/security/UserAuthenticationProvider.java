@@ -1,6 +1,8 @@
 package com.mxy.system.security.security;
 
 import com.mxy.common.core.entity.SysRole;
+import com.mxy.common.log.annotation.SysLog;
+import com.mxy.common.log.enums.OperType;
 import com.mxy.system.security.security.entity.SelfUserEntity;
 import com.mxy.system.security.security.service.SelfUserDetailsService;
 import com.mxy.system.service.SysUserService;
@@ -32,6 +34,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     private SelfUserDetailsService selfUserDetailsService;
     @Autowired
     private SysUserService sysUserService;
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         // 获取表单输入中返回的用户名
@@ -48,7 +51,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("密码不正确");
         }
         // 还可以加一些其他信息的判断，比如用户账号已停用等判断
-        if (userInfo.getStatus().equals("PROHIBIT")){
+        if (userInfo.getStatus().equals("1")){
             throw new LockedException("该用户已被冻结");
         }
         // 角色集合
