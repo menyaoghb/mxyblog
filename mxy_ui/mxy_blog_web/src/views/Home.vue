@@ -3,7 +3,7 @@
         <banner isHome="true"></banner>
         <div class="site-content animate" style="width: 100%;">
             <!--通-->
-            <div style="margin-top: 100px;    text-align: center;">
+            <div style="margin-top: 60px;    text-align: center;">
                 <div style="display: inline-block;vertical-align: middle;">
                     <h1 style="font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;color: #000000;">
                         About</h1>
@@ -146,7 +146,7 @@
     }
 
     .site-main {
-        padding-top: 80px;
+        padding-top: 30px;
 
     &
     .search {

@@ -65,8 +65,9 @@ const actions = {
         for (let i = 0; i < data.authorities.length; i++) {
           roles.push(data.authorities[i].authority);
         }
+        data.roles = roles;
         commit('SET_NAME', data.username)
-        commit('SET_ROLES', roles)
+        commit('SET_ROLES', data.roles)
         commit('SET_AVATAR', "")
         commit('SET_USERID', data.userId)
         resolve(data)

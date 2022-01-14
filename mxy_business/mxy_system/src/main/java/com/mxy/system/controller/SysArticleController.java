@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "文章",tags = "文章")
 @RestController
-@RequestMapping("/system/sysArticle")
+@RequestMapping("/sysArticle")
 public class SysArticleController {
 
     @Autowired

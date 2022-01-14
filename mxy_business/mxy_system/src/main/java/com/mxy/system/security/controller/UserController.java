@@ -39,9 +39,9 @@ public class UserController {
     @RequestMapping(value = "/info",method = RequestMethod.GET)
     public Map<String,Object> userLogin(){
         Map<String,Object> result = new HashMap<>();
-        //SelfUserEntity userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
+        SelfUserEntity userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
         result.put("title","用户信息");
-        result.put("data","");
+        result.put("data",userDetails);
         return ResultUtil.resultSuccess(result);
 
     }

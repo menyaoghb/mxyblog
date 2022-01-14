@@ -121,200 +121,7 @@ export const constantRoutes = [
         meta: {title: 'Profile', icon: 'user', noCache: true}
       }
     ]
-  },
-  {
-    path: '/user',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/user/index'),
-        name: 'user',
-        meta: {title: '用户管理', icon: 'el-icon-apple'}
-      }
-    ]
-  },
-  {
-    path: '/role',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/role/index'),
-        name: 'user',
-        meta: {title: '角色管理', icon: 'el-icon-cherry'}
-      }
-    ]
-  },
-  {
-    path: '/web',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'configPages',
-    meta: {
-      title: '网站管理',
-      icon: 'el-icon-orange'
-    },
-    children: [
-      {
-        path: 'webView',
-        component: () => import('@/views/config/sysConfig/index'),
-        name: 'sysConfigName',
-        meta: {title: '首页预览', icon: 'el-icon-lollipop'}
-      },
-      {
-        path: 'createBlog',
-        component: () => import('@/views/web/blog/create'),
-        name: 'sysConfigName',
-        meta: {title: '创建博客', icon: 'el-icon-lollipop'}
-      },
-      {
-        path: 'blogList',
-        component: () => import('@/views/web/blog/index'),
-        name: 'sysConfigName',
-        meta: {title: '博客管理', icon: 'el-icon-lollipop'}
-      },
-      {
-        path: 'webConfig',
-        component: () => import('@/views/config/sysConfig/index'),
-        name: 'sysConfigName',
-        meta: {title: '网站配置', icon: 'el-icon-lollipop'}
-      }
-    ]
-  },
-  {
-    path: '/file',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'filePages',
-    meta: {
-      title: '文件管理',
-      icon: 'el-icon-orange'
-    },
-    children: [
-      {
-        path: 'filePath',
-        component: () => import('@/views/file/file/index'),
-        name: 'fileName',
-        meta: {title: '文件管理', icon: 'el-icon-lollipop'}
-      },
-      {
-        path: 'imagePath',
-        component: () => import('@/views/file/image/index'),
-        name: 'imageName',
-        meta: {title: '图片管理', icon: 'el-icon-lollipop'}
-      }
-    ]
-  },
-  {
-    path: '/menu',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/menu/index'),
-        name: 'menu',
-        meta: {title: '菜单管理', icon: 'el-icon-grape'}
-      }
-    ]
-  }, {
-    path: '/dict',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'DictPages',
-    meta: {
-      title: '字典管理',
-      icon: 'el-icon-orange'
-    },
-    children: [
-      {
-        path: 'type',
-        component: () => import('@/views/dict/type/index'),
-        name: 'DictType',
-        meta: {title: '字典类型', icon: 'el-icon-lollipop'}
-      },
-      {
-        path: 'data',
-        component: () => import('@/views/dict/data/index'),
-        name: 'DictData',
-        meta: {title: '字典数据', icon: 'el-icon-sugar'}
-      }
-    ]
-  },
-  {
-    path: '/beautifulWords',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/mxy/beautifulWords/index'),
-        name: 'beautifulWords',
-        meta: {title: '佳句记忆', icon: 'el-icon-grape'}
-      }
-    ]
-  },
-  {
-    path: '/log',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/log/index'),
-        name: 'log',
-        meta: {title: '操作日志', icon: 'el-icon-watermelon'}
-      }
-    ]
-  },
-  {
-    path: '/config',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'configPages',
-    meta: {
-      title: '系统配置',
-      icon: 'el-icon-orange'
-    },
-    children: [
-      {
-        path: 'sysConfig',
-        component: () => import('@/views/config/sysConfig/index'),
-        name: 'sysConfigName',
-        meta: {title: '平台参数', icon: 'el-icon-lollipop'}
-      }
-    ]
-  },
-  {
-    path: '/test',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'DictPages',
-    meta: {
-      title: '测试页面',
-      icon: 'el-icon-orange'
-    },
-    children: [
-      {
-        path: 'test',
-        component: () => import('@/views/test/index'),
-        name: 'DictType',
-        meta: {title: '报表一', icon: 'el-icon-lollipop'}
-      },
-      {
-        path: 'test2',
-        component: () => import('@/views/test/index2'),
-        name: 'DictData',
-        meta: {title: '报表二', icon: 'el-icon-sugar'}
-      },
-      {
-        path: 'home',
-        component: () => import('@/views/index/home'),
-        name: 'home',
-        meta: {title: '欢迎页', icon: 'el-icon-loading'}
-      }
-    ]
-  },
-  // 404 page must be placed at the end !!!
-  {path: '*', redirect: '/404', hidden: true}
+  }
 ]
 
 /**
@@ -322,6 +129,260 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  /*  {
+      path: '/permission',
+      component: Layout,
+      redirect: '/permission/page',
+      alwaysShow: true, // will always show the root menu
+      name: 'Permission',
+      meta: {
+        title: 'Permission',
+        icon: 'lock',
+        roles: ['admin', 'editor'] // you can set roles in root nav
+      },
+      children: [
+        {
+          path: 'page',
+          component: () => import('@/views/permission/page'),
+          name: 'PagePermission',
+          meta: {
+            title: 'Page Permission',
+            roles: ['admin'] // or you can only set roles in sub nav
+          }
+        },
+        {
+          path: 'directive',
+          component: () => import('@/views/permission/directive'),
+          name: 'DirectivePermission',
+          meta: {
+            title: 'Directive Permission'
+            // if do not set roles, means: this page does not require permission
+          }
+        },
+        {
+          path: 'role',
+          component: () => import('@/views/permission/role'),
+          name: 'RolePermission',
+          meta: {
+            title: 'Role Permission',
+            roles: ['admin']
+          }
+        }
+      ]
+    },*/
+
+  /*  {
+      path: '/icon',
+      component: Layout,
+      children: [
+        {
+          path: 'index',
+          component: () => import('@/views/icons/index'),
+          name: 'Icons',
+          meta: { title: 'Icons', icon: 'icon', noCache: true }
+        }
+      ]
+    },*/
+
+  /** when your routing map is too long, you can split it into small modules **/
+  /*  componentsRouter,
+    chartsRouter,
+    nestedRouter,
+    tableRouter,*/
+
+  /*  {
+      path: '/example',
+      component: Layout,
+      redirect: '/example/list',
+      name: 'Example',
+      meta: {
+        title: 'Example',
+        icon: 'el-icon-s-help'
+      },
+      children: [
+        {
+          path: 'create',
+          component: () => import('@/views/example/create'),
+          name: 'CreateArticle',
+          meta: { title: 'Create Article', icon: 'edit' }
+        },
+        {
+          path: 'edit/:id(\\d+)',
+          component: () => import('@/views/example/edit'),
+          name: 'EditArticle',
+          meta: { title: 'Edit Article', noCache: true, activeMenu: '/example/list' },
+          hidden: true
+        },
+        {
+          path: 'list',
+          component: () => import('@/views/example/list'),
+          name: 'ArticleList',
+          meta: { title: 'Article List', icon: 'list' }
+        }
+      ]
+    },
+
+    {
+      path: '/tab',
+      component: Layout,
+      children: [
+        {
+          path: 'index',
+          component: () => import('@/views/tab/index'),
+          name: 'Tab',
+          meta: { title: 'Tab', icon: 'tab' }
+        }
+      ]
+    },
+
+    {
+      path: '/error',
+      component: Layout,
+      redirect: 'noRedirect',
+      name: 'ErrorPages',
+      meta: {
+        title: 'Error Pages',
+        icon: '404'
+      },
+      children: [
+        {
+          path: '401',
+          component: () => import('@/views/error-page/401'),
+          name: 'Page401',
+          meta: { title: '401', noCache: true }
+        },
+        {
+          path: '404',
+          component: () => import('@/views/error-page/404'),
+          name: 'Page404',
+          meta: { title: '404', noCache: true }
+        }
+      ]
+    },
+
+    {
+      path: '/error-log',
+      component: Layout,
+      children: [
+        {
+          path: 'log',
+          component: () => import('@/views/error-log/index'),
+          name: 'ErrorLog',
+          meta: { title: 'Error Log', icon: 'bug' }
+        }
+      ]
+    },
+
+    {
+      path: '/excel',
+      component: Layout,
+      redirect: '/excel/export-excel',
+      name: 'Excel',
+      meta: {
+        title: 'Excel',
+        icon: 'excel'
+      },
+      children: [
+        {
+          path: 'export-excel',
+          component: () => import('@/views/excel/export-excel'),
+          name: 'ExportExcel',
+          meta: { title: 'Export Excel' }
+        },
+        {
+          path: 'export-selected-excel',
+          component: () => import('@/views/excel/select-excel'),
+          name: 'SelectExcel',
+          meta: { title: 'Export Selected' }
+        },
+        {
+          path: 'export-merge-header',
+          component: () => import('@/views/excel/merge-header'),
+          name: 'MergeHeader',
+          meta: { title: 'Merge Header' }
+        },
+        {
+          path: 'upload-excel',
+          component: () => import('@/views/excel/upload-excel'),
+          name: 'UploadExcel',
+          meta: { title: 'Upload Excel' }
+        }
+      ]
+    },
+
+    {
+      path: '/zip',
+      component: Layout,
+      redirect: '/zip/download',
+      alwaysShow: true,
+      name: 'Zip',
+      meta: { title: 'Zip', icon: 'zip' },
+      children: [
+        {
+          path: 'download',
+          component: () => import('@/views/zip/index'),
+          name: 'ExportZip',
+          meta: { title: 'Export Zip' }
+        }
+      ]
+    },
+
+    {
+      path: '/pdf',
+      component: Layout,
+      redirect: '/pdf/index',
+      children: [
+        {
+          path: 'index',
+          component: () => import('@/views/pdf/index'),
+          name: 'PDF',
+          meta: { title: 'PDF', icon: 'pdf' }
+        }
+      ]
+    },
+    {
+      path: '/pdf/download',
+      component: () => import('@/views/pdf/download'),
+      hidden: true
+    },
+
+    {
+      path: '/theme',
+      component: Layout,
+      children: [
+        {
+          path: 'index',
+          component: () => import('@/views/theme/index'),
+          name: 'Theme',
+          meta: { title: 'Theme', icon: 'theme' }
+        }
+      ]
+    },
+
+    {
+      path: '/clipboard',
+      component: Layout,
+      children: [
+        {
+          path: 'index',
+          component: () => import('@/views/clipboard/index'),
+          name: 'ClipboardDemo',
+          meta: { title: 'Clipboard', icon: 'clipboard' }
+        }
+      ]
+    },
+
+    {
+      path: 'external-link',
+      component: Layout,
+      children: [
+        {
+          path: 'https://github.com/PanJiaChen/vue-element-admin',
+          meta: { title: 'External Link', icon: 'link' }
+        }
+      ]
+    },*/
+
   {
     path: '/user',
     component: Layout,

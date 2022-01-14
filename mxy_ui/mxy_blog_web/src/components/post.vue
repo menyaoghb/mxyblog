@@ -84,7 +84,7 @@
         }
 
         p.summary {
-            min-height: 60px;
+            min-height: 30px;
             margin: 0 0 0 17%;
             font-size: 15px;
             color: #6f6f6f;
