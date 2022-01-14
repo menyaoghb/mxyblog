@@ -22,7 +22,6 @@ public class UserAuthAccessDeniedHandler implements AccessDeniedHandler{
      * @Author Mxy
      * @CreateTime 2022/01/10 21:20
      */
-    @SysLog(module = "新未授权",operType = OperType.ERROR)
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exception){
         ResultUtil.responseJson(response,ResultUtil.resultCode(403,"未授权"));

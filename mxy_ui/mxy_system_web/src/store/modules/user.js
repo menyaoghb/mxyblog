@@ -40,8 +40,14 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ userName: username.trim(), password: password }).then(response => {
         const { data } = response
+        let roles = [];
+        for (let i = 0; i < data.authorities.length; i++) {
+          roles.push(data.authorities[i].authority);
+        }
         commit('SET_TOKEN', data.token)
-        commit('SET_NAME', data.name)
+        commit('SET_NAME', data.username)
+        commit('SET_AVATAR', "")
+        commit('SET_USERID', data.userId)
         setToken(data.token)
         resolve()
       }).catch(error => {
@@ -53,24 +59,16 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token,state.name).then(response => {
+      getInfo().then(response => {
         const { data } = response
-        if (!data) {
-          reject('Verification failed, please Login again.')
+        let roles = [];
+        for (let i = 0; i < data.authorities.length; i++) {
+          roles.push(data.authorities[i].authority);
         }
-
-        const { roles, name, avatar, introduction,userId } = data
-
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
-
+        commit('SET_NAME', data.username)
         commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_USERID', userId)
-        commit('SET_INTRODUCTION', introduction)
+        commit('SET_AVATAR', "")
+        commit('SET_USERID', data.userId)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -86,11 +84,7 @@ const actions = {
         commit('SET_ROLES', [])
         removeToken()
         resetRouter()
-
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
         dispatch('tagsView/delAllViews', null, { root: true })
-
         resolve()
       }).catch(error => {
         reject(error)
@@ -114,7 +108,6 @@ const actions = {
 
     commit('SET_TOKEN', token)
     setToken(token)
-
     const { roles } = await dispatch('getInfo')
 
     resetRouter()

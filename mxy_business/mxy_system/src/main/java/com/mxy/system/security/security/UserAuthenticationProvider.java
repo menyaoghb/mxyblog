@@ -59,7 +59,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         // 查询用户角色
         List<SysRole> SysRoleList = sysUserService.selectSysRoleByUserId(userInfo.getUserId());
         for (SysRole SysRole: SysRoleList){
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + SysRole.getRoleName()));
+            authorities.add(new SimpleGrantedAuthority("" + SysRole.getRoleName()));
         }
         userInfo.setAuthorities(authorities);
         // 进行登录

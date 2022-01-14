@@ -27,7 +27,6 @@ public class UserLoginFailureHandler implements AuthenticationFailureHandler {
      * @Author Mxy
      * @CreateTime 2022/01/10 21:20
      */
-    @SysLog(module = "新登录失败",operType = OperType.ERROR)
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception){
         // 这些对于操作的处理类可以根据不同异常进行不同处理

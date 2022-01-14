@@ -2,23 +2,23 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/login',
+    url: '/mxy/login',
     method: 'post',
-    data
+    params: { username:data.userName,password:data.password }
   })
 }
 
-export function getInfo(token,name) {
+export function getInfo() {
   return request({
-    url: '/info',
+    url: '/user/info',
     method: 'get',
-    params: { token,name }
+    params: {}
   })
 }
 
 export function logout() {
   return request({
-    url: '/logout',
+    url: '/mxy/logout',
     method: 'post'
   })
 }

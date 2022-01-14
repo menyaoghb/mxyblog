@@ -22,7 +22,6 @@ public class UserAuthenticationEntryPointHandler implements AuthenticationEntryP
      * @Author Mxy
      * @CreateTime 2022/01/10 21:20
      */
-    @SysLog(module = "新未登录",operType = OperType.ERROR)
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception){
         ResultUtil.responseJson(response,ResultUtil.resultCode(401,"未登录"));

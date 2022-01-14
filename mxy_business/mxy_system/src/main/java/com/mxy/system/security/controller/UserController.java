@@ -1,12 +1,15 @@
 package com.mxy.system.security.controller;
 
 import com.mxy.common.core.entity.SysMenu;
+import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.security.common.util.ResultUtil;
+import com.mxy.system.security.common.util.SecurityUtil;
 import com.mxy.system.security.security.entity.SelfUserEntity;
 import com.mxy.system.service.SysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,10 +39,11 @@ public class UserController {
     @RequestMapping(value = "/info",method = RequestMethod.GET)
     public Map<String,Object> userLogin(){
         Map<String,Object> result = new HashMap<>();
-        SelfUserEntity userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
-        result.put("title","用户端信息");
-        result.put("data",userDetails);
+        //SelfUserEntity userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
+        result.put("title","用户信息");
+        result.put("data","");
         return ResultUtil.resultSuccess(result);
+
     }
 
     /**

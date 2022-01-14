@@ -64,11 +64,6 @@ public class SelfUserEntity implements Serializable, UserDetails {
 	}
 
 	@Override
-	public String getUsername() {
-		return null;
-	}
-
-	@Override
 	public boolean isAccountNonExpired() {
 		return isAccountNonExpired;
 	}
