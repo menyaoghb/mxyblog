@@ -77,5 +77,17 @@ public class SysRoleController {
         return sysRoleService.delete(sysRoleVO);
         }
 
+    /**
+     * @Description 获取角色信息列表
+     * @author 孟小耀
+     * @date 2021-07-25
+     */
+    @SysLog(module = "获取角色信息列表",operType = OperType.SELECT)
+    @ApiOperation(value = "获取角色信息列表")
+    @PostMapping("/getRoles")
+    public String getRoles() {
+        return sysRoleService.getRoles();
+    }
+
 }
 

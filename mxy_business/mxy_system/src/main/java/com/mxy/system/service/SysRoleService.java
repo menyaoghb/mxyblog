@@ -18,6 +18,10 @@ public interface SysRoleService extends IService<SysRole> {
      * 获取角色信息列表
      */
     public String getList(SysRoleVO sysRoleVO);
+    /**
+     * 获取角色信息列表
+     */
+    public String getRoles();
 
     /**
     * 新增角色信息

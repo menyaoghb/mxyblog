@@ -3,19 +3,24 @@ package com.mxy.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.entity.SysMenu;
 import com.mxy.common.core.entity.SysRole;
-import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.common.core.entity.SysUser;
+import com.mxy.common.core.entity.SysUserRole;
+import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysUserVO;
 import com.mxy.system.mapper.SysUserMapper;
+import com.mxy.system.security.common.util.SecurityUtil;
+import com.mxy.system.security.security.entity.SelfUserEntity;
 import com.mxy.system.service.SysUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -28,6 +33,9 @@ import java.util.List;
  */
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
+
+    @Resource
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public String getList(SysUserVO sysUserVO) {
@@ -47,10 +55,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public String add(SysUserVO sysUserVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(sysUserVO, sysUser);
+        sysUser.setPassword(bCryptPasswordEncoder.encode(sysUserVO.getPassword()));
+        sysUser.setAvatar("http://mxy.mxyit.com/2");
+        sysUser.setCreateUser(userDetails.getUsername());
         Boolean result = sysUser.insert();
         if (result) {
+            // 新增用户角色关系
+            SysUserRole sysUserRole = new SysUserRole();
+            sysUserRole.setUserId(Long.parseLong(sysUser.getUserId()));
+            sysUserRole.setRoleId(Long.parseLong(sysUser.getUserType()));
+            sysUserRole.insert();
             return ServiceResult.successMsg(BaseMessage.INSERT_SUCCESS);
         } else {
             return ServiceResult.successMsg(BaseMessage.INSERT_FAIL);
@@ -59,10 +76,23 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public String edit(SysUserVO sysUserVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(sysUserVO, sysUser);
+        sysUser.setUserId(sysUserVO.getUserId());
+        sysUser.setNickName(sysUserVO.getNickName());
+        sysUser.setUsername(sysUserVO.getUsername());
+        sysUser.setUserType(sysUserVO.getUserType());
+        sysUser.setRemark(sysUserVO.getRemark());
+        sysUser.setUpdateUser(userDetails.getUsername());
         Boolean result = sysUser.updateById();
         if (result) {
+            // 更新用户角色关系
+            SysUserRole sysUserRole = new SysUserRole();
+            sysUserRole.setUserId(Long.parseLong(sysUser.getUserId()));
+            sysUserRole.setRoleId(Long.parseLong(sysUser.getUserType()));
+            QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("user_id",sysUser.getUserId());
+            sysUserRole.update(queryWrapper);
             return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);
         } else {
             return ServiceResult.successMsg(BaseMessage.UPDATE_FAIL);

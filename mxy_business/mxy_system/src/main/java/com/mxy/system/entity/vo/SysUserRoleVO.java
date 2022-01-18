@@ -1,8 +1,8 @@
 package com.mxy.system.entity.vo;
 
-import lombok.Data;
-import com.mxy.common.core.entity.vo.BaseVO;
 import com.mxy.common.core.entity.SysUserRole;
+import com.mxy.common.core.entity.vo.BaseVO;
+import lombok.Data;
 
 /**
  * <p>
@@ -16,9 +16,15 @@ import com.mxy.common.core.entity.SysUserRole;
 public class SysUserRoleVO extends BaseVO<SysUserRole> {
 
     /**
+     * 主键
+     */
+    private String id;
+
+    /**
      * 用户ID
      */
     private Long userId;
+
     /**
      * 角色ID
      */

@@ -41,3 +41,11 @@ export function uploadPhoto(data) {
     data
   })
 }
+
+/*列表查询*/
+export function getRoles() {
+  return request({
+    url: '/sysRole/getRoles',
+    method: 'post'
+  })
+}

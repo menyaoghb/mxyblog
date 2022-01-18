@@ -14,6 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
 
+import java.util.List;
+
 /**
  * <p>
  * 角色信息 服务实现类
@@ -36,6 +38,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         page.setSize(sysRoleVO.getPageSize());
         IPage<SysRole> pageList = this.page(page, queryWrapper);
         return ServiceResult.success(pageList);
+    }
+
+    @Override
+    public String getRoles() {
+        QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("status", "0");
+        List<SysRole> sysRoles = this.baseMapper.selectList(queryWrapper);
+        return ServiceResult.success(sysRoles);
     }
 
     @Override

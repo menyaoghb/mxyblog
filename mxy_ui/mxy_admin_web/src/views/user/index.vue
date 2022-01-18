@@ -55,6 +55,7 @@
           <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
           <el-button size="mini" @click="handleView(row)" type="text">详情</el-button>
           <el-button size="mini" @click="handleDelete(row)" type="text">删除</el-button>
+          <el-button size="mini" @click="handleUpdate(row)" type="text">重置密码</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -65,28 +66,20 @@
     <!--新增/修改页-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="100px"
-               style="width: 400px; margin-left:160px;">
+               style="width: 100%; margin-left:0px;">
         <el-form-item label="姓名" prop="nickName">
           <el-input v-model="temp.nickName"/>
         </el-form-item>
-        <el-form-item label="账号" prop="username">
+        <el-form-item label="账号">
           <el-input v-model="temp.username"/>
         </el-form-item>
-        <el-form-item label="密码" prop="password" style="margin-bottom: 30px;">
+        <el-form-item label="密码" style="margin-bottom: 30px;" v-show="dialogStatus === 'add'">
           <el-input v-model="temp.password"/>
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="temp.email"/>
-        </el-form-item>
-        <el-form-item label="权限" prop="userType">
-          <el-select v-model="temp.userType" class="filter-item" style="width: 100%;">
-            <el-option v-for="item in userTypeOptions" :key="item.key" :label="item.name" :value="item.key"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="状态">
-          <el-select v-model="temp.status" class="filter-item" style="width: 100%;">
-            <el-option v-for="item in statusOptions" :key="item.key" :label="item.name" :value="item.key"/>
-          </el-select>
+        <el-form-item label="角色">
+          <el-radio-group v-model="temp.userType">
+            <el-radio v-for="item in userTypeOptions" :key="item.key" :label="item.key" class="el-radio-role">{{ item.name }}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="备注">
           <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"/>
@@ -158,20 +151,12 @@
 </template>
 
 <script>
-  import {getSysUserList, addUser, editUser, deleteUser} from '@/api/user/user'
+  import {getSysUserList, addUser, editUser, deleteUser,getRoles} from '@/api/user/user'
   import Pagination from '@/components/Pagination' // 分页
   import {validateEmail, validateAccount, validatePassword} from '@/utils/validate'
 
   // 权限
-  const userTypeOptions = [
-    {key: '01', name: 'S级管理员'},
-    {key: '02', name: 'A级管理员'},
-    {key: '03', name: 'B级管理员'},
-    {key: '04', name: 'C级管理员'},
-    {key: '05', name: 'D级管理员'},
-    {key: '06', name: 'E级管理员'},
-    {key: '07', name: 'F级参观者'}
-  ]
+  const userTypeOptions = []
   // 状态
   const statusOptions = [
     {key: '0', name: '启用'},
@@ -273,6 +258,16 @@
           this.listLoading = false
         })
       },
+      /*角色查询*/
+      getRoleList() {
+        getRoles().then(response => {
+          let roles = response.data;
+          this.userTypeOptions = [];
+          for (const role of roles) {
+            this.userTypeOptions.push({key: role.roleId, name: role.roleName})
+          }
+        })
+      },
       /*条件查询*/
       handleFilter() {
         this.listQuery.currentPage = 1
@@ -317,6 +312,7 @@
       },
       /*新增跳转*/
       handleCreate() {
+        this.getRoleList()
         this.resetTemp()
         this.dialogStatus = 'add'
         this.dialogFormVisible = true
@@ -341,7 +337,9 @@
       },
       /*修改跳转*/
       handleUpdate(row) {
+        this.getRoleList()
         this.temp = Object.assign({}, row) // copy obj
+        this.temp.password = ''
         this.dialogStatus = 'edit'
         this.dialogFormVisible = true
         this.$nextTick(() => {
@@ -394,5 +392,8 @@
   /*新增页按钮居中--（写法暂定）*/
   .dialog-footer {
     text-align: center;
+  }
+  .el-radio-role{
+    margin-bottom: 10px;
   }
 </style>

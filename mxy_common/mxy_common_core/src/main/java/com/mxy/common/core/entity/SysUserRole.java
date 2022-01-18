@@ -1,13 +1,14 @@
 package com.mxy.common.core.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.mxy.common.core.entity.vo.BaseEntity;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -26,9 +27,14 @@ public class SysUserRole extends BaseEntity<SysUserRole> {
     private static final long serialVersionUID=1L;
 
     /**
+     * 主键
+     */
+    @TableId(value = "id", type = IdType.ID_WORKER_STR)
+    private String id;
+
+    /**
      * 用户ID
      */
-      @TableId(value = "user_id", type = IdType.ID_WORKER_STR)
     private Long userId;
 
     /**
