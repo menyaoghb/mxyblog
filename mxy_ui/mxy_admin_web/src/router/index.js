@@ -122,6 +122,18 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/beautifulWords',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/mxy/beautifulWords/index'),
+        name: 'beautifulWords',
+        meta: {title: '佳句记忆', icon: 'el-icon-grape'}
+      }
+    ]
+  },
+  {
     path: '/log',
     component: Layout,
     children: [

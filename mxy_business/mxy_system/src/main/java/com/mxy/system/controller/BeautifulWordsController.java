@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "佳句",tags = "佳句")
 @RestController
-@RequestMapping("/system/beautifulWords")
+@RequestMapping("/beautifulWords")
 public class BeautifulWordsController {
 
     @Autowired
