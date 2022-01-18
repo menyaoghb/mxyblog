@@ -6,8 +6,10 @@ import com.mxy.system.entity.vo.SysUserVO;
 import com.mxy.system.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -20,8 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Api(value = "用户信息",tags = "用户信息")
 @RestController
 @CrossOrigin
-@RequestMapping("/system/sysUser")
+@RequestMapping("/sysUser")
 public class SysUserController {
+
+    private static final Logger LOG = LogManager.getLogger(SysUserController.class);
 
     @Autowired
     public SysUserService sysUserService;

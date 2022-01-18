@@ -117,7 +117,7 @@ public class LogAspect {
                 if (!StringUtils.isEmpty(e.getMessage())) {
                     sysOperLog.setErrorMsg(e.getMessage().substring(0, e.getMessage().length() - 1));
                 } else {
-                    sysOperLog.setErrorMsg("无错误消息");
+                    sysOperLog.setErrorMsg("No error message");
                 }
             }
             // 操作时间

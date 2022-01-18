@@ -16,4 +16,13 @@ public class Constants {
      * 失败标记
      */
     public static final Integer FAIL = 500;
+
+    /**
+     * 用户状态 启用
+     */
+    public static final String USER_STATE_ONE = "0";
+    /**
+     * 用户状态 冻结
+     */
+    public static final String USER_STATE_TWO = "1";
 }

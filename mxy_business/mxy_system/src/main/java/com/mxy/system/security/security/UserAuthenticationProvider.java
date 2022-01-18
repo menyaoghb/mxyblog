@@ -1,8 +1,7 @@
 package com.mxy.system.security.security;
 
+import com.mxy.common.core.constant.Constants;
 import com.mxy.common.core.entity.SysRole;
-import com.mxy.common.log.annotation.SysLog;
-import com.mxy.common.log.enums.OperType;
 import com.mxy.system.security.security.entity.SelfUserEntity;
 import com.mxy.system.security.security.service.SelfUserDetailsService;
 import com.mxy.system.service.SysUserService;
@@ -25,6 +24,7 @@ import java.util.Set;
 
 /**
  * 自定义登录验证
+ *
  * @Author Mxy
  * @CreateTime 2022/01/1 19:11
  */
@@ -51,20 +51,21 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("密码不正确");
         }
         // 还可以加一些其他信息的判断，比如用户账号已停用等判断
-        if (userInfo.getStatus().equals("1")){
-            throw new LockedException("该用户已被冻结");
+        if (Constants.USER_STATE_TWO.equals(userInfo.getStatus())) {
+            throw new LockedException("用户已冻结");
         }
         // 角色集合
         Set<GrantedAuthority> authorities = new HashSet<>();
         // 查询用户角色
-        List<SysRole> SysRoleList = sysUserService.selectSysRoleByUserId(userInfo.getUserId());
-        for (SysRole SysRole: SysRoleList){
-            authorities.add(new SimpleGrantedAuthority("" + SysRole.getRoleName()));
+        List<SysRole> sysRoleList = sysUserService.selectSysRoleByUserId(userInfo.getUserId());
+        for (SysRole sysRole : sysRoleList) {
+            authorities.add(new SimpleGrantedAuthority(sysRole.getRoleName()));
         }
         userInfo.setAuthorities(authorities);
         // 进行登录
         return new UsernamePasswordAuthenticationToken(userInfo, password, authorities);
     }
+
     @Override
     public boolean supports(Class<?> authentication) {
         return true;

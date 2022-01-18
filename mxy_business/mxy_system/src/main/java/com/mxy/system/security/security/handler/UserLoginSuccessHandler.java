@@ -1,7 +1,6 @@
 package com.mxy.system.security.security.handler;
 
-import com.mxy.common.log.annotation.SysLog;
-import com.mxy.common.log.enums.OperType;
+import com.mxy.common.core.entity.SysUser;
 import com.mxy.system.security.common.config.JWTConfig;
 import com.mxy.system.security.common.util.JWTTokenUtil;
 import com.mxy.system.security.common.util.ResultUtil;
@@ -9,13 +8,12 @@ import com.mxy.system.security.common.util.SecurityUtil;
 import com.mxy.system.security.security.entity.SelfUserEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +38,11 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
         String token = JWTTokenUtil.createAccessToken(selfUserEntity);
         token = JWTConfig.tokenPrefix + token;
         SelfUserEntity userDetails = SecurityUtil.getUserInfo();
+        SysUser sysUser = new SysUser();
+        sysUser.setUserId(userDetails.getUserId());
+        sysUser.setLoginDate(new Date());
+        sysUser.setUpdateUser(userDetails.getUsername());
+        sysUser.updateById();
         // 封装返回参数
         Map<String,Object> resultData = new HashMap<>();
         resultData.put("code","200");
