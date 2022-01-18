@@ -1,7 +1,5 @@
 package com.mxy.system.security.security.handler;
 
-import com.mxy.common.log.annotation.SysLog;
-import com.mxy.common.log.enums.OperType;
 import com.mxy.system.security.common.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;

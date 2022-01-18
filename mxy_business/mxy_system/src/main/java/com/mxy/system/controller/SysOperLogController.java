@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "操作日志记录",tags = "操作日志记录")
 @RestController
-@RequestMapping("/system/sysOperLog")
+@RequestMapping("/sysOperLog")
 public class SysOperLogController {
 
     @Autowired

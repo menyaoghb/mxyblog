@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "角色信息",tags = "角色信息")
 @RestController
-@RequestMapping("/system/sysRole")
+@RequestMapping("/sysRole")
 public class SysRoleController {
 
     @Autowired

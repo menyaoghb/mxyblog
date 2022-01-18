@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "菜单权限", tags = "菜单权限")
 @RestController
-@RequestMapping("/system/sysMenu")
+@RequestMapping("/sysMenu")
 public class SysMenuController {
 
     @Autowired

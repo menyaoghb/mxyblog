@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "用户和角色关联",tags = "用户和角色关联")
 @RestController
-@RequestMapping("/system/sysUserRole")
+@RequestMapping("/sysUserRole")
 public class SysUserRoleController {
 
     @Autowired
