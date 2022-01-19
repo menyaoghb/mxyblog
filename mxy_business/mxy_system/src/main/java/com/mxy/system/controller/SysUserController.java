@@ -79,7 +79,7 @@ public class SysUserController {
         }
 
     /**
-     * @Description 编辑用户信息
+     * @Description 重置密码
      * @author 孟小耀
      * @date 2021-07-21
      */
@@ -91,7 +91,7 @@ public class SysUserController {
     }
 
     /**
-     * @Description 编辑用户信息
+     * @Description 用户状态改变
      * @author 孟小耀
      * @date 2021-07-21
      */

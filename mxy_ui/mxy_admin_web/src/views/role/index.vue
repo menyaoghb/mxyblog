@@ -17,18 +17,22 @@
     <el-table
       :data="list"
       style="width: 100%" :row-style="{height:'40px'}"
-      :cell-style="{padding:'0px'}" v-loading="listLoading">
+      :cell-style="{padding:'0px'}" v-loading="listLoading" element-loading-spinner="el-icon-loading">
       <el-table-column type="index" width="50" align="center"/>
       <el-table-column prop="roleName" label="角色名称" align="center"></el-table-column>
       <el-table-column prop="roleKey" label="角色权限" align="center"></el-table-column>
       <el-table-column label="状态" width="90" class-name="status-col">
         <template slot-scope="{row}">
-          <el-button v-if="row.status==='0'" size="mini" type="success" @click="handleModifyStatus(row,'0')" round>
-            已启用
-          </el-button>
-          <el-button v-if="row.status==='1'" size="mini" type="info" @click="handleModifyStatus(row,'1')" round>
-            已禁用
-          </el-button>
+          <el-tooltip v-for="item in statusOptions" v-if="row.status===item.key" :content="item.name" placement="right">
+            <el-switch
+              v-model="row.status"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-value="0"
+              inactive-value="1"
+              @change="handleModifyStatus(row)">
+            </el-switch>
+          </el-tooltip>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center">
@@ -89,9 +93,9 @@
 </template>
 
 <script>
-  import {getSysRoleList, addRole, editRole, deleteRole} from '@/api/role/role'
+  import {getSysRoleList, addRole, editRole, deleteRole,editRoleStatus} from '@/api/role/role'
   import Pagination from '@/components/Pagination'
-  import {addUser} from "@/api/user/user"; // 分页
+  import {addUser, editUserStatus} from "@/api/user/user"; // 分页
 
   // 权限
   const userTypeOptions = [
@@ -157,26 +161,19 @@
         this.listQuery.currentPage = 1
         this.getList()
       },
-      /*用户状态改变*/
+      /*角色状态改变*/
       handleModifyStatus(row) {
-        let text = row.status === "1" ? "启用" : "禁用";
-        this.$confirm('确认要"' + text + '""' + row.roleName + '"这个角色吗?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(() => {
-          let param = {};
-          param.roleId = row.roleId;
-          param.status = row.status === "1" ? "0" : "1";
-          editRole(param).then(() => {
-            this.$message({
-              message: text + '成功',
-              type: 'success'
-            });
-            this.getList();
-          })
-        }).catch(() => {
-        });
+        this.temp.roleId = row.roleId;
+        let param = {};
+        param.roleId = row.roleId;
+        param.status = row.status;
+        editRoleStatus(param).then(() => {
+          this.$message({
+            message: '更新成功',
+            type: 'success'
+          });
+          this.getList();
+        })
       },
       /*表单重置*/
       resetTemp() {

@@ -79,6 +79,21 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
+    public String editRoleStatus(SysRoleVO sysRoleVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
+        SysRole sysRole = new SysRole();
+        sysRole.setRoleId(sysRoleVO.getRoleId());
+        sysRole.setStatus(sysRoleVO.getStatus());
+        sysRole.setUpdateUser(userDetails.getUsername());
+        Boolean result = sysRole.updateById();
+        if (result) {
+            return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);
+        } else {
+            return ServiceResult.successMsg(BaseMessage.UPDATE_FAIL);
+        }
+    }
+
+    @Override
     public String delete(SysRoleVO sysRoleVO) {
         SysRole sysRole = new SysRole();
         BeanUtils.copyProperties(sysRoleVO, sysRole);

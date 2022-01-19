@@ -34,6 +34,11 @@ public interface SysRoleService extends IService<SysRole> {
     public String edit(SysRoleVO sysRoleVO);
 
     /**
+    * 角色状态改变
+    */
+    public String editRoleStatus(SysRoleVO sysRoleVO);
+
+    /**
     * 删除角色信息
     */
     public String delete(SysRoleVO sysRoleVO);

@@ -32,3 +32,11 @@ export function deleteRole(data) {
     data
   })
 }
+/*角色状态修改*/
+export function editRoleStatus(data) {
+  return request({
+    url: '/sysRole/editRoleStatus',
+    method: 'post',
+    data
+  })
+}
