@@ -5,15 +5,20 @@
         <el-divider content-position="center">菜单结构</el-divider>
         <el-input
           placeholder="输入关键字进行过滤"
-          v-model="filterText">
+          v-model="filterText" clearable>
         </el-input>
         <el-tree
+          class="menu-tree"
           :data="data"
           node-key="id"
           ref="tree"
+          empty-text=" "
+          icon-class="el-icon-loading"
           highlight-current
           :filter-node-method="filterNode"
-          :props="defaultProps">
+          :props="defaultProps"
+          v-loading="listLoading"
+          element-loading-spinner="el-icon-loading">
         </el-tree>
       </div>
     </el-col>
@@ -41,7 +46,7 @@
           :data="list"
           style="width: 100%" :row-style="{height:'40px'}"
           :show-overflow-tooltip="true"
-          :cell-style="{padding:'0px'}" v-loading="listLoading">
+          :cell-style="{padding:'0px'}" v-loading="listLoading" element-loading-spinner="el-icon-loading">
           <el-table-column type="index" width="50" align="center"/>
           <el-table-column prop="menuName" label="菜单名称" align="center"></el-table-column>
           <!--<el-table-column prop="parentId" label="父菜单ID" align="center"></el-table-column>-->
@@ -233,6 +238,7 @@
         }, 500);
       },
       filterNode(value, data) {
+        debugger
         if (!value) return true;
         return data.label.indexOf(value) !== -1;
       },
@@ -359,5 +365,8 @@
   /*新增页按钮居中--（写法暂定）*/
   .dialog-footer {
     text-align: center;
+  }
+  .menu-tree{
+    margin-top: 15px;
   }
 </style>

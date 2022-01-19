@@ -3,16 +3,18 @@ package com.mxy.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
-import com.mxy.common.core.utils.ServiceResult;
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysMenu;
+import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysMenuVO;
 import com.mxy.system.mapper.SysMenuMapper;
+import com.mxy.system.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysMenuService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -46,8 +48,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public String add(SysMenuVO sysMenuVO) {
+        SelfUserEntity userInfo = SecurityUtil.getUserInfo();
         SysMenu sysMenu = new SysMenu();
         BeanUtils.copyProperties(sysMenuVO, sysMenu);
+        sysMenu.setCreateUser(userInfo.getUsername());
         Boolean result = sysMenu.insert();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.INSERT_SUCCESS);
@@ -58,8 +62,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public String edit(SysMenuVO sysMenuVO) {
+        SelfUserEntity userInfo = SecurityUtil.getUserInfo();
         SysMenu sysMenu = new SysMenu();
         BeanUtils.copyProperties(sysMenuVO, sysMenu);
+        sysMenu.setUpdateUser(userInfo.getUsername());
         Boolean result = sysMenu.updateById();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);

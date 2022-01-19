@@ -33,6 +33,7 @@ module.exports = {
     proxy: 'http://localhost:8001',
     port: port,
     open: true,
+    hot: true,// 热更新
     overlay: {
       warnings: false,
       errors: true
