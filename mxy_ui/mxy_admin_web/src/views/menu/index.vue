@@ -215,7 +215,7 @@
       /*菜单树数据*/
       getTreeData() {
         this.listLoading = true
-        getTreeData().then(response => {
+        getTreeData({roleId: ''}).then(response => {
           this.data = response.data
           this.listLoading = false
         })

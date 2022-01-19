@@ -37,9 +37,10 @@ export function deleteMenu(data) {
 }
 
 /*菜单树数据*/
-export function getTreeData() {
+export function getTreeData(data) {
   return request({
     url: '/sysMenu/treeData',
-    method: 'post'
+    method: 'post',
+    data
   })
 }

@@ -91,4 +91,17 @@
     <select id="getSysMenuTreeData" resultType="map">
         select menu_id as "id",menu_name as "label" from sys_menu where parent_id = #{parentId}
     </select>
+
+    <select id="getCheckMenuId" resultType="map">
+        SELECT
+            sm.menu_id as id
+        FROM
+            sys_menu sm
+            left join sys_role_menu srm on sm.menu_id = srm.menu_id
+        WHERE
+              sm.status = '0'
+          and sm.is_delete = '0'
+          and srm.role_id = #{roleId}
+    </select>
+
 </mapper>

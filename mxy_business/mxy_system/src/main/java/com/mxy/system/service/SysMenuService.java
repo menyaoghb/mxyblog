@@ -4,6 +4,8 @@ import com.mxy.common.core.entity.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mxy.system.entity.vo.SysMenuVO;
 
+import java.util.Map;
+
 /**
  * <p>
  * 菜单权限 服务类
@@ -37,6 +39,6 @@ public interface SysMenuService extends IService<SysMenu> {
     /**
      * 获取菜单树数据
      */
-    public String treeData();
+    public String treeData(Map<String, Object> map);
 
 }

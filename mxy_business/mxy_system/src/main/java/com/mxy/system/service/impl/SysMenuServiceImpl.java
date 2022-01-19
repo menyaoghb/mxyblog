@@ -12,10 +12,13 @@ import com.mxy.system.entity.vo.SysMenuVO;
 import com.mxy.system.mapper.SysMenuMapper;
 import com.mxy.system.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysMenuService;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -87,10 +90,22 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    public String treeData() {
+    public String treeData(Map<String, Object> map) {
         //获取父节点数据
         List<Map<String, Object>> mapList = this.baseMapper.getSysMenuTreeData("0");
-        return ServiceResult.success(treeData(mapList));
+        if (StringUtils.isNotEmpty(MapUtils.getString(map,"roleId"))){
+            Map<String,Object> resultMap = new HashMap<>();
+            resultMap.put("treeData",treeData(mapList));
+            List<Map<String, Object>> checkTreeDataList = this.baseMapper.getCheckMenuId(MapUtils.getString(map,"roleId"));
+            List<String> list = new ArrayList<>();
+            for (Map<String, Object> objectMap : checkTreeDataList) {
+                list.add(objectMap.get("id").toString());
+            }
+            resultMap.put("checkTreeData",list);
+            return ServiceResult.success(resultMap);
+        }else {
+            return ServiceResult.success(treeData(mapList));
+        }
     }
 
     public List<Map<String, Object>> treeData(List<Map<String, Object>> mapList) {

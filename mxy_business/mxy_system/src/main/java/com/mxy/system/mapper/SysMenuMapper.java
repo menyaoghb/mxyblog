@@ -17,4 +17,6 @@ import java.util.Map;
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
     List<Map<String,Object>> getSysMenuTreeData(String parentId);
+
+    List<Map<String,Object>> getCheckMenuId(String roleId);
 }
