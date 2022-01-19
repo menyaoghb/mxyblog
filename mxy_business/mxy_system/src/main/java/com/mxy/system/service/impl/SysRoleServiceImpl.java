@@ -38,6 +38,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         if (StringUtils.isNotEmpty(sysRoleVO.getRoleName())) {
             queryWrapper.like("role_name", sysRoleVO.getRoleName());
         }
+        queryWrapper.orderByAsc("role_sort");
         Page<SysRole> page = new Page<>();
         page.setCurrent(sysRoleVO.getCurrentPage());
         page.setSize(sysRoleVO.getPageSize());
