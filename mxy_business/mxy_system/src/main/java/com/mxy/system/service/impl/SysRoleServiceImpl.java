@@ -7,16 +7,19 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysRole;
+import com.mxy.common.core.entity.SysRoleMenu;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysRoleVO;
 import com.mxy.system.mapper.SysRoleMapper;
 import com.mxy.system.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysRoleService;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -103,6 +106,24 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         } else {
             return ServiceResult.successMsg(BaseMessage.DELETE_FAIL);
         }
+    }
+
+    @Override
+    public String saveRoleMenu(Map<String, Object> map) {
+        String roleId = MapUtils.getString(map,"roleId");
+        List<String> list = (List<String>) MapUtils.getObject(map,"menuIds");
+        // 更新用户角色关系，先删再新增
+        SysRoleMenu sysRoleMenu = new SysRoleMenu();
+        QueryWrapper<SysRoleMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("role_id",roleId);
+        sysRoleMenu.delete(queryWrapper);
+        for (String s : list) {
+            SysRoleMenu menu = new SysRoleMenu();
+            menu.setRoleId(Long.parseLong(roleId));
+            menu.setMenuId(Long.parseLong(s));
+            menu.insert();
+        }
+        return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);
     }
 
 }

@@ -1,8 +1,8 @@
 package com.mxy.system.entity.vo;
 
-import lombok.Data;
-import com.mxy.common.core.entity.vo.BaseVO;
 import com.mxy.common.core.entity.SysRoleMenu;
+import com.mxy.common.core.entity.vo.BaseVO;
+import lombok.Data;
 
 /**
  * <p>
@@ -14,6 +14,11 @@ import com.mxy.common.core.entity.SysRoleMenu;
  */
 @Data
 public class SysRoleMenuVO extends BaseVO<SysRoleMenu> {
+
+    /**
+     * ID
+     */
+    private String id;
 
     /**
      * 角色ID

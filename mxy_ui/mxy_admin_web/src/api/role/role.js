@@ -40,3 +40,11 @@ export function editRoleStatus(data) {
     data
   })
 }
+/*角色菜单关联保存*/
+export function saveRoleMenu(data) {
+  return request({
+    url: '/sysRole/saveRoleMenu',
+    method: 'post',
+    data
+  })
+}

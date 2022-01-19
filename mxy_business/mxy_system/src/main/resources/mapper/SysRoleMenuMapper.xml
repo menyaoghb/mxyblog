@@ -4,19 +4,23 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysRoleMenu">
-        <id column="role_id" property="roleId" />
-        <result column="menu_id" property="menuId" />
+        <id column="id" property="id"/>
+        <result column="role_id" property="roleId"/>
+        <result column="menu_id" property="menuId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         WHERE 1 = 1
-    <if test="roleId!=null and roleId!=''">
-        AND role_id = #{roleId}
-    </if>
-    <if test="menuId!=null and menuId!=''">
-        AND menu_id = #{menuId}
-    </if>
+        <if test="id!=null and id!=''">
+            AND id = #{id}
+        </if>
+        <if test="roleId!=null and roleId!=''">
+            AND role_id = #{roleId}
+        </if>
+        <if test="menuId!=null and menuId!=''">
+            AND menu_id = #{menuId}
+        </if>
     </sql>
 
 </mapper>

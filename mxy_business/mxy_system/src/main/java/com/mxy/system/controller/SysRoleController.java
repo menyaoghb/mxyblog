@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * <p>
  * 角色信息 前端控制器
@@ -101,6 +103,19 @@ public class SysRoleController {
     @PostMapping("/editRoleStatus")
     public String editRoleStatus(@RequestBody SysRoleVO sysRoleVO) {
         return sysRoleService.editRoleStatus(sysRoleVO);
+    }
+
+
+    /**
+     * @Description: 角色菜单关联保存
+     * @Author: 孟耀
+     * @Date: 2021/7/29 0029
+     */
+    @SysLog(module = "角色菜单关联保存", operType = OperType.UPDATE)
+    @ApiOperation(value = "角色菜单关联保存")
+    @PostMapping("/saveRoleMenu")
+    public String saveRoleMenu(@RequestBody Map<String, Object> map) {
+        return sysRoleService.saveRoleMenu(map);
     }
 
 }

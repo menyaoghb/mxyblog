@@ -81,6 +81,7 @@
                   :props="menuDefaultProps"
                   :default-checked-keys="checkMenuData"
                   empty-text=" "
+                  ref="menuTree"
                   v-loading="listLoading"
                   @node-click="menuHandleNodeClick"
                   element-loading-spinner="el-icon-loading">
@@ -148,7 +149,7 @@
 </template>
 
 <script>
-import {getSysRoleList, addRole, editRole, deleteRole, editRoleStatus} from '@/api/role/role'
+import {getSysRoleList, addRole, editRole, deleteRole, editRoleStatus,saveRoleMenu} from '@/api/role/role'
 import Pagination from '@/components/Pagination'
 import {addUser, editUserStatus, getRoles, getSysUserList} from "@/api/user/user";
 import {getTreeData} from "@/api/menu/menu"; // 分页
@@ -169,7 +170,7 @@ export default {
     return {
       data: [], // 角色集合
       menuData: [], // 菜单集合
-      checkMenuData: [], // 菜单集合
+      checkMenuData: [], // 选中菜单集合
       activeName: 'first', // tab 默认首次加载位置
       filterText: '', // 树搜索
       defaultProps: {
@@ -290,9 +291,15 @@ export default {
     setRoleMenu() {
       this.isSetRoleMenu = false
     },
-    /*功能权限设置*/
+    /*功能权限保存*/
     saveRoleMenu() {
-      this.isSetRoleMenu = true
+      this.isSetRoleMenu = true;
+      saveRoleMenu({roleId: this.roleId,menuIds:this.$refs.menuTree.getCheckedKeys()}).then(response => {
+        this.$message({
+          message: '更新成功',
+          type: 'success'
+        });
+      })
     },
     /*树查询过滤*/
     filterNode(value, data) {

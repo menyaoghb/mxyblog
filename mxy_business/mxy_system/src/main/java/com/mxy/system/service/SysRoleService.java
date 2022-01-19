@@ -4,6 +4,8 @@ import com.mxy.common.core.entity.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mxy.system.entity.vo.SysRoleVO;
 
+import java.util.Map;
+
 /**
  * <p>
  * 角色信息 服务类
@@ -42,5 +44,11 @@ public interface SysRoleService extends IService<SysRole> {
     * 删除角色信息
     */
     public String delete(SysRoleVO sysRoleVO);
+
+
+    /**
+     * 保存角色菜单关系
+     */
+    public String saveRoleMenu(Map<String, Object> map);
 
 }
