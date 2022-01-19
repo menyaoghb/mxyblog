@@ -5,8 +5,10 @@
         <el-divider content-position="center">角色结构</el-divider>
         <el-input
           placeholder="输入角色名称进行过滤"
+          style="width: 80%;"
           v-model="filterText" clearable>
         </el-input>
+        <el-button type="primary" icon="el-icon-plus" title="新增角色" @click="handleCreate" circle></el-button>
         <el-tree class="filter-tree role-tree"
                  :data="data"
                  :props="defaultProps"
@@ -16,7 +18,7 @@
                  @node-click="handleNodeClick"
                  empty-text=" "
                  icon-class="el-icon-loading"
-                 v-loading="listLoading"
+                 v-loading="rolesLoading"
                  element-loading-spinner="el-icon-loading"></el-tree>
       </div>
     </el-col>
@@ -107,7 +109,28 @@
             </el-row>
           </el-tab-pane>
           <el-tab-pane label="数据权限" name="third">角色管理</el-tab-pane>
-          <el-tab-pane label="角色首页" name="fourth">定时任务补偿</el-tab-pane>
+          <el-tab-pane label="角色更新" name="fourth">
+            <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px"
+                     style="width: 400px; margin-left:160px;">
+              <el-form-item label="名称">
+                <el-input v-model="temp.roleName"/>
+              </el-form-item>
+              <el-form-item label="标识">
+                <el-input v-model="temp.roleKey"/>
+              </el-form-item>
+              <el-form-item label="状态">
+                <el-select v-model="temp.status" class="filter-item" style="width: 100%;">
+                  <el-option v-for="item in statusOptions" :key="item.key" :label="item.name" :value="item.key"/>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="备注">
+                <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"/>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="updateData()">更新</el-button>
+              </el-form-item>
+            </el-form>
+          </el-tab-pane>
         </el-tabs>
 
         <!--新增/修改页-->
@@ -119,11 +142,6 @@
             </el-form-item>
             <el-form-item label="标识">
               <el-input v-model="temp.roleKey"/>
-            </el-form-item>
-            <el-form-item label="菜单权限">
-              <el-select v-model="temp.dataScope" class="filter-item" style="width: 100%;">
-                <el-option v-for="item in userTypeOptions" :key="item.key" :label="item.name" :value="item.key"/>
-              </el-select>
             </el-form-item>
             <el-form-item label="状态">
               <el-select v-model="temp.status" class="filter-item" style="width: 100%;">
@@ -187,6 +205,7 @@ export default {
       userList: null, //人员数据
       total: 0, // 总条数
       listLoading: true,
+      rolesLoading: true,
       listQuery: {
         currentPage: 1,
         pageSize: 10,
@@ -226,7 +245,7 @@ export default {
   methods: {
     /*角色列表查询*/
     getList() {
-      this.listLoading = true
+      this.rolesLoading = true
       getSysRoleList({currentPage: 1, pageSize: 10}).then(response => {
         this.data = response.data.records
         if (response.data.total > 0) {
@@ -234,7 +253,7 @@ export default {
           this.listQuery.userType = this.data[0].roleId;
           this.getUserList();
         }
-        this.listLoading = false
+        this.rolesLoading = false
       })
     },
     /*人员列表查询*/
@@ -280,6 +299,7 @@ export default {
     handleNodeClick(data) {
       this.listQuery.userType = data.roleId;
       this.roleId = data.roleId;
+      this.temp = Object.assign({}, data)
       this.getUserList();
       this.getTreeData();
     },
@@ -431,5 +451,9 @@ export default {
 .el-input__inner {
   height: 32px;
   line-height: 32px;
+}
+.el-button.is-circle{
+  padding: 8px;
+  margin-left:20px;
 }
 </style>
