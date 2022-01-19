@@ -19,7 +19,7 @@
       style="width: 100%" :row-style="{height:'40px'}"
       :cell-style="{padding:'0px'}" v-loading="listLoading">
       <el-table-column type="index" width="50" align="center"/>
-      <el-table-column prop="title" label="模块标题" align="center"></el-table-column>
+      <el-table-column prop="title" label="模块标题" align="center" width="150"></el-table-column>
       <el-table-column label="操作类型" align="center">
         <template slot-scope="{row}">
           <span v-for="item in TypeOptions" v-if="row.businessType===item.key">{{ item.name }}</span>
@@ -39,8 +39,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="operIp" label="主机地址" align="center"></el-table-column>
-      <el-table-column prop="operLocation" label="操作地点" align="center"></el-table-column>
-      <el-table-column label="操作时间" align="center">
+      <el-table-column prop="operLocation" show-overflow-tooltip label="操作地点" align="center"></el-table-column>
+      <el-table-column prop="operName" label="操作人员" align="center"></el-table-column>
+      <el-table-column label="操作时间" align="center" width="150">
         <template slot-scope="{row}">
           <span>{{ row.operTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
@@ -76,8 +77,11 @@
           <el-col :span="24">
             <el-form-item label="请求参数：">{{ temp.operParam }}</el-form-item>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="返回参数：">{{ temp.jsonResult }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="操作人员：">{{ temp.operName }}</el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="操作状态：" v-for="item in statusOptions" v-if="temp.status===item.key">

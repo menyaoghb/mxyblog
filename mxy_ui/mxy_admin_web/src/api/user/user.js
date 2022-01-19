@@ -42,10 +42,28 @@ export function uploadPhoto(data) {
   })
 }
 
-/*列表查询*/
+/*角色查询*/
 export function getRoles() {
   return request({
     url: '/sysRole/getRoles',
     method: 'post'
+  })
+}
+
+/*重置密码*/
+export function resetPassword(data) {
+  return request({
+    url: '/sysUser/resetPassword',
+    method: 'post',
+    data
+  })
+}
+
+/*修改*/
+export function editUserStatus(data) {
+  return request({
+    url: '/sysUser/editUserStatus',
+    method: 'post',
+    data
   })
 }

@@ -82,8 +82,8 @@ public class SysRoleController {
      * @author 孟小耀
      * @date 2021-07-25
      */
-    @SysLog(module = "获取角色信息列表",operType = OperType.SELECT)
-    @ApiOperation(value = "获取角色信息列表")
+    @SysLog(module = "角色信息",operType = OperType.SELECT)
+    @ApiOperation(value = "角色信息")
     @PostMapping("/getRoles")
     public String getRoles() {
         return sysRoleService.getRoles();

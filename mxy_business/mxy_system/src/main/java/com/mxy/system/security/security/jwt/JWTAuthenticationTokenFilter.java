@@ -1,8 +1,8 @@
 package com.mxy.system.security.security.jwt;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.system.security.common.config.JWTConfig;
-import com.mxy.system.security.security.entity.SelfUserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

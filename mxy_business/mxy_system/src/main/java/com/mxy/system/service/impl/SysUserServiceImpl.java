@@ -5,15 +5,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
-import com.mxy.common.core.entity.SysMenu;
-import com.mxy.common.core.entity.SysRole;
-import com.mxy.common.core.entity.SysUser;
-import com.mxy.common.core.entity.SysUserRole;
+import com.mxy.common.core.entity.*;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysUserVO;
 import com.mxy.system.mapper.SysUserMapper;
 import com.mxy.system.security.common.util.SecurityUtil;
-import com.mxy.system.security.security.entity.SelfUserEntity;
 import com.mxy.system.service.SysUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -56,6 +52,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public String add(SysUserVO sysUserVO) {
         SelfUserEntity userDetails = SecurityUtil.getUserInfo();
+        // 新增前查重
+        SysUser sysUserEntity =selectUserByName(sysUserVO.getUsername());
+        if (sysUserEntity!=null){
+            return ServiceResult.errorMsg(BaseMessage.INSERT_FAIL_REPEAT);
+        }
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(sysUserVO, sysUser);
         sysUser.setPassword(bCryptPasswordEncoder.encode(sysUserVO.getPassword()));
@@ -108,6 +109,36 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             return ServiceResult.successMsg(BaseMessage.DELETE_SUCCESS);
         } else {
             return ServiceResult.successMsg(BaseMessage.DELETE_FAIL);
+        }
+    }
+
+    @Override
+    public String resetPassword(SysUserVO sysUserVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
+        SysUser sysUser = new SysUser();
+        sysUser.setUserId(sysUserVO.getUserId());
+        sysUser.setPassword(bCryptPasswordEncoder.encode("123456"));
+        sysUser.setUpdateUser(userDetails.getUsername());
+        Boolean result = sysUser.updateById();
+        if (result) {
+            return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);
+        } else {
+            return ServiceResult.successMsg(BaseMessage.UPDATE_FAIL);
+        }
+    }
+
+    @Override
+    public String editUserStatus(SysUserVO sysUserVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
+        SysUser sysUser = new SysUser();
+        sysUser.setUserId(sysUserVO.getUserId());
+        sysUser.setStatus(sysUserVO.getStatus());
+        sysUser.setUpdateUser(userDetails.getUsername());
+        Boolean result = sysUser.updateById();
+        if (result) {
+            return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);
+        } else {
+            return ServiceResult.successMsg(BaseMessage.UPDATE_FAIL);
         }
     }
 

@@ -1,11 +1,11 @@
 package com.mxy.system.security.security.handler;
 
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysUser;
 import com.mxy.system.security.common.config.JWTConfig;
 import com.mxy.system.security.common.util.JWTTokenUtil;
 import com.mxy.system.security.common.util.ResultUtil;
 import com.mxy.system.security.common.util.SecurityUtil;
-import com.mxy.system.security.security.entity.SelfUserEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;

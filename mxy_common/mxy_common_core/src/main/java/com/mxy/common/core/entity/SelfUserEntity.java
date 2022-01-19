@@ -1,4 +1,4 @@
-package com.mxy.system.security.security.entity;
+package com.mxy.common.core.entity;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,10 +31,13 @@ public class SelfUserEntity implements Serializable, UserDetails {
 	 */
 	private String password;
 	/**
-	 * 状态:NORMAL正常  PROHIBIT禁用
+	 * 状态:0正常  1禁用
 	 */
 	private String status;
-
+	/**
+	 * 头像地址
+	 */
+	private String avatar;
 
 	/**
 	 * 用户角色

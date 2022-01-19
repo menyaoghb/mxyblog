@@ -21,8 +21,14 @@
     <el-table
       :data="list"
       style="width: 100%" :row-style="{height:'40px'}"
-      :cell-style="{padding:'0px'}" v-loading="listLoading">
+      :cell-style="{padding:'0px'}" v-loading="listLoading"
+      element-loading-spinner="el-icon-loading">
       <el-table-column type="index" width="50" align="center"/>
+      <el-table-column label="头像" align="center">
+        <template slot-scope="{row}">
+          <el-image :src="row.avatar" style="border-radius: 50%;width: 30px;height: 30px;"></el-image>
+        </template>
+      </el-table-column>
       <el-table-column prop="nickName" label="姓名" align="center"></el-table-column>
       <el-table-column prop="username" label="账号" align="center"></el-table-column>
       <el-table-column label="权限" align="center">
@@ -30,10 +36,10 @@
           <span v-for="item in userTypeOptions" v-if="row.userType===item.key">{{ item.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
-      <el-table-column label="最后登录时间" align="center">
+      <el-table-column prop="email" show-overflow-tooltip label="邮箱" align="center"></el-table-column>
+      <el-table-column label="最后登录时间" align="center" width="150">
         <template slot-scope="{row}">
-          <span>{{ row.loginDate | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+          <span>{{ row.loginDate | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态" width="90" class-name="status-col">
@@ -54,8 +60,14 @@
         <template slot-scope="{row,$index}">
           <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
           <el-button size="mini" @click="handleView(row)" type="text">详情</el-button>
-          <el-button size="mini" @click="handleDelete(row)" type="text">删除</el-button>
-          <el-button size="mini" @click="handleUpdate(row)" type="text">重置密码</el-button>
+          <el-popconfirm confirm-button-text='删除' cancel-button-text='取消' icon="el-icon-info"
+                         icon-color="red" title="确定删除该用户吗？" @onConfirm="handleDelete(row)">
+            <el-button slot="reference" size="mini" type="text">删除</el-button>
+          </el-popconfirm>
+          <el-popconfirm confirm-button-text='重置' cancel-button-text='取消' icon="el-icon-info"
+                         icon-color="red" title="确定重置密码吗？" @onConfirm="resetPassword(row)">
+            <el-button slot="reference" size="mini" type="text">重置密码</el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -99,6 +111,9 @@
     <el-dialog title="详情" :visible.sync="dialogFormVisibleView" width="700px" append-to-body>
       <el-form ref="dataForm" :model="temp" label-width="120px" size="mini">
         <el-row>
+          <el-col :span="24" style="text-align: center">
+            <el-image :src="temp.avatar" style="border-radius: 50%;width: 100px;height: 100px;"></el-image>
+          </el-col>
           <el-col :span="12">
             <el-form-item label="姓名：">{{ temp.nickName }}</el-form-item>
           </el-col>
@@ -151,7 +166,7 @@
 </template>
 
 <script>
-  import {getSysUserList, addUser, editUser, deleteUser,getRoles} from '@/api/user/user'
+  import {getSysUserList, addUser, editUser, deleteUser,getRoles,resetPassword,editUserStatus} from '@/api/user/user'
   import Pagination from '@/components/Pagination' // 分页
   import {validateEmail, validateAccount, validatePassword} from '@/utils/validate'
 
@@ -246,7 +261,8 @@
       }
     },
     created() {
-      this.getList()
+      this.getList();
+      this.getRoleList();
     },
     methods: {
       /*列表查询*/
@@ -275,27 +291,17 @@
       },
       /*用户状态改变*/
       handleModifyStatus(row) {
-        debugger
-        let text = row.status === "0" ? "启用" : "禁用";
-        this.$confirm('确认要"' + text + '""' + row.username + '"这个用户吗?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(() => {
-          this.temp.userId = row.userId;
-          let param = {};
-          param.userId = row.userId;
-          param.status = row.status;
-          editUser(param).then(() => {
-            this.$message({
-              message: text + '成功',
-              type: 'success'
-            });
-            this.getList();
-          })
-        }).catch(() => {
-          row.status = row.status === "0" ? "1" : "0";
-        });
+        this.temp.userId = row.userId;
+        let param = {};
+        param.userId = row.userId;
+        param.status = row.status;
+        editUserStatus(param).then(() => {
+          this.$message({
+            message: '更新成功',
+            type: 'success'
+          });
+          this.getList();
+        })
       },
       /*表单重置*/
       resetTemp() {
@@ -312,7 +318,6 @@
       },
       /*新增跳转*/
       handleCreate() {
-        this.getRoleList()
         this.resetTemp()
         this.dialogStatus = 'add'
         this.dialogFormVisible = true
@@ -337,7 +342,6 @@
       },
       /*修改跳转*/
       handleUpdate(row) {
-        this.getRoleList()
         this.temp = Object.assign({}, row) // copy obj
         this.temp.password = ''
         this.dialogStatus = 'edit'
@@ -363,27 +367,32 @@
       },
       /*数据删除*/
       handleDelete(row) {
-        this.$confirm('是否确认删除用户账号为"' + row.username + '"的数据?', "警告", {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.temp.userId = row.userId;
-          deleteUser(this.temp).then(() => {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            });
-            this.dialogFormVisible = false
-            this.getList();
-          })
-        }).catch(() => {
-        });
+        this.temp.userId = row.userId;
+        deleteUser(this.temp).then(() => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+          this.dialogFormVisible = false
+          this.getList();
+        })
       },
       /*数据详情*/
       handleView(row) {
         this.dialogFormVisibleView = true;
         this.temp = row;
+      },
+      /*重置密码*/
+      resetPassword(row) {
+        this.temp.userId = row.userId;
+        resetPassword(this.temp).then(() => {
+          this.$message({
+            message: '重置成功，新密码为：123456',
+            type: 'success'
+          });
+          this.dialogFormVisible = false
+          this.getList();
+        })
       }
     }
   }
@@ -395,5 +404,8 @@
   }
   .el-radio-role{
     margin-bottom: 10px;
+  }
+  .el-dialog__body {
+    padding: 10px 10px;
   }
 </style>

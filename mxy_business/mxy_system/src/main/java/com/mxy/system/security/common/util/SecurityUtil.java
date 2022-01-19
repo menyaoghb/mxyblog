@@ -1,6 +1,6 @@
 package com.mxy.system.security.common.util;
 
-import com.mxy.system.security.security.entity.SelfUserEntity;
+import com.mxy.common.core.entity.SelfUserEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**

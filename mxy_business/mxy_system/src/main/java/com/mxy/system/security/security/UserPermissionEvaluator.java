@@ -1,7 +1,7 @@
 package com.mxy.system.security.security;
 
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysMenu;
-import com.mxy.system.security.security.entity.SelfUserEntity;
 import com.mxy.system.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;

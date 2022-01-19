@@ -3,16 +3,18 @@ package com.mxy.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
-import com.mxy.common.core.utils.ServiceResult;
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysRole;
+import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysRoleVO;
 import com.mxy.system.mapper.SysRoleMapper;
+import com.mxy.system.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysRoleService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -50,8 +52,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public String add(SysRoleVO sysRoleVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysRole sysRole = new SysRole();
         BeanUtils.copyProperties(sysRoleVO, sysRole);
+        sysRole.setCreateUser(userDetails.getUsername());
         Boolean result = sysRole.insert();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.INSERT_SUCCESS);
@@ -62,8 +66,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public String edit(SysRoleVO sysRoleVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysRole sysRole = new SysRole();
         BeanUtils.copyProperties(sysRoleVO, sysRole);
+        sysRole.setUpdateUser(userDetails.getUsername());
         Boolean result = sysRole.updateById();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);

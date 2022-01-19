@@ -1,11 +1,11 @@
 package com.mxy.system.security.controller;
 
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysMenu;
 import com.mxy.common.core.entity.SysRole;
 import com.mxy.common.core.entity.SysUser;
 import com.mxy.system.security.common.util.ResultUtil;
 import com.mxy.system.security.common.util.SecurityUtil;
-import com.mxy.system.security.security.entity.SelfUserEntity;
 import com.mxy.system.service.SysMenuService;
 import com.mxy.system.service.SysRoleService;
 import com.mxy.system.service.SysUserService;

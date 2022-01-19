@@ -51,6 +51,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const { data } = response
+        const { user } = response
         if (!data) {
           reject('验证失败，请重新登录.')
         }
@@ -64,7 +65,7 @@ const actions = {
         data.roles = roles;
         commit('SET_ROLES', data.roles)
         commit('SET_NAME', data.username)
-        commit('SET_AVATAR', "http://mxy.mxyit.com/1")
+        commit('SET_AVATAR', user.avatar)
         resolve(data)
       }).catch(error => {
         reject(error)

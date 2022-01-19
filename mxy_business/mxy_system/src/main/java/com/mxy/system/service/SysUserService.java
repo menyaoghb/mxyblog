@@ -39,6 +39,16 @@ public interface SysUserService extends IService<SysUser> {
     public String delete(SysUserVO sysUserVO);
 
     /**
+     * 重置密码
+     */
+    public String resetPassword(SysUserVO sysUserVO);
+
+    /**
+     * 用户状态改变
+     */
+    public String editUserStatus(SysUserVO sysUserVO);
+
+    /**
      * 根据用户名查询实体
      * @Author Mxy
      * @CreateTime 2022/01/14 16:30

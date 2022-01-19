@@ -1,8 +1,8 @@
 package com.mxy.system.security.security;
 
 import com.mxy.common.core.constant.Constants;
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysRole;
-import com.mxy.system.security.security.entity.SelfUserEntity;
 import com.mxy.system.security.security.service.SelfUserDetailsService;
 import com.mxy.system.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +59,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         // 查询用户角色
         List<SysRole> sysRoleList = sysUserService.selectSysRoleByUserId(userInfo.getUserId());
         for (SysRole sysRole : sysRoleList) {
-            authorities.add(new SimpleGrantedAuthority(sysRole.getRoleName()));
+            authorities.add(new SimpleGrantedAuthority(sysRole.getRoleKey()));
         }
         userInfo.setAuthorities(authorities);
         // 进行登录

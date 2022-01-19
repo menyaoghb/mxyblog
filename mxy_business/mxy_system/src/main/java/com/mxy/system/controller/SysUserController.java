@@ -78,5 +78,29 @@ public class SysUserController {
         return sysUserService.delete(sysUserVO);
         }
 
+    /**
+     * @Description 编辑用户信息
+     * @author 孟小耀
+     * @date 2021-07-21
+     */
+    @SysLog(module = "重置密码", operType = OperType.UPDATE)
+    @ApiOperation(value = "重置密码")
+    @PostMapping("/resetPassword")
+    public String resetPassword(@RequestBody SysUserVO sysUserVO) {
+        return sysUserService.resetPassword(sysUserVO);
+    }
+
+    /**
+     * @Description 编辑用户信息
+     * @author 孟小耀
+     * @date 2021-07-21
+     */
+    @SysLog(module = "用户状态改变", operType = OperType.UPDATE)
+    @ApiOperation(value = "用户状态改变")
+    @PostMapping("/editUserStatus")
+    public String editUserStatus(@RequestBody SysUserVO sysUserVO) {
+        return sysUserService.editUserStatus(sysUserVO);
+    }
+
 }
 

@@ -1,8 +1,8 @@
 package com.mxy.system.security.common.util;
 
 import com.alibaba.fastjson.JSON;
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.system.security.common.config.JWTConfig;
-import com.mxy.system.security.security.entity.SelfUserEntity;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;

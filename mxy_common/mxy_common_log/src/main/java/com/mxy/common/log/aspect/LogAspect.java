@@ -1,10 +1,11 @@
 package com.mxy.common.log.aspect;
 
 import com.google.gson.Gson;
+import com.mxy.common.core.entity.SelfUserEntity;
+import com.mxy.common.core.entity.SysOperLog;
 import com.mxy.common.core.utils.IpUtils;
 import com.mxy.common.core.utils.ServletUtils;
 import com.mxy.common.log.annotation.SysLog;
-import com.mxy.common.core.entity.SysOperLog;
 import com.mxy.common.log.enums.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -12,6 +13,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -73,6 +75,7 @@ public class LogAspect {
         try {
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
             Method method = signature.getMethod();
+            SelfUserEntity userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
             SysOperLog sysOperLog = new SysOperLog();
             SysLog sysLog = method.getAnnotation(SysLog.class);
             if (sysLog != null) {
@@ -122,6 +125,7 @@ public class LogAspect {
             }
             // 操作时间
             sysOperLog.setOperTime(new Date());
+            sysOperLog.setOperName(userDetails.getUsername());
             sysOperLog.insert();
         } catch (Exception exception) {
             exception.printStackTrace();

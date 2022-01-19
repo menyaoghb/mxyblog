@@ -1,26 +1,19 @@
 package com.mxy.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.mxy.common.core.entity.SelfUserEntity;
+import com.mxy.common.core.entity.SysUser;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.common.log.annotation.SysLog;
-import com.mxy.common.core.entity.SysUser;
 import com.mxy.common.log.enums.OperType;
-import com.mxy.system.entity.vo.SysUserVO;
-import com.mxy.system.security.common.config.JWTConfig;
-import com.mxy.system.security.common.util.JWTTokenUtil;
-import com.mxy.system.security.common.util.ResultUtil;
-import com.mxy.system.security.security.entity.SelfUserEntity;
 import com.mxy.system.service.impl.SysUserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
