@@ -47,8 +47,8 @@ public class SysUserController {
      * @author 孟小耀
      * @date 2021-07-21
      */
-    @SysLog(module = "新增用户信息",operType = OperType.ADD)
-    @ApiOperation(value = "新增用户信息")
+    @SysLog(module = "新增用户",operType = OperType.ADD)
+    @ApiOperation(value = "新增用户")
     @PostMapping("/add")
     public String add(@RequestBody SysUserVO sysUserVO) {
         return sysUserService.add(sysUserVO);
@@ -59,8 +59,8 @@ public class SysUserController {
      * @author 孟小耀
      * @date 2021-07-21
      */
-    @SysLog(module = "编辑用户信息", operType = OperType.UPDATE)
-    @ApiOperation(value = "编辑用户信息")
+    @SysLog(module = "编辑用户", operType = OperType.UPDATE)
+    @ApiOperation(value = "编辑用户")
     @PostMapping("/edit")
     public String edit(@RequestBody SysUserVO sysUserVO) {
         return sysUserService.edit(sysUserVO);
@@ -71,8 +71,8 @@ public class SysUserController {
      * @author 孟小耀
      * @date 2021-07-21
      */
-    @SysLog(module = "删除用户信息",operType = OperType.DELETE)
-    @ApiOperation(value = "删除用户信息")
+    @SysLog(module = "删除用户",operType = OperType.DELETE)
+    @ApiOperation(value = "删除用户")
     @PostMapping("/delete")
     public String delete(@RequestBody SysUserVO sysUserVO) {
         return sysUserService.delete(sysUserVO);
