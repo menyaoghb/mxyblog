@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "字典数据",tags = "字典数据")
 @RestController
-@RequestMapping("/sysDictData")
+@RequestMapping("/api/sysDictData")
 public class SysDictDataController {
 
     @Autowired

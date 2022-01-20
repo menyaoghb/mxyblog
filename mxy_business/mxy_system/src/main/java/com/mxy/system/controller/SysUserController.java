@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "用户信息",tags = "用户信息")
 @RestController
 @CrossOrigin
-@RequestMapping("/sysUser")
+@RequestMapping("/api/sysUser")
 public class SysUserController {
 
     private static final Logger LOG = LogManager.getLogger(SysUserController.class);

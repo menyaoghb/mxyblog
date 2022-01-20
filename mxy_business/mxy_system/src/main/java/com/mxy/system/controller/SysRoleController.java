@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @Api(value = "角色信息",tags = "角色信息")
 @RestController
-@RequestMapping("/sysRole")
+@RequestMapping("/api/sysRole")
 public class SysRoleController {
 
     @Autowired

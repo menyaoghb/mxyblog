@@ -54,13 +54,13 @@ jwt:
   # 过期时间 单位秒 1天后过期=86400 7天后过期=604800
   expiration: 86400
   # 配置不需要认证的接口
-  antMatchers: /index/**,/sysArticle/**,/mxy/**,/druid/**,/favicon.ico,/login/**
+  antMatchers: /index/**,/sysArticle/**,/druid/**,/api/as/**,/favicon.ico,/login/**
 
 xxl:
   job:
     accessToken:
     admin:
-      addresses: http://localhost:8083/xxl-job-admin
+      addresses: http://localhost:9635/xxl-job-admin
       accessToken:
     executor:
       ip:

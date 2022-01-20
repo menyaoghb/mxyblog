@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "角色和菜单关联",tags = "角色和菜单关联")
 @RestController
-@RequestMapping("/sysRoleMenu")
+@RequestMapping("/api/sysRoleMenu")
 public class SysRoleMenuController {
 
     @Autowired

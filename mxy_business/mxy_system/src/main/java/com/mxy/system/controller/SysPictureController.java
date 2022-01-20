@@ -1,26 +1,16 @@
 package com.mxy.system.controller;
 
-import com.mxy.common.core.entity.SysPicture;
-import com.mxy.common.core.entity.SysUser;
-import com.mxy.common.core.utils.DateUtils;
-import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.common.log.annotation.SysLog;
 import com.mxy.common.log.enums.OperType;
-import com.mxy.system.entity.vo.BeautifulWordsVO;
 import com.mxy.system.entity.vo.SysPictureVO;
 import com.mxy.system.service.SysPictureService;
-import com.mxy.system.utils.QiniuUploadUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * <p>
@@ -32,7 +22,7 @@ import java.util.UUID;
  */
 @Api(value = "图片", tags = "图片")
 @RestController
-@RequestMapping("/system/sysPicture")
+@RequestMapping("/api/sysPicture")
 public class SysPictureController {
 
     @Autowired

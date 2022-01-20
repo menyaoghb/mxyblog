@@ -22,7 +22,7 @@ import java.util.Map;
  */
 @Api(value = "菜单权限", tags = "菜单权限")
 @RestController
-@RequestMapping("/sysMenu")
+@RequestMapping("/api/sysMenu")
 public class SysMenuController {
 
     @Autowired

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/mxy/login',
+    url: '/as/login',
     method: 'post',
     params: { username:data.username,password:data.password }
   })
@@ -18,7 +18,7 @@ export function getInfo(token) {
 
 export function logout() {
   return request({
-    url: '/mxy/logout',
+    url: '/as/logout',
     method: 'post'
   })
 }

@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Api(value = "用户头像上传", tags = "用户头像上传")
 @RestController
 @CrossOrigin
-@RequestMapping("/system/sysUserPhoto")
+@RequestMapping("/api/sysUserPhoto")
 public class SysUserPhotoController {
 
     @Autowired

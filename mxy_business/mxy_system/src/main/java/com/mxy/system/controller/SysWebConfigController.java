@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "网站参数配置",tags = "网站参数配置")
 @RestController
-@RequestMapping("/system/sysWebConfig")
+@RequestMapping("/api/sysWebConfig")
 public class SysWebConfigController {
 
     @Autowired
