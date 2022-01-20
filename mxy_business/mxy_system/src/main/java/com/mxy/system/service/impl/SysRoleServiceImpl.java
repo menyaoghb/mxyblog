@@ -57,6 +57,13 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public String add(SysRoleVO sysRoleVO) {
         SelfUserEntity userDetails = SecurityUtil.getUserInfo();
+        // 角色标识去重
+        QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(SysRole::getRoleKey,sysRoleVO.getRoleKey());
+        SysRole role =  this.baseMapper.selectOne(queryWrapper);
+        if (role!=null){
+            return ServiceResult.errorMsg(BaseMessage.INSERT_FAIL_ROLE_REPEAT);
+        }
         SysRole sysRole = new SysRole();
         BeanUtils.copyProperties(sysRoleVO, sysRole);
         sysRole.setCreateUser(userDetails.getUsername());

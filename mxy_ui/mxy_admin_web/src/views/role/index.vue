@@ -8,23 +8,27 @@
           style="width: 80%;"
           v-model="filterText" clearable>
         </el-input>
-        <el-button type="primary" icon="el-icon-plus" title="新增角色" @click="handleCreate()" circle></el-button>
-        <el-tree class="filter-tree role-tree"
-                 :data="data"
-                 :props="defaultProps"
-                 default-expand-all
-                 :filter-node-method="filterNode"
-                 ref="tree"
-                 @node-click="handleNodeClick"
-                 @node-drop="handleDrop"
-                 @node-contextmenu="rightClick"
-                 draggable
-                 :allow-drop="allowDrop"
-                 :allow-drag="allowDrag"
-                 empty-text=" "
-                 icon-class="el-icon-loading"
-                 v-loading="rolesLoading"
-                 element-loading-spinner="el-icon-loading"></el-tree>
+        <div class="add-role">
+          <el-button type="primary" icon="el-icon-plus" title="新增角色" @click="handleCreate()" circle></el-button>
+        </div>
+        <div style="height: 585px;overflow: auto;">
+          <el-tree class="filter-tree role-tree"
+                   :data="data"
+                   :props="defaultProps"
+                   default-expand-all
+                   :filter-node-method="filterNode"
+                   ref="tree"
+                   @node-click="handleNodeClick"
+                   @node-drop="handleDrop"
+                   @node-contextmenu="rightClick"
+                   draggable
+                   :allow-drop="allowDrop"
+                   :allow-drag="allowDrag"
+                   empty-text=" "
+                   icon-class="el-icon-loading"
+                   v-loading="rolesLoading"
+                   element-loading-spinner="el-icon-loading"></el-tree>
+        </div>
       </div>
     </el-col>
     <el-col :span="18">
@@ -176,7 +180,7 @@
         </el-drawer>
         <!--右键菜单-->
         <div id="perTreeMenu" class="tree_menu" v-show="menuDisplay" :style="{...rmStyle}">
-          <el-menu class="el-menu-vertical-demo" collapse="true"
+          <el-menu class="el-menu-vertical-demo"
                    text-color="#000" active-text-color="#409EFF">
             <el-menu-item index="1">新年</el-menu-item>
             <el-menu-item index="2">快乐</el-menu-item>
@@ -414,10 +418,6 @@ export default {
     },
     /*新增提交*/
     createData() {
-      if (this.temp.roleId == '') {
-
-      }
-
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           this.loading = true;
@@ -491,7 +491,7 @@ export default {
     },
     /*拖拽成功完成时触发的事件*/
     handleDrop(draggingNode, dropNode, dropType, ev) {
-      console.log('tree drop: ',draggingNode, dropNode, dropType);
+      console.log('tree drop: ', draggingNode, dropNode, dropType);
     },
     // 右击树节点
     rightClick(e, obj, node, self) {
@@ -550,18 +550,27 @@ export default {
 }
 
 .tree_menu .el-menu-item,
-.tree_menu /deep/.el-submenu__title {
+.tree_menu /deep/ .el-submenu__title {
   height: 30px;
   line-height: 30px;
   padding: 0 10px !important;
 }
 
-.tree_menu .el-submenu /deep/.el-submenu__icon-arrow {
+.tree_menu .el-submenu /deep/ .el-submenu__icon-arrow {
   display: block
 }
 
 .tree_menu .el-menu--collapse {
   width: 74px;
   background-color: #fff;
+}
+
+.add-role {
+  display: inline-block;
+}
+
+.add-role .el-button--primary {
+  background-color: #89ef87;
+  border-color: #89ef87;
 }
 </style>

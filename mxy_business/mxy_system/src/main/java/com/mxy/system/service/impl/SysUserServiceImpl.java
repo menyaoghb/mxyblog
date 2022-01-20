@@ -55,10 +55,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public String add(SysUserVO sysUserVO) {
         SelfUserEntity userDetails = SecurityUtil.getUserInfo();
-        // 新增前查重
+        // 用户账号去重
         SysUser sysUserEntity =selectUserByName(sysUserVO.getUsername());
         if (sysUserEntity!=null){
-            return ServiceResult.errorMsg(BaseMessage.INSERT_FAIL_REPEAT);
+            return ServiceResult.errorMsg(BaseMessage.INSERT_FAIL_USER_REPEAT);
         }
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(sysUserVO, sysUser);

@@ -1,57 +1,71 @@
 mybatis-plus:
-    configuration:
-        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    global-config:
-        db-config:
-            logic-delete-value: 1
-            logic-not-delete-value: 0
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
 server:
-    port: 8001
+  port: 8001
 spring:
-    application:
-        name: mxy_system
-    datasource:
-        driver-class-name: com.mysql.jdbc.Driver
-        password: Aa123456.
-        url: jdbc:mysql://110.42.135.120:3306/mxy_blog?serverTimezone=GMT%2B8&useSSL=false
-        username: root
-        type: com.alibaba.druid.pool.DruidDataSource
-        # 初始化，最小，最大连接数
-        initialSize: 3
-        minidle: 3
-        maxActive: 18
-        # 获取数据库连接等待的超时时间
-        maxWait: 60000
-        # 配置多久进行一次检测，检测需要关闭的空闲连接 单位毫秒
-        timeBetweenEvictionRunsMillis: 60000
-        testWhileIdle: true
-        testOnBorrow: false
-        testOnReturn: false
-        poolPreparedStatements: true
-        validationQuery: SELECT 1 FROM dual
-        # 配置监控统计拦截的filters,去掉后，监控界面的sql无法统计
-        filters: stat,wall,log4j,slf4j,SysLog
-        maxPoolPreparedStatementPerConnectionSize: 20
-        useGlobalDataSourceStat: true
-        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-    jackson:
-        date-format: yyyy-MM-dd HH:mm:ss
-        time-zone: GMT+8
-    profiles:
-        active: dev
-    servlet:
-        multipart:
-            max-file-size: 10MB
-            max-request-size: 100MB
+  application:
+    name: mxy_system
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: Aa123456.
+    url: jdbc:mysql://110.42.135.120:3306/mxy_blog?serverTimezone=GMT%2B8&useSSL=false
+    username: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 初始化，最小，最大连接数
+    initialSize: 3
+    minidle: 3
+    maxActive: 18
+    # 获取数据库连接等待的超时时间
+    maxWait: 60000
+    # 配置多久进行一次检测，检测需要关闭的空闲连接 单位毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    validationQuery: SELECT 1 FROM dual
+    # 配置监控统计拦截的filters,去掉后，监控界面的sql无法统计
+    filters: stat,wall,log4j,slf4j,SysLog
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
 # JWT配置
 jwt:
-    # 密匙KEY
-    secret: MXYSecret
-    # HeaderKEY
-    tokenHeader: Authorization
-    # Token前缀字符
-    tokenPrefix: Mxy-
-    # 过期时间 单位秒 1天后过期=86400 7天后过期=604800
-    expiration: 86400
-    # 配置不需要认证的接口
-    antMatchers: /index/**,/sysArticle/**,/mxy/**,/druid/**,/favicon.ico,/login/**
+  # 密匙KEY
+  secret: MXYSecret
+  # HeaderKEY
+  tokenHeader: Authorization
+  # Token前缀字符
+  tokenPrefix: Mxy-
+  # 过期时间 单位秒 1天后过期=86400 7天后过期=604800
+  expiration: 86400
+  # 配置不需要认证的接口
+  antMatchers: /index/**,/sysArticle/**,/mxy/**,/druid/**,/favicon.ico,/login/**
+
+xxl:
+  job:
+    accessToken:
+    admin:
+      addresses: http://localhost:8083/xxl-job-admin
+      accessToken:
+    executor:
+      ip:
+      port: 9999
+      address:
+      logpath: /data/applogs/xxl-job/jobhandler
+      appname: mxy-job
+      logretentiondays: 300
