@@ -8,7 +8,7 @@
           style="width: 80%;"
           v-model="filterText" clearable>
         </el-input>
-        <el-button type="primary" icon="el-icon-plus" title="新增角色" @click="handleCreate" circle></el-button>
+        <el-button type="primary" icon="el-icon-plus" title="新增角色" @click="handleCreate()" circle></el-button>
         <el-tree class="filter-tree role-tree"
                  :data="data"
                  :props="defaultProps"
@@ -16,6 +16,11 @@
                  :filter-node-method="filterNode"
                  ref="tree"
                  @node-click="handleNodeClick"
+                 @node-drop="handleDrop"
+                 @node-contextmenu="rightClick"
+                 draggable
+                 :allow-drop="allowDrop"
+                 :allow-drag="allowDrag"
                  empty-text=" "
                  icon-class="el-icon-loading"
                  v-loading="rolesLoading"
@@ -42,7 +47,7 @@
                 重置
               </el-button>
             </div>
-            <!--表格-->
+            <!--角色关联用户表格-->
             <el-table
               :data="userList"
               style="width: 100%" :row-style="{height:'40px'}"
@@ -74,6 +79,7 @@
           </el-tab-pane>
           <el-tab-pane label="功能权限" name="second">
             <el-row :gutter="20">
+              <!--菜单树-->
               <el-col :span="6">
                 <el-tree
                   :data="menuData"
@@ -84,12 +90,12 @@
                   :default-checked-keys="checkMenuData"
                   empty-text=" "
                   ref="menuTree"
-                  v-loading="listLoading"
+                  v-loading="menuTreeLoading"
                   @node-click="menuHandleNodeClick"
                   element-loading-spinner="el-icon-loading">
                 </el-tree>
-
               </el-col>
+              <!--菜单关联的角色列表-->
               <el-col :span="18">
                 <div class="filter-container">
                   <el-button v-show="isSetRoleMenu" class="filter-item" style="margin-left: 10px;float: right;"
@@ -108,14 +114,46 @@
               </el-col>
             </el-row>
           </el-tab-pane>
-          <el-tab-pane label="数据权限" name="third">角色管理</el-tab-pane>
+          <el-tab-pane label="数据权限" name="third">数据权限</el-tab-pane>
           <el-tab-pane label="角色更新" name="fourth">
+            <div style="width: 100%;height: 35px">
+              <el-alert title="请点击角色进行操作" type="info" v-show="showTitle" center close-text="知道了">
+              </el-alert>
+            </div>
+            <div>
+              <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px"
+                       style="width: 400px; margin-left:160px;">
+                <el-form-item label="名称">
+                  <el-input v-model="temp.roleName"/>
+                </el-form-item>
+                <el-form-item label="标识">
+                  <el-input v-model="temp.roleKey" disabled/>
+                </el-form-item>
+                <el-form-item label="状态">
+                  <el-select v-model="temp.status" class="filter-item" style="width: 100%;">
+                    <el-option v-for="item in statusOptions" :key="item.key" :label="item.name" :value="item.key"/>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="备注">
+                  <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"/>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click="updateData()">更新</el-button>
+                </el-form-item>
+              </el-form>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
+        <!--新增页-->
+        <el-drawer title="新增角色" :visible.sync="dialog" direction="ttb" custom-class="role-drawer" ref="drawer"
+                   size="50%">
+          <div class="role-drawer__content">
             <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px"
-                     style="width: 400px; margin-left:160px;">
-              <el-form-item label="名称">
+                     style="width: 400px;display: inline-block;">
+              <el-form-item label="名称" prop="roleName">
                 <el-input v-model="temp.roleName"/>
               </el-form-item>
-              <el-form-item label="标识">
+              <el-form-item label="标识" prop="roleKey">
                 <el-input v-model="temp.roleKey"/>
               </el-form-item>
               <el-form-item label="状态">
@@ -126,48 +164,31 @@
               <el-form-item label="备注">
                 <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"/>
               </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="updateData()">更新</el-button>
-              </el-form-item>
             </el-form>
-          </el-tab-pane>
-        </el-tabs>
-
-        <!--新增/修改页-->
-        <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-          <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px"
-                   style="width: 400px; margin-left:160px;">
-            <el-form-item label="名称">
-              <el-input v-model="temp.roleName"/>
-            </el-form-item>
-            <el-form-item label="标识">
-              <el-input v-model="temp.roleKey"/>
-            </el-form-item>
-            <el-form-item label="状态">
-              <el-select v-model="temp.status" class="filter-item" style="width: 100%;">
-                <el-option v-for="item in statusOptions" :key="item.key" :label="item.name" :value="item.key"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="备注">
-              <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"/>
-            </el-form-item>
-          </el-form>
-          <div slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="dialogStatus==='add'?createData():updateData()">
-              提交
-            </el-button>
-            <el-button @click="dialogFormVisible = false">
-              取消
-            </el-button>
+            <div class="demo-drawer__footer">
+              <el-button @click="cancelForm">取 消</el-button>
+              <el-button type="primary" @click="createData()" :loading="loading">{{
+                  loading ? '提交中 ...' : '确 定'
+                }}
+              </el-button>
+            </div>
           </div>
-        </el-dialog>
+        </el-drawer>
+        <!--右键菜单-->
+        <div id="perTreeMenu" class="tree_menu" v-show="menuDisplay" :style="{...rmStyle}">
+          <el-menu class="el-menu-vertical-demo" collapse="true"
+                   text-color="#000" active-text-color="#409EFF">
+            <el-menu-item index="1">新年</el-menu-item>
+            <el-menu-item index="2">快乐</el-menu-item>
+          </el-menu>
+        </div>
       </div>
     </el-col>
   </el-row>
 </template>
 
 <script>
-import {getSysRoleList, addRole, editRole, deleteRole, editRoleStatus,saveRoleMenu} from '@/api/role/role'
+import {getSysRoleList, addRole, editRole, deleteRole, editRoleStatus, saveRoleMenu} from '@/api/role/role'
 import Pagination from '@/components/Pagination'
 import {addUser, editUserStatus, getRoles, getSysUserList} from "@/api/user/user";
 import {getTreeData} from "@/api/menu/menu"; // 分页
@@ -206,6 +227,9 @@ export default {
       total: 0, // 总条数
       listLoading: true,
       rolesLoading: true,
+      menuTreeLoading: true,
+      menuDisplay: false,
+      rmStyle: {},
       listQuery: {
         currentPage: 1,
         pageSize: 10,
@@ -231,7 +255,19 @@ export default {
         add: '新增',
         edit: '编辑'
       },
-      rules: {}
+      rules: {
+        roleName: [
+          {required: true, message: '请填写角色名称', trigger: 'blur'},
+          {min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur'}
+        ],
+        roleKey: [
+          {required: true, message: '请填写角色标识', trigger: 'blur'},
+          {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
+        ]
+      },
+      dialog: false,
+      loading: false,
+      showTitle: true
     }
   },
   watch: {
@@ -246,14 +282,16 @@ export default {
     /*角色列表查询*/
     getList() {
       this.rolesLoading = true
-      getSysRoleList({currentPage: 1, pageSize: 10}).then(response => {
+      getSysRoleList({currentPage: 1, pageSize: 100}).then(response => {
         this.data = response.data.records
+        this.rolesLoading = false
         if (response.data.total > 0) {
           this.roleId = this.data[0].roleId;
           this.listQuery.userType = this.data[0].roleId;
+          this.temp = Object.assign({}, this.data)
           this.getUserList();
         }
-        this.rolesLoading = false
+
       })
     },
     /*人员列表查询*/
@@ -274,11 +312,11 @@ export default {
     },
     /*菜单树数据*/
     getTreeData() {
-      this.listLoading = true
+      this.menuTreeLoading = true
       getTreeData({roleId: this.roleId}).then(response => {
         this.menuData = response.data.treeData;
         this.checkMenuData = response.data.checkTreeData;
-        this.listLoading = false
+        this.menuTreeLoading = false
       })
     },
     /*条件查询*/
@@ -295,15 +333,16 @@ export default {
       this.listQuery.nickName = "";
       this.listQuery.username = "";
     },
-    /*树点击事件*/
+    /*角色结构-角色树点击事件*/
     handleNodeClick(data) {
+      this.showTitle = false;
       this.listQuery.userType = data.roleId;
       this.roleId = data.roleId;
       this.temp = Object.assign({}, data)
       this.getUserList();
       this.getTreeData();
     },
-    /*菜单树点击事件*/
+    /*功能权限-菜单树点击事件*/
     menuHandleNodeClick(data) {
       console.log(data)
     },
@@ -314,7 +353,7 @@ export default {
     /*功能权限保存*/
     saveRoleMenu() {
       this.isSetRoleMenu = true;
-      saveRoleMenu({roleId: this.roleId,menuIds:this.$refs.menuTree.getCheckedKeys()}).then(response => {
+      saveRoleMenu({roleId: this.roleId, menuIds: this.$refs.menuTree.getCheckedKeys()}).then(response => {
         this.$message({
           message: '更新成功',
           type: 'success'
@@ -371,22 +410,24 @@ export default {
     /*新增跳转*/
     handleCreate() {
       this.resetTemp()
-      this.dialogStatus = 'add'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
+      this.dialog = true
     },
     /*新增提交*/
     createData() {
+      if (this.temp.roleId == '') {
+
+      }
+
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
+          this.loading = true;
           addRole(this.temp).then(() => {
+            this.dialog = false
+            this.loading = false;
             this.$message({
               message: '新增成功',
               type: 'success'
             });
-            this.dialogFormVisible = false
             this.getList();
           })
         }
@@ -434,6 +475,37 @@ export default {
         })
       }).catch(() => {
       });
+    },
+    /*新增取消*/
+    cancelForm() {
+      this.loading = false;
+      this.dialog = false;
+    },
+    /*节点是否拖拽*/
+    allowDrag(draggingNode) {
+      return true;
+    },
+    /*节点放置方式*/
+    allowDrop(draggingNode, dropNode, type) {
+      return type !== 'inner';
+    },
+    /*拖拽成功完成时触发的事件*/
+    handleDrop(draggingNode, dropNode, dropType, ev) {
+      console.log('tree drop: ',draggingNode, dropNode, dropType);
+    },
+    // 右击树节点
+    rightClick(e, obj, node, self) {
+      this.rmStyle = {
+        top: e.pageY + 'px',
+        left: e.pageX + 'px'
+      }
+      this.menuDisplay = true
+      const sel = this
+      document.onclick = function (ev) {
+        if (ev.target !== document.getElementById('perTreeMenu')) {
+          sel.menuDisplay = false
+        }
+      }
     }
   }
 }
@@ -452,8 +524,44 @@ export default {
   height: 32px;
   line-height: 32px;
 }
-.el-button.is-circle{
+
+.el-button.is-circle {
   padding: 8px;
-  margin-left:20px;
+  margin-left: 20px;
+}
+
+.role-drawer {
+  text-align: center;
+}
+
+.tree_menu {
+  position: fixed;
+  display: block;
+  z-index: 20000;
+  background-color: #fff;
+  padding: 5px 0;
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+}
+
+.tree_menu .menuItem span {
+  color: #000;
+}
+
+.tree_menu .el-menu-item,
+.tree_menu /deep/.el-submenu__title {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px !important;
+}
+
+.tree_menu .el-submenu /deep/.el-submenu__icon-arrow {
+  display: block
+}
+
+.tree_menu .el-menu--collapse {
+  width: 74px;
+  background-color: #fff;
 }
 </style>

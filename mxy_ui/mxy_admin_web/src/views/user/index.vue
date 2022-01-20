@@ -82,7 +82,7 @@
         <el-form-item label="姓名" prop="nickName">
           <el-input v-model="temp.nickName"/>
         </el-form-item>
-        <el-form-item label="账号">
+        <el-form-item label="账号" prop="username">
           <el-input v-model="temp.username"/>
         </el-form-item>
         <el-form-item label="密码" style="margin-bottom: 30px;" v-show="dialogStatus === 'add'">
