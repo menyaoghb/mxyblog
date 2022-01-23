@@ -1,6 +1,6 @@
 mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  #configuration:
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
       logic-delete-value: 1
@@ -67,5 +67,5 @@ xxl:
       port: 9999
       address:
       logpath: /data/applogs/xxl-job/jobhandler
-      appname: mxy-job
+      appname: mxy-joba
       logretentiondays: 300

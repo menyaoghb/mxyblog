@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @Date 2021/7/18 0018 2:36
  */
 @Configuration
-@MapperScan("com.mxy.system.mapper")
+@MapperScan({"com.mxy.system.mapper", "com.mxy.system.demo.insert.mapper"})
 public class MyBatisPlusConfig {
     /**
      * 分页插件
