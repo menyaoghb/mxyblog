@@ -33,8 +33,8 @@ public class SysWebConfigController {
      * @author 孟小耀
      * @date 2021-08-17
      */
-    @SysLog(module = "获取网站参数配置列表")
-    @ApiOperation(value = "获取网站参数配置列表")
+    @SysLog(module = "网站参数配置列表")
+    @ApiOperation(value = "网站参数配置列表")
     @PostMapping("/getList")
     public String getList(@RequestBody SysWebConfigVO sysWebConfigVO) {
         return sysWebConfigService.getList(sysWebConfigVO);

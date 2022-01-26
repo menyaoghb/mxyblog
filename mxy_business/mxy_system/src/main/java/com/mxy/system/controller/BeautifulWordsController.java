@@ -34,7 +34,7 @@ public class BeautifulWordsController {
      * @date 2021-08-06
      */
     @SysLog(module = "佳句列表")
-    @ApiOperation(value = "获取佳句列表")
+    @ApiOperation(value = "佳句列表")
     @PostMapping("/getList")
     public String getList(@RequestBody BeautifulWordsVO beautifulWordsVO) {
         return beautifulWordsService.getList(beautifulWordsVO);

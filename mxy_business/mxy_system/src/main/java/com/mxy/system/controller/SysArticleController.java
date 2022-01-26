@@ -34,7 +34,7 @@ public class SysArticleController {
      * @date 2021-08-17
      */
     @SysLog(module = "获取文章列表")
-    @ApiOperation(value = "获取文章列表")
+    @ApiOperation(value = "文章列表")
     @PostMapping("/getList")
     public String getList(@RequestBody SysArticleVO sysArticleVO) {
         return sysArticleService.getList(sysArticleVO);

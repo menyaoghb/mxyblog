@@ -32,7 +32,7 @@ public class SysUserRoleController {
      * @author 孟小耀
      * @date 2021-07-25
      */
-    @ApiOperation(value = "获取用户和角色关联列表")
+    @ApiOperation(value = "用户和角色关联列表")
     @PostMapping("/getList")
     public String getList(@RequestBody SysUserRoleVO sysUserRoleVO) {
         return sysUserRoleService.getList(sysUserRoleVO);

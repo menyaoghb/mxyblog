@@ -34,8 +34,8 @@ public class SysDictTypeController {
      * @author 孟小耀
      * @date 2021-07-25
      */
-    @SysLog(module = "获取字典类型列表",operType = OperType.SELECT)
-    @ApiOperation(value = "获取字典类型列表")
+    @SysLog(module = "字典类型列表",operType = OperType.SELECT)
+    @ApiOperation(value = "字典类型列表")
     @PostMapping("/getList")
     public String getList(@RequestBody SysDictTypeVO sysDictTypeVO) {
         return sysDictTypeService.getList(sysDictTypeVO);

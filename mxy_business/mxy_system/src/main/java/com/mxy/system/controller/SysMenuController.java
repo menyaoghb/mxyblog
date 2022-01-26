@@ -33,8 +33,8 @@ public class SysMenuController {
      * @author 孟小耀
      * @date 2021-07-25
      */
-    @SysLog(module = "获取菜单权限列表",operType = OperType.SELECT)
-    @ApiOperation(value = "获取菜单权限列表")
+    @SysLog(module = "菜单权限列表",operType = OperType.SELECT)
+    @ApiOperation(value = "菜单权限列表")
     @PostMapping("/getList")
     public String getList(@RequestBody SysMenuVO sysMenuVO) {
         return sysMenuService.getList(sysMenuVO);
@@ -81,8 +81,8 @@ public class SysMenuController {
      * @Author: 孟耀
      * @Date: 2021/7/29 0029
      */
-    @SysLog(module = "获取菜单树数据")
-    @ApiOperation(value = "获取菜单树数据")
+    @SysLog(module = "菜单树数据")
+    @ApiOperation(value = "菜单树数据")
     @PostMapping("/treeData")
     public String treeData(@RequestBody Map<String, Object> map) {
         return sysMenuService.treeData(map);

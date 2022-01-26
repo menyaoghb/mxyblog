@@ -33,8 +33,8 @@ public class SysPictureController {
      * @author 孟小耀
      * @date 2021-08-18
      */
-    @SysLog(module = "获取图片列表")
-    @ApiOperation(value = "获取图片列表")
+    @SysLog(module = "图片列表")
+    @ApiOperation(value = "图片列表")
     @PostMapping("/getList")
     public String getList(@RequestBody SysPictureVO sysPictureVO) {
         return sysPictureService.getList(sysPictureVO);
