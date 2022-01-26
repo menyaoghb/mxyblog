@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '研发自测系统',
+  title: 'YFTest',
 
   /**
    * @type {boolean} true | false

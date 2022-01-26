@@ -1,6 +1,6 @@
 import defaultSettings from '@/settings'
 
-const title = defaultSettings.title || '研发自测系统'
+const title = defaultSettings.title || 'YFTest'
 
 export default function getPageTitle(pageTitle) {
   if (pageTitle) {

@@ -97,12 +97,12 @@ public class LogAspect {
             sysOperLog.setOperParam(list.toString());
             // 请求方式
             sysOperLog.setRequestMethod(ServletUtils.getRequest().getMethod());
-            String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+            String ip = IpUtils.getIpAddrs(ServletUtils.getRequest());
             // 主机地址
             sysOperLog.setOperIp(ip);
             // 操作地址
             String ipName = "";
-            if ("127.0.0.1".equals(ip)) {
+            if (StringUtils.isEmpty(ip)) {
                 ipName = IpUtils.recordIp("220.248.243.122");
             } else {
                 ipName = IpUtils.recordIp(ip);

@@ -57,6 +57,25 @@ public class IpUtils {
     }
 
 
+    public static String getIpAddrs(HttpServletRequest request) {
+        //负载均衡下为小写
+        String ip = request.getHeader("x-forward-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("X-Forwarded-For");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
+    }
+
+
     /**
      * 解析IP地址
      * 例：中国-安徽-合肥-联通
@@ -66,7 +85,7 @@ public class IpUtils {
         String jsonStr = OkGetArt(url);
         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
         JSONObject result = (JSONObject) jsonObject.get("data");
-        return result.get("country") + "-" + result.get("region") + "-" + result.get("city")+"-"+result.get("isp");
+        return result.get("country") + "-" + result.get("region") + "-" + result.get("city") + "-" + result.get("isp");
 
     }
 
