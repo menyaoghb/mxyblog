@@ -24,16 +24,29 @@ spring:
     maxWait: 60000
     # 配置多久进行一次检测，检测需要关闭的空闲连接 单位毫秒
     timeBetweenEvictionRunsMillis: 60000
+    timeBetweenLogStatsMillis: 30000
     testWhileIdle: true
     testOnBorrow: false
     testOnReturn: false
-    poolPreparedStatements: true
+    poolPreparedStatements: false
     validationQuery: SELECT 1 FROM dual
     # 配置监控统计拦截的filters,去掉后，监控界面的sql无法统计
-    filters: stat,wall,log4j,slf4j,SysLog
+    filters: stat,wall,log4j,slf4j
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+    stat:
+      enabled: true #开启 SQL 监控
+      slow-sql-millis: 100 #慢查询
+      log-slow-sql: true #记录慢查询 SQL
+      #配置WallFilter (防火墙配置)
+      wall:
+        enabled: true #开启防火墙
+        config:
+          update-allow: true #允许更新操作
+          drop-table-allow: false #禁止删表操作
+          insert-allow: true #允许插入操作
+          delete-allow: true #删除数据操作
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -60,7 +73,7 @@ xxl:
   job:
     accessToken:
     admin:
-      addresses: http://localhost:9635/xxl-job-admin
+      addresses: http://mxyit.com:8090/xxl-job-admin
       accessToken:
     executor:
       ip:

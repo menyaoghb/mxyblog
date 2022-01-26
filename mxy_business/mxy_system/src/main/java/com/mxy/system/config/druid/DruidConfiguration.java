@@ -1,7 +1,11 @@
 package com.mxy.system.config.druid;
 
+import com.alibaba.druid.filter.logging.Log4j2Filter;
+import com.alibaba.druid.filter.logging.Slf4jLogFilter;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import com.alibaba.druid.wall.WallConfig;
+import com.alibaba.druid.wall.WallFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -27,10 +31,11 @@ public class DruidConfiguration {
         //添加初始化参数：initParams
 
         //白名单：
-        servletRegistrationBean.addInitParameter("allow","127.0.0.1");
+        //servletRegistrationBean.addInitParameter("allow","127.0.0.1");
+        servletRegistrationBean.addInitParameter("allow","10.0.4.4");
 
         //IP黑名单 (存在共同时，deny优先于allow) : 如果满足deny的话提示:Sorry, you are not permitted to view this page.
-        servletRegistrationBean.addInitParameter("deny","192.168.0.114");
+        //servletRegistrationBean.addInitParameter("deny","192.168.0.114");
 
         //登录查看信息的账号密码.
         servletRegistrationBean.addInitParameter("loginUsername","admin");
@@ -57,4 +62,38 @@ public class DruidConfiguration {
 
         return filterRegistrationBean;
     }
+
+
+    @Bean
+    public Slf4jLogFilter slf4jLogFilter(){
+        Slf4jLogFilter filter = new Slf4jLogFilter();
+        return  filter;
+    }
+
+    @Bean
+    public Log4j2Filter log4j2Filter(){
+        Log4j2Filter filter = new Log4j2Filter();
+        return  filter;
+    }
+
+    @Bean
+    public WallFilter wallFilter() {
+        WallFilter wallFilter = new WallFilter();
+        wallFilter.setConfig(wallConfig());
+        return wallFilter;
+
+    }
+
+    @Bean
+    public WallConfig wallConfig() {
+        WallConfig config = new WallConfig();
+        //允许一次执行多条语句A
+        config.setMultiStatementAllow(true);
+        return config;
+    }
+
+
+
+
+
 }

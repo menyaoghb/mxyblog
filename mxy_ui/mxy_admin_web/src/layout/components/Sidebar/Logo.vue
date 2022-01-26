@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       title: '研发自测系统',
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      logo: 'http://mxy.mxyit.com/logo/yftlogo.png'
     }
   }
 }

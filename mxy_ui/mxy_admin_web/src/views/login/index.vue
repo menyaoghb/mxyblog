@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">研发自测系统</h3>
+        <img src="http://mxy.mxyit.com/logo/yftlogo.png" class="mxy-logo">
       </div>
 
       <el-form-item prop="username">
@@ -120,6 +120,11 @@ export default {
 </script>
 
 <style lang="scss">
+
+.mxy-logo{
+  width: 150px;
+  height: 150px;
+}
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
@@ -208,6 +213,7 @@ $light_gray:#eee;
 
   .title-container {
     position: relative;
+    text-align: center;
 
     .title {
       font-size: 26px;

@@ -2,6 +2,7 @@ package com.mxy.system.demo.insert.service;
 
 import com.mxy.system.demo.insert.entity.Person;
 import com.mxy.system.demo.insert.mapper.PersonMapper;
+import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Component
 public class PersonService {
 
-    private static final int THREAD_COUNT = 10;
+    private static final int THREAD_COUNT = 4;
     @Autowired
     private PersonMapper personMapper;
     @Autowired
@@ -32,7 +33,7 @@ public class PersonService {
 
     @XxlJob("insertList")
     public void insertList() {
-        System.out.println("本轮任务开始，总任务数：" + THREAD_COUNT);
+        XxlJobHelper.log("本轮任务开始，总任务数：" + THREAD_COUNT);
         long start = System.currentTimeMillis();
         AtomicLong end = new AtomicLong();
         for (int i = 0; i < THREAD_COUNT; i++) {
@@ -42,7 +43,7 @@ public class PersonService {
                         personMapper.insertList(getPersonList(5000));
                     }
                     end.set(System.currentTimeMillis());
-                    System.out.println("本轮任务耗时：" + (end.get() - start) + "____已执行" + integer.addAndGet(1) + "个任务" + "____当前队列任务数" + executor.getQueue().size());
+                    XxlJobHelper.log("本轮任务耗时：" + (end.get() - start) + "____已执行" + integer.addAndGet(1) + "个任务" + "____当前队列任务数" + executor.getQueue().size());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
