@@ -1,8 +1,8 @@
 package com.mxy.system.security.security.handler;
 
-import com.mxy.common.log.annotation.SysLog;
 import com.mxy.common.log.enums.OperType;
 import com.mxy.system.security.common.util.ResultUtil;
+import com.mxy.system.utils.LogUtil;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -24,6 +24,7 @@ public class UserAuthAccessDeniedHandler implements AccessDeniedHandler{
      */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exception){
+        LogUtil.saveLog("未授权", OperType.ERROR.ordinal());
         ResultUtil.responseJson(response,ResultUtil.resultCode(403,"未授权"));
     }
 }

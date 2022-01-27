@@ -76,16 +76,12 @@
 </template>
 
 <script>
-  import {getList, addUser, editUser, deleteUser, getFileTypeList} from '@/api/file/picture/picture'
-  import waves from '@/directive/waves' // waves directive
+  import {getList, addUser, editUser, deleteUser, getFileTypeList} from '@/api/file/img/img'
   import Pagination from '@/components/Pagination' // 分页
-  import {validateEmail, validateAccount, validatePassword} from '@/utils/validate'
-  import {getAdviceList} from "@/api/mxy/beautifulWords/beautifulWords";
 
   export default {
     name: 'ComplexTable',
     components: {Pagination},
-    directives: {waves},
     filters: {},
     data() {
       return {

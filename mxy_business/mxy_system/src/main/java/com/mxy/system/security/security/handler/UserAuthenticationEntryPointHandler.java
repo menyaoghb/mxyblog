@@ -1,8 +1,8 @@
 package com.mxy.system.security.security.handler;
 
-import com.mxy.common.log.annotation.SysLog;
 import com.mxy.common.log.enums.OperType;
 import com.mxy.system.security.common.util.ResultUtil;
+import com.mxy.system.utils.LogUtil;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -24,6 +24,7 @@ public class UserAuthenticationEntryPointHandler implements AuthenticationEntryP
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception){
+        LogUtil.saveLog("未登录", OperType.ERROR.ordinal());
         ResultUtil.responseJson(response,ResultUtil.resultCode(401,"未登录"));
     }
 }

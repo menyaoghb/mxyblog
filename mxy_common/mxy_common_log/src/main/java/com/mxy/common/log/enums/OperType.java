@@ -53,7 +53,7 @@ public enum OperType {
     DOWNLOAD,
 
     /**
-     * 登入
+     * 登录
      */
     LOGIN,
 

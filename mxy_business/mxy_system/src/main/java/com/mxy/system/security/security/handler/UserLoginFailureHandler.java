@@ -1,6 +1,8 @@
 package com.mxy.system.security.security.handler;
 
+import com.mxy.common.log.enums.OperType;
 import com.mxy.system.security.common.util.ResultUtil;
+import com.mxy.system.utils.LogUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
@@ -30,16 +32,20 @@ public class UserLoginFailureHandler implements AuthenticationFailureHandler {
         // 这些对于操作的处理类可以根据不同异常进行不同处理
         if (exception instanceof UsernameNotFoundException){
             log.info("【登录失败】"+exception.getMessage());
+            LogUtil.saveLog("登录失败-用户名不存在", OperType.ERROR.ordinal());
             ResultUtil.responseJson(response,ResultUtil.resultCode(500,"用户名不存在"));
         }
         if (exception instanceof LockedException){
             log.info("【登录失败】"+exception.getMessage());
+            LogUtil.saveLog("登录失败-用户被冻结", OperType.ERROR.ordinal());
             ResultUtil.responseJson(response,ResultUtil.resultCode(500,"用户被冻结"));
         }
         if (exception instanceof BadCredentialsException){
             log.info("【登录失败】"+exception.getMessage());
+            LogUtil.saveLog("登录失败-用户名密码不正确", OperType.ERROR.ordinal());
             ResultUtil.responseJson(response,ResultUtil.resultCode(500,"用户名密码不正确"));
         }
+        LogUtil.saveLog("登录失败", OperType.ERROR.ordinal());
         ResultUtil.responseJson(response,ResultUtil.resultCode(500,"登录失败"));
     }
 }

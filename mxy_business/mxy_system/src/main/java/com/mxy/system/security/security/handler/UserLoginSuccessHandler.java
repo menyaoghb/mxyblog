@@ -2,10 +2,12 @@ package com.mxy.system.security.security.handler;
 
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysUser;
+import com.mxy.common.log.enums.OperType;
 import com.mxy.system.security.common.config.JWTConfig;
 import com.mxy.system.security.common.util.JWTTokenUtil;
 import com.mxy.system.security.common.util.ResultUtil;
 import com.mxy.system.security.common.util.SecurityUtil;
+import com.mxy.system.utils.LogUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -49,6 +51,7 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
         resultData.put("msg", "登录成功");
         resultData.put("data", userDetails);
         resultData.put("token",token);
+        LogUtil.saveLog("登录", OperType.LOGIN.ordinal());
         ResultUtil.responseJson(response,resultData);
     }
 }

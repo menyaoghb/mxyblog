@@ -134,6 +134,30 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/file',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'filePages',
+    meta: {
+      title: '文件管理',
+      icon: 'el-icon-orange'
+    },
+    children: [
+      {
+        path: 'filePath',
+        component: () => import('@/views/file/file/index'),
+        name: 'fileName',
+        meta: {title: '文件管理', icon: 'el-icon-lollipop'}
+      },
+      {
+        path: 'imagePath',
+        component: () => import('@/views/file/image/index'),
+        name: 'imageName',
+        meta: {title: '图片管理', icon: 'el-icon-lollipop'}
+      }
+    ]
+  },
+  {
     path: '/log',
     component: Layout,
     children: [
