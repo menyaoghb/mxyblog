@@ -448,4 +448,7 @@
   .el-dialog__body {
     padding: 10px 10px;
   }
+  .filter-container{
+    margin-bottom: 18px;
+  }
 </style>

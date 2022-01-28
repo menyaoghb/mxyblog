@@ -34,6 +34,10 @@ public class SysOperLogServiceImpl extends ServiceImpl<SysOperLogMapper, SysOper
         if (null != sysOperLogVO.getBusinessType()) {
             queryWrapper.eq("business_type", sysOperLogVO.getBusinessType());
         }
+        if (StringUtils.isNotEmpty(sysOperLogVO.getStartTime())) {
+            queryWrapper.ge("oper_time", sysOperLogVO.getStartTime());
+            queryWrapper.le("oper_time", sysOperLogVO.getEndTime());
+        }
         queryWrapper.orderByDesc("oper_time");
         Page<SysOperLog> page = new Page<>();
         page.setCurrent(sysOperLogVO.getCurrentPage());

@@ -45,7 +45,6 @@ public class UserLoginFailureHandler implements AuthenticationFailureHandler {
             LogUtil.saveLog("登录失败-用户名密码不正确", OperType.ERROR.ordinal());
             ResultUtil.responseJson(response,ResultUtil.resultCode(500,"用户名密码不正确"));
         }
-        LogUtil.saveLog("登录失败", OperType.ERROR.ordinal());
         ResultUtil.responseJson(response,ResultUtil.resultCode(500,"登录失败"));
     }
 }

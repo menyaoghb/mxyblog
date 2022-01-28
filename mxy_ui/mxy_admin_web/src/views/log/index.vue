@@ -2,16 +2,39 @@
   <div class="app-container">
     <!--查询-->
     <div class="filter-container">
-      <el-input v-model="listQuery.title" prefix-icon="el-icon-search" placeholder="模块标题" style="width: 200px;"
-                class="filter-item"
-                @keyup.enter.native="handleFilter" clearable/>
-      <el-input v-model="listQuery.businessType" prefix-icon="el-icon-search" placeholder="业务类型"
-                style="width: 200px;margin-left: 5px;"
-                class="filter-item"
-                @keyup.enter.native="handleFilter" clearable/>
-      <el-button class="filter-item" style="margin-left: 10px;" icon="el-icon-search" @click="handleFilter" round>
-        查询
-      </el-button>
+      <el-row :gutter="20">
+        <el-col :span="4">
+          <el-input v-model="listQuery.title" prefix-icon="el-icon-search" placeholder="模块标题" style="width: 200px;"
+                    class="filter-item"
+                    @keyup.enter.native="handleFilter" clearable/>
+        </el-col>
+        <el-col :span="4">
+          <el-select v-model="listQuery.businessType" class="filter-item" style="width: 100%;">
+            <el-option v-for="item in TypeOptions" :key="item.key" :label="item.name" :value="item.key"/>
+          </el-select>
+        </el-col>
+        <el-col :span="6">
+          <el-date-picker
+            v-model="createTime"
+            format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            style="width: 100%"
+            type="datetimerange"
+            range-separator="~"
+            start-placeholder="开始时间"
+            end-placeholder="结束时间"
+          >
+          </el-date-picker>
+        </el-col>
+        <el-col :span="8">
+          <el-button class="filter-item" style="margin-left: 10px;" @click="handleFilter" size="small">
+            查询
+          </el-button>
+          <el-button class="filter-item" style="margin-left: 10px;" @click="handleRest" size="small">
+            重置
+          </el-button>
+        </el-col>
+      </el-row>
     </div>
     <!--表格-->
     <el-table
@@ -102,88 +125,109 @@
 </template>
 
 <script>
-  import {getSysLogList, detailLog} from '@/api/log/log'
-  import Pagination from '@/components/Pagination' // 分页
+import {getSysLogList, detailLog} from '@/api/log/log'
+import Pagination from '@/components/Pagination' // 分页
 
-  // 操作类型
-  const TypeOptions = [
-    {key: 0, name: '其他'},
-    {key: 1, name: '新增'},
-    {key: 2, name: '删除'},
-    {key: 3, name: '修改'},
-    {key: 4, name: '查询'},
-    {key: 5, name: '导入'},
-    {key: 6, name: '导出'},
-    {key: 7, name: '上传'},
-    {key: 8, name: '下载'},
-    {key: 9, name: '登入'},
-    {key: 10, name: '登出'}
-  ]
-  // 操作状态
-  const statusOptions = [
-    {key: 0, name: '成功'},
-    {key: 1, name: '失败'}
-  ]
+// 操作类型
+const TypeOptions = [
+  {key: 1, name: '新增'},
+  {key: 2, name: '删除'},
+  {key: 3, name: '修改'},
+  {key: 4, name: '查询'},
+  {key: 5, name: '导入'},
+  {key: 6, name: '导出'},
+  {key: 7, name: '上传'},
+  {key: 8, name: '下载'},
+  {key: 9, name: '登入'},
+  {key: 10, name: '登出'},
+  {key: 11, name: '失败'},
+  {key: 99, name: '失败原因'},
+  {key: 0, name: '其他'}
+]
+// 操作状态
+const statusOptions = [
+  {key: 0, name: '成功'},
+  {key: 1, name: '失败'}
+]
 
-  export default {
-    name: 'ComplexTable',
-    components: {Pagination},
-    filters: {},
-    data() {
-      return {
-        list: null, //表格列表数据
-        total: 0, // 总条数
-        listLoading: true,
-        listQuery: {
-          currentPage: 1,
-          pageSize: 10,
-          title: undefined,
-          businessType: undefined
-        },
-        TypeOptions, // 操作类型
-        statusOptions, // 操作状态
-        temp: {
-          userId: undefined,
-          nickName: '',
-          userName: '',
-          password: '',
-          email: '',
-          userType: '',
-          status: '',
-          remark: ''
-        },
-        dialogFormVisible: false //控制新增页关闭
-      }
+export default {
+  name: 'ComplexTable',
+  components: {Pagination},
+  filters: {},
+  data() {
+    return {
+      list: null, //表格列表数据
+      total: 0, // 总条数
+      listLoading: true,
+      listQuery: {
+        currentPage: 1,
+        pageSize: 10,
+        title: undefined,
+        businessType: undefined,
+        startTime: undefined,
+        endTime: undefined
+      },
+      createTime: undefined,
+      TypeOptions, // 操作类型
+      statusOptions, // 操作状态
+      temp: {
+        userId: undefined,
+        nickName: '',
+        userName: '',
+        password: '',
+        email: '',
+        userType: '',
+        status: '',
+        remark: ''
+      },
+      dialogFormVisible: false //控制新增页关闭
+    }
+  },
+  created() {
+    this.getList()
+  },
+  methods: {
+    /*列表查询*/
+    getList() {
+      this.listLoading = true
+      getSysLogList(this.listQuery).then(response => {
+        this.list = response.data.records
+        this.total = response.data.total
+        this.listLoading = false
+      })
     },
-    created() {
+    /*条件查询*/
+    handleFilter() {
+      this.listQuery.currentPage = 1
+      const createTime = this.createTime;
+      if (createTime !== null && createTime !== ''){
+        this.listQuery.startTime = createTime[0];
+        this.listQuery.endTime = createTime[1]
+      }
       this.getList()
     },
-    methods: {
-      /*列表查询*/
-      getList() {
-        this.listLoading = true
-        getSysLogList(this.listQuery).then(response => {
-          this.list = response.data.records
-          this.total = response.data.total
-          this.listLoading = false
-        })
-      },
-      /*条件查询*/
-      handleFilter() {
-        this.listQuery.currentPage = 1
-        this.getList()
-      },
-      /*数据详情*/
-      handleView(row) {
-        this.dialogFormVisible = true;
-        this.temp = row;
-      }
+    /*条件重置*/
+    handleRest() {
+      this.listQuery.title = "";
+      this.listQuery.businessType = "";
+      this.listQuery.endTime = "";
+      this.listQuery.startTime = "";
+      this.createTime = [];
+    },
+    /*数据详情*/
+    handleView(row) {
+      this.dialogFormVisible = true;
+      this.temp = row;
     }
   }
+}
 </script>
 <style>
-  /*新增页按钮居中--（写法暂定）*/
-  .dialog-footer {
-    text-align: center;
-  }
+/*新增页按钮居中--（写法暂定）*/
+.dialog-footer {
+  text-align: center;
+}
+.filter-container{
+  margin-bottom: 18px;
+}
 </style>
