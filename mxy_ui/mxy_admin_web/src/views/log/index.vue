@@ -19,7 +19,7 @@
       style="width: 100%" :row-style="{height:'40px'}"
       :cell-style="{padding:'0px'}" v-loading="listLoading">
       <el-table-column type="index" width="50" align="center"/>
-      <el-table-column prop="title" label="模块标题" align="center" width="150"></el-table-column>
+      <el-table-column prop="title" label="模块标题" align="center" show-overflow-tooltip width="150"></el-table-column>
       <el-table-column label="操作类型" align="center">
         <template slot-scope="{row}">
           <span v-for="item in TypeOptions" v-if="row.businessType===item.key">{{ item.name }}</span>

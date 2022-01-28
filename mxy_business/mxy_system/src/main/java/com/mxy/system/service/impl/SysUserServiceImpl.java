@@ -45,6 +45,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (StringUtils.isNotEmpty(sysUserVO.getUserType())) {
             queryWrapper.eq("user_type", sysUserVO.getUserType());
         }
+        if (StringUtils.isNotEmpty(sysUserVO.getStartTime())) {
+            queryWrapper.ge("create_time", sysUserVO.getStartTime());
+            queryWrapper.le("create_time", sysUserVO.getEndTime());
+        }
         Page<SysUser> page = new Page<>();
         page.setCurrent(sysUserVO.getCurrentPage());
         page.setSize(sysUserVO.getPageSize());

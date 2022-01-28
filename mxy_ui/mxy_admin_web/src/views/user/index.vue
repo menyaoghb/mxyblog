@@ -2,20 +2,44 @@
   <div class="app-container">
     <!--查询-->
     <div class="filter-container">
-      <el-input v-model="listQuery.nickName" prefix-icon="el-icon-search" placeholder="姓名" style="width: 200px;"
-                class="filter-item"
-                @keyup.enter.native="handleFilter" clearable/>
-      <el-input v-model="listQuery.username" prefix-icon="el-icon-search" placeholder="账号"
-                style="width: 200px;margin-left: 5px;"
-                class="filter-item"
-                @keyup.enter.native="handleFilter" clearable/>
-      <el-button class="filter-item" style="margin-left: 10px;" icon="el-icon-search" @click="handleFilter" round>
-        查询
-      </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="plain" icon="el-icon-plus"
-                 @click="handleCreate" round>
-        新增
-      </el-button>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-input placeholder="请输入姓名" v-model="listQuery.nickName" clearable @keyup.enter.native="handleFilter">
+            <template slot="prepend">姓名</template>
+          </el-input>
+        </el-col>
+        <el-col :span="6">
+          <div class="grid-content bg-purple">
+            <el-input placeholder="请输入账号" v-model="listQuery.username" clearable @keyup.enter.native="handleFilter">
+              <template slot="prepend">账号</template>
+            </el-input>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <el-date-picker
+            v-model="createTime"
+            format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            style="width: 100%"
+            type="datetimerange"
+            range-separator="~"
+            start-placeholder="开始时间"
+            end-placeholder="结束时间"
+          >
+          </el-date-picker>
+        </el-col>
+        <el-col :span="6">
+          <el-button class="filter-item" style="margin-left: 10px;" @click="handleFilter" size="small">
+            查询
+          </el-button>
+          <el-button class="filter-item" style="margin-left: 10px;" @click="handleRest" size="small">
+            重置
+          </el-button>
+          <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" size="small">
+            新增
+          </el-button>
+        </el-col>
+      </el-row>
     </div>
     <!--表格-->
     <el-table
@@ -197,8 +221,11 @@
           currentPage: 1,
           pageSize: 10,
           nickName: undefined,
-          username: undefined
+          username: undefined,
+          startTime: undefined,
+          endTime: undefined
         },
+        createTime: undefined,
         userTypeOptions, // 用户权限
         statusOptions, // 用户状态
         sexOptions, // 用户性别
@@ -287,7 +314,20 @@
       /*条件查询*/
       handleFilter() {
         this.listQuery.currentPage = 1
+        const createTime = this.createTime;
+        if (createTime !== null && createTime !== ''){
+          this.listQuery.startTime = createTime[0];
+          this.listQuery.endTime = createTime[1]
+        }
         this.getList()
+      },
+      /*条件重置*/
+      handleRest() {
+        this.listQuery.nickName = "";
+        this.listQuery.username = "";
+        this.listQuery.startTime = "";
+        this.listQuery.endTime = "";
+        this.createTime = [];
       },
       /*用户状态改变*/
       handleModifyStatus(row) {
