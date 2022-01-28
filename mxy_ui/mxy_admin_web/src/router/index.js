@@ -158,6 +158,42 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/monitoring',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'filePages',
+    meta: {
+      title: '监控中心',
+      icon: 'el-icon-orange'
+    },
+    children: [
+      {
+        path: 'druid',
+        component: () => import('@/views/monitoring/druid/index'),
+        name: 'druidName',
+        meta: {title: 'Druid监控', icon: 'el-icon-lollipop'}
+      },
+      {
+        path: 'redis',
+        component: () => import('@/views/monitoring/druid/index'),
+        name: 'redisName',
+        meta: {title: 'Redis监控', icon: 'el-icon-lollipop'}
+      }
+    ]
+  },
+  {
+    path: '/xxl',
+    component: Layout,
+    children: [
+      {
+        path: 'job',
+        component: () => import('@/views/job/index'),
+        name: 'log',
+        meta: {title: '定时任务', icon: 'el-icon-watermelon'}
+      }
+    ]
+  },
+  {
     path: '/log',
     component: Layout,
     children: [
