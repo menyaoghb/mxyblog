@@ -1,11 +1,14 @@
 <template>
   <div class="login-container">
+    <div class="word-s">
+      <div class="word-t">
+        <span>{{text}}</span>
+      </div>
+    </div>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
       <div class="title-container">
         <img src="http://mxy.mxyit.com/logo/yftlogo.png" class="mxy-logo">
       </div>
-
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
@@ -20,7 +23,6 @@
           auto-complete="on"
         />
       </el-form-item>
-
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
@@ -40,14 +42,14 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button v-show="show" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
+import {getRandWord} from "@/api/foreign";
 
 export default {
   name: 'Login',
@@ -76,6 +78,8 @@ export default {
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
+      show: true,
+      text: '',
       passwordType: 'password',
       redirect: undefined
     }
@@ -87,6 +91,9 @@ export default {
       },
       immediate: true
     }
+  },
+  created() {
+    this.getRandWord();
   },
   methods: {
     showPwd() {
@@ -103,16 +110,24 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          this.show = false
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: '/' })
             this.loading = false
           }).catch(() => {
             this.loading = false
+            this.show = true
           })
         } else {
           console.log('error submit!!')
           return false
         }
+      })
+    },
+    /*输入建议查询*/
+    getRandWord() {
+      getRandWord().then(response => {
+        this.text = response.data.value
       })
     }
   }
@@ -129,8 +144,8 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#283443;
-$light_gray:#fff;
-$cursor: #fff;
+$light_gray:green;
+$cursor: green;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
@@ -172,9 +187,42 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
+$bg:#000000;
+$dark_gray:green;
 $light_gray:#eee;
+
+.el-button--primary {
+  color: green;
+  background-color: #000000;
+  border-color: #000000;
+}
+
+.word-s{
+  color: green;
+  width: 100%;
+  line-height: 40px;
+  padding-top: 50px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: cursive;
+  font-size: unset;
+  font-style: italic;
+
+  animation: fadeInAnimation ease 3s;
+  animation-iteration-count: 1; /*设置动画播放次数*/
+  animation-fill-mode: forwards; /*设置样式以在动画不播放时应用元素。forward是设置动画结束后，使用元素的结束属性值*/
+}
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0; /*设置不透明度*/
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.word-t{
+  width: 100%;
+}
 
 .login-container {
   min-height: 100%;
@@ -186,14 +234,17 @@ $light_gray:#eee;
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 20px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1; /*设置动画播放次数*/
+    animation-fill-mode: forwards; /*设置样式以在动画不播放时应用元素。forward是设置动画结束后，使用元素的结束属性值*/
   }
 
   .tips {
     font-size: 14px;
-    color: #fff;
+    color: green;
     margin-bottom: 10px;
 
     span {

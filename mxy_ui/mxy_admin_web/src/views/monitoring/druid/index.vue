@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <iframe id="template-iframe" ref="iframe" src="http://localhost:8001/druid/login.html"></iframe>
+    <iframe id="template-iframe" ref="iframe" src="http://mxyit.com:8089/druid/login.html"></iframe>
   </div>
 </template>
 

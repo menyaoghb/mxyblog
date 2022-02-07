@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <iframe id="template-iframe" ref="iframe" src="http://localhost:9635/xxl-job-admin/toLogin"></iframe>
+    <iframe id="template-iframe" ref="iframe" src="http://mxyit.com:8090/xxl-job-admin/toLogin"></iframe>
   </div>
 </template>
 

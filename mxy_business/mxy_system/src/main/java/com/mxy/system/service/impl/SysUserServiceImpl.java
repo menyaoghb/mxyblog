@@ -49,6 +49,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             queryWrapper.ge("create_time", sysUserVO.getStartTime());
             queryWrapper.le("create_time", sysUserVO.getEndTime());
         }
+        queryWrapper.orderByDesc("create_time");
         Page<SysUser> page = new Page<>();
         page.setCurrent(sysUserVO.getCurrentPage());
         page.setSize(sysUserVO.getPageSize());

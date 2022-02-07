@@ -25,4 +25,9 @@ public interface BeautifulWordsMapper extends BaseMapper<BeautifulWords> {
      * 查询 灵感 字段数据
      */
     public List<Map<String,String>> selectInsData();
+
+    /**
+     * 查询 灵感 字段数据
+     */
+    public Map<String,String> selectWordRand();
 }

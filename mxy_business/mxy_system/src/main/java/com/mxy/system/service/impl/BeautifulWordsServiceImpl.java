@@ -10,6 +10,7 @@ import com.mxy.system.entity.vo.BeautifulWordsVO;
 import com.mxy.system.mapper.BeautifulWordsMapper;
 import com.mxy.system.service.BeautifulWordsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
@@ -94,6 +95,14 @@ public class BeautifulWordsServiceImpl extends ServiceImpl<BeautifulWordsMapper,
         Map<String, Object> map = new HashMap<>();
         map.put("labMap", labMap);
         map.put("insMap", insMap);
+        return ServiceResult.success(map);
+    }
+
+    @Override
+    public String getRandWord() {
+        Map<String,String> insMap = this.baseMapper.selectWordRand();
+        Map<String, Object> map = new HashMap<>();
+        map.put("value", MapUtils.getString(insMap,"value"));
         return ServiceResult.success(map);
     }
 

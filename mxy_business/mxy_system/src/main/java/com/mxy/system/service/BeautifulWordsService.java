@@ -39,4 +39,9 @@ public interface BeautifulWordsService extends IService<BeautifulWords> {
      */
     public String getAdviceList(BeautifulWordsVO beautifulWordsVO);
 
+    /**
+     * 登录页随机获取一条句子
+     */
+    public String getRandWord();
+
 }

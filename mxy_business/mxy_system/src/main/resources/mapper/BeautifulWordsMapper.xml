@@ -68,4 +68,8 @@
     <select id="selectInsData" resultType="map">
         SELECT DISTINCT inspiration AS "value" FROM beautiful_words WHERE is_delete = '0' ORDER BY create_time DESC
     </select>
+
+    <select id="selectWordRand" resultType="map">
+        SELECT beautiful_words AS "value" FROM beautiful_words ORDER BY RAND() LIMIT 1;
+    </select>
 </mapper>
