@@ -3,7 +3,7 @@ import request from '@/utils/request'
 export function fetchList(params) {
     const data = {pageSize: 5, currentPage: params, status: "0"};
     return request({
-        url: '/sysArticle/getList',
+        url: '/foreign/getList',
         method: 'post',
         data
     })
@@ -36,7 +36,7 @@ export function fetchFriend() {
 export function fetchSocial() {
     const data = {};
     return request({
-        url: '/beautifulWords/getList',
+        url: '/foreign/getRandWord',
         method: 'post',
         data
     })
@@ -61,7 +61,7 @@ export function fetchComment() {
 export function getDataById(params) {
     const data = {id: params};
     return request({
-        url: '/sysArticle/getDataById',
+        url: '/foreign/getDataById',
         method: 'post',
         data
     })

@@ -25,7 +25,6 @@
                             </div>
                         </footer>
                     </section-title>
-                    <hr style="border-top: medium double #333;margin-bottom: 40px;">
                 </article>
             </main>
         </div>
