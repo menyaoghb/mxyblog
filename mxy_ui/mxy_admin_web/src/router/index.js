@@ -62,84 +62,96 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {
-    path: '/user',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/user/index'),
-        name: 'user',
-        meta: {title: '用户管理', icon: 'el-icon-apple'}
-      }
-    ]
-  },
-  {
-    path: '/role',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/role/index'),
-        name: 'user',
-        meta: {title: '角色管理', icon: 'el-icon-cherry'}
-      }
-    ]
-  },
-  {
-    path: '/menu',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/menu/index'),
-        name: 'menu',
-        meta: {title: '菜单管理', icon: 'el-icon-grape'}
-      }
-    ]
-  },
-  {
-    path: '/dict',
+    path: '/sysBlog',
     component: Layout,
     redirect: 'noRedirect',
-    name: 'DictPages',
+    name: 'sysBlog',
     meta: {
-      title: '字典管理',
+      title: '博客系统',
       icon: 'el-icon-orange'
     },
     children: [
       {
-        path: 'type',
-        component: () => import('@/views/dict/type/index'),
+        path: 'filePath',
+        component: () => import('@/views/file/file/index'),
+        name: 'fileName',
+        meta: {title: '写博客', icon: 'el-icon-lollipop'}
+      },
+      {
+        path: 'imagePath',
+        component: () => import('@/views/file/image/index'),
+        name: 'imageName',
+        meta: {title: '查博客', icon: 'el-icon-lollipop'}
+      },
+      {
+        path: 'beautifulWords',
+        component: () => import('@/views/blog/beautifulWords/index'),
+        name: 'beautifulWords',
+        meta: {title: '抄佳句', icon: 'el-icon-grape'}
+      },
+      {
+        path: 'imagePath',
+        component: () => import('@/views/file/image/index'),
+        name: 'imageName',
+        meta: {title: '网站配置', icon: 'el-icon-lollipop'}
+      }
+    ]
+  },
+  {
+    path: '/system',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'system',
+    meta: {
+      title: '操作系统',
+      icon: 'el-icon-orange'
+    },
+    children: [
+      {
+        path: 'user',
+        component: () => import('@/views/sys/user/index'),
+        name: 'user',
+        meta: {title: '用户管理', icon: 'el-icon-apple'}
+      },
+      {
+        path: 'role',
+        component: () => import('@/views/sys/role/index'),
+        name: 'role',
+        meta: {title: '角色管理', icon: 'el-icon-cherry'}
+      },
+      {
+        path: 'menu',
+        component: () => import('@/views/sys/menu/index'),
+        name: 'menu',
+        meta: {title: '菜单管理', icon: 'el-icon-grape'}
+      },
+      {
+        path: 'DictType',
+        component: () => import('@/views/sys/dictType'),
         name: 'DictType',
         meta: {title: '字典类型', icon: 'el-icon-lollipop'}
       },
       {
-        path: 'data',
-        component: () => import('@/views/dict/data/index'),
+        path: 'DictData',
+        component: () => import('@/views/sys/dictData'),
         name: 'DictData',
         meta: {title: '字典数据', icon: 'el-icon-sugar'}
-      }
-    ]
-  },
-  {
-    path: '/beautifulWords',
-    component: Layout,
-    children: [
+      },
       {
-        path: 'index',
-        component: () => import('@/views/mxy/beautifulWords/index'),
-        name: 'beautifulWords',
-        meta: {title: '佳句记忆', icon: 'el-icon-grape'}
+        path: 'job',
+        component: () => import('@/views/sys/job/index'),
+        name: 'job',
+        meta: {title: '定时任务', icon: 'el-icon-watermelon'}
       }
     ]
   },
   {
-    path: '/file',
+    path: '/sysFile',
     component: Layout,
     redirect: 'noRedirect',
-    name: 'filePages',
+    name: 'sysFile',
     meta: {
-      title: '文件管理',
+      title: '文件系统',
       icon: 'el-icon-orange'
     },
     children: [
@@ -158,12 +170,12 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/monitoring',
+    path: '/sysMonitoring',
     component: Layout,
     redirect: 'noRedirect',
-    name: 'filePages',
+    name: 'monitoring',
     meta: {
-      title: '监控中心',
+      title: '监控系统',
       icon: 'el-icon-orange'
     },
     children: [
@@ -182,26 +194,26 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/xxl',
+    path: '/sysLog',
     component: Layout,
+    redirect: 'noRedirect',
+    name: 'sysLog',
+    meta: {
+      title: '日志系统',
+      icon: 'el-icon-orange'
+    },
     children: [
       {
-        path: 'job',
-        component: () => import('@/views/job/index'),
-        name: 'log',
-        meta: {title: '定时任务', icon: 'el-icon-watermelon'}
-      }
-    ]
-  },
-  {
-    path: '/log',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/log/index'),
+        path: 'log',
+        component: () => import('@/views/log/operLog/index'),
         name: 'log',
         meta: {title: '操作日志', icon: 'el-icon-watermelon'}
+      },
+      {
+        path: 'blogLog',
+        component: () => import('@/views/log/blogLog/index'),
+        name: 'blogLog',
+        meta: {title: '博客日志', icon: 'el-icon-lollipop'}
       }
     ]
   },

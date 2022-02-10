@@ -99,7 +99,7 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
             redisUtil.set(id, sysArticle,60);
         }
         // 每2次更新一次数据
-        if (sysArticle.getPageViews() != 0 && sysArticle.getPageViews() % 2 == 0) {
+        if (sysArticle.getPageViews() != 0) {
             sysArticle.updateById();
         }
         return ServiceResult.success(sysArticle);
