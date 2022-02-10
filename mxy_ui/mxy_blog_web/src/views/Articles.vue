@@ -9,7 +9,7 @@
                         <h1 class="entry-title">{{postList.title}}</h1>
                         <hr>
                         <div class="breadcrumbs">
-                            <div id="crumbs">最后更新时间：{{postList.createTime | parseTime}}</div>
+                            <div id="crumbs">作者：{{postList.author}}  发布时间：{{postList.createTime | parseTime}}  来源：{{postList.source}}</div>
                         </div>
                     </header>
                     <!-- 正文输出 -->

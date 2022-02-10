@@ -24,19 +24,24 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="60px" label="作者:" class="postInfo-container-item">
-                    <el-input v-model="postForm.author"></el-input>
+                  <el-form-item label-width="70px" label="笔名:" class="postInfo-container-item">
+                    <el-input v-model="postForm.author" :rows="1" type="textarea" class="article-textarea" autosize placeholder="" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label-width="70px" label="来源:" class="postInfo-container-item">
+                    <el-input v-model="postForm.source" :rows="1" type="textarea" class="article-textarea" autosize placeholder="" />
                   </el-form-item>
                 </el-col>
 
-                <el-col :span="10">
+<!--                <el-col :span="10">
                   <el-form-item label-width="120px" label="发布时间:" class="postInfo-container-item">
                     <el-date-picker v-model="displayTime" type="datetime" format="yyyy-MM-dd HH:mm:ss"
                                     placeholder="选择发布时间"/>
                   </el-form-item>
-                </el-col>
+                </el-col>-->
 
-                <el-col :span="6">
+<!--                <el-col :span="6">
                   <el-form-item label-width="90px" label="Importance:" class="postInfo-container-item">
                     <el-rate
                       v-model="postForm.importance"
@@ -47,7 +52,7 @@
                       style="display:inline-block"
                     />
                   </el-form-item>
-                </el-col>
+                </el-col>-->
               </el-row>
             </div>
           </el-col>
@@ -74,6 +79,8 @@
     title: '', // 文章题目
     content: '', // 文章内容
     summary: '', // 文章摘要
+    author: '小小', // 文章摘要
+    source: '原创', // 文章摘要
     source_uri: '', // 文章外链
     image_uri: '', // 文章图片
     display_time: undefined, // 前台展示时间
@@ -118,7 +125,7 @@
             addArticle(this.postForm).then(() => {
               this.$notify({
                 title: '成功',
-                message: '发布文章成功',
+                message: '发布博客成功',
                 type: 'success',
                 duration: 2000
               })

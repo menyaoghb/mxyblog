@@ -14,13 +14,18 @@
       </div>
       <!--标题-->
       <div class="menu-item">
-        <a href="#" @click="open1" class="header-title">2022</a>
-        <a href="#" @click="open2" class="header-title">博客</a>
-        <a href="#" @click="open3" class="header-title">暴富</a>
-        <a href="#" @click="open4" class="header-title">脱单</a>
-        <el-badge :value="99999" :max="num" class="item">
-          <a href="#" @click="open5" class="header-title">点赞</a>
-        </el-badge>
+        <ul>
+          <li><div class="title-line"><a href="#" @click="open1" class="header-title">2022</a></div></li>
+          <li><div class="title-line"><a href="#" @click="open2" class="header-title">博客</a></div></li>
+          <li><div class="title-line"><a href="#" @click="open3" class="header-title">暴富</a></div></li>
+          <li><div class="title-line"><a href="#" @click="open4" class="header-title">脱单</a></div></li>
+          <li>
+            <div class="title-line"><el-badge :value="99999" :max="num" class="item">
+              <a href="#" @click="open5" class="header-title">点赞</a>
+            </el-badge>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -79,6 +84,12 @@ export default {
     open5() {
       this.num++;
       sessionStorage.setItem("NUM",this.num);
+      if (this.num % 10 === 0) {
+        this.$message({
+          message: '感谢',
+          type: 'success'
+        });
+      }
     }
   }
 }
@@ -91,6 +102,29 @@ export default {
   color: #545454;
   font-weight: 500;
   font-size: 16px;
+}
+
+.title-line{
+  position: relative;
+}
+
+.title-line:hover:after{
+  left: 0%;
+  width: 100%;
+}
+
+.menu-item ul li{
+  display: inline-block;
+}
+.title-line:after{
+  content: "";
+  width: 0;
+  height: 3px;
+  background: #20a0ff;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transition: all .9s;
 }
 
 /*头部 样式*/
