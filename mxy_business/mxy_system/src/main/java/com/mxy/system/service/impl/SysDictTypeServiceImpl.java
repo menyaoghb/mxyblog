@@ -3,16 +3,18 @@ package com.mxy.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
-import com.mxy.common.core.utils.ServiceResult;
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysDictType;
+import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysDictTypeVO;
 import com.mxy.system.mapper.SysDictTypeMapper;
+import com.mxy.system.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysDictTypeService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -43,8 +45,10 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
 
     @Override
     public String add(SysDictTypeVO sysDictTypeVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysDictType sysDictType = new SysDictType();
         BeanUtils.copyProperties(sysDictTypeVO, sysDictType);
+        sysDictType.setCreateUser(userDetails.getUsername());
         Boolean result = sysDictType.insert();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.INSERT_SUCCESS);
@@ -55,8 +59,10 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
 
     @Override
     public String edit(SysDictTypeVO sysDictTypeVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysDictType sysDictType = new SysDictType();
         BeanUtils.copyProperties(sysDictTypeVO, sysDictType);
+        sysDictType.setUpdateUser(userDetails.getUsername());
         Boolean result = sysDictType.updateById();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);

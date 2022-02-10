@@ -3,15 +3,17 @@ package com.mxy.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysWebConfig;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysWebConfigVO;
 import com.mxy.system.mapper.SysWebConfigMapper;
+import com.mxy.system.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysWebConfigService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -36,8 +38,10 @@ public class SysWebConfigServiceImpl extends ServiceImpl<SysWebConfigMapper, Sys
 
     @Override
     public String add(SysWebConfigVO sysWebConfigVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysWebConfig sysWebConfig = new SysWebConfig();
         BeanUtils.copyProperties(sysWebConfigVO, sysWebConfig);
+        sysWebConfig.setCreateUser(userDetails.getUsername());
         Boolean result = sysWebConfig.insert();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.INSERT_SUCCESS);
@@ -48,9 +52,11 @@ public class SysWebConfigServiceImpl extends ServiceImpl<SysWebConfigMapper, Sys
 
     @Override
     public String edit(SysWebConfigVO sysWebConfigVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysWebConfig sysWebConfig = new SysWebConfig();
         BeanUtils.copyProperties(sysWebConfigVO, sysWebConfig);
         Boolean result = sysWebConfig.updateById();
+        sysWebConfig.setUpdateUser(userDetails.getUsername());
         if (result) {
             return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);
         } else {

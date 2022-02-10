@@ -71,11 +71,8 @@
 </template>
 
 <script>
-  import {getList, deleteArticle, editArticle, addArticle} from '@/api/web/blog/blog'
-  import waves from '@/directive/waves' // waves directive
+  import {getList, deleteArticle, editArticle, addArticle} from '@/api/blog/blog'
   import Pagination from '@/components/Pagination' // 分页
-  import {validateEmail, validateAccount, validatePassword} from '@/utils/validate'
-  import {deleteUser} from "@/api/blog/beautifulWords/beautifulWords";
 
   // 状态
   const statusOptions = [
@@ -86,7 +83,6 @@
   export default {
     name: 'ComplexTable',
     components: {Pagination},
-    directives: {waves},
     filters: {},
     data() {
       return {

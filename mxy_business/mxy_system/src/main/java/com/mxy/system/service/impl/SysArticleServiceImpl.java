@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysArticle;
 import com.mxy.common.core.utils.RedisUtil;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysArticleVO;
 import com.mxy.system.mapper.SysArticleMapper;
+import com.mxy.system.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysArticleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -48,9 +50,11 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
 
     @Override
     public String add(SysArticleVO sysArticleVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysArticle sysArticle = new SysArticle();
         BeanUtils.copyProperties(sysArticleVO, sysArticle);
         HtmlUtils.htmlEscapeHex(sysArticle.getContent());
+        sysArticle.setCreateUser(userDetails.getUsername());
         Boolean result = sysArticle.insert();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.INSERT_SUCCESS);
@@ -61,8 +65,10 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
 
     @Override
     public String edit(SysArticleVO sysArticleVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysArticle sysArticle = new SysArticle();
         BeanUtils.copyProperties(sysArticleVO, sysArticle);
+        sysArticle.setUpdateUser(userDetails.getUsername());
         Boolean result = sysArticle.updateById();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);

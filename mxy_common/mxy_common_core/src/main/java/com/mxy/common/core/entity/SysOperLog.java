@@ -30,7 +30,7 @@ public class SysOperLog extends BaseEntity<SysOperLog> {
     /**
      * 日志主键
      */
-      @TableId(value = "oper_id", type = IdType.ID_WORKER_STR)
+      @TableId(value = "oper_id", type = IdType.UUID)
     private String operId;
 
     /**

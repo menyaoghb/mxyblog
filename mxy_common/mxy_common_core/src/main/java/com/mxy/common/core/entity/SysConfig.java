@@ -1,4 +1,4 @@
-package com.mxy.common.core.entity;
+package com.mxy.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.mxy.common.core.entity.vo.BaseEntity;
@@ -11,50 +11,40 @@ import java.util.Date;
 
 /**
  * <p>
- * 字典数据
+ * 系统参数配置
  * </p>
  *
  * @author 孟小耀
- * @since 2021-07-25
+ * @since 2022-02-10
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("sys_dict_data")
-@ApiModel(value="SysDictData对象", description="字典数据")
-public class SysDictData extends BaseEntity<SysDictData> {
+@TableName("sys_config")
+@ApiModel(value="SysConfig对象", description="系统参数配置")
+public class SysConfig extends BaseEntity<SysConfig> {
 
     private static final long serialVersionUID=1L;
 
     /**
-     * 字典主键
+     * 主键
      */
-      @TableId(value = "dict_code", type = IdType.UUID)
-    private String dictCode;
+    @TableId(value = "sys_id", type = IdType.UUID)
+    private String sysId;
 
     /**
-     * 字典名称
+     * 参数名称
      */
-    private String dictName;
+    private String configName;
 
     /**
-     * 字典编码
+     * 参数值
      */
-    private String dictValue;
+    private String configValue;
 
     /**
-     * 字典类型
+     * 参数类型
      */
-    private String dictType;
-
-    /**
-     * 父菜单ID
-     */
-    private Long parentId;
-
-    /**
-     * 字典排序
-     */
-    private Integer dictSort;
+    private String configType;
 
     /**
      * 状态（0正常 1停用）
@@ -97,7 +87,7 @@ public class SysDictData extends BaseEntity<SysDictData> {
 
     @Override
     protected Serializable pkVal() {
-        return this.dictCode;
+        return this.sysId;
     }
 
 }

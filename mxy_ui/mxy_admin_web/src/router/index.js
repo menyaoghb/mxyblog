@@ -72,15 +72,15 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'filePath',
+        path: 'createBlog',
         component: () => import('@/views/blog/create'),
-        name: 'fileName',
+        name: 'createBlog',
         meta: {title: '写博客', icon: 'el-icon-lollipop'}
       },
       {
-        path: 'imagePath',
-        component: () => import('@/views/blog/create'),
-        name: 'imageName',
+        path: 'blogList',
+        component: () => import('@/views/blog/index.vue'),
+        name: 'blogList',
         meta: {title: '查博客', icon: 'el-icon-lollipop'}
       },
       {
@@ -90,9 +90,9 @@ export const asyncRoutes = [
         meta: {title: '抄佳句', icon: 'el-icon-grape'}
       },
       {
-        path: 'imagePath',
+        path: 'webConfig',
         component: () => import('@/views/blog/config/index'),
-        name: 'imageName',
+        name: 'webConfig',
         meta: {title: '网站配置', icon: 'el-icon-lollipop'}
       }
     ]
@@ -144,9 +144,9 @@ export const asyncRoutes = [
         meta: {title: '定时任务', icon: 'el-icon-watermelon'}
       },
       {
-        path: 'job',
-        component: () => import('@/views/sys/job/index'),
-        name: 'job',
+        path: 'config',
+        component: () => import('@/views/sys/config/index'),
+        name: 'config',
         meta: {title: '系统参数', icon: 'el-icon-watermelon'}
       }
     ]
@@ -193,7 +193,7 @@ export const asyncRoutes = [
       },
       {
         path: 'redis',
-        component: () => import('@/views/monitoring/druid/index'),
+        component: () => import('@/views/monitoring/redis/index'),
         name: 'redisName',
         meta: {title: 'Redis监控', icon: 'el-icon-lollipop'}
       }

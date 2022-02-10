@@ -3,19 +3,21 @@ package com.mxy.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysPicture;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysPictureVO;
 import com.mxy.system.mapper.SysPictureMapper;
+import com.mxy.system.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysPictureService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.system.utils.QiniuUploadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -52,8 +54,10 @@ public class SysPictureServiceImpl extends ServiceImpl<SysPictureMapper, SysPict
 
     @Override
     public String add(SysPictureVO sysPictureVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysPicture sysPicture = new SysPicture();
         BeanUtils.copyProperties(sysPictureVO, sysPicture);
+        sysPicture.setCreateUser(userDetails.getUsername());
         Boolean result = sysPicture.insert();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.INSERT_SUCCESS);
@@ -64,8 +68,10 @@ public class SysPictureServiceImpl extends ServiceImpl<SysPictureMapper, SysPict
 
     @Override
     public String edit(SysPictureVO sysPictureVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysPicture sysPicture = new SysPicture();
         BeanUtils.copyProperties(sysPictureVO, sysPicture);
+        sysPicture.setUpdateUser(userDetails.getUsername());
         Boolean result = sysPicture.updateById();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);

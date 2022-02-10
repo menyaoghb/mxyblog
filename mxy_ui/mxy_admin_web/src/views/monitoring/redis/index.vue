@@ -1,23 +1,12 @@
 <template>
   <div class="app-container">
-    <iframe id="template-iframe" ref="iframe" src="http://mxyit.com:8089/druid/login.html"></iframe>
+    <h1>研发中，敬请期待...</h1>
   </div>
 </template>
 
 <script>
 
-export default {
-  data() {
-    return {}
-  },
-  created() {
-  },
-  methods: {}
-}
 </script>
 <style>
-#template-iframe {
-  width: 100%;
-  height: 685px;
-}
+
 </style>
