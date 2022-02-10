@@ -1,4 +1,4 @@
-package com.mxy.system.entity;
+package com.mxy.common.core.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.mxy.common.core.entity.vo.BaseEntity;

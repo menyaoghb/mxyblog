@@ -41,8 +41,10 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
     @Override
     public String add(${entity}VO ${table.entityPath}VO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         ${entity} ${table.entityPath} = new ${entity}();
         BeanUtils.copyProperties(${table.entityPath}VO, ${table.entityPath});
+        ${table.entityPath}.setCreateUser(userDetails.getUsername());
         Boolean result = ${table.entityPath}.insert();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.INSERT_SUCCESS);
@@ -53,8 +55,10 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
     @Override
     public String edit(${entity}VO ${table.entityPath}VO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         ${entity} ${table.entityPath} = new ${entity}();
         BeanUtils.copyProperties(${table.entityPath}VO, ${table.entityPath});
+        ${table.entityPath}.setUpdateUser(userDetails.getUsername());
         Boolean result = ${table.entityPath}.updateById();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);

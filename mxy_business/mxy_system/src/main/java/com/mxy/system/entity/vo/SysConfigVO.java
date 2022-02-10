@@ -1,7 +1,7 @@
 package com.mxy.system.entity.vo;
 
+import com.mxy.common.core.entity.SysConfig;
 import com.mxy.common.core.entity.vo.BaseVO;
-import com.mxy.system.entity.SysConfig;
 import lombok.Data;
 
 import java.util.Date;
