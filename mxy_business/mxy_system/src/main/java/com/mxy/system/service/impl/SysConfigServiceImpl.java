@@ -3,15 +3,15 @@ package com.mxy.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
+import com.mxy.common.core.entity.SysConfig;
 import com.mxy.common.core.utils.ServiceResult;
-import com.mxy.system.entity.SysConfig;
 import com.mxy.system.entity.vo.SysConfigVO;
 import com.mxy.system.mapper.SysConfigMapper;
 import com.mxy.system.service.SysConfigService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>

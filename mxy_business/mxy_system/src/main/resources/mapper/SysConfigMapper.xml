@@ -3,7 +3,7 @@
 <mapper namespace="com.mxy.system.mapper.SysConfigMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mxy.system.entity.SysConfig">
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysConfig">
         <id column="sys_id" property="sysId" />
         <result column="config_name" property="configName" />
         <result column="config_value" property="configValue" />
