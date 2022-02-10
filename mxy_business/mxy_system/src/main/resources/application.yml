@@ -56,6 +56,11 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 100MB
+  redis: #配置Redis
+    host: 127.0.0.1 #redis服务器地址
+    port: 6379 #redis服务器端口
+    password:  #redis服务器密码。没有则不填
+    timeout: 30000 #连接超时时间（毫秒）
 # JWT配置
 jwt:
   # 密匙KEY
@@ -82,3 +87,5 @@ xxl:
       logpath: /data/applogs/xxl-job/jobhandler
       appname: mxy-joba
       logretentiondays: 300
+
+#redis

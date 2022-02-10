@@ -77,12 +77,5 @@ public class SysArticleController {
         }
 
 
-    @SysLog(module = "获取文章详细",operType = OperType.SELECT)
-    @ApiOperation(value = "获取文章详细")
-    @PostMapping("/getDataById")
-    public String getDataById(@RequestBody SysArticleVO sysArticleVO) {
-        return sysArticleService.getDataById(sysArticleVO);
-    }
-
 }
 

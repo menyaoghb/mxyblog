@@ -37,6 +37,6 @@ public interface SysArticleService extends IService<SysArticle> {
     /**
      * 获取文章详情
      */
-    public String getDataById(SysArticleVO sysArticleVO);
+    public String getDataById(String id);
 
 }

@@ -52,8 +52,8 @@ public class WhitelistController {
      * @date 2022-02-09
      */
     @ApiOperation(value = "博客网站-文章详细")
-    @PostMapping("/getDataById")
-    public String getDataById(@RequestBody SysArticleVO sysArticleVO) {
-        return sysArticleService.getDataById(sysArticleVO);
+    @GetMapping("/getDataById")
+    public String getDataById(@RequestParam(value = "id") String id) {
+        return sysArticleService.getDataById(id);
     }
 }

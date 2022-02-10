@@ -59,10 +59,9 @@ export function fetchComment() {
 }
 
 export function getDataById(params) {
-    const data = {id: params};
     return request({
         url: '/foreign/getDataById',
-        method: 'post',
-        data
+        method: 'get',
+        params: {id: params}
     })
 }

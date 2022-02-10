@@ -3,17 +3,20 @@ package com.mxy.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
-import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.common.core.entity.SysArticle;
+import com.mxy.common.core.utils.RedisUtil;
+import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysArticleVO;
 import com.mxy.system.mapper.SysArticleMapper;
 import com.mxy.system.service.SysArticleService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -26,11 +29,14 @@ import org.springframework.web.util.HtmlUtils;
 @Service
 public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArticle> implements SysArticleService {
 
+    @Resource
+    private RedisUtil redisUtil;
+
     @Override
     public String getList(SysArticleVO sysArticleVO) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        if (StringUtils.isNotEmpty(sysArticleVO.getStatus())){
-            queryWrapper.eq("status",sysArticleVO.getStatus());
+        if (StringUtils.isNotEmpty(sysArticleVO.getStatus())) {
+            queryWrapper.eq("status", sysArticleVO.getStatus());
         }
         queryWrapper.orderByDesc("create_time");
         Page<SysArticle> page = new Page<>();
@@ -78,9 +84,24 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
     }
 
     @Override
-    public String getDataById(SysArticleVO sysArticleVO) {
-        SysArticle sysArticle = this.baseMapper.selectById(sysArticleVO.getId());
-        sysArticle.setContent(HtmlUtils.htmlUnescape(sysArticle.getContent()));
+    public String getDataById(String id) {
+        SysArticle sysArticle = new SysArticle();
+        boolean hasKey = redisUtil.hasKey(id);
+        if (hasKey) {
+            sysArticle = (SysArticle) redisUtil.get(id);
+            sysArticle.setPageViews(sysArticle.getPageViews() == null ? 1 : sysArticle.getPageViews() + 1);
+            sysArticle.setContent(HtmlUtils.htmlUnescape(sysArticle.getContent()));
+            redisUtil.set(id, sysArticle,60);
+        } else {
+            sysArticle = this.baseMapper.selectById(id);
+            sysArticle.setContent(HtmlUtils.htmlUnescape(sysArticle.getContent()));
+            sysArticle.setPageViews(sysArticle.getPageViews() == null ? 1 : sysArticle.getPageViews() + 1);
+            redisUtil.set(id, sysArticle,60);
+        }
+        // 每2次更新一次数据
+        if (sysArticle.getPageViews() != 0 && sysArticle.getPageViews() % 2 == 0) {
+            sysArticle.updateById();
+        }
         return ServiceResult.success(sysArticle);
     }
 }
