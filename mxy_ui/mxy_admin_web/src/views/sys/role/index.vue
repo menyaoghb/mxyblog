@@ -192,10 +192,10 @@
 </template>
 
 <script>
-import {getSysRoleList, addRole, editRole, deleteRole, editRoleStatus, saveRoleMenu} from '@/api/role/role'
+import {getSysRoleList, addRole, editRole, deleteRole, editRoleStatus, saveRoleMenu} from '@/api/sys/role/role'
 import Pagination from '@/components/Pagination'
-import {addUser, editUserStatus, getRoles, getSysUserList} from "@/api/user/user";
-import {getTreeData} from "@/api/menu/menu"; // 分页
+import {addUser, editUserStatus, getRoles, getSysUserList} from "@/api/sys/user/user";
+import {getTreeData} from "@/api/sys/menu/menu"; // 分页
 
 // 权限
 const userTypeOptions = []

@@ -2,68 +2,38 @@
   <div class="app-container">
     <!--查询-->
     <div class="filter-container">
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-input placeholder="请输入姓名" v-model="listQuery.nickName" clearable @keyup.enter.native="handleFilter">
-            <template slot="prepend">姓名</template>
-          </el-input>
-        </el-col>
-        <el-col :span="6">
-          <div class="grid-content bg-purple">
-            <el-input placeholder="请输入账号" v-model="listQuery.username" clearable @keyup.enter.native="handleFilter">
-              <template slot="prepend">账号</template>
-            </el-input>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <el-date-picker
-            v-model="createTime"
-            format="yyyy-MM-dd HH:mm:ss"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            style="width: 100%"
-            type="datetimerange"
-            range-separator="~"
-            start-placeholder="开始时间"
-            end-placeholder="结束时间"
-          >
-          </el-date-picker>
-        </el-col>
-        <el-col :span="6">
-          <el-button class="filter-item" style="margin-left: 10px;" @click="handleFilter" size="small">
-            查询
-          </el-button>
-          <el-button class="filter-item" style="margin-left: 10px;" @click="handleRest" size="small">
-            重置
-          </el-button>
-          <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" size="small">
-            新增
-          </el-button>
-        </el-col>
-      </el-row>
+      <el-input v-model="listQuery.nickName" prefix-icon="el-icon-search" placeholder="姓名" style="width: 200px;"
+                class="filter-item"
+                @keyup.enter.native="handleFilter" clearable/>
+      <el-input v-model="listQuery.userName" prefix-icon="el-icon-search" placeholder="账号"
+                style="width: 200px;margin-left: 5px;"
+                class="filter-item"
+                @keyup.enter.native="handleFilter" clearable/>
+      <el-button class="filter-item" style="margin-left: 10px;" icon="el-icon-search" @click="handleFilter" round>
+        查询
+      </el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" type="plain" icon="el-icon-plus"
+                 @click="handleCreate" round>
+        新增
+      </el-button>
     </div>
     <!--表格-->
     <el-table
       :data="list"
       style="width: 100%" :row-style="{height:'40px'}"
-      :cell-style="{padding:'0px'}" v-loading="listLoading"
-      element-loading-spinner="el-icon-loading">
+      :cell-style="{padding:'0px'}" v-loading="listLoading">
       <el-table-column type="index" width="50" align="center"/>
-      <el-table-column label="头像" align="center">
-        <template slot-scope="{row}">
-          <el-image :src="row.avatar" style="border-radius: 50%;width: 30px;height: 30px;"></el-image>
-        </template>
-      </el-table-column>
       <el-table-column prop="nickName" label="姓名" align="center"></el-table-column>
-      <el-table-column prop="username" label="账号" align="center"></el-table-column>
+      <el-table-column prop="userName" label="账号" align="center"></el-table-column>
       <el-table-column label="权限" align="center">
         <template slot-scope="{row}">
           <span v-for="item in userTypeOptions" v-if="row.userType===item.key">{{ item.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="email" show-overflow-tooltip label="邮箱" align="center"></el-table-column>
-      <el-table-column label="最后登录时间" align="center" width="150">
+      <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
+      <el-table-column label="最后登录时间" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.loginDate | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+          <span>{{ row.loginDate | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态" width="90" class-name="status-col">
@@ -84,14 +54,7 @@
         <template slot-scope="{row,$index}">
           <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
           <el-button size="mini" @click="handleView(row)" type="text">详情</el-button>
-          <el-popconfirm confirm-button-text='删除' cancel-button-text='取消' icon="el-icon-info"
-                         icon-color="red" title="确定删除该用户吗？" @onConfirm="handleDelete(row)">
-            <el-button slot="reference" size="mini" type="text">删除</el-button>
-          </el-popconfirm>
-          <el-popconfirm confirm-button-text='重置' cancel-button-text='取消' icon="el-icon-info"
-                         icon-color="red" title="确定重置密码吗？" @onConfirm="resetPassword(row)">
-            <el-button slot="reference" size="mini" type="text">重置密码</el-button>
-          </el-popconfirm>
+          <el-button size="mini" @click="handleDelete(row)" type="text">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -102,20 +65,28 @@
     <!--新增/修改页-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="100px"
-               style="width: 100%; margin-left:0px;">
+               style="width: 400px; margin-left:160px;">
         <el-form-item label="姓名" prop="nickName">
           <el-input v-model="temp.nickName"/>
         </el-form-item>
-        <el-form-item label="账号" prop="username">
-          <el-input v-model="temp.username"/>
+        <el-form-item label="账号" prop="userName">
+          <el-input v-model="temp.userName"/>
         </el-form-item>
-        <el-form-item label="密码" style="margin-bottom: 30px;" v-show="dialogStatus === 'add'">
+        <el-form-item label="密码" prop="password" style="margin-bottom: 30px;">
           <el-input v-model="temp.password"/>
         </el-form-item>
-        <el-form-item label="角色">
-          <el-radio-group v-model="temp.userType">
-            <el-radio v-for="item in userTypeOptions" :key="item.key" :label="item.key" class="el-radio-role">{{ item.name }}</el-radio>
-          </el-radio-group>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="temp.email"/>
+        </el-form-item>
+        <el-form-item label="权限" prop="userType">
+          <el-select v-model="temp.userType" class="filter-item" style="width: 100%;">
+            <el-option v-for="item in userTypeOptions" :key="item.key" :label="item.name" :value="item.key"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-select v-model="temp.status" class="filter-item" style="width: 100%;">
+            <el-option v-for="item in statusOptions" :key="item.key" :label="item.name" :value="item.key"/>
+          </el-select>
         </el-form-item>
         <el-form-item label="备注">
           <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"/>
@@ -135,14 +106,11 @@
     <el-dialog title="详情" :visible.sync="dialogFormVisibleView" width="700px" append-to-body>
       <el-form ref="dataForm" :model="temp" label-width="120px" size="mini">
         <el-row>
-          <el-col :span="24" style="text-align: center">
-            <el-image :src="temp.avatar" style="border-radius: 50%;width: 100px;height: 100px;"></el-image>
-          </el-col>
           <el-col :span="12">
             <el-form-item label="姓名：">{{ temp.nickName }}</el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="账号：">{{ temp.username }}</el-form-item>
+            <el-form-item label="账号：">{{ temp.userName }}</el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="权限：" v-for="item in userTypeOptions" v-if="temp.userType===item.key">{{ item.name }}
@@ -190,12 +158,20 @@
 </template>
 
 <script>
-  import {getSysUserList, addUser, editUser, deleteUser,getRoles,resetPassword,editUserStatus} from '@/api/sys/user/user'
+  import {getSysUserList, addUser, editUser, deleteUser} from '@/api/sys/user/user'
   import Pagination from '@/components/Pagination' // 分页
   import {validateEmail, validateAccount, validatePassword} from '@/utils/validate'
 
   // 权限
-  const userTypeOptions = []
+  const userTypeOptions = [
+    {key: '01', name: 'S级管理员'},
+    {key: '02', name: 'A级管理员'},
+    {key: '03', name: 'B级管理员'},
+    {key: '04', name: 'C级管理员'},
+    {key: '05', name: 'D级管理员'},
+    {key: '06', name: 'E级管理员'},
+    {key: '07', name: 'F级参观者'}
+  ]
   // 状态
   const statusOptions = [
     {key: '0', name: '启用'},
@@ -221,18 +197,15 @@
           currentPage: 1,
           pageSize: 10,
           nickName: undefined,
-          username: undefined,
-          startTime: undefined,
-          endTime: undefined
+          userName: undefined
         },
-        createTime: undefined,
         userTypeOptions, // 用户权限
         statusOptions, // 用户状态
         sexOptions, // 用户性别
         temp: {
           userId: undefined,
           nickName: '',
-          username: '',
+          userName: '',
           password: '',
           email: '',
           phoneNumber: '',
@@ -257,7 +230,7 @@
             {required: true, message: '请输入姓名', trigger: 'blur'},
             {min: 2, max: 6, message: '长度在 2 到 6 个字符', trigger: 'blur'}
           ],
-          username: [
+          userName: [
             {required: true, message: '请输入账号', trigger: 'blur'},
             {validator: validateAccount, trigger: 'blur'}
           ],
@@ -288,8 +261,7 @@
       }
     },
     created() {
-      this.getList();
-      this.getRoleList();
+      this.getList()
     },
     methods: {
       /*列表查询*/
@@ -301,53 +273,40 @@
           this.listLoading = false
         })
       },
-      /*角色查询*/
-      getRoleList() {
-        getRoles().then(response => {
-          let roles = response.data;
-          this.userTypeOptions = [];
-          for (const role of roles) {
-            this.userTypeOptions.push({key: role.roleId, name: role.roleName})
-          }
-        })
-      },
       /*条件查询*/
       handleFilter() {
         this.listQuery.currentPage = 1
-        const createTime = this.createTime;
-        if (createTime !== null && createTime !== ''){
-          this.listQuery.startTime = createTime[0];
-          this.listQuery.endTime = createTime[1]
-        }
         this.getList()
-      },
-      /*条件重置*/
-      handleRest() {
-        this.listQuery.nickName = "";
-        this.listQuery.username = "";
-        this.listQuery.startTime = "";
-        this.listQuery.endTime = "";
-        this.createTime = [];
       },
       /*用户状态改变*/
       handleModifyStatus(row) {
-        this.temp.userId = row.userId;
-        let param = {};
-        param.userId = row.userId;
-        param.status = row.status;
-        editUserStatus(param).then(() => {
-          this.$message({
-            message: '更新成功',
-            type: 'success'
-          });
-          this.getList();
-        })
+        debugger
+        let text = row.status === "0" ? "启用" : "禁用";
+        this.$confirm('确认要"' + text + '""' + row.userName + '"这个用户吗?', "警告", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          this.temp.userId = row.userId;
+          let param = {};
+          param.userId = row.userId;
+          param.status = row.status;
+          editUser(param).then(() => {
+            this.$message({
+              message: text + '成功',
+              type: 'success'
+            });
+            this.getList();
+          })
+        }).catch(() => {
+          row.status = row.status === "0" ? "1" : "0";
+        });
       },
       /*表单重置*/
       resetTemp() {
         this.temp = {
           userId: undefined,
-          username: '',
+          userName: '',
           nickName: '',
           password: '',
           email: '',
@@ -383,7 +342,6 @@
       /*修改跳转*/
       handleUpdate(row) {
         this.temp = Object.assign({}, row) // copy obj
-        this.temp.password = ''
         this.dialogStatus = 'edit'
         this.dialogFormVisible = true
         this.$nextTick(() => {
@@ -407,32 +365,27 @@
       },
       /*数据删除*/
       handleDelete(row) {
-        this.temp.userId = row.userId;
-        deleteUser(this.temp).then(() => {
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          });
-          this.dialogFormVisible = false
-          this.getList();
-        })
+        this.$confirm('是否确认删除用户账号为"' + row.userName + '"的数据?', "警告", {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.temp.userId = row.userId;
+          deleteUser(this.temp).then(() => {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            });
+            this.dialogFormVisible = false
+            this.getList();
+          })
+        }).catch(() => {
+        });
       },
       /*数据详情*/
       handleView(row) {
         this.dialogFormVisibleView = true;
         this.temp = row;
-      },
-      /*重置密码*/
-      resetPassword(row) {
-        this.temp.userId = row.userId;
-        resetPassword(this.temp).then(() => {
-          this.$message({
-            message: '重置成功，新密码为：123456',
-            type: 'success'
-          });
-          this.dialogFormVisible = false
-          this.getList();
-        })
       }
     }
   }
@@ -441,14 +394,5 @@
   /*新增页按钮居中--（写法暂定）*/
   .dialog-footer {
     text-align: center;
-  }
-  .el-radio-role{
-    margin-bottom: 10px;
-  }
-  .el-dialog__body {
-    padding: 10px 10px;
-  }
-  .filter-container{
-    margin-bottom: 18px;
   }
 </style>

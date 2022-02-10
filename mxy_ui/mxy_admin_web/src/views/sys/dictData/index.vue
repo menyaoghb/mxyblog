@@ -95,7 +95,7 @@
 </template>
 
 <script>
-  import {getSysDictDataList, addDictData, editDictData, deleteDictData} from '@/api/dict/data/data'
+  import {getSysDictDataList, addDictData, editDictData, deleteDictData} from '@/api/sys/dictData/data'
   import Pagination from '@/components/Pagination' // 分页
 
   // 权限

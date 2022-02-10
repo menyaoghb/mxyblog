@@ -130,7 +130,7 @@
 </template>
 
 <script>
-  import {getSysMenuList, addMenu, editMenu, deleteMenu, getTreeData} from '@/api/menu/menu'
+  import {getSysMenuList, addMenu, editMenu, deleteMenu, getTreeData} from '@/api/sys/menu/menu'
   import Pagination from '@/components/Pagination' // 分页
 
   // 权限

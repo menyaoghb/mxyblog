@@ -73,13 +73,13 @@ export const asyncRoutes = [
     children: [
       {
         path: 'filePath',
-        component: () => import('@/views/file/file/index'),
+        component: () => import('@/views/blog/create'),
         name: 'fileName',
         meta: {title: '写博客', icon: 'el-icon-lollipop'}
       },
       {
         path: 'imagePath',
-        component: () => import('@/views/file/image/index'),
+        component: () => import('@/views/blog/create'),
         name: 'imageName',
         meta: {title: '查博客', icon: 'el-icon-lollipop'}
       },
@@ -91,7 +91,7 @@ export const asyncRoutes = [
       },
       {
         path: 'imagePath',
-        component: () => import('@/views/file/image/index'),
+        component: () => import('@/views/blog/config/index'),
         name: 'imageName',
         meta: {title: '网站配置', icon: 'el-icon-lollipop'}
       }
@@ -142,6 +142,12 @@ export const asyncRoutes = [
         component: () => import('@/views/sys/job/index'),
         name: 'job',
         meta: {title: '定时任务', icon: 'el-icon-watermelon'}
+      },
+      {
+        path: 'job',
+        component: () => import('@/views/sys/job/index'),
+        name: 'job',
+        meta: {title: '系统参数', icon: 'el-icon-watermelon'}
       }
     ]
   },

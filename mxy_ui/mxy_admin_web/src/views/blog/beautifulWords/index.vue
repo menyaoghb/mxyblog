@@ -141,7 +141,7 @@
 </template>
 
 <script>
-  import {getList, getAdviceList, addUser, editUser, deleteUser} from '@/api/mxy/beautifulWords/beautifulWords'
+  import {getList, getAdviceList, addUser, editUser, deleteUser} from '@/api/blog/beautifulWords/beautifulWords'
   import Pagination from '@/components/Pagination' // 分页
   import {validateEmail, validateAccount, validatePassword} from '@/utils/validate'
 
