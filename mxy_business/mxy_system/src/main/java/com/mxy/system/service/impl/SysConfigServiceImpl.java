@@ -5,11 +5,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysConfig;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysConfigVO;
 import com.mxy.system.mapper.SysConfigMapper;
+import com.mxy.system.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysConfigService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +30,13 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
     @Override
     public String getList(SysConfigVO sysConfigVO) {
         QueryWrapper queryWrapper = new QueryWrapper();
+        if (StringUtils.isNotEmpty(sysConfigVO.getConfigName())) {
+            queryWrapper.eq("config_name", sysConfigVO.getConfigName());
+        }
+        if (StringUtils.isNotEmpty(sysConfigVO.getConfigValue())) {
+            queryWrapper.eq("config_value", sysConfigVO.getConfigValue());
+        }
+        queryWrapper.orderByDesc("create_time");
         Page<SysConfig> page = new Page<>();
         page.setCurrent(sysConfigVO.getCurrentPage());
         page.setSize(sysConfigVO.getPageSize());
@@ -36,8 +46,10 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
 
     @Override
     public String add(SysConfigVO sysConfigVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysConfig sysConfig = new SysConfig();
         BeanUtils.copyProperties(sysConfigVO, sysConfig);
+        sysConfig.setCreateUser(userDetails.getUsername());
         Boolean result = sysConfig.insert();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.INSERT_SUCCESS);
@@ -48,8 +60,10 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
 
     @Override
     public String edit(SysConfigVO sysConfigVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysConfig sysConfig = new SysConfig();
         BeanUtils.copyProperties(sysConfigVO, sysConfig);
+        sysConfig.setUpdateUser(userDetails.getUsername());
         Boolean result = sysConfig.updateById();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);

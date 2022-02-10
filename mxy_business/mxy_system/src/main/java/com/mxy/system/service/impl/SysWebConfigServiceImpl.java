@@ -12,6 +12,7 @@ import com.mxy.system.entity.vo.SysWebConfigVO;
 import com.mxy.system.mapper.SysWebConfigMapper;
 import com.mxy.system.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysWebConfigService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,13 @@ public class SysWebConfigServiceImpl extends ServiceImpl<SysWebConfigMapper, Sys
     @Override
     public String getList(SysWebConfigVO sysWebConfigVO) {
         QueryWrapper queryWrapper = new QueryWrapper();
+        if (StringUtils.isNotEmpty(sysWebConfigVO.getName())) {
+            queryWrapper.eq("name", sysWebConfigVO.getName());
+        }
+        if (StringUtils.isNotEmpty(sysWebConfigVO.getValue())) {
+            queryWrapper.eq("value", sysWebConfigVO.getValue());
+        }
+        queryWrapper.orderByDesc("create_time");
         Page<SysWebConfig> page = new Page<>();
         page.setCurrent(sysWebConfigVO.getCurrentPage());
         page.setSize(sysWebConfigVO.getPageSize());
