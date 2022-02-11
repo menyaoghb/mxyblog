@@ -6,10 +6,10 @@
         </h1>
       </div>
       <div style="display: inline-block">
-        <img height="70" width="120" src="http://mxy.mxyit.com/home_page.jpg">
+        <img height="70" width="120" :src="post.filePath">
       </div>
         <div class="post-entry" style="display: inline-block;width: 50%;position: absolute;">
-            <p class="summary" :title="post.summary" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin-top: 20px">{{post.summary}}</p>
+          <router-link :to="`/article/${post.id}`"><p class="summary" :title="post.summary" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin-top: 20px">{{post.summary}}</p></router-link>
             <p class="summary" style="font-size:xx-small;text-align: left;margin-top: 10px;"><i class="iconfont iconeyes"></i>    {{post.pageViews}}    |    <i class="iconfont iconmeditor-time"></i>    {{post.createTime | parseTime}}</p>
         </div>
 
