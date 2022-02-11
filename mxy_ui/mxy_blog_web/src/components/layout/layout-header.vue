@@ -9,16 +9,16 @@
     <!--导航栏 内容-->
     <div class="site-menus">
       <!--搜索按钮-->
-      <div class="menu-item header-search">
+<!--      <div class="menu-item header-search">
         <header-search/>
-      </div>
+      </div>-->
       <!--标题-->
       <div class="menu-item">
         <ul>
-          <li><div class="title-line"><a href="#" @click="open1" class="header-title">2022</a></div></li>
-          <li><div class="title-line"><a href="#" @click="open2" class="header-title">博客</a></div></li>
-          <li><div class="title-line"><a href="#" @click="open3" class="header-title">暴富</a></div></li>
-          <li><div class="title-line"><a href="#" @click="open4" class="header-title">脱单</a></div></li>
+          <router-link to="/"><li><div class="title-line header-title">2022</div></li></router-link>
+          <router-link to="/blog"><li><div class="title-line header-title">博客</div></li></router-link>
+          <router-link to="/index"><li><div class="title-line header-title">暴富</div></li></router-link>
+          <router-link to="/index"><li><div class="title-line header-title">脱单</div></li></router-link>
           <li>
             <div class="title-line"><el-badge :value="99999" :max="num" class="item">
               <a href="#" @click="open5" class="header-title">点赞</a>

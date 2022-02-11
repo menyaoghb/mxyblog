@@ -1,15 +1,18 @@
 <template>
     <article class="post post-list">
-        <div class="post-entry">
-            <h1 class="entry-title">
-                <router-link :to="`/article/${post.id}`"><!--<span v-if="post.isTop" style="color:#ff6d6d;font-weight:600">[置顶] </span>-->{{post.title}}</router-link>
-            </h1>
-            <p class="summary" style="margin-right: 17%;">{{post.summary}}</p>
-<!--
-            <p class="summary" style="margin-right: 17%;text-align: right;"><i class="iconfont iconeyes"></i>    {{post.pageViews}}    |    <i class="iconfont iconmeditor-time"></i>    {{post.createTime | parseTime}}</p>
--->
+      <div class="post-entry" style="width: 50%;">
+        <h1 class="entry-title">
+          <router-link :to="`/article/${post.id}`"><!--<span v-if="post.isTop" style="color:#ff6d6d;font-weight:600">[置顶] </span>--><span style="font-family: cursive;">{{post.title}}</span></router-link>
+        </h1>
+      </div>
+      <div style="display: inline-block">
+        <img height="70" width="120" src="http://mxy.mxyit.com/home_page.jpg">
+      </div>
+        <div class="post-entry" style="display: inline-block;width: 50%;position: absolute;">
+            <p class="summary" :title="post.summary" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin-top: 20px">{{post.summary}}</p>
+            <p class="summary" style="font-size:xx-small;text-align: left;margin-top: 10px;"><i class="iconfont iconeyes"></i>    {{post.pageViews}}    |    <i class="iconfont iconmeditor-time"></i>    {{post.createTime | parseTime}}</p>
         </div>
-        <hr/>
+
     </article>
 </template>
 
@@ -54,17 +57,17 @@
         }
 
         .entry-title {
-            font-size: 21px;
-            font-weight: 600;
-            line-height: 50px;
-            margin: 0 0 0 17%;
+            font-size: 20px;
+            font-weight: 300;
+            line-height: 20px;
+            margin: 0 0 1% 0;
             position: relative;
             z-index: 1;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            width: 70%;
-            color: #409EFF;
+            width: 100%;
+            color: #f9a100;
 
             & a:hover {
                 color: #8fd0cc;
@@ -84,12 +87,12 @@
         }
 
         p.summary {
-            min-height: 30px;
-            margin: 0 0 0 17%;
-            font-size: 15px;
+            min-height: 20px;
+            margin: 0 0 0 2%;
+            font-size: 12px;
             color: #6f6f6f;
             letter-spacing: 1px;
-            line-height: 30px;
+            line-height: 20px;
         }
 
         footer.entry-footer {
