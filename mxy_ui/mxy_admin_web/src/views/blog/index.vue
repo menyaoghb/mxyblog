@@ -8,10 +8,12 @@
       <el-button class="filter-item" style="margin-left: 10px;" icon="el-icon-search" @click="handleFilter" round>
         查询
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="plain" icon="el-icon-plus"
-                 @click="handleCreate" round>
-        新增
-      </el-button>
+      <router-link to="createBlog">
+        <el-button class="filter-item" style="margin-left: 10px;" type="plain" icon="el-icon-plus"
+                    round>
+          新增
+        </el-button>
+      </router-link>
     </div>
     <!--表格-->
     <el-table
@@ -53,9 +55,9 @@
       <el-table-column label="操作" align="center" width="230" class-name="small-padding">
         <template slot-scope="{row,$index}">
           <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
-          <el-button size="mini" @click="handleView(row)" type="text">预览</el-button>
+          <el-button size="mini" @click="handleDelete(row)" type="text">预览</el-button>
           <el-popconfirm confirm-button-text='好的' cancel-button-text='不用了' icon="el-icon-info"
-                         icon-color="red" title="确定删除吗？" @onConfirm="handleDelete(row)">
+                         icon-color="red" title="确定删除此博客吗？" @onConfirm="handleDelete(row)">
             <el-button slot="reference" size="mini" type="text">删除</el-button>
           </el-popconfirm>
         </template>
@@ -109,7 +111,6 @@
     },
     created() {
       this.getList();
-      hljs.initHighlightingOnLoad();
     },
     methods: {
       /*列表查询*/
@@ -159,51 +160,19 @@
       },
       /*新增跳转*/
       handleCreate() {
-        this.resetTemp()
-        this.dialogStatus = 'add'
-        this.dialogFormVisible = true
-        this.$nextTick(() => {
-          this.$refs['dataForm'].clearValidate()
-        })
+
       },
       /*新增提交*/
       createData() {
-        this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
-            addArticle(this.temp).then(() => {
-              this.$message({
-                message: '新增成功',
-                type: 'success'
-              });
-              this.dialogFormVisible = false
-              this.getList();
-            })
-          }
-        })
+
       },
       /*修改跳转*/
       handleUpdate(row) {
-        this.temp = Object.assign({}, row) // copy obj
-        this.dialogStatus = 'edit'
-        this.dialogFormVisible = true
-        this.$nextTick(() => {
-          this.$refs['dataForm'].clearValidate()
-        })
+
       },
       /*修改提交*/
       updateData() {
-        this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
-            editArticle(this.temp).then(() => {
-              this.$message({
-                message: '修改成功',
-                type: 'success'
-              });
-              this.dialogFormVisible = false
-              this.getList();
-            })
-          }
-        })
+
       },
       /*数据删除*/
       handleDelete(row) {

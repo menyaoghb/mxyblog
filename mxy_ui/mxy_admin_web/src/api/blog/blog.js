@@ -40,3 +40,11 @@ export function deleteArticle(data) {
     data
   })
 }
+// 用户头像上传
+export function uploadPhoto(data) {
+  return request({
+    url: '/sysUserPhoto/uploadPhoto',
+    method: 'post',
+    data
+  })
+}

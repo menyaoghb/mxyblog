@@ -20,48 +20,66 @@
                 标题
               </MDinput>
             </el-form-item>
-
-            <div class="postInfo-container">
-              <el-row>
-                <el-col :span="8">
-                  <el-form-item label-width="70px" label="笔名:" class="postInfo-container-item">
-                    <el-input v-model="postForm.author" :rows="1" type="textarea" class="article-textarea" autosize placeholder="" />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label-width="70px" label="来源:" class="postInfo-container-item">
-                    <el-input v-model="postForm.source" :rows="1" type="textarea" class="article-textarea" autosize placeholder="" />
-                  </el-form-item>
-                </el-col>
-
-<!--                <el-col :span="10">
-                  <el-form-item label-width="120px" label="发布时间:" class="postInfo-container-item">
-                    <el-date-picker v-model="displayTime" type="datetime" format="yyyy-MM-dd HH:mm:ss"
-                                    placeholder="选择发布时间"/>
-                  </el-form-item>
-                </el-col>-->
-
-<!--                <el-col :span="6">
-                  <el-form-item label-width="90px" label="Importance:" class="postInfo-container-item">
-                    <el-rate
-                      v-model="postForm.importance"
-                      :max="3"
-                      :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-                      :low-threshold="1"
-                      :high-threshold="3"
-                      style="display:inline-block"
-                    />
-                  </el-form-item>
-                </el-col>-->
-              </el-row>
-            </div>
+            <el-form-item style="margin-bottom: 40px;" label-width="70px" label="简介:">
+              <el-input v-model="postForm.summary" :rows="1" type="textarea" class="article-textarea" autosize
+                        placeholder=""/>
+              <span v-show="contentShortLength" class="word-counter">{{ contentShortLength }}字</span>
+            </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item style="margin-bottom: 40px;" label-width="70px" label="简介:">
-          <el-input v-model="postForm.summary" :rows="1" type="textarea" class="article-textarea" autosize placeholder="" />
-          <span v-show="contentShortLength" class="word-counter">{{ contentShortLength }}字</span>
-        </el-form-item>
-        <EditorTool class="tool-style" style="margin-top: 50px;margin-left: 15px" v-model="postForm.content" :is-clear="isClear"
+        <div class="postInfo-container">
+          <el-row>
+            <el-col :span="6">
+              <el-form-item label-width="70px" label="笔名:" class="postInfo-container-item">
+                <el-input v-model="postForm.author" :rows="1" type="textarea" class="article-textarea" autosize
+                          placeholder=""/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label-width="70px" label="来源:" class="postInfo-container-item">
+                <el-input v-model="postForm.source" :rows="1" type="textarea" class="article-textarea" autosize
+                          placeholder=""/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label-width="70px" label="标题图:" class="postInfo-container-item">
+                <div class="title-pic">
+                <el-upload
+                  class="avatar-uploader"
+                  action="https://jsonplaceholder.typicode.com/posts/"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload">
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+                </div>
+              </el-form-item>
+            </el-col>
+
+            <!--                <el-col :span="10">
+                              <el-form-item label-width="120px" label="发布时间:" class="postInfo-container-item">
+                                <el-date-picker v-model="displayTime" type="datetime" format="yyyy-MM-dd HH:mm:ss"
+                                                placeholder="选择发布时间"/>
+                              </el-form-item>
+                            </el-col>-->
+
+            <!--                <el-col :span="6">
+                              <el-form-item label-width="90px" label="Importance:" class="postInfo-container-item">
+                                <el-rate
+                                  v-model="postForm.importance"
+                                  :max="3"
+                                  :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                                  :low-threshold="1"
+                                  :high-threshold="3"
+                                  style="display:inline-block"
+                                />
+                              </el-form-item>
+                            </el-col>-->
+          </el-row>
+        </div>
+        <EditorTool class="tool-style" style="margin-top: 50px;margin-left: 15px" v-model="postForm.content"
+                    :is-clear="isClear"
                     @change="changeEditor"/>
         <span v-show="contentShortLength" class="word-counter">{{ contentShortLength }}字</span>
       </div>
@@ -70,111 +88,179 @@
 </template>
 
 <script>
-  import EditorTool from './components/wangEditor'
-  import MDinput from '@/components/MDinput'
-  import Sticky from '@/components/Sticky'
-  import { addArticle } from '@/api/blog/blog'
-  const defaultForm = {
-    status: '0',
-    title: '', // 文章题目
-    content: '', // 文章内容
-    summary: '', // 文章摘要
-    author: '小小', // 文章摘要
-    source: '原创', // 文章摘要
-    source_uri: '', // 文章外链
-    image_uri: '', // 文章图片
-    display_time: undefined, // 前台展示时间
-    id: undefined,
-    platforms: ['a-platform'],
-    comment_disabled: false,
-    importance: 0
-  }
-  export default {
-    name: 'CreateArticle',
-    components: {EditorTool, MDinput,Sticky},
-    data() {
-      return {
-        postForm: Object.assign({}, defaultForm),
-        isClear: false,
-        detail: '',
-        content: '',
-        loading: false,
-        userListOptions: []
-      }
+import EditorTool from './components/wangEditor'
+import MDinput from '@/components/MDinput'
+import Sticky from '@/components/Sticky'
+import {addArticle, uploadPhoto} from '@/api/blog/blog'
+
+const defaultForm = {
+  status: '0',
+  title: '', // 文章题目
+  content: '', // 文章内容
+  summary: '', // 文章摘要
+  author: '小小', // 文章摘要
+  source: '原创', // 文章摘要
+  source_uri: '', // 文章外链
+  image_uri: '', // 文章图片
+  display_time: undefined, // 前台展示时间
+  id: undefined,
+  platforms: ['a-platform'],
+  comment_disabled: false,
+  importance: 0
+}
+export default {
+  name: 'CreateArticle',
+  components: {EditorTool, MDinput, Sticky},
+  data() {
+    return {
+      postForm: Object.assign({}, defaultForm),
+      isClear: false,
+      detail: '',
+      content: '',
+      loading: false,
+      userListOptions: [],
+      imageUrl: "",
+      userId: "1"
+    }
+  },
+  computed: {
+    contentShortLength() {
+      return this.postForm.summary.length
     },
-    computed: {
-      contentShortLength() {
-        return this.postForm.summary.length
+    displayTime: {
+      get() {
+        return (+new Date(this.postForm.display_time))
       },
-      displayTime: {
-        get() {
-          return (+new Date(this.postForm.display_time))
-        },
-        set(val) {
-          this.postForm.display_time = new Date(val)
-        }
-      }
-    },
-    methods: {
-      submitForm() {
-        console.log(this.postForm)
-        this.$refs.postForm.validate(valid => {
-          if (valid) {
-            this.loading = true
-            this.postForm.status = '0'
-            addArticle(this.postForm).then(() => {
-              this.$notify({
-                title: '成功',
-                message: '发布博客成功',
-                type: 'success',
-                duration: 2000
-              })
-            })
-            this.loading = false
-          } else {
-            console.log('error submit!!')
-            return false
-          }
-        })
-      },
-      draftForm() {
-        if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
-          this.$message({
-            message: '请填写必要的标题和内容',
-            type: 'warning'
-          })
-          return
-        }
-        this.postForm.status = '1'
-        addArticle(this.postForm).then(() => {
-          this.$message({
-            message: '保存成功',
-            type: 'success',
-            showClose: true,
-            duration: 1000
-          })
-        })
-      },
-      changeEditor(val) {
-        console.log(val)
+      set(val) {
+        this.postForm.display_time = new Date(val)
       }
     }
+  },
+  methods: {
+    submitForm() {
+      console.log(this.postForm)
+      this.$refs.postForm.validate(valid => {
+        if (valid) {
+          this.loading = true
+          this.postForm.status = '0'
+          addArticle(this.postForm).then(() => {
+            this.$notify({
+              title: '成功',
+              message: '发布博客成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
+          this.loading = false
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    draftForm() {
+      if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
+        this.$message({
+          message: '请填写必要的标题和内容',
+          type: 'warning'
+        })
+        return
+      }
+      this.postForm.status = '1'
+      addArticle(this.postForm).then(() => {
+        this.$message({
+          message: '保存成功',
+          type: 'success',
+          showClose: true,
+          duration: 1000
+        })
+      })
+    },
+    changeEditor(val) {
+      console.log(val)
+    },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+      // 调用上传头像接口
+      let formData = new FormData();
+      formData.append("userId", this.userId);
+      formData.append("imageUrl", file.raw);
+      uploadPhoto(formData).then(() => {
+        this.$message({
+          message: '修改成功',
+          type: 'success'
+        });
+      })
+    },
+    beforeAvatarUpload(file) {
+      //const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      /*if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }*/
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isLt2M;
+    }
   }
+}
 </script>
 <style lang="scss" scoped>
-  .article-textarea ::v-deep {
-    textarea {
-      padding-right: 40px;
-      resize: none;
-      border: none;
-      border-radius: 0px;
-      border-bottom: 1px solid #bfcbd9;
-    }
+
+.title-pic{
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  width: 178px;
+  height: 178px;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+
+
+.article-textarea ::v-deep {
+  textarea {
+    padding-right: 40px;
+    resize: none;
+    border: none;
+    border-radius: 0px;
+    border-bottom: 1px solid #bfcbd9;
   }
-  .word-counter {
-    width: 40px;
-    position: absolute;
-    right: 10px;
-    top: 0px;
-  }
-  </style>
+}
+
+.word-counter {
+  width: 40px;
+  position: absolute;
+  right: 10px;
+  top: 0px;
+}
+</style>
