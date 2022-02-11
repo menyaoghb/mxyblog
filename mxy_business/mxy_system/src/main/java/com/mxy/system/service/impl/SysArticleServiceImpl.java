@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -45,6 +46,10 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
         page.setCurrent(sysArticleVO.getCurrentPage());
         page.setSize(sysArticleVO.getPageSize());
         IPage<SysArticle> pageList = this.page(page, queryWrapper);
+        List<SysArticle> list = pageList.getRecords();
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setContent(HtmlUtils.htmlUnescape(list.get(i).getContent()));
+        }
         return ServiceResult.success(pageList);
     }
 

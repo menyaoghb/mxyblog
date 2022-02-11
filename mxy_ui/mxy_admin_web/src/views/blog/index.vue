@@ -21,11 +21,9 @@
       <el-table-column type="expand">
         <template slot-scope="{row}">
           <el-form label-position="left" inline class="word-table-expand">
-            <el-form-item label="标题">
-              <span>{{ row.title }}</span>
-            </el-form-item>
-            <el-form-item label="简介">
-              <span>{{ row.summary }}</span>
+            <el-form-item label="">
+              <div class="entry-content" v-html="row.content" v-highlight>
+              </div>
             </el-form-item>
           </el-form>
         </template>
@@ -55,7 +53,7 @@
       <el-table-column label="操作" align="center" width="230" class-name="small-padding">
         <template slot-scope="{row,$index}">
           <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
-          <el-button size="mini" @click="handleView(row)" type="text">详情</el-button>
+          <el-button size="mini" @click="handleView(row)" type="text">预览</el-button>
           <el-popconfirm confirm-button-text='好的' cancel-button-text='不用了' icon="el-icon-info"
                          icon-color="red" title="确定删除吗？" @onConfirm="handleDelete(row)">
             <el-button slot="reference" size="mini" type="text">删除</el-button>
@@ -110,7 +108,8 @@
       }
     },
     created() {
-      this.getList()
+      this.getList();
+      hljs.initHighlightingOnLoad();
     },
     methods: {
       /*列表查询*/

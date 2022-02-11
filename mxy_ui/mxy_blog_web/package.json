@@ -10,9 +10,10 @@
   "dependencies": {
     "animejs": "^3.2.0",
     "axios": "^0.19.2",
-    "element-ui": "2.15.7",
     "comment-message-editor": "^1.0.1",
     "core-js": "^3.6.4",
+    "element-ui": "2.15.7",
+    "highlight.js": "^11.4.0",
     "mockjs": "^1.1.0",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",

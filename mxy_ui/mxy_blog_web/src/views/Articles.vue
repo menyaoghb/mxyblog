@@ -13,7 +13,7 @@
                         </div>
                     </header>
                     <!-- 正文输出 -->
-                    <div class="entry-content" v-html="postList.content">>
+                    <div class="entry-content" v-html="postList.content" v-highlight>
                     </div>
                     <!-- 文章底部 -->
                     <section-title>
@@ -37,6 +37,7 @@
     import comment from '@/components/comment'
     import menuTree from '@/components/menu-tree'
     import {getDataById, fetchComment, fetchList} from '../api'
+
 
     export default {
         name: 'articles',
@@ -111,6 +112,10 @@
     }
 </script>
 <style scoped lang="less">
+
+.hljs{
+  background: bisque;
+}
     .site-content {
         position: relative;
 
@@ -135,6 +140,7 @@
     .entry-header {
 
     .entry-title {
+      text-align: center;
         font-size: 23px;
         font-weight: 600;
         color: #000000;

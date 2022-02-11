@@ -8,7 +8,7 @@
 <script>
   import E from 'wangeditor'
   import hljs from 'highlight.js'
-  import 'highlight.js/styles/monokai-sublime.css'
+  import 'highlight.js/styles/base16/github.css'
   export default {
     name: 'Editoritem',
     model: {
@@ -53,6 +53,7 @@
     },
     methods: {
       seteditor() {
+        hljs.initHighlightingOnLoad();
         // http://192.168.2.125:8080/admin/storage/create
         this.editor = new E(this.$refs.toolbar, this.$refs.editor)
         this.editor.config.uploadImgShowBase64 = false // base 64 存储图片
@@ -65,7 +66,8 @@
         this.editor.config.showMenuTooltips = true
         this.editor.config.menuTooltipPosition = 'up'
         this.editor.highlight = hljs
-        //this.editor.config.showFullScreen = true
+        this.editor.config.showFullScreen = true
+        this.editor.config.lineHeights = ['1', '1.5', '1.8', '2', '2.5', '3'] // 设置行号
         // 配置菜单
         this.editor.config.menus = [
           'head', // 标题
@@ -73,8 +75,12 @@
           'fontSize', // 字号
           'fontName', // 字体
           'italic', // 斜体
+          'lineHeight', // 行高
+          'indent', // 缩进
+          'splitLine', // 分割线
           'underline', // 下划线
           'strikeThrough', // 删除线
+          'todo', // 待办事项
           'foreColor', // 文字颜色
           'backColor', // 背景颜色
           'link', // 插入链接

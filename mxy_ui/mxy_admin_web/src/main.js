@@ -18,6 +18,15 @@ import '@/permission' // 权限控制
 // 如果想要中文版 element-ui，按如下方式声明
  Vue.use(ElementUI)
 
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github.css' //样式文件
+Vue.directive('highlight',function (el) {
+  let blocks = el.querySelectorAll('pre code');
+  blocks.forEach((block)=>{
+    hljs.highlightBlock(block)
+  })
+})
+
 // 注册全局实用过滤器
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
