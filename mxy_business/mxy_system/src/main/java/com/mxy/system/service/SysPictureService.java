@@ -45,6 +45,6 @@ public interface SysPictureService extends IService<SysPicture> {
     /**
      * 图片上传
      */
-    public String uploadPicture(Map<String, Object> map, MultipartFile[] file);
+    public String uploadPicture(Map<String, Object> map, MultipartFile file);
 
 }

@@ -55,10 +55,10 @@
         </el-form-item>
       </el-form>
 
-      <el-upload
+<!--      <el-upload
         class="upload-demo"
         ref="upload"
-        action="http://localhost:7088/system/sysPicture/uploadPicture"
+        action="http://localhost:7088/api/foreign/uploadPicture"
         :on-preview="handlePreview"
         :on-remove="handleRemove"
         :data="fileData"
@@ -68,7 +68,50 @@
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
         <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
         <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+      </el-upload>-->
+
+      <el-upload
+        action="#"
+        list-type="picture-card"
+        :http-request="uploadImg">
+        <i slot="default" class="el-icon-plus"></i>
+        <div v-show="progressFlag" class="head-img">
+          <el-progress :percentage="progressPercent" :format="format"></el-progress>
+        </div>
+
+        <div style="height: 100%" slot="file" slot-scope="{file}">
+          <img
+            class="el-upload-list__item-thumbnail"
+            :src="file.url" alt=""
+          >
+          <span class="el-upload-list__item-actions">
+        <span
+          class="el-upload-list__item-preview"
+          @click="handlePictureCardPreview(file)"
+        >
+          <i class="el-icon-zoom-in"></i>
+        </span>
+        <span
+          v-if="!disabled"
+          class="el-upload-list__item-delete"
+          @click="handleDownload(file)"
+        >
+          <i class="el-icon-download"></i>
+        </span>
+        <span
+          v-if="!disabled"
+          class="el-upload-list__item-delete"
+          @click="handleRemove(file)"
+        >
+          <i class="el-icon-delete"></i>
+        </span>
+      </span>
+        </div>
       </el-upload>
+      <el-dialog :visible.sync="dialogVisible">
+        <img width="100%" :src="dialogImageUrl" alt="">
+      </el-dialog>
+      <el-button style="margin-top: 25px;" size="small" type="success" @click="submitUpload">关闭</el-button>
     </el-dialog>
 
 
@@ -78,6 +121,7 @@
 <script>
   import {getList, addUser, editUser, deleteUser, getFileTypeList} from '@/api/file/img/img'
   import Pagination from '@/components/Pagination' // 分页
+  import axios from 'axios'
 
   export default {
     name: 'ComplexTable',
@@ -85,6 +129,8 @@
     filters: {},
     data() {
       return {
+        progressFlag: false,
+        progressPercent: 0,
         /*图片标签-新增*/
         imageType: [],
         /*图片上传-额外参数*/
@@ -118,7 +164,10 @@
           add: '新增',
           edit: '编辑'
         },
-        rules: {}
+        rules: {},
+        dialogImageUrl: '',
+        dialogVisible: false,
+        disabled: false
       }
     },
     created() {
@@ -126,20 +175,49 @@
       this.getFileTypeList();
     },
     methods: {
+      uploadImg (f) {
+        let formData = new FormData()
+        formData.append('file', f.file)
+        formData.append('fileName', this.fileData.fileName)
+        formData.append('fileType', this.fileData.fileType)
+        axios({
+          url: 'http://localhost:7088/api/foreign/uploadPicture',
+          method: 'post',
+          data: formData,
+          headers: {'Content-Type': 'multipart/form-data'},
+          onUploadProgress: progressEvent => {
+            // progressEvent.loaded:已上传文件大小
+            // progressEvent.total:被上传文件的总大小
+            this.progressPercent = (progressEvent.loaded / progressEvent.total * 100)
+          }
+        }).then(res => {
+          if (this.progressPercent === 100) {
+            this.progressFlag = false
+            this.progressPercent = 0
+          }
+        }).then(error => {
+          console.log(error)
+        })
+      },
+      handleRemove(file) {
+        console.log(file);
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      handleDownload(file) {
+        console.log(file);
+      },
+      format(percentage) {
+        return percentage === 100 ? '100%' : `${percentage}%`;
+      },
       /*图片上传*/
-      submitUpload() {
-        this.$refs.upload.submit();
+      submitUpload(f) {
         /*清空图片列表*/
         this.fileList = [];
-        this.$message({
-          message: '上传成功',
-          type: 'success'
-        });
         this.dialogFormVisible = false;
         this.handleFilter();
-      },
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
       },
       handlePreview(file) {
         console.log(file);

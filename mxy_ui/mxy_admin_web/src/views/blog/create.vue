@@ -44,15 +44,15 @@
             <el-col :span="6">
               <el-form-item label-width="70px" label="标题图:" class="postInfo-container-item">
                 <div class="title-pic">
-                <el-upload
-                  class="avatar-uploader"
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  :show-file-list="false"
-                  :on-success="handleAvatarSuccess"
-                  :before-upload="beforeAvatarUpload">
-                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
+                  <el-upload class="avatar-uploader" action="#"
+                             :show-file-list="false"  :before-upload="beforeAvatarUpload"
+                             :http-request="uploadImg">
+                    <div v-show="progressFlag" class="head-img">
+                      <el-progress type="circle" :percentage="progressPercent"></el-progress>
+                    </div>
+                    <img v-if="!progressFlag" :src="postForm.filePath" class="avatar">
+                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                  </el-upload>
                 </div>
               </el-form-item>
             </el-col>
@@ -92,21 +92,18 @@ import EditorTool from './components/wangEditor'
 import MDinput from '@/components/MDinput'
 import Sticky from '@/components/Sticky'
 import {addArticle, uploadPhoto} from '@/api/blog/blog'
+import axios from 'axios'
 
 const defaultForm = {
   status: '0',
   title: '', // 文章题目
   content: '', // 文章内容
   summary: '', // 文章摘要
-  author: '小小', // 文章摘要
+  author: '孟耀', // 文章摘要
   source: '原创', // 文章摘要
-  source_uri: '', // 文章外链
-  image_uri: '', // 文章图片
+  filePath: 'http://mxy.mxyit.com/278668fa-6aa7-43e2-8f90-ef4645fea5ee', // 标题图片
   display_time: undefined, // 前台展示时间
-  id: undefined,
-  platforms: ['a-platform'],
-  comment_disabled: false,
-  importance: 0
+  id: undefined
 }
 export default {
   name: 'CreateArticle',
@@ -115,18 +112,17 @@ export default {
     return {
       postForm: Object.assign({}, defaultForm),
       isClear: false,
-      detail: '',
-      content: '',
       loading: false,
-      userListOptions: [],
-      imageUrl: "",
-      userId: "1"
+      progressFlag: false, // 上传标题图进度条控制
+      progressPercent: 0 // 上传标题图进度条值
     }
   },
   computed: {
+    // 监控当前输入字符数
     contentShortLength() {
       return this.postForm.summary.length
     },
+    // 发布时间 设置
     displayTime: {
       get() {
         return (+new Date(this.postForm.display_time))
@@ -137,8 +133,15 @@ export default {
     }
   },
   methods: {
+    // 表单提交
     submitForm() {
-      console.log(this.postForm)
+      if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
+        this.$message({
+          message: '请填写必要的标题和内容',
+          type: 'warning'
+        })
+        return
+      }
       this.$refs.postForm.validate(valid => {
         if (valid) {
           this.loading = true
@@ -150,6 +153,17 @@ export default {
               type: 'success',
               duration: 2000
             })
+            this.postForm = {
+              status: '0',
+              title: '', // 文章题目
+              content: '', // 文章内容
+              summary: '', // 文章摘要
+              author: '孟耀', // 文章摘要
+              source: '原创', // 文章摘要
+              filePath: 'http://mxy.mxyit.com/278668fa-6aa7-43e2-8f90-ef4645fea5ee', // 标题图片
+              display_time: undefined, // 前台展示时间
+              id: undefined
+            };
           })
           this.loading = false
         } else {
@@ -158,6 +172,7 @@ export default {
         }
       })
     },
+    // 表单保存
     draftForm() {
       if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
         this.$message({
@@ -179,28 +194,36 @@ export default {
     changeEditor(val) {
       console.log(val)
     },
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-      // 调用上传头像接口
-      let formData = new FormData();
-      formData.append("userId", this.userId);
-      formData.append("imageUrl", file.raw);
-      uploadPhoto(formData).then(() => {
-        this.$message({
-          message: '修改成功',
-          type: 'success'
-        });
+    // 上传 标题图
+    uploadImg (f) {
+      this.progressFlag = true
+      let formData = new FormData()
+      formData.append('imageUrl', f.file)
+      axios({
+        url: 'http://localhost:7088/api/foreign/uploadPhoto',
+        method: 'post',
+        data: formData,
+        headers: {'Content-Type': 'multipart/form-data'},
+        onUploadProgress: progressEvent => {
+          // progressEvent.loaded:已上传文件大小
+          // progressEvent.total:被上传文件的总大小
+          this.progressPercent = (progressEvent.loaded / progressEvent.total * 100)
+        }
+      }).then(res => {
+        this.postForm.filePath = res.data.data;
+        if (this.progressPercent === 100) {
+          this.progressFlag = false
+          this.progressPercent = 0
+        }
+      }).then(error => {
+        console.log(error)
       })
     },
+    // 上传标题图 校验
     beforeAvatarUpload(file) {
-      //const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      /*if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }*/
+      const isLt2M = file.size / 1024 / 1024 < 10;
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传头像图片大小不能超过 10MB!');
       }
       return isLt2M;
     }

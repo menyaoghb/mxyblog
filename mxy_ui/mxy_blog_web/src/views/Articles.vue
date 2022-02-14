@@ -145,6 +145,7 @@
         font-weight: 600;
         color: #000000;
         margin: 0.67em 0;
+        line-height: 40px;
 
     &
     :before {

@@ -30,6 +30,11 @@
           </el-form>
         </template>
       </el-table-column>
+      <el-table-column label="标题图" align="center">
+        <template slot-scope="{row}">
+          <el-image :src="row.filePath" style="width: 200px;height: 100px;"></el-image>
+        </template>
+      </el-table-column>
       <el-table-column prop="title" label="标题" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="summary" label="简介" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="pageViews" label="浏览量" align="center"></el-table-column>

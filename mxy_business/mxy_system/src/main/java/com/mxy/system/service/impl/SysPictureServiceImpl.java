@@ -102,31 +102,30 @@ public class SysPictureServiceImpl extends ServiceImpl<SysPictureMapper, SysPict
     }
 
     @Override
-    public String uploadPicture(Map<String, Object> map, MultipartFile[] file) {
+    public String uploadPicture(Map<String, Object> map, MultipartFile multipartFile) {
         Boolean b = false;
         try {
-            for (int i = 0; i < file.length; i++) {
-                MultipartFile multipartFile = file[i];
-                String id = UUID.randomUUID().toString();
-                String name = multipartFile.getOriginalFilename();
-                String key = QiniuUploadUtil.upload(id, multipartFile.getBytes());
-                if (key != null) {
-                    SysPicture sysPicture = new SysPicture();
-                    sysPicture.setId(id);
-                    sysPicture.setPictureId(key);
-                    if (StringUtils.isNotEmpty(MapUtils.getString(map, "fileType"))) {
-                        sysPicture.setType(MapUtils.getString(map, "fileType"));
-                    } else {
-                        sysPicture.setType(MapUtils.getString(map, "缘分"));
-                    }
-                    if (StringUtils.isNotEmpty(MapUtils.getString(map, "fileName"))) {
-                        sysPicture.setPictureName(MapUtils.getString(map, "fileName"));
-                    } else {
-                        sysPicture.setPictureName(MapUtils.getString(map, name));
-                    }
-                    b = sysPicture.insert();
+
+            String id = UUID.randomUUID().toString();
+            String name = multipartFile.getOriginalFilename();
+            String key = QiniuUploadUtil.upload(id, multipartFile.getBytes());
+            if (key != null) {
+                SysPicture sysPicture = new SysPicture();
+                sysPicture.setId(id);
+                sysPicture.setPictureId(key);
+                if (StringUtils.isNotEmpty(MapUtils.getString(map, "fileType"))) {
+                    sysPicture.setType(MapUtils.getString(map, "fileType"));
+                } else {
+                    sysPicture.setType(MapUtils.getString(map, "缘分"));
                 }
+                if (StringUtils.isNotEmpty(MapUtils.getString(map, "fileName"))) {
+                    sysPicture.setPictureName(MapUtils.getString(map, "fileName"));
+                } else {
+                    sysPicture.setPictureName(MapUtils.getString(map, name));
+                }
+                b = sysPicture.insert();
             }
+
         } catch (IOException e) {
             log.info("图片上传失败" + e.getMessage());
             e.printStackTrace();

@@ -19,13 +19,13 @@
           <router-link to="/blog"><li><div class="title-line header-title">博客</div></li></router-link>
           <router-link to="/index"><li><div class="title-line header-title">暴富</div></li></router-link>
           <router-link to="/index"><li><div class="title-line header-title">脱单</div></li></router-link>
+          <a href="http://mxyit.com:8088" target="_blank"><li><div class="title-line header-title">登入</div></li></a>
           <li>
             <div class="title-line"><el-badge :value="99999" :max="num" class="item">
               <a href="#" @click="open5" class="header-title">点赞</a>
             </el-badge>
             </div>
           </li>
-          <a href="http://mxyit.com:8088" target="_blank"><li><div class="title-line header-title">登入</div></li></a>
         </ul>
       </div>
     </div>
