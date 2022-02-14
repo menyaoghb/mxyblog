@@ -57,7 +57,7 @@
           <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
           <el-button size="mini" @click="handleView(row)" type="text">详情</el-button>
           <el-popconfirm confirm-button-text='好的' cancel-button-text='不用了' icon="el-icon-info"
-                         icon-color="red" title="确定删除吗？" @onConfirm="handleDelete(row)">
+                         icon-color="red" title="确定删除吗？" @confirm="handleDelete(row)">
             <el-button slot="reference" size="mini" type="text">删除</el-button>
           </el-popconfirm>
         </template>

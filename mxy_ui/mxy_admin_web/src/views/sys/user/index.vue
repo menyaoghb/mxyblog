@@ -85,11 +85,11 @@
           <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
           <el-button size="mini" @click="handleView(row)" type="text">详情</el-button>
           <el-popconfirm confirm-button-text='删除' cancel-button-text='取消' icon="el-icon-info"
-                         icon-color="red" title="确定删除该用户吗？" @onConfirm="handleDelete(row)">
+                         icon-color="red" title="确定删除该用户吗？" @confirm="handleDelete(row)">
             <el-button slot="reference" size="mini" type="text">删除</el-button>
           </el-popconfirm>
           <el-popconfirm confirm-button-text='重置' cancel-button-text='取消' icon="el-icon-info"
-                         icon-color="red" title="确定重置密码吗？" @onConfirm="resetPassword(row)">
+                         icon-color="red" title="确定重置密码吗？" @confirm="resetPassword(row)">
             <el-button slot="reference" size="mini" type="text">重置密码</el-button>
           </el-popconfirm>
         </template>
