@@ -91,7 +91,7 @@ public class WhitelistController {
     public String uploadImage(@RequestParam("imageUrl") MultipartFile file) throws Exception {
         String id = UUID.randomUUID().toString();
         // 先删 七牛云 中同名文件
-        QiniuUploadUtil.deleteImg(id);
+        //QiniuUploadUtil.deleteImg(id);
         // 再修改 成新的图片
         String key = QiniuUploadUtil.upload(id, file.getBytes());
         if (key != null) {

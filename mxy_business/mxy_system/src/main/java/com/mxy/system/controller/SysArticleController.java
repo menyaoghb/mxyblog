@@ -33,7 +33,6 @@ public class SysArticleController {
      * @author 孟小耀
      * @date 2021-08-17
      */
-    @SysLog(module = "获取文章列表")
     @ApiOperation(value = "文章列表")
     @PostMapping("/getList")
     public String getList(@RequestBody SysArticleVO sysArticleVO) {

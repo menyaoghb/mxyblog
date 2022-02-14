@@ -1,15 +1,16 @@
 <template>
   <div style="margin: 20px;">
     <el-form ref="postForm" :model="postForm">
-
       <div style="text-align: right;">
         <sticky>
           <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
-            发布
+            更新
           </el-button>
-          <el-button v-loading="loading" type="warning" @click="draftForm">
-            保存
+          <router-link to="blogList">
+          <el-button style="margin-left: 10px;" type="success">
+            返回
           </el-button>
+            </router-link>
         </sticky>
       </div>
       <div class="createPost-main-container">
@@ -91,7 +92,7 @@
 import EditorTool from './components/wangEditor'
 import MDinput from '@/components/MDinput'
 import Sticky from '@/components/Sticky'
-import {addArticle, uploadPhoto} from '@/api/blog/blog'
+import {addArticle, editArticle, uploadPhoto} from '@/api/blog/blog'
 import axios from 'axios'
 
 const defaultForm = {
@@ -132,7 +133,23 @@ export default {
       }
     }
   },
+  created() {
+      this.setFormData(this.$route.query.row);
+  },
   methods: {
+    setFormData(obj){
+      this.postForm ={
+        status: obj.status,
+        title: obj.title, // 文章题目
+        content: obj.content, // 文章内容
+        summary: obj.summary, // 文章摘要
+        author: obj.author, // 文章摘要
+        source: obj.source, // 文章摘要
+        filePath: obj.filePath, // 标题图片
+        display_time: undefined, // 前台展示时间
+        id: obj.id
+      }
+    },
     // 表单提交
     submitForm() {
       if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
@@ -145,50 +162,19 @@ export default {
       this.$refs.postForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.postForm.status = '0'
-          addArticle(this.postForm).then(() => {
+          editArticle(this.postForm).then(() => {
             this.$notify({
               title: '成功',
-              message: '发布博客成功',
+              message: '更新博客成功',
               type: 'success',
               duration: 2000
             })
-            this.postForm = {
-              status: '0',
-              title: '', // 文章题目
-              content: '', // 文章内容
-              summary: '', // 文章摘要
-              author: '孟耀', // 文章摘要
-              source: '原创', // 文章摘要
-              filePath: 'http://mxy.mxyit.com/278668fa-6aa7-43e2-8f90-ef4645fea5ee', // 标题图片
-              display_time: undefined, // 前台展示时间
-              id: undefined
-            };
           })
           this.loading = false
         } else {
           console.log('error submit!!')
           return false
         }
-      })
-    },
-    // 表单保存
-    draftForm() {
-      if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
-        this.$message({
-          message: '请填写必要的标题和内容',
-          type: 'warning'
-        })
-        return
-      }
-      this.postForm.status = '1'
-      addArticle(this.postForm).then(() => {
-        this.$message({
-          message: '保存成功',
-          type: 'success',
-          showClose: true,
-          duration: 1000
-        })
       })
     },
     changeEditor(val) {
