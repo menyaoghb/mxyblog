@@ -79,10 +79,12 @@
                             </el-col>-->
           </el-row>
         </div>
-        <EditorTool class="tool-style" style="margin-top: 50px;margin-left: 15px" v-model="postForm.content"
-                    :is-clear="isClear"
-                    @change="changeEditor"/>
-        <span v-show="contentShortLength" class="word-counter">{{ contentShortLength }}字</span>
+        <div>
+          <EditorTool class="tool-style" style="margin-top: 50px;margin-left: 15px" v-model="postForm.content"
+                      :is-clear="isClear"
+                      @change="changeEditor"/>
+          <span v-show="contentLength" class="word-content">{{ contentLength }}字符</span>
+        </div>
       </div>
     </el-form>
   </div>
@@ -122,6 +124,9 @@ export default {
     // 监控当前输入字符数
     contentShortLength() {
       return this.postForm.summary.length
+    },
+    contentLength() {
+      return this.postForm.content.length
     },
     // 发布时间 设置
     displayTime: {
@@ -217,7 +222,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+.word-content{
+  position: relative;
+  float: right;
+  top: 4px;
+  font-size: xx-small;
+}
 .title-pic{
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
