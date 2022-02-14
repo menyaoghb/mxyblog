@@ -59,7 +59,9 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding">
         <template slot-scope="{row,$index}">
+          <router-link to="updateBlog">
           <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
+          </router-link>
           <el-button size="mini" @click="handleDelete(row)" type="text">预览</el-button>
           <el-popconfirm confirm-button-text='好的' cancel-button-text='不用了' icon="el-icon-info"
                          icon-color="red" title="确定删除此博客吗？" @confirm="handleDelete(row)">

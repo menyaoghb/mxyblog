@@ -78,6 +78,13 @@ export const asyncRoutes = [
         meta: {title: '写博客', icon: 'el-icon-lollipop'}
       },
       {
+        path: 'updateBlog',
+        component: () => import('@/views/blog/update'),
+        name: 'updateBlog',
+        hidden: true,
+        meta: {title: '编辑博客', icon: 'el-icon-lollipop'}
+      },
+      {
         path: 'blogList',
         component: () => import('@/views/blog/index.vue'),
         name: 'blogList',
