@@ -1,13 +1,13 @@
 <template>
   <div style="margin: 20px;">
-    <el-form ref="postForm" :model="postForm">
+    <el-form ref="postForm" :model="postForm" v-loading="loading" element-loading-spinner="el-icon-loading">
 
       <div style="text-align: right;">
         <sticky>
-          <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
+          <el-button style="margin-left: 10px;" type="success" @click="submitForm">
             发布
           </el-button>
-          <el-button v-loading="loading" type="warning" @click="draftForm">
+          <el-button type="warning" @click="draftForm">
             保存
           </el-button>
         </sticky>
@@ -164,8 +164,8 @@ export default {
               display_time: undefined, // 前台展示时间
               id: undefined
             };
+            this.loading = false
           })
-          this.loading = false
         } else {
           console.log('error submit!!')
           return false

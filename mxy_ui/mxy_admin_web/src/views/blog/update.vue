@@ -1,9 +1,9 @@
 <template>
   <div style="margin: 20px;">
-    <el-form ref="postForm" :model="postForm">
+    <el-form ref="postForm" :model="postForm" v-loading="loading" element-loading-spinner="el-icon-loading">
       <div style="text-align: right;">
         <sticky>
-          <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
+          <el-button style="margin-left: 10px;" type="success" @click="submitForm">
             更新
           </el-button>
           <router-link to="blogList">
@@ -169,8 +169,8 @@ export default {
               type: 'success',
               duration: 2000
             })
+            this.loading = false
           })
-          this.loading = false
         } else {
           console.log('error submit!!')
           return false
