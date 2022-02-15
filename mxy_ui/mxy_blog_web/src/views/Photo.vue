@@ -5,7 +5,7 @@
       <div style="margin-top: 100px;    text-align: center;">
         <div style="display: inline-block;vertical-align: middle;">
           <h1 style="font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;color: #000000;font-family: cursive;">
-            您好，朋友...</h1>
+            相册</h1>
           <div style="margin: 60px">
             <el-row :gutter="20">
               <el-col :span="24">
