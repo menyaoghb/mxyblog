@@ -6,6 +6,37 @@
         <div style="display: inline-block;vertical-align: middle;">
           <h1 style="font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;color: #000000;font-family: cursive;">
             您好，朋友...</h1>
+          <div style="margin: 60px">
+            <el-row :gutter="20">
+              <el-col :span="24">
+                <el-card :body-style="{ padding: '0px' }">
+                  <img width="600" height="300" src="http://mxy.mxyit.com/63f7a45d-b72d-45ff-a5a8-3f653e99ebc9" class="image">
+                  <div style="padding: 14px;">
+                    <span>一天</span>
+                    <div class="bottom clearfix">
+                      <el-button type="text" class="button">点赞</el-button>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </div>
+          <div style="margin: 60px">
+            <el-row :gutter="20">
+              <el-col :span="24">
+                <el-card :body-style="{ padding: '0px' }">
+                  <img width="600" height="300" src="http://mxy.mxyit.com/0116c306-8d73-4186-a9a1-15bb3de0332a" class="image">
+                  <div style="padding: 14px;">
+                    <span>美好</span>
+                    <div class="bottom clearfix">
+                      <el-button type="text" class="button">点赞</el-button>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </div>
+
         </div>
       </div>
     </div>
@@ -33,7 +64,10 @@ export default {
       total: 0, // 总条数
       listQuery: {
         pageSize: 5, currentPage: 1, status: "0"
-      }
+      },
+      urls: [
+        'http://mxy.mxyit.com/0116c306-8d73-4186-a9a1-15bb3de0332a'
+      ]
     }
   },
   components: {
@@ -84,6 +118,44 @@ export default {
 }
 </script>
 <style scoped lang="less">
+
+
+.time {
+  font-size: 13px;
+  color: #999;
+}
+
+.bottom {
+  margin-top: 13px;
+  line-height: 12px;
+}
+
+.button {
+  padding: 0;
+  float: right;
+}
+
+.image {
+  width: 100%;
+  display: block;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both
+}
+
+
+
+
+
+
+
 
 .site-content {
 
