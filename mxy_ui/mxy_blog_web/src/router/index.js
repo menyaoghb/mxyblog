@@ -18,6 +18,12 @@ const routes = [
         meta: { title: '博客'}
     },
     {
+        path: '/MuiPlayer',
+        name: 'MuiPlayer',
+        component: () => import('../views/MuiPlayer.vue'),
+        meta: { title: '视频'}
+    },
+    {
         path: '/index',
         name: 'index',
         component: () => import('../views/Index.vue'),
