@@ -30,6 +30,30 @@ const routes = [
         meta: { title: '研发ing'}
     },
     {
+        path: '/Original',
+        name: 'Original',
+        component: () => import('../views/Original.vue'),
+        meta: { title: '原创'}
+    },
+    {
+        path: '/Photo',
+        name: 'Photo',
+        component: () => import('../views/Photo.vue'),
+        meta: { title: '相册'}
+    },
+    {
+        path: '/Collection',
+        name: 'Collection',
+        component: () => import('../views/Collection.vue'),
+        meta: { title: '收藏'}
+    },
+    {
+        path: '/Diary',
+        name: 'Diary',
+        component: () => import('../views/Diary.vue'),
+        meta: { title: '成长'}
+    },
+    {
         path: '/category/:cate',
         name: 'category',
         component: () => import('../views/Home.vue'),
