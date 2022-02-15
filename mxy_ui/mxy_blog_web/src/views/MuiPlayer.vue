@@ -93,6 +93,7 @@ export default {
       var config = {
         container: '#mui-player',
         title: '星辰大海',
+        muted:true,
         src: 'https://muiplayer.oss-cn-shanghai.aliyuncs.com/static/media/media.mp4',
         poster: 'https://muiplayer.oss-cn-shanghai.aliyuncs.com/static/image/poster.jpg',
       };

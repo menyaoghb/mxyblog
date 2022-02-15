@@ -1,29 +1,13 @@
 <template>
   <div class="home">
-    <banner isHome="true"></banner>
     <div class="site-content animate" style="width: 100%;">
       <!--通-->
-      <div style="margin-top: 60px;    text-align: center;">
+      <div style="margin-top: 100px;    text-align: center;">
         <div style="display: inline-block;vertical-align: middle;">
-          <h1 style="font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;color: #000000;">
-            生活只有两种选择，重新出发，做自己生命的主角。抑或停留在原地，做别人的配角。</h1>
-          <p style="margin-top: 20px;line-height: 22px;color: #888;">
-            星辰大海·征途在前
-          </p>
+          <h1 style="font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;color: #000000;font-family: cursive;">
+            Hello TOURISTS...</h1>
         </div>
       </div>
-<!--      <div>
-        <main class="site-main" :class="{'search':hideSlogan}" style="width: 100%;padding-left: 250px;">
-          <template v-for="item in postList">
-            <post :post="item" :key="item.id"></post>
-          </template>
-        </main>
-      </div>
-      <div style="text-align: center">
-        <pagination v-show="total>0" :total="total" :page.sync="listQuery.currentPage"
-                    :limit.sync="listQuery.pageSize"
-                    @pagination="fetchList"/>
-      </div>-->
     </div>
   </div>
 </template>
@@ -201,5 +185,4 @@ export default {
 
 }
 
-/******/
 </style>

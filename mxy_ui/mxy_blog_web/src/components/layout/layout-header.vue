@@ -15,15 +15,16 @@
       <!--标题-->
       <div class="menu-item">
         <ul>
-          <router-link to="/"><li><div class="title-line header-title">2022</div></li></router-link>
+          <router-link to="/"><li><div class="title-line header-title">二零二二</div></li></router-link>
           <router-link to="/blog"><li><div class="title-line header-title">博客</div></li></router-link>
-          <router-link to="/index"><li><div class="title-line header-title">相册</div></li></router-link>
-          <router-link to="/index"><li><div class="title-line header-title">分享</div></li></router-link>
+          <router-link to="/Original"><li><div class="title-line header-title">原创</div></li></router-link>
+          <router-link to="/Photo"><li><div class="title-line header-title">相册</div></li></router-link>
+          <router-link to="/Diary"><li><div class="title-line header-title">成长</div></li></router-link>
+          <router-link to="/Collection"><li><div class="title-line header-title">收藏</div></li></router-link>
           <router-link to="/MuiPlayer"><li><div class="title-line header-title">视频</div></li></router-link>
-          <a href="http://mxyit.com:8088" target="_blank"><li><div class="title-line header-title">登入</div></li></a>
           <li>
             <div class="title-line"><el-badge :value="99999" :max="num" class="item">
-              <a href="#" @click="open5" class="header-title">点赞</a>
+              <a href="#" @click="open5" class="header-title">元气值</a>
             </el-badge>
             </div>
           </li>
