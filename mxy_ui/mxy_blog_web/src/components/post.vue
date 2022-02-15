@@ -67,10 +67,10 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
-            color: #f9a100;
+            color: #000000;
 
             & a:hover {
-                color: #8fd0cc;
+                color: #4A9FF9;
             }
         }
 
