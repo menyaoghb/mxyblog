@@ -74,8 +74,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (result) {
             // 新增用户角色关系
             SysUserRole sysUserRole = new SysUserRole();
-            sysUserRole.setUserId(Long.parseLong(sysUser.getUserId()));
-            sysUserRole.setRoleId(Long.parseLong(sysUser.getUserType()));
+            sysUserRole.setUserId(sysUser.getUserId());
+            sysUserRole.setRoleId(sysUser.getUserType());
             sysUserRole.insert();
             return ServiceResult.successMsg(BaseMessage.INSERT_SUCCESS);
         } else {
@@ -97,8 +97,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (result) {
             // 更新用户角色关系
             SysUserRole sysUserRole = new SysUserRole();
-            sysUserRole.setUserId(Long.parseLong(sysUser.getUserId()));
-            sysUserRole.setRoleId(Long.parseLong(sysUser.getUserType()));
+            sysUserRole.setUserId(sysUser.getUserId());
+            sysUserRole.setRoleId(sysUser.getUserType());
             QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_id",sysUser.getUserId());
             sysUserRole.update(queryWrapper);

@@ -35,7 +35,6 @@ public class SysUserController {
      * @author 孟小耀
      * @date 2021-07-21
      */
-    @SysLog(module = "用户信息列表",operType = OperType.SELECT)
     @ApiOperation(value = "用户信息列表")
     @PostMapping(value = "/getList")
     public String getList(@RequestBody(required = false) SysUserVO sysUserVO) {

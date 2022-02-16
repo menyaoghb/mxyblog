@@ -205,8 +205,8 @@ export const validateAccount = (rule, value, callback) => {
   if (!value) {
     return callback(new Error('请输入账号'))
   }
-  if (!/^(?![0-9]*$)(?![a-zA-Z]*$)[a-zA-Z0-9]{6,20}$/.test(value)) {
-    callback(new Error('账号必须为6-20位字母和数字组合'))
+  if (!/^(?![0-9]*$)(?![a-zA-Z]*$)[a-zA-Z0-9]{2,20}$/.test(value)) {
+    callback(new Error('账号必须为2-20位字母和数字组合'))
   } else {
     callback()
   }
