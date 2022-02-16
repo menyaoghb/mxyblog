@@ -127,8 +127,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         sysRoleMenu.delete(queryWrapper);
         for (String s : list) {
             SysRoleMenu menu = new SysRoleMenu();
-            menu.setRoleId(Long.parseLong(roleId));
-            menu.setMenuId(Long.parseLong(s));
+            menu.setRoleId(roleId);
+            menu.setMenuId(s);
             menu.insert();
         }
         return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);

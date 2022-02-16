@@ -3,17 +3,22 @@
     <!--查询-->
     <div class="filter-container">
       <el-row :gutter="20">
-        <el-col :span="6">
+        <el-col :span="4">
           <el-input placeholder="请输入姓名" v-model="listQuery.nickName" clearable @keyup.enter.native="handleFilter">
             <template slot="prepend">姓名</template>
           </el-input>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="4">
           <div class="grid-content bg-purple">
             <el-input placeholder="请输入账号" v-model="listQuery.username" clearable @keyup.enter.native="handleFilter">
               <template slot="prepend">账号</template>
             </el-input>
           </div>
+        </el-col>
+        <el-col :span="4">
+          <el-select v-model="listQuery.userType" class="filter-item" style="width: 100%;" placeholder="请选择角色类型">
+            <el-option v-for="item in userTypeOptions" :key="item.key" :label="item.name" :value="item.key"/>
+          </el-select>
         </el-col>
         <el-col :span="6">
           <el-date-picker
@@ -220,6 +225,7 @@
         listQuery: {
           currentPage: 1,
           pageSize: 10,
+          userType: undefined,
           nickName: undefined,
           username: undefined,
           startTime: undefined,
@@ -259,7 +265,7 @@
           ],
           username: [
             {required: true, message: '请输入账号', trigger: 'blur'},
-            {validator: validateAccount, trigger: 'blur'}
+            {min: 2, max: 12, message: '长度在 2 到 12 个字符', trigger: 'blur'}
           ],
           password: [
             {required: true, message: '请输入密码', trigger: 'blur'},

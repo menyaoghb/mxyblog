@@ -3,7 +3,6 @@ import com.mxy.common.core.entity.SysUserRole;
 import com.mxy.system.service.SysUserRoleService;
 import com.mxy.system.service.SysUserService;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -41,8 +40,8 @@ public class Test {
         sysUserService.save(sysUserEntity);
         // 分配角色 1:ADMIN 2:USER
         SysUserRole sysUserRoleEntity = new SysUserRole();
-        sysUserRoleEntity.setRoleId(2L);
-        sysUserRoleEntity.setUserId(Long.parseLong(sysUserEntity.getUserId()));
+        //sysUserRoleEntity.setRoleId(2L);
+        //sysUserRoleEntity.setUserId(Long.parseLong(sysUserEntity.getUserId()));
         sysUserRoleService.save(sysUserRoleEntity);
     }
 }
