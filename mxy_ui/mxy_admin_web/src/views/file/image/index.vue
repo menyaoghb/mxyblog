@@ -181,7 +181,7 @@
         formData.append('fileName', this.fileData.fileName)
         formData.append('fileType', this.fileData.fileType)
         axios({
-          url: 'http://localhost:7088/api/foreign/uploadPicture',
+          url: 'http://mxyit.com:8088/api/foreign/uploadPicture',
           method: 'post',
           data: formData,
           headers: {'Content-Type': 'multipart/form-data'},

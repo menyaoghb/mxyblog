@@ -24,7 +24,9 @@ Vue.filter('unescape', function (value) {
         .replace(/&#39;/g, "\'");
 })
 import hljs from 'highlight.js'
-import 'highlight.js/styles/github.css' //样式文件
+//import 'highlight.js/styles/base16/atelier-plateau.css' //样式文件
+import 'highlight.js/styles/gradient-light.css' //样式文件
+//import 'highlight.js/styles/gradient-dark.css' //样式文件
 Vue.directive('highlight',function (el) {
     let blocks = el.querySelectorAll('pre code');
     blocks.forEach((block)=>{

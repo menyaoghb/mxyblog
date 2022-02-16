@@ -79,6 +79,7 @@
 <script>
   import {getList, deleteArticle, editArticle, addArticle} from '@/api/blog/blog'
   import Pagination from '@/components/Pagination' // 分页
+  import 'highlight.js/styles/github.css' //样式文件
 
   // 状态
   const statusOptions = [

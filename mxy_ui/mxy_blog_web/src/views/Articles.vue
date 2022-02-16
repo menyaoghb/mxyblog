@@ -38,7 +38,6 @@
     import menuTree from '@/components/menu-tree'
     import {getDataById, fetchComment, fetchList} from '../api'
 
-
     export default {
         name: 'articles',
         data() {
