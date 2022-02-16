@@ -38,7 +38,7 @@
         props:{
             src:{
                 type: String,
-                default: 'http://mxy.mxyit.com/china.jpg'
+                default: 'http://mxy.mxyit.com/common/china.jpg'
             },
             isHome:{
                 type: [Boolean,String],

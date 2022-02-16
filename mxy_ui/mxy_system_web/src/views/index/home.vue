@@ -5,7 +5,7 @@
       <div class="d1">
         <el-image
 
-          src="http://mxy.mxyit.com/home_page.jpg"
+          src="http://mxy.mxyit.com/common/home_page.jpg"
           fit="fit"></el-image>
       </div>
 
