@@ -1,5 +1,5 @@
 <template>
-    <div id="layout-body">
+    <div id="layout-body" class="layout-body">
         <router-view></router-view>
         <!--<back-top></back-top>-->
     </div>
