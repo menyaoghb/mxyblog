@@ -1,5 +1,8 @@
 <template>
   <div class="app-container">
+    <el-backtop target=".app-container" :visibility-height="300">
+      <i class="el-icon-caret-top"></i>
+    </el-backtop>
     <!--查询-->
     <div class="filter-container">
       <el-input v-model="listQuery.title" prefix-icon="el-icon-search" placeholder="标题" style="width: 200px;"
@@ -73,6 +76,7 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.currentPage" :limit.sync="listQuery.pageSize"
                 @pagination="getList"/>
 
+
   </div>
 </template>
 
@@ -98,7 +102,7 @@
         listLoading: true,
         listQuery: {
           currentPage: 1,
-          pageSize: 10,
+          pageSize: 5,
           title: undefined
         },
         statusOptions, // 用户状态
