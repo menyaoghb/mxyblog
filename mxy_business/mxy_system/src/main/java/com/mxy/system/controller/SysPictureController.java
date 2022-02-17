@@ -75,22 +75,8 @@ public class SysPictureController {
     public String delete(@RequestBody SysPictureVO sysPictureVO) {
         return sysPictureService.delete(sysPictureVO);
     }
-/*
 
-    */
-/**
-     * @Description: 图片上传
-     * @Author: 孟小耀
-     * @Date: 2021/8/23
-     *//*
 
-    @SysLog(module = "图片上传", operType = OperType.UPLOAD)
-    @ApiOperation(value = "图片上传", notes = "图片上传")
-    @PostMapping("/uploadPicture")
-    public String uploadPicture(@RequestParam Map<String, Object> map, @RequestParam("file") MultipartFile[] file) {
-        return sysPictureService.uploadPicture(map, file);
-    }
-*/
 
     /**
      * @Description: 图片标签

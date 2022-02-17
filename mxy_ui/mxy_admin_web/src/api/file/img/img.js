@@ -25,9 +25,18 @@ export function editUser(data) {
   })
 }
 /*删除*/
-export function deleteUser(data) {
+export function deletePicture(data) {
   return request({
     url: '/sysPicture/delete',
+    method: 'post',
+    data
+  })
+}
+
+/*下载*/
+export function downloadPicture(data) {
+  return request({
+    url: '/sysPicture/downloadPicture',
     method: 'post',
     data
   })

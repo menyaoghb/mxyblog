@@ -123,6 +123,7 @@ public class SysPictureServiceImpl extends ServiceImpl<SysPictureMapper, SysPict
                 } else {
                     sysPicture.setPictureName(MapUtils.getString(map, name));
                 }
+                sysPicture.setFileType(name.substring(name.indexOf(".") + 1));
                 b = sysPicture.insert();
             }
 
