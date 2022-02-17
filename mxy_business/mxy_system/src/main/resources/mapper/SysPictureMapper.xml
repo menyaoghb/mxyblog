@@ -8,6 +8,7 @@
         <result column="picture_id" property="pictureId" />
         <result column="picture_name" property="pictureName" />
         <result column="type" property="type" />
+        <result column="file_type" property="fileType" />
         <result column="status" property="status" />
         <result column="is_delete" property="isDelete" />
         <result column="create_user" property="createUser" />

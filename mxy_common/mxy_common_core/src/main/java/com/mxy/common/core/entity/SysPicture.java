@@ -47,6 +47,11 @@ public class SysPicture extends BaseEntity<SysPicture> {
     private String type;
 
     /**
+     * 文件类型（后缀）
+     */
+    private String fileType;
+
+    /**
      * 状态（0禁用 1启用）
      */
     private String status;

@@ -1,5 +1,3 @@
-import com.mxy.common.core.entity.SysUser;
-import com.mxy.common.core.entity.SysUserRole;
 import com.mxy.system.service.SysUserRoleService;
 import com.mxy.system.service.SysUserService;
 import org.junit.runner.RunWith;
@@ -8,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.Scanner;
 
 /**
  * @Description
@@ -30,18 +29,15 @@ public class Test {
     /**
      * 注册用户
      */
-    public void contextLoads() {
-        // 注册用户
-        SysUser sysUserEntity = new SysUser();
-        sysUserEntity.setUsername("mxy");
-        sysUserEntity.setPassword(bCryptPasswordEncoder.encode("123456"));
-        // 设置用户状态
-        sysUserEntity.setStatus("NORMAL");
-        sysUserService.save(sysUserEntity);
-        // 分配角色 1:ADMIN 2:USER
-        SysUserRole sysUserRoleEntity = new SysUserRole();
-        //sysUserRoleEntity.setRoleId(2L);
-        //sysUserRoleEntity.setUserId(Long.parseLong(sysUserEntity.getUserId()));
-        sysUserRoleService.save(sysUserRoleEntity);
-    }
+        public static void main(String[] args){
+            Scanner sc = new Scanner(System.in);
+            while(sc.hasNextInt()){
+                int bottle = sc.nextInt();
+                if(bottle==0){
+                    break;
+                }
+                System.out.println(bottle/2);
+            }
+        }
+
 }

@@ -1,9 +1,8 @@
 package com.mxy.system.entity.vo;
 
 import com.mxy.common.core.entity.SysPicture;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import com.mxy.common.core.entity.vo.BaseVO;
+import lombok.Data;
 
 import java.util.Date;
 /**
@@ -33,6 +32,10 @@ public class SysPictureVO extends BaseVO<SysPicture> {
      * 图片类别
      */
     private String type;
+    /**
+     * 文件类型（后缀）
+     */
+    private String fileType;
     /**
      * 状态（0禁用 1启用）
      */
