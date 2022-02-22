@@ -124,7 +124,7 @@ public class WhitelistController {
             response.setContentType("text/html;charset=UTF-8");
             request.setCharacterEncoding("UTF-8");
             String header = request.getHeader("User-Agent").toUpperCase();
-            String fileName = "图片" + String.valueOf(System.currentTimeMillis()) + ".zip";
+            String fileName = sysPicture.getPictureName() + ".zip";
             if (!header.contains("MSIE") && !header.contains("TRIDENT") && !header.contains("EDGE")) {
                 fileName = new String(fileName.getBytes(), "ISO8859-1");
             } else {
