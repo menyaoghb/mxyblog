@@ -1,16 +1,25 @@
 <template>
   <div class="app-container">
     <div class="filter-container" style="margin-left: 112px;margin-bottom: 30px;">
-      <el-input v-model="listQuery.pictureName" prefix-icon="el-icon-search" placeholder="图片名称" style="width: 200px;"
-                class="filter-item"
-                @keyup.enter.native="handleFilter" clearable/>
-      <el-button class="filter-item" style="margin-left: 10px;" icon="el-icon-search" @click="handleFilter" round>
+      <el-row :gutter="20">
+        <el-col :span="6">
+      <el-input placeholder="请输入图片名称" v-model="listQuery.pictureName" clearable @keyup.enter.native="handleFilter">
+        <template slot="prepend">图片名称</template>
+      </el-input>
+        </el-col>
+          <el-col :span="8">
+      <el-button class="filter-item" style="margin-left: 10px;height: 40px;" icon="el-icon-search" @click="handleFilter"  size="small">
         查询
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="plain" icon="el-icon-plus"
-                 @click="handleCreate" round>
+      <el-button class="filter-item" style="margin-left: 10px;height: 40px;" icon="el-icon-refresh-right" @click="handleFilter"  size="small">
+        刷新
+      </el-button>
+      <el-button class="filter-item" style="margin-left: 10px;height: 40px;" type="plain" icon="el-icon-plus"
+                 @click="handleCreate"  size="small">
         新增
       </el-button>
+        </el-col>
+      </el-row>
     </div>
     <el-tabs tab-position="left" @tab-click="handleClick" v-loading="listLoading"
              element-loading-spinner="el-icon-loading">
@@ -72,6 +81,7 @@
         </el-form-item>
       </el-form>
       <el-upload
+        ref="fileUpload"
         action="#"
         list-type="picture-card"
         :http-request="uploadImg">
@@ -83,12 +93,14 @@
             <i class="el-icon-zoom-in"></i>
           </span>
       </span>
-          <div v-show="progressFlag" class="head-img">
-            <el-progress :percentage="progressPercent" :format="format"></el-progress>
-          </div>
         </div>
       </el-upload>
-      <el-button style="margin-top: 25px;" size="small" type="success" @click="submitUpload">关闭</el-button>
+      <div v-show="progressFlag" class="head-img">
+        <el-progress :percentage="progressPercent" :format="format"></el-progress>
+      </div>
+      <div>
+        <el-button style="margin-top: 25px;" size="small" type="success" @click="submitUpload">关闭</el-button>
+      </div>
     </el-dialog>
     <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="">
@@ -233,6 +245,8 @@ export default {
     },
     /*图片上传*/
     submitUpload(f) {
+      // 清空图片缓存
+      this.$refs.fileUpload.clearFiles();
       /*清空图片列表*/
       this.fileList = [];
       this.dialogFormVisible = false;
@@ -243,7 +257,9 @@ export default {
     },
     /*标签切换点击事件*/
     handleClick(tab, event) {
-      this.handleFilter();
+      if (this.listQuery.pictureName){
+        this.handleFilter();
+      }
     },
     /*列表查询*/
     getList() {
@@ -364,6 +380,10 @@ export default {
 }
 </script>
 <style>
+.head-img{
+  display: inline-block;
+  width: 50%;
+}
 
 .image-center {
   padding: 15px;
