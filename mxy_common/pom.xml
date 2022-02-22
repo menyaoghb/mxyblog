@@ -16,6 +16,7 @@
         <module>mxy_common_file</module>
         <module>mxy_common_log</module>
         <module>mxy_common_security</module>
+        <module>mxy_common_kafka</module>
     </modules>
 
 
@@ -96,6 +97,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!--kafka-->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
 
         <dependency>
