@@ -56,32 +56,11 @@
                 </div>
               </el-form-item>
             </el-col>
-
-            <!--                <el-col :span="10">
-                              <el-form-item label-width="120px" label="发布时间:" class="postInfo-container-item">
-                                <el-date-picker v-model="displayTime" type="datetime" format="yyyy-MM-dd HH:mm:ss"
-                                                placeholder="选择发布时间"/>
-                              </el-form-item>
-                            </el-col>-->
-
-            <!--                <el-col :span="6">
-                              <el-form-item label-width="90px" label="Importance:" class="postInfo-container-item">
-                                <el-rate
-                                  v-model="postForm.importance"
-                                  :max="3"
-                                  :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-                                  :low-threshold="1"
-                                  :high-threshold="3"
-                                  style="display:inline-block"
-                                />
-                              </el-form-item>
-                            </el-col>-->
           </el-row>
         </div>
         <EditorTool class="tool-style" style="margin-top: 50px;margin-left: 15px" v-model="postForm.content"
                     :is-clear="isClear"
                     @change="changeEditor"/>
-        <span v-show="contentShortLength" class="word-counter">{{ contentShortLength }}字</span>
       </div>
     </el-form>
   </div>

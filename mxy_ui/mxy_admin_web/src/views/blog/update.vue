@@ -109,7 +109,7 @@ const defaultForm = {
   id: undefined
 }
 export default {
-  name: 'CreateArticle',
+  name: 'UpdateArticle',
   components: {EditorTool, MDinput, Sticky},
   data() {
     return {
