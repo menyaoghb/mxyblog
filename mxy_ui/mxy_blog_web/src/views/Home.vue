@@ -12,18 +12,6 @@
           </p>
         </div>
       </div>
-<!--      <div>
-        <main class="site-main" :class="{'search':hideSlogan}" style="width: 100%;padding-left: 250px;">
-          <template v-for="item in postList">
-            <post :post="item" :key="item.id"></post>
-          </template>
-        </main>
-      </div>
-      <div style="text-align: center">
-        <pagination v-show="total>0" :total="total" :page.sync="listQuery.currentPage"
-                    :limit.sync="listQuery.pageSize"
-                    @pagination="fetchList"/>
-      </div>-->
     </div>
   </div>
 </template>
