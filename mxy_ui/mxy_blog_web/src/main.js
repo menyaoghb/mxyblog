@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 import './assets/css/style.less'
 import './assets/font/iconfont.css'
+import './assets/font/Softbrush.css'
+import './assets/font/League.css'
 /*require('./Mock')*/
 import {parseTime} from './utils'
 

@@ -11,6 +11,9 @@
       <el-button class="filter-item" style="margin-left: 10px;" icon="el-icon-search" @click="handleFilter" round>
         查询
       </el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" icon="el-icon-search" @click="drawer = true" round>
+        创建
+      </el-button>
       <router-link to="createBlog">
         <el-button class="filter-item" style="margin-left: 10px;" type="plain" icon="el-icon-plus"
                     round>
@@ -76,14 +79,22 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.currentPage" :limit.sync="listQuery.pageSize"
                 @pagination="getList"/>
 
-
+    <el-drawer
+      title=" "
+      :visible.sync="drawer"
+      direction="ttb"
+      size="100%"
+      :before-close="handleClose">
+<CreateArticle></CreateArticle>
+    </el-drawer>
   </div>
 </template>
 
 <script>
   import {getList, deleteArticle, editArticle, addArticle} from '@/api/blog/blog'
   import Pagination from '@/components/Pagination' // 分页
-  import 'highlight.js/styles/github.css' //样式文件
+  import 'highlight.js/styles/github.css'
+  import CreateArticle from "@/views/blog/create"; //样式文件
 
   // 状态
   const statusOptions = [
@@ -93,10 +104,11 @@
 
   export default {
     name: 'ComplexTable',
-    components: {Pagination},
+    components: {CreateArticle, Pagination},
     filters: {},
     data() {
       return {
+        drawer:false,
         list: null, //表格列表数据
         total: 0, // 总条数
         listLoading: true,
@@ -124,6 +136,13 @@
       this.getList();
     },
     methods: {
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
       /*列表查询*/
       getList() {
         this.listLoading = true
