@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-descriptions class="margin-top" title="Cpu" :column="4" size="medium" border>
+    <el-descriptions class="margin-top" title="Cpu" :column="6" size="medium" border>
       <el-descriptions-item label="CPU核心数">{{SysInfoJson.cpu.cpuNum}}</el-descriptions-item>
       <el-descriptions-item label="CPU总的使用率">{{SysInfoJson.cpu.totalUsed}}%</el-descriptions-item>
       <el-descriptions-item label="CPU系统使用率">{{SysInfoJson.cpu.sysUsed}}%</el-descriptions-item>
@@ -22,7 +22,7 @@
       <el-descriptions-item label="剩余内存">{{SysInfoJson.mem.free}}G</el-descriptions-item>
     </el-descriptions>
     <el-divider></el-divider>
-    <el-descriptions class="margin-top" title="系统" :column="4" size="medium" border>
+    <el-descriptions class="margin-top" title="系统" :column="5" size="medium" border>
       <el-descriptions-item label="服务器名称">{{SysInfoJson.sys.computerName}}</el-descriptions-item>
       <el-descriptions-item label="服务器IP">{{SysInfoJson.sys.computerIp}}</el-descriptions-item>
       <el-descriptions-item label="项目路径">{{SysInfoJson.sys.userDir}}</el-descriptions-item>
@@ -43,17 +43,17 @@
       <el-descriptions-item label="上行bps">{{SysInfoJson.network.uploadBps}}</el-descriptions-item>
       <el-descriptions-item label="下行bps">{{SysInfoJson.network.downloadBps}}</el-descriptions-item>
     </el-descriptions>
-    <el-divider></el-divider>
+    <el-divider content-position="center">系统文件</el-divider>
     <el-table
       :data="SysInfoJson.sysFiles"
       style="width: 100%">
-      <el-table-column prop="dirName" label="盘符路径" width="180"></el-table-column>
-      <el-table-column prop="sysTypeName" label="盘符类型" width="180"></el-table-column>
-      <el-table-column prop="typeName" label="盘符名称" width="180"></el-table-column>
-      <el-table-column prop="total" label="总磁盘大小" width="180"></el-table-column>
-      <el-table-column prop="free" label="剩余磁盘大小" width="180"></el-table-column>
-      <el-table-column prop="used" label="已经使用磁盘量" width="180"></el-table-column>
-      <el-table-column prop="usage" label="磁盘使用率" width="180"></el-table-column>
+      <el-table-column prop="dirName" label="盘符路径" ></el-table-column>
+      <el-table-column prop="sysTypeName" label="盘符类型" ></el-table-column>
+      <el-table-column prop="typeName" label="盘符名称" ></el-table-column>
+      <el-table-column prop="total" label="总磁盘大小" ></el-table-column>
+      <el-table-column prop="free" label="剩余磁盘大小" ></el-table-column>
+      <el-table-column prop="used" label="已经使用磁盘量" ></el-table-column>
+      <el-table-column prop="usage" label="磁盘使用率" ></el-table-column>
     </el-table>
 
 

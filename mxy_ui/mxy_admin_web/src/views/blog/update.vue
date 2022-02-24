@@ -191,7 +191,7 @@ export default {
       let formData = new FormData()
       formData.append('imageUrl', f.file)
       axios({
-        url: 'http://localhost:7088/api/foreign/uploadPhoto',
+        url: 'http://mxyit.com:8088/api/foreign/uploadPhoto',
         method: 'post',
         data: formData,
         headers: {'Content-Type': 'multipart/form-data'},
