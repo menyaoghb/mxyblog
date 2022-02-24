@@ -203,7 +203,13 @@ export const asyncRoutes = [
         component: () => import('@/views/monitoring/redis/index'),
         name: 'redisName',
         meta: {title: 'Redis监控', icon: 'el-icon-lollipop'}
-      }
+      },
+      {
+        path: 'sysInfo',
+        component: () => import('@/views/monitoring/sysInfo/index'),
+        name: 'sysInfo',
+        meta: {title: '系统监控', icon: 'el-icon-watermelon'}
+      },
     ]
   },
   {
