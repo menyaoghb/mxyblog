@@ -10,9 +10,7 @@ import java.util.Properties;
 /**
  * 执行系统命令工具类
  *
- * @author SoulBGM
- * @version 1.0
- * @date 2020/6/29 15:57
+ * @author 孟耀
  */
 public class CmdUtil {
 

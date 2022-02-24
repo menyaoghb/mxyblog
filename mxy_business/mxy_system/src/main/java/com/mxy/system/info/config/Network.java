@@ -3,9 +3,7 @@ package com.mxy.system.info.config;
 /**
  * 网络相关信息
  *
- * @author 贺瑞杰
- * @version 1.0
- * @date 2019/10/10 11:03
+ * @author 孟耀
  */
 public class Network {
 

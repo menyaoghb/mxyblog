@@ -19,9 +19,7 @@ import java.util.Properties;
 /**
  * 监控服务器工具类
  *
- * @author SoulBGM
- * @version 1.0
- * @date 2020/6/29 17:07
+ * @author 孟耀
  */
 public class MonitorServerUtil {
 
