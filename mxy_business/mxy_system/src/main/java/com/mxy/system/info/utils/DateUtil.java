@@ -8,9 +8,7 @@ import java.util.*;
 /**
  * 日期时间的处理工具类
  *
- * @author SoulBGM
- * @version V1.0
- * @date 2018-09-13 9:25
+ * @author 孟耀
  */
 public class DateUtil {
 

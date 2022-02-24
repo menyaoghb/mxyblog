@@ -8,9 +8,7 @@ import java.util.Enumeration;
 /**
  * 获取主机工具类
  *
- * @author SoulBGM
- * @version 1.0
- * @date 2020/6/28 15:46
+ * @author 孟耀
  */
 public class HostUtil {
 

@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * CPU相关信息
  *
- * @author SoulBGM
+ * @author 孟耀
  */
 @Data
 public class Cpu {

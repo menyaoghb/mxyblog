@@ -7,9 +7,7 @@ import java.util.List;
 /**
  * 服务器各项信息
  *
- * @author SoulBGM
- * @version 1.0
- * @date 2019/10/10 11:03
+ * @author 孟耀
  */
 @Data
 public class Server {
