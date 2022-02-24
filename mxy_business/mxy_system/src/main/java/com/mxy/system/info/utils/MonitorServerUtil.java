@@ -11,7 +11,7 @@ import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
 import oshi.util.Util;
 
-import java.lang.management.ManagementFactory;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -77,11 +77,11 @@ public class MonitorServerUtil {
             cpu.setWait(cpu.getWait() + c.getWait());
             cpu.setFree(cpu.getFree() + c.getFree());
         }
-        cpu.setTotalUsed(cpu.getTotalUsed() / GET_CPU_COUNT);
-        cpu.setSysUsed(cpu.getSysUsed() / GET_CPU_COUNT);
-        cpu.setUserUsed(cpu.getUserUsed() / GET_CPU_COUNT);
-        cpu.setWait(cpu.getWait() / GET_CPU_COUNT);
-        cpu.setFree(cpu.getFree() / GET_CPU_COUNT);
+        cpu.setTotalUsed(Double.valueOf(String.format("%.3f",cpu.getTotalUsed() / GET_CPU_COUNT))*100);
+        cpu.setSysUsed(Double.valueOf(String.format("%.3f",cpu.getSysUsed() / GET_CPU_COUNT))*100);
+        cpu.setUserUsed(Double.valueOf(String.format("%.3f",cpu.getUserUsed() / GET_CPU_COUNT))*100);
+        cpu.setWait(Double.valueOf(String.format("%.3f",cpu.getWait() / GET_CPU_COUNT))*100);
+        cpu.setFree(Double.valueOf(String.format("%.4f",cpu.getFree() / GET_CPU_COUNT))*100);
         return cpu;
     }
 
@@ -148,10 +148,12 @@ public class MonitorServerUtil {
             sysFile.setDirName(fs.getMount());
             sysFile.setSysTypeName(fs.getType());
             sysFile.setTypeName(fs.getName());
-            sysFile.setTotal(total);
-            sysFile.setFree(free);
-            sysFile.setUsed(used);
-            sysFile.setUsage(Arith.div(used, total));
+            sysFile.setTotal(convertFileSize(total));
+            sysFile.setFree(convertFileSize(free));
+            sysFile.setUsed(convertFileSize(used));
+            DecimalFormat percentFormat = new DecimalFormat();
+            percentFormat.applyPattern("#0.00%");
+            sysFile.setUsage(percentFormat.format(Arith.div(used, total)));
             sysFileList.add(sysFile);
         }
         return sysFileList;
@@ -187,8 +189,8 @@ public class MonitorServerUtil {
         jvm.setUsageMemory(jvm.getMemoryTotal() - jvm.getFreeMemory());
         jvm.setJdkVersion(props.getProperty("java.version"));
         jvm.setJreHome(props.getProperty("java.home"));
-        jvm.setStartTime(ManagementFactory.getRuntimeMXBean().getStartTime());
-        jvm.setRunTime(System.currentTimeMillis() - jvm.getStartTime());
+        jvm.setStartTime(jvm.getStartTime());
+        jvm.setRunTime(jvm.getRunTime());
         return jvm;
     }
 
@@ -233,14 +235,14 @@ public class MonitorServerUtil {
         network.setName(nowNetworkIF.getName());
         network.setMac(nowNetworkIF.getMacaddr());
         network.setIp(nowNetworkIF.getIPv4addr()[0]);
-        network.setPacketsReceiveAmount(nowNetworkIF.getPacketsRecv());
-        network.setBytesReceiveAmount(nowNetworkIF.getBytesRecv());
-        network.setErrorPacketsReceiveAmount(nowNetworkIF.getInErrors());
-        network.setPacketsSendAmount(nowNetworkIF.getPacketsSent());
-        network.setBytesSendAmount(nowNetworkIF.getBytesSent());
-        network.setErrorPacketsSendAmount(nowNetworkIF.getOutErrors());
-        network.setUploadBps(nowNetworkIF.getBytesRecv() - beforeNetworkIF.getBytesRecv());
-        network.setDownloadBps(nowNetworkIF.getBytesSent() - beforeNetworkIF.getBytesSent());
+        network.setPacketsReceiveAmount(convertFileSize(nowNetworkIF.getPacketsRecv()));
+        network.setBytesReceiveAmount(convertFileSize(nowNetworkIF.getBytesRecv()));
+        network.setErrorPacketsReceiveAmount(convertFileSize(nowNetworkIF.getInErrors()));
+        network.setPacketsSendAmount(convertFileSize(nowNetworkIF.getPacketsSent()));
+        network.setBytesSendAmount(convertFileSize(nowNetworkIF.getBytesSent()));
+        network.setErrorPacketsSendAmount(convertFileSize(nowNetworkIF.getOutErrors()));
+        network.setUploadBps(convertFileSize(nowNetworkIF.getBytesRecv() - beforeNetworkIF.getBytesRecv()));
+        network.setDownloadBps(convertFileSize(nowNetworkIF.getBytesSent() - beforeNetworkIF.getBytesSent()));
         return network;
     }
 
@@ -250,7 +252,7 @@ public class MonitorServerUtil {
      * @param size 字节大小
      * @return 转换后值
      */
-    public String convertFileSize(long size) {
+    public static String convertFileSize(long size) {
         long kb = 1024;
         long mb = kb * 1024;
         long gb = mb * 1024;

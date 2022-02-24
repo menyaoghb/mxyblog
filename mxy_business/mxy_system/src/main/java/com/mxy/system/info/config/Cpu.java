@@ -39,4 +39,5 @@ public class Cpu {
      */
     private double free;
 
+
 }

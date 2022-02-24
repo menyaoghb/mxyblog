@@ -27,21 +27,21 @@ public class SysFile {
     /**
      * 总磁盘大小 单位字节
      */
-    private Long total;
+    private String total;
 
     /**
      * 剩余磁盘大小 单位字节
      */
-    private Long free;
+    private String free;
 
     /**
      * 已经使用磁盘量 单位字节
      */
-    private Long used;
+    private String used;
 
     /**
      * 磁盘使用率
      */
-    private double usage;
+    private String usage;
 
 }
