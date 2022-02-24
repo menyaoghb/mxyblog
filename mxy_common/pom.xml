@@ -121,8 +121,15 @@
         </dependency>
 
         <dependency>
-        <groupId>com.google.code.gson</groupId>
-        <artifactId>gson</artifactId>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>3.9.1</version>
+        </dependency>
+
     </dependencies>
 </project>
