@@ -44,9 +44,16 @@
       <el-table-column prop="title" label="标题" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="summary" label="简介" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="pageViews" label="浏览量" align="center"></el-table-column>
+      <el-table-column prop="author" label="作者" align="center"></el-table-column>
+      <el-table-column prop="source" label="文章来源" align="center"></el-table-column>
       <el-table-column label="创建时间" align="center">
         <template slot-scope="{row}">
           <span>{{ row.createTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="更新时间" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.updateTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态" width="90" class-name="status-col">
