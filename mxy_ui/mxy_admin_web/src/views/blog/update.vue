@@ -7,10 +7,10 @@
             更新
           </el-button>
           <router-link to="blogList">
-          <el-button style="margin-left: 10px;" type="success">
-            返回
-          </el-button>
-            </router-link>
+            <el-button style="margin-left: 10px;" type="success">
+              返回
+            </el-button>
+          </router-link>
         </sticky>
       </div>
       <div class="createPost-main-container">
@@ -90,7 +90,6 @@
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
-
     <el-dialog :visible.sync="imageUrlDialog">
       <img width="100%" :src="imageUrl" alt="">
     </el-dialog>
@@ -158,11 +157,11 @@ export default {
     }
   },
   created() {
-      this.setFormData(this.$route.query.row);
+    this.setFormData(this.$route.query.row);
   },
   methods: {
-    setFormData(obj){
-      this.postForm ={
+    setFormData(obj) {
+      this.postForm = {
         status: obj.status,
         title: obj.title, // 文章题目
         content: obj.content, // 文章内容
@@ -209,12 +208,12 @@ export default {
       this.dialogVisible = false;
     },
     chooseImg() {
-      this.dialogVisible=true;
+      this.dialogVisible = true;
       this.imageLoading = true;
-      getList({currentPage: 1,pageSize: 1000,}).then(response => {
+      getList({currentPage: 1, pageSize: 1000,}).then(response => {
         this.imageList = response.data.records
       })
-      getFileTypeList({id:undefined}).then(response => {
+      getFileTypeList({id: undefined}).then(response => {
         let arr = response.data.typeMap;
         let type = [];
         for (let i = 0; i < arr.length; i++) {
@@ -231,51 +230,19 @@ export default {
     indexPreview(url) {
       this.imageUrl = url.pictureId;
       this.imageUrlDialog = true;
-    },
-    // 上传 标题图
-    uploadImg (f) {
-      this.progressFlag = true
-      let formData = new FormData()
-      formData.append('imageUrl', f.file)
-      axios({
-        url: 'http://mxyit.com:8088/api/foreign/uploadPhoto',
-        method: 'post',
-        data: formData,
-        headers: {'Content-Type': 'multipart/form-data'},
-        onUploadProgress: progressEvent => {
-          // progressEvent.loaded:已上传文件大小
-          // progressEvent.total:被上传文件的总大小
-          this.progressPercent = (progressEvent.loaded / progressEvent.total * 100)
-        }
-      }).then(res => {
-        this.postForm.filePath = res.data.data;
-        if (this.progressPercent === 100) {
-          this.progressFlag = false
-          this.progressPercent = 0
-        }
-      }).then(error => {
-        console.log(error)
-      })
-    },
-    // 上传标题图 校验
-    beforeAvatarUpload(file) {
-      const isLt2M = file.size / 1024 / 1024 < 10;
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 10MB!');
-      }
-      return isLt2M;
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.word-content{
+.word-content {
   position: relative;
   float: right;
   top: 4px;
   font-size: xx-small;
 }
-.title-pic{
+
+.title-pic {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
   cursor: pointer;
@@ -328,5 +295,23 @@ export default {
   position: absolute;
   right: 10px;
   top: 0px;
+}
+
+.block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: 1px solid #eff2f6;
+  display: inline-block;
+  width: 20%;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+
+.img-title {
+  display: block;
+  color: #8492a6;
+  font-size: 14px;
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
 </style>
