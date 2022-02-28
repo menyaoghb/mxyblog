@@ -55,7 +55,6 @@
                     @change="changeEditor"/>
       </div>
     </el-form>
-
     <el-dialog
       title="图片选择"
       :visible.sync="dialogVisible"
@@ -87,7 +86,6 @@
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
-
     <el-dialog :visible.sync="imageUrlDialog">
       <img width="100%" :src="imageUrl" alt="">
     </el-dialog>
@@ -98,8 +96,7 @@
 import EditorTool from './components/wangEditor'
 import MDinput from '@/components/MDinput'
 import Sticky from '@/components/Sticky'
-import {addArticle, uploadPhoto} from '@/api/blog/blog'
-import axios from 'axios'
+import {addArticle} from '@/api/blog/blog'
 import {getFileTypeList, getList} from "@/api/file/img/img";
 
 const defaultForm = {
@@ -213,17 +210,19 @@ export default {
     changeEditor(val) {
       console.log(val)
     },
+    /*标题图弹窗*/
     chooseTitleImg(val) {
       this.postForm.filePath = val.pictureId;
       this.dialogVisible = false;
     },
+    /*图片选择*/
     chooseImg() {
-      this.dialogVisible=true;
+      this.dialogVisible = true;
       this.imageLoading = true;
-      getList({currentPage: 1,pageSize: 1000,}).then(response => {
+      getList({currentPage: 1, pageSize: 1000,}).then(response => {
         this.imageList = response.data.records
       })
-      getFileTypeList({id:undefined}).then(response => {
+      getFileTypeList({id: undefined}).then(response => {
         let arr = response.data.typeMap;
         let type = [];
         for (let i = 0; i < arr.length; i++) {
@@ -237,108 +236,77 @@ export default {
     handleClick(tab, event) {
       this.comKey += 1;
     },
+    /*图片预览*/
     indexPreview(url) {
       this.imageUrl = url.pictureId;
       this.imageUrlDialog = true;
-    },
-    // 上传 标题图
-    uploadImg (f) {
-      this.progressFlag = true
-      let formData = new FormData()
-      formData.append('imageUrl', f.file)
-      axios({
-        url: 'http://mxyit.com:8088/api/foreign/uploadPhoto',
-        method: 'post',
-        data: formData,
-        headers: {'Content-Type': 'multipart/form-data'},
-        onUploadProgress: progressEvent => {
-          // progressEvent.loaded:已上传文件大小
-          // progressEvent.total:被上传文件的总大小
-          this.progressPercent = (progressEvent.loaded / progressEvent.total * 100)
-        }
-      }).then(res => {
-        this.postForm.filePath = res.data.data;
-        if (this.progressPercent === 100) {
-          this.progressFlag = false
-          this.progressPercent = 0
-        }
-      }).then(error => {
-        console.log(error)
-      })
-    },
-    // 上传标题图 校验
-    beforeAvatarUpload(file) {
-      const isLt2M = file.size / 1024 / 1024 < 10;
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 10MB!');
-      }
-      return isLt2M;
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.title-pic{
+.title-pic {
   margin-left: 20px;
   margin-top: -66px;
 }
-.postInfo-container{
-padding-top: 60px;
+
+.postInfo-container {
+  padding-top: 60px;
 }
 
-.title-pic{
-border: 1px dashed #d9d9d9;
-border-radius: 6px;
-cursor: pointer;
-position: relative;
-overflow: hidden;
-width: 178px;
-height: 178px;
+.title-pic {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  width: 178px;
+  height: 178px;
 }
 
 .avatar-uploader .el-upload {
-border: 1px dashed #d9d9d9;
-border-radius: 6px;
-cursor: pointer;
-position: relative;
-overflow: hidden;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
 .avatar-uploader .el-upload:hover {
-border-color: #409EFF;
+  border-color: #409EFF;
 }
 
 .avatar-uploader-icon {
-font-size: 28px;
-color: #8c939d;
-width: 178px;
-height: 178px;
-line-height: 178px;
-text-align: center;
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
 }
 
 .avatar {
-width: 178px;
-height: 178px;
-display: block;
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 
 
 .article-textarea ::v-deep {
-textarea {
-padding-right: 40px;
-resize: none;
-border: none;
-border-radius: 0px;
-border-bottom: 1px solid #bfcbd9;
-}
+  textarea {
+    padding-right: 40px;
+    resize: none;
+    border: none;
+    border-radius: 0px;
+    border-bottom: 1px solid #bfcbd9;
+  }
 }
 
 .word-counter {
-width: 40px;
-position: absolute;
-right: 10px;
-top: 0px;
+  width: 40px;
+  position: absolute;
+  right: 10px;
+  top: 0px;
 }
 
 .block {

@@ -33,6 +33,9 @@
           <el-button class="filter-item" style="margin-left: 10px;" @click="handleRest" size="small">
             重置
           </el-button>
+          <el-button class="filter-item" style="margin-left: 10px;" @click="exportDownload" size="small">
+            导出
+          </el-button>
         </el-col>
       </el-row>
     </div>
@@ -126,7 +129,8 @@
 
 <script>
 import {getSysLogList, detailLog} from '@/api/log/log'
-import Pagination from '@/components/Pagination' // 分页
+import Pagination from '@/components/Pagination'
+import {parseTime} from "../../../../../mxy_system_web/src/utils"; // 分页
 
 // 操作类型
 const TypeOptions = [
@@ -218,6 +222,40 @@ export default {
     handleView(row) {
       this.dialogFormVisible = true;
       this.temp = row;
+    },
+    /*数据导出*/
+    exportDownload() {
+      const headers = {
+        '模块标题': 'title',
+        '操作类型': 'businessType',
+        '请求URL': 'operUrl',
+        '请求时间': 'resTime',
+        '主机地址': 'operIp',
+        '操作地点': 'operLocation',
+        '操作人员': 'operName',
+        '操作时间': 'operTime'
+      }
+      import('@/vendor/Export2Excel').then(async excel => {
+        const list = this.list
+        const data = this.formatJson(headers, list)
+        excel.export_json_to_excel({
+          header: Object.keys(headers),
+          data,
+          filename: '数据导出',
+          autoWidth: true,
+          bookType: 'xlsx'
+        })
+      })
+    },
+    formatJson(headers, rows) {
+      return rows.map(item => {
+        return Object.keys(headers).map(key => {
+          if (headers[key] === 'operTime') {
+            return parseTime(item[headers[key]])
+          }
+          return item[headers[key]]
+        })
+      })
     }
   }
 }
