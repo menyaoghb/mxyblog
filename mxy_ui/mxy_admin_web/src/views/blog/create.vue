@@ -43,16 +43,8 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label-width="70px" label="标题图:" class="postInfo-container-item">
-                <div class="title-pic">
-                  <el-upload class="avatar-uploader" action="#"
-                             :show-file-list="false"  :before-upload="beforeAvatarUpload"
-                             :http-request="uploadImg">
-                    <div v-show="progressFlag" class="head-img">
-                      <el-progress type="circle" :percentage="progressPercent"></el-progress>
-                    </div>
-                    <img v-if="!progressFlag" :src="postForm.filePath" class="avatar">
-                    <i class="el-icon-plus avatar-uploader-icon"></i>
-                  </el-upload>
+                <div class="title-pic" @click="chooseImg">
+                  <img :src="postForm.filePath" class="avatar">
                 </div>
               </el-form-item>
             </el-col>
@@ -63,6 +55,42 @@
                     @change="changeEditor"/>
       </div>
     </el-form>
+
+    <el-dialog
+      title="图片选择"
+      :visible.sync="dialogVisible"
+      width="50%">
+      <el-tabs tab-position="left" @tab-click="handleClick" v-loading="imageLoading"
+               element-loading-spinner="el-icon-loading">
+        <el-tab-pane v-for="type in imageType" :key="type">
+          <span slot="label"><i class="el-icon-date"></i> {{ type }}</span>
+          <div class="demo-image" :key="comKey">
+            <div class="block" v-for="(url,index) in imageList" :key="index" v-if="type===url.type">
+              <el-image
+                style="width: 100px; height: 100px"
+                :src="url.pictureId"
+                fit="fill" @click="chooseTitleImg(url)">
+                <div slot="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+              <span class="img-title">{{ url.pictureName }}</span>
+              <div>
+          <span class="el-upload-list__item-actions">
+            <span class="image-icon image-center" @click="indexPreview(url)">
+              <i class="el-icon-zoom-in" title="预览"></i>
+            </span>
+          </span>
+              </div>
+            </div>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
+    </el-dialog>
+
+    <el-dialog :visible.sync="imageUrlDialog">
+      <img width="100%" :src="imageUrl" alt="">
+    </el-dialog>
   </div>
 </template>
 
@@ -72,6 +100,7 @@ import MDinput from '@/components/MDinput'
 import Sticky from '@/components/Sticky'
 import {addArticle, uploadPhoto} from '@/api/blog/blog'
 import axios from 'axios'
+import {getFileTypeList, getList} from "@/api/file/img/img";
 
 const defaultForm = {
   status: '0',
@@ -93,7 +122,18 @@ export default {
       isClear: false,
       loading: false,
       progressFlag: false, // 上传标题图进度条控制
-      progressPercent: 0 // 上传标题图进度条值
+      progressPercent: 0, // 上传标题图进度条值
+      dialogVisible: false,
+      imageLoading: false,
+      imageUrlDialog: false,
+      /*控制刷新左侧标签内容*/
+      comKey: 0,
+      /*图片标签*/
+      imageType: [],
+      /*图片集合*/
+      imageList: [],
+      /*图片预览地址*/
+      imageUrl: ''
     }
   },
   computed: {
@@ -172,6 +212,34 @@ export default {
     },
     changeEditor(val) {
       console.log(val)
+    },
+    chooseTitleImg(val) {
+      this.postForm.filePath = val.pictureId;
+      this.dialogVisible = false;
+    },
+    chooseImg() {
+      this.dialogVisible=true;
+      this.imageLoading = true;
+      getList({currentPage: 1,pageSize: 1000,}).then(response => {
+        this.imageList = response.data.records
+      })
+      getFileTypeList({id:undefined}).then(response => {
+        let arr = response.data.typeMap;
+        let type = [];
+        for (let i = 0; i < arr.length; i++) {
+          type.push(arr[i].value);
+        }
+        this.imageType = type;
+      })
+      this.imageLoading = false
+    },
+    /*标签切换点击事件*/
+    handleClick(tab, event) {
+      this.comKey += 1;
+    },
+    indexPreview(url) {
+      this.imageUrl = url.pictureId;
+      this.imageUrlDialog = true;
     },
     // 上传 标题图
     uploadImg (f) {
@@ -271,5 +339,23 @@ width: 40px;
 position: absolute;
 right: 10px;
 top: 0px;
+}
+
+.block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: 1px solid #eff2f6;
+  display: inline-block;
+  width: 20%;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+
+.img-title {
+  display: block;
+  color: #8492a6;
+  font-size: 14px;
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
 </style>
