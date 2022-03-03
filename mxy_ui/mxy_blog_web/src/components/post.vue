@@ -10,7 +10,7 @@
       </div>
         <div class="post-entry" style="display: inline-block;width: 50%;position: absolute;">
           <router-link :to="`/article/${post.id}`"><p class="summary" :title="post.summary" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin-top: 20px">{{post.summary}}</p></router-link>
-            <p class="summary" style="font-size:xx-small;text-align: left;margin-top: 10px;"><i v-show="post.pageViews" class="iconfont iconeyes"></i>    {{post.pageViews}}        <i class="iconfont iconmeditor-time"></i>    {{post.createTime | parseTime}}</p>
+            <p class="summary" style="font-size:xx-small;text-align: left;margin-top: 10px;"><span v-show="post.pageViews!==0"><i class="iconfont iconeyes"></i>    {{post.pageViews}}        </span><i class="iconfont iconmeditor-time"></i>    {{post.createTime | parseTime}}</p>
         </div>
 
     </article>

@@ -54,7 +54,6 @@
       <!--<el-table-column prop="method" label="方法名称" align="center"></el-table-column>-->
       <el-table-column prop="operUrl" show-overflow-tooltip label="请求URL" align="center"></el-table-column>
       <el-table-column label="请求时间" align="center">
-
         <template slot-scope="{row}">
           <div slot="reference" class="name-wrapper" v-if="row.status=== 0">
             <el-tag size="medium">{{ row.resTime }}ms</el-tag>

@@ -16,6 +16,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 字典数据 服务实现类
@@ -85,6 +88,12 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
         } else {
             return ServiceResult.successMsg(BaseMessage.DELETE_FAIL);
         }
+    }
+
+    @Override
+    public String getDicData(SysDictDataVO sysDictDataVO) {
+        List<Map<String, String>> maps = this.baseMapper.selectDicData(sysDictDataVO);
+        return ServiceResult.success(maps);
     }
 
 }

@@ -4,63 +4,78 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysDictData">
-        <id column="dict_code" property="dictCode" />
-        <result column="dict_name" property="dictName" />
-        <result column="dict_value" property="dictValue" />
-        <result column="dict_type" property="dictType" />
-        <result column="parent_id" property="parentId" />
-        <result column="dict_sort" property="dictSort" />
-        <result column="status" property="status" />
-        <result column="is_delete" property="isDelete" />
-        <result column="create_user" property="createUser" />
-        <result column="create_time" property="createTime" />
-        <result column="update_user" property="updateUser" />
-        <result column="update_time" property="updateTime" />
-        <result column="remark" property="remark" />
+        <id column="dict_code" property="dictCode"/>
+        <result column="dict_name" property="dictName"/>
+        <result column="dict_value" property="dictValue"/>
+        <result column="dict_type" property="dictType"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="dict_sort" property="dictSort"/>
+        <result column="status" property="status"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="remark" property="remark"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         WHERE 1 = 1
-    <if test="dictCode!=null and dictCode!=''">
-        AND dict_code = #{dictCode}
-    </if>
-    <if test="dictName!=null and dictName!=''">
-        AND dict_name = #{dictName}
-    </if>
-    <if test="dictValue!=null and dictValue!=''">
-        AND dict_value = #{dictValue}
-    </if>
-    <if test="dictType!=null and dictType!=''">
-        AND dict_type = #{dictType}
-    </if>
-    <if test="parentId!=null and parentId!=''">
-        AND parent_id = #{parentId}
-    </if>
-    <if test="dictSort!=null and dictSort!=''">
-        AND dict_sort = #{dictSort}
-    </if>
-    <if test="status!=null and status!=''">
-        AND status = #{status}
-    </if>
-    <if test="isDelete!=null and isDelete!=''">
-        AND is_delete = #{isDelete}
-    </if>
-    <if test="createUser!=null and createUser!=''">
-        AND create_user = #{createUser}
-    </if>
-    <if test="createTime!=null and createTime!=''">
-        AND create_time = #{createTime}
-    </if>
-    <if test="updateUser!=null and updateUser!=''">
-        AND update_user = #{updateUser}
-    </if>
-    <if test="updateTime!=null and updateTime!=''">
-        AND update_time = #{updateTime}
-    </if>
-    <if test="remark!=null and remark!=''">
-        AND remark = #{remark}
-    </if>
+        <if test="dictCode!=null and dictCode!=''">
+            AND dict_code = #{dictCode}
+        </if>
+        <if test="dictName!=null and dictName!=''">
+            AND dict_name = #{dictName}
+        </if>
+        <if test="dictValue!=null and dictValue!=''">
+            AND dict_value = #{dictValue}
+        </if>
+        <if test="dictType!=null and dictType!=''">
+            AND dict_type = #{dictType}
+        </if>
+        <if test="parentId!=null and parentId!=''">
+            AND parent_id = #{parentId}
+        </if>
+        <if test="dictSort!=null and dictSort!=''">
+            AND dict_sort = #{dictSort}
+        </if>
+        <if test="status!=null and status!=''">
+            AND status = #{status}
+        </if>
+        <if test="isDelete!=null and isDelete!=''">
+            AND is_delete = #{isDelete}
+        </if>
+        <if test="createUser!=null and createUser!=''">
+            AND create_user = #{createUser}
+        </if>
+        <if test="createTime!=null and createTime!=''">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateUser!=null and updateUser!=''">
+            AND update_user = #{updateUser}
+        </if>
+        <if test="updateTime!=null and updateTime!=''">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="remark!=null and remark!=''">
+            AND remark = #{remark}
+        </if>
     </sql>
+
+
+    <!--查询 标签 字段-->
+    <select id="selectDicData" resultType="map">
+        SELECT DICT_NAME AS name,
+               DICT_VALUE AS `value`,
+	           DICT_TYPE AS `type`
+        FROM
+            sys_dict_data
+        WHERE
+            DICT_TYPE = #{dictType}
+            AND STATUS = '0'
+        ORDER BY
+            DICT_SORT ASC
+    </select>
 
 </mapper>

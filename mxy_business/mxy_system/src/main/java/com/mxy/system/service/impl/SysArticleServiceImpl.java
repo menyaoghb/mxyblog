@@ -60,6 +60,7 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
         BeanUtils.copyProperties(sysArticleVO, sysArticle);
         HtmlUtils.htmlEscapeHex(sysArticle.getContent());
         sysArticle.setCreateUser(userDetails.getUsername());
+        sysArticle.setPageViews(0);
         Boolean result = sysArticle.insert();
         if (result) {
             return ServiceResult.successMsg(BaseMessage.INSERT_SUCCESS);

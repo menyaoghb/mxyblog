@@ -32,3 +32,11 @@ export function deleteDictData(data) {
     data
   })
 }
+/*列表查询*/
+export function getDictData(data) {
+  return request({
+    url: '/sysDictData/getDicData',
+    method: 'post',
+    data
+  })
+}
