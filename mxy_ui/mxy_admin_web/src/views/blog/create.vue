@@ -342,11 +342,13 @@ export default {
   margin-bottom: 20px;
   margin-top: 10px;
 }
-.el-radio.is-bordered+.el-radio.is-bordered{
+
+.el-radio.is-bordered + .el-radio.is-bordered {
   margin-left: 0px;
   margin-bottom: 10px;
 }
-.el-radio{
+
+.el-radio {
   margin-right: 10px;
 }
 </style>

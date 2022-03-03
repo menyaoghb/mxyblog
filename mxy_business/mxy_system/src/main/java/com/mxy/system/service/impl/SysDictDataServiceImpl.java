@@ -39,6 +39,7 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
         if (StringUtils.isNotEmpty(sysDictDataVO.getDictValue())) {
             queryWrapper.eq("dict_value", sysDictDataVO.getDictValue());
         }
+        queryWrapper.orderByAsc("dict_Sort");
         Page<SysDictData> page = new Page<>();
         page.setCurrent(sysDictDataVO.getCurrentPage());
         page.setSize(sysDictDataVO.getPageSize());
