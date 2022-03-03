@@ -7,6 +7,7 @@
         <id column="id" property="id" />
         <result column="title" property="title" />
         <result column="summary" property="summary" />
+        <result column="classify" property="classify" />
         <result column="content" property="content" />
         <result column="page_views" property="pageViews" />
         <result column="file_path" property="filePath" />
@@ -33,6 +34,9 @@
     </if>
     <if test="summary!=null and summary!=''">
         AND summary = #{summary}
+    </if>
+    <if test="classify!=null and classify!=''">
+        AND classify = #{classify}
     </if>
     <if test="content!=null and content!=''">
         AND content = #{content}

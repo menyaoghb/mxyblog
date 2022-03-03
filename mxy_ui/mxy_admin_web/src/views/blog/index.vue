@@ -46,6 +46,7 @@
       <el-table-column prop="pageViews" label="浏览量" align="center"></el-table-column>
       <el-table-column prop="author" label="作者" align="center"></el-table-column>
       <el-table-column prop="source" label="文章来源" align="center"></el-table-column>
+      <el-table-column prop="classify" label="文章分类" align="center"></el-table-column>
       <el-table-column label="创建时间" align="center">
         <template slot-scope="{row}">
           <span>{{ row.createTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
