@@ -48,6 +48,21 @@
                 </div>
               </el-form-item>
             </el-col>
+            <el-col :span="6">
+              <el-form-item label-width="70px" label="分类:" class="postInfo-container-item">
+                <div>
+                  <el-radio-group v-model="postForm.classify" size="mini">
+                    <el-radio label="1" border>签到</el-radio>
+                    <el-radio label="2" border>测试</el-radio>
+                    <el-radio label="3" border>技术</el-radio>
+                    <el-radio label="4" border>成长</el-radio>
+                    <el-radio label="5" border>收藏</el-radio>
+                    <el-radio label="6" border>工具</el-radio>
+                    <el-radio label="7" border>诗句</el-radio>
+                  </el-radio-group>
+                </div>
+              </el-form-item>
+            </el-col>
           </el-row>
         </div>
         <EditorTool class="tool-style" style="margin-top: 50px;margin-left: 15px" v-model="postForm.content"
@@ -104,8 +119,9 @@ const defaultForm = {
   title: '', // 文章题目
   content: '', // 文章内容
   summary: '', // 文章摘要
-  author: '孟耀', // 文章摘要
-  source: '原创', // 文章摘要
+  author: '孟耀', // 文章作者
+  source: '原创', // 文章来源
+  classify: '3', // 文章分类
   filePath: 'http://mxy.mxyit.com/278668fa-6aa7-43e2-8f90-ef4645fea5ee', // 标题图片
   display_time: undefined, // 前台展示时间
   id: undefined
@@ -325,5 +341,12 @@ export default {
   font-size: 14px;
   margin-bottom: 20px;
   margin-top: 10px;
+}
+.el-radio.is-bordered+.el-radio.is-bordered{
+  margin-left: 0px;
+  margin-bottom: 10px;
+}
+.el-radio{
+  margin-right: 10px;
 }
 </style>
