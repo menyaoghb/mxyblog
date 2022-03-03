@@ -182,8 +182,9 @@ export default {
         title: obj.title, // 文章题目
         content: obj.content, // 文章内容
         summary: obj.summary, // 文章摘要
-        author: obj.author, // 文章摘要
-        source: obj.source, // 文章摘要
+        author: obj.author, // 文章作者
+        classify: obj.classify, // 文章分类
+        source: obj.source, // 文章来源
         filePath: obj.filePath, // 标题图片
         display_time: undefined, // 前台展示时间
         id: obj.id

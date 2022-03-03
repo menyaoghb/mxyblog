@@ -1,9 +1,8 @@
 package com.mxy.system.entity.vo;
 
 import com.mxy.common.core.entity.SysArticle;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import com.mxy.common.core.entity.vo.BaseVO;
+import lombok.Data;
 
 import java.util.Date;
 /**
@@ -33,6 +32,10 @@ public class SysArticleVO extends BaseVO<SysArticle> {
      * 文章内容
      */
     private String content;
+    /**
+     * 文章分类
+     */
+    private String classify;
     /**
      * 浏览量
      */

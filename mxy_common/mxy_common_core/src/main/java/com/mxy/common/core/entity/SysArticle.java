@@ -47,6 +47,11 @@ public class SysArticle extends BaseEntity<SysArticle> {
     private String content;
 
     /**
+     * 文章分类
+     */
+    private String classify;
+
+    /**
      * 浏览量
      */
     private Integer pageViews;
