@@ -77,5 +77,16 @@ public class SysDictDataController {
         return sysDictDataService.delete(sysDictDataVO);
         }
 
+    /**
+     * @Description 字典数据
+     * @author 孟小耀
+     * @date 2021-07-25
+     */
+    @ApiOperation(value = "字典数据")
+    @PostMapping("/getDicData")
+    public String getDicData(@RequestBody SysDictDataVO sysDictDataVO) {
+        return sysDictDataService.getDicData(sysDictDataVO);
+    }
+
 }
 

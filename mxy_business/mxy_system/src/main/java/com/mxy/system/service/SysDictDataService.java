@@ -20,6 +20,11 @@ public interface SysDictDataService extends IService<SysDictData> {
     public String getList(SysDictDataVO sysDictDataVO);
 
     /**
+     * 字典数据
+     */
+    public String getDicData(SysDictDataVO sysDictDataVO);
+
+    /**
     * 新增字典数据
     */
     public String add(SysDictDataVO sysDictDataVO);

@@ -207,7 +207,7 @@
 
 <script>
 import {getSysDictTypeList, addDictType, editDictType, deleteDictType} from '@/api/sys/dictType/type'
-import {getSysDictDataList, addDictData, editDictData, deleteDictData} from '@/api/sys/dictData/data'
+import {getSysDictDataList, addDictData, editDictData, deleteDictData,getDictData} from '@/api/sys/dictData/data'
 
 import Pagination from '@/components/Pagination'
 import {editUserStatus} from "@/api/sys/user/user"; // 分页
@@ -271,11 +271,13 @@ export default {
       },
       rules: {},
       currentRow: null,
-      dictType: null
+      dictType: null,
+      dictBlogType:null
     }
   },
   created() {
     this.getDictTypeList();
+    this.getDictData();
     this.handleCurrentChange();
   },
   methods: {
@@ -284,6 +286,12 @@ export default {
       this.dataListQuery.dictType = val.dictType;
       this.dictType = val.dictType;
       this.dataFilter();
+    },
+    /*字典查询*/
+    getDictData() {
+      getDictData({dictType:"BLOG-TYPE"}).then(response => {
+        this.dictBlogType = response.data
+      })
     },
     /*类型列表查询*/
     getDictTypeList() {

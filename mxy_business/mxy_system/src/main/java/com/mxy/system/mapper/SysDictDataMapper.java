@@ -1,7 +1,11 @@
 package com.mxy.system.mapper;
 
-import com.mxy.common.core.entity.SysDictData;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mxy.common.core.entity.SysDictData;
+import com.mxy.system.entity.vo.SysDictDataVO;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -12,5 +16,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-07-25
  */
 public interface SysDictDataMapper extends BaseMapper<SysDictData> {
+
+    /**
+     * 查询 字典 数据
+     */
+    public List<Map<String,String>> selectDicData(SysDictDataVO sysDictDataVO);
 
 }
