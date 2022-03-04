@@ -53,13 +53,8 @@
               <el-form-item label-width="70px" label="分类:" class="postInfo-container-item">
                 <div>
                   <el-radio-group v-model="postForm.classify" size="mini">
-                    <el-radio label="1" border>签到</el-radio>
-                    <el-radio label="2" border>测试</el-radio>
-                    <el-radio label="3" border>技术</el-radio>
-                    <el-radio label="4" border>成长</el-radio>
-                    <el-radio label="5" border>收藏</el-radio>
-                    <el-radio label="6" border>工具</el-radio>
-                    <el-radio label="7" border>诗句</el-radio>
+                    <el-radio v-for="item in dictData" :key="item.value" :label="item.value" border>{{ item.name }}
+                    </el-radio>
                   </el-radio-group>
                 </div>
               </el-form-item>
@@ -118,6 +113,7 @@ import Sticky from '@/components/Sticky'
 import {addArticle, editArticle, uploadPhoto} from '@/api/blog/blog'
 import axios from 'axios'
 import {getFileTypeList, getList} from "@/api/file/img/img";
+import {getDictData} from "@/api/sys/dictData/data";
 
 const defaultForm = {
   status: '0',
@@ -151,7 +147,8 @@ export default {
       /*图片集合*/
       imageList: [],
       /*图片预览地址*/
-      imageUrl: ''
+      imageUrl: '',
+      dictData: null
     }
   },
   computed: {
@@ -174,8 +171,15 @@ export default {
   },
   created() {
     this.setFormData(this.$route.query.row);
+    this.getDictData();
   },
   methods: {
+    /*类型列表查询*/
+    getDictData() {
+      getDictData({dictType: "BLOG-TYPE"}).then(response => {
+        this.dictData = response.data
+      })
+    },
     setFormData(obj) {
       this.postForm = {
         status: obj.status,
