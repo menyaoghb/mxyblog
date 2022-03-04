@@ -52,9 +52,7 @@
               <el-form-item label-width="70px" label="分类:" class="postInfo-container-item">
                 <div>
                   <el-radio-group v-model="postForm.classify" size="mini">
-                    <el-radio v-for="item in dictData" :key="item.value" :label="item.value" border>{{
-                        item.name
-                      }}
+                    <el-radio v-for="item in dictData" :key="item.value" :label="item.value" border>{{ item.name }}
                     </el-radio>
                   </el-radio-group>
                 </div>
