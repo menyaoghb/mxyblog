@@ -136,13 +136,13 @@ export const asyncRoutes = [
         path: 'DictType',
         component: () => import('@/views/sys/dictType'),
         name: 'DictType',
-        meta: {title: '字典类型', icon: 'el-icon-lollipop'}
+        meta: {title: '业务字典', icon: 'el-icon-lollipop'}
       },
       {
         path: 'DictData',
         component: () => import('@/views/sys/dictData'),
         name: 'DictData',
-        meta: {title: '字典数据', icon: 'el-icon-sugar'}
+        meta: {title: '字典细分', icon: 'el-icon-sugar'}
       },
       {
         path: 'job',

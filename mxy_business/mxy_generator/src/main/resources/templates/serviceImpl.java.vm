@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mxy.common.core.constant.BaseMessage;
+import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.utils.ServiceResult;
 import ${package.Entity}.${entity};
 import ${package.Entity}.vo.${entity}VO;

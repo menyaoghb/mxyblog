@@ -15,7 +15,7 @@
               <div id="crumbs" v-show="postList.author">
                 作者：<span class="crumbs">{{ postList.author }}</span>
                 发布时间：<span class="crumbs">{{ postList.createTime | parseTime }}</span>
-                来源：<span class="crumbs">{{ postList.source }}</span>
+                来源：<span class="crumbs source">{{ postList.source }}</span>
               </div>
             </div>
           </header>
@@ -118,6 +118,11 @@ export default {
 }
 </script>
 <style scoped lang="less">
+.source{
+  background: #dcdfe6a8;
+  border-radius: 5px;
+}
+
 .crumbs{
 color: #777777;
 }
