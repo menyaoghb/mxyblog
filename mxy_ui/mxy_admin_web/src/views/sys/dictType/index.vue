@@ -42,9 +42,9 @@
               :cell-style="{padding:'0px'}" v-loading="typeListLoading"
               element-loading-spinner="el-icon-loading">
               <el-table-column type="index" width="50" align="center"/>
-              <el-table-column prop="dictName" label="名称" align="center"></el-table-column>
-              <el-table-column prop="dictType" label="编码" align="center"></el-table-column>
-              <el-table-column prop="remark" label="备注" align="center"></el-table-column>
+              <el-table-column prop="dictName" show-overflow-tooltip label="名称" align="center"></el-table-column>
+              <el-table-column prop="dictType" show-overflow-tooltip label="编码" align="center"></el-table-column>
+              <el-table-column prop="remark" show-overflow-tooltip label="备注" align="center"></el-table-column>
               <el-table-column label="状态" width="90" class-name="status-col">
                 <template slot-scope="{row}">
                   <el-tooltip v-for="item in statusOptions" v-if="row.status===item.key" :content="item.name"
@@ -111,7 +111,7 @@
               height="550"
               :cell-style="{padding:'0px'}" v-loading="dataListLoading" element-loading-spinner="el-icon-loading">
               <el-table-column type="index" width="50" align="center"/>
-              <el-table-column prop="dictName" label="名称" align="center"></el-table-column>
+              <el-table-column prop="dictName" show-overflow-tooltip label="名称" align="center"></el-table-column>
               <el-table-column prop="dictValue" label="值" align="center"></el-table-column>
               <el-table-column prop="dictSort" label="排序" align="center"></el-table-column>
               <el-table-column label="状态" width="90" class-name="status-col">
@@ -129,7 +129,7 @@
                   </el-tooltip>
                 </template>
               </el-table-column>
-              <el-table-column prop="remark" label="备注" align="center"></el-table-column>
+              <el-table-column prop="remark" show-overflow-tooltip label="备注" align="center"></el-table-column>
               <el-table-column label="操作" align="center" width="230" class-name="small-padding">
                 <template slot-scope="{row,$index}">
                   <el-button size="mini" @click="dataUpdateJump(row)" type="text">编辑</el-button>
