@@ -105,6 +105,24 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/collection',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'collection',
+    meta: {
+      title: '收藏系统',
+      icon: 'el-icon-orange'
+    },
+    children: [
+      {
+        path: 'bookmarkPath',
+        component: () => import('@/views/collection/bookmark/index'),
+        name: 'bookmarkName',
+        meta: {title: '书签管理', icon: 'el-icon-lollipop'}
+      }
+    ]
+  },
+  {
     path: '/system',
     component: Layout,
     redirect: 'noRedirect',
