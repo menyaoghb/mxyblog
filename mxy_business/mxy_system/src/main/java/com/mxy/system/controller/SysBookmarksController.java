@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "收藏书签",tags = "收藏书签")
 @RestController
-@RequestMapping("/system/sysBookmarks")
+@RequestMapping("/api/sysBookmarks")
 public class SysBookmarksController {
 
     @Autowired
