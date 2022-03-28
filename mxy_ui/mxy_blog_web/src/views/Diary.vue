@@ -6,6 +6,13 @@
         <div style="display: inline-block;vertical-align: middle;">
           <h1 style="font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;color: #000000;font-family: cursive;">
             Hello TOURISTS...</h1>
+
+          <input v-model="keyWords" type="text" placeholder="请输入关键词"  @input="handleQuery">
+          <ul>
+            <li v-for="(item,index) in results" :key='index' v-html='item.name'></li>
+          </ul>
+
+
         </div>
       </div>
     </div>
@@ -19,7 +26,7 @@ import sectionTitle from '@/components/section-title'
 import Post from '@/components/post'
 import SmallIco from '@/components/small-ico'
 import Quote from '@/components/quote'
-import {fetchFocus, fetchList} from '../api'
+import {bookmarkList, fetchFocus, fetchList} from '../api'
 import Pagination from '@/components/Pagination' // 分页
 
 export default {
@@ -33,7 +40,9 @@ export default {
       total: 0, // 总条数
       listQuery: {
         pageSize: 5, currentPage: 1, status: "0"
-      }
+      },
+      keyWords: '',
+      results: []
     }
   },
   components: {
@@ -60,31 +69,56 @@ export default {
     }
   },
   mounted() {
-    this.fetchFocus();
-    this.fetchList();
+
   },
   methods: {
-    fetchFocus() {
-      fetchList(this.listQuery.currentPage).then(res => {
-        this.postList = res.data.records || []
-        this.total = res.data.total
-      }).catch(err => {
-        console.log(err)
-      })
+
+    clearTimer() {
+      if (this.timer) {
+        clearTimeout(this.timer)
+      }
     },
-    fetchList() {
-      fetchList(this.listQuery.currentPage).then(res => {
-        this.postList = res.data.records || []
-        this.total = res.data.total
-      }).catch(err => {
-        console.log(err)
+    handleQuery(event) {
+      this.clearTimer()
+      console.log(event.timeStamp)
+      this.timer = setTimeout(() => {
+        console.log(event.timeStamp)
+        // console.log(this.lastTime)
+        // if (this.lastTime - event.timeStamp === 0) {
+        bookmarkList(this.listQuery.currentPage).then(res => {
+          this.changeColor(res.data.records)
+        }).catch(err => {
+          console.log(err)
+        })
+        // }
+      }, 2000)
+    },
+
+    changeColor(resultsList) {
+      resultsList.map((item, index) => {
+        // console.log('item', item)
+        if (this.keyWords && this.keyWords.length > 0) {
+          // 匹配关键字正则
+          let replaceReg = new RegExp(this.keyWords, 'g')
+          // 高亮替换v-html值
+          let replaceString =
+              '<span class="search-text">' + this.keyWords + '</span>'
+          resultsList[index].name = item.name.replace(
+              replaceReg,
+              replaceString
+          )
+        }
       })
+      this.results = []
+      this.results = resultsList
     }
   }
 }
 </script>
 <style scoped lang="less">
-
+.search-text {
+  color: red;
+}
 .site-content {
 
   .notify {
