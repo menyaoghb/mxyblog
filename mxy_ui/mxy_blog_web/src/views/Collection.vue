@@ -14,6 +14,7 @@
             </el-backtop>
           </template>
           <div>
+            <div class="menu-item header-search"><keyWord-search/></div>
             <template v-for="item in bookmarkList">
               <el-divider></el-divider>
               <a :href="item.url" target="_blank" class="header-title">{{ item.name }}</a>
@@ -38,7 +39,8 @@ import Post from '@/components/post'
 import SmallIco from '@/components/small-ico'
 import Quote from '@/components/quote'
 import {bookmarkList, fetchFocus, fetchList} from '../api'
-import Pagination from '@/components/Pagination' // 分页
+import Pagination from '@/components/Pagination'
+import KeyWordSearch from "@/components/keyWord-search"; // 分页
 
 export default {
   name: 'Home',
@@ -61,7 +63,8 @@ export default {
     Post,
     SmallIco,
     Quote,
-    Pagination
+    Pagination,
+    KeyWordSearch
   },
   mounted() {
     //this.fetchFocus();
