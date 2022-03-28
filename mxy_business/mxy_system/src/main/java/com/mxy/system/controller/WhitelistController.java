@@ -3,8 +3,10 @@ package com.mxy.system.controller;
 import com.mxy.common.core.entity.SysPicture;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysArticleVO;
+import com.mxy.system.entity.vo.SysBookmarksVO;
 import com.mxy.system.service.BeautifulWordsService;
 import com.mxy.system.service.SysArticleService;
+import com.mxy.system.service.SysBookmarksService;
 import com.mxy.system.service.SysPictureService;
 import com.mxy.system.utils.QiniuUploadUtil;
 import io.swagger.annotations.Api;
@@ -43,6 +45,9 @@ public class WhitelistController {
 
     @Autowired
     public SysPictureService sysPictureService;
+
+    @Autowired
+    public SysBookmarksService sysBookmarksService;
 
     /**
      * @Description 登录页随机获取一条句子
@@ -173,4 +178,14 @@ public class WhitelistController {
         }
     }
 
+    /**
+     * @Description 获取收藏书签列表
+     * @author 孟小耀
+     * @date 2022-03-07
+     */
+    @ApiOperation(value = "获取收藏书签列表")
+    @PostMapping("/getBookmarkList")
+    public String getBookmarkList(@RequestBody SysBookmarksVO sysBookmarksVO) {
+        return sysBookmarksService.getList(sysBookmarksVO);
+    }
 }

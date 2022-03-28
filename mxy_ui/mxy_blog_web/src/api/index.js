@@ -65,3 +65,12 @@ export function getDataById(params) {
         params: {id: params}
     })
 }
+
+export function bookmarkList(params) {
+    const data = {pageSize: 100, currentPage: params, status: "0"};
+    return request({
+        url: '/foreign/getBookmarkList',
+        method: 'post',
+        data
+    })
+}
