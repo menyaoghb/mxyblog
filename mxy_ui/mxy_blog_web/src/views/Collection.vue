@@ -14,16 +14,22 @@
             </el-backtop>
           </template>
           <div>
-            <div class="menu-item header-search"><keyWord-search/></div>
+            <div class="menu-item header-search">
+              <div class="header-search">
+                <i class="iconfont iconsearch" @click.stop="click"></i>
+                <input ref="searchInput" :class="{'show':show}" v-model="keyWords" type="text" @click.stop=""
+                       @input="handleQuery"/>
+              </div>
+            </div>
             <template v-for="item in bookmarkList">
               <el-divider></el-divider>
-              <a :href="item.url" target="_blank" class="header-title">{{ item.name }}</a>
+              <a :href="item.url" target="_blank" class="header-title" v-html="item.name"></a>
             </template>
           </div>
           <div style="text-align: center">
             <pagination v-show="total>0" :total="total" :page.sync="listQuery.currentPage"
                         :limit.sync="listQuery.pageSize"
-                        @pagination="fetchList"/>
+                        @pagination="bookmarksList"/>
           </div>
         </div>
       </div>
@@ -38,9 +44,8 @@ import sectionTitle from '@/components/section-title'
 import Post from '@/components/post'
 import SmallIco from '@/components/small-ico'
 import Quote from '@/components/quote'
-import {bookmarkList, fetchFocus, fetchList} from '../api'
+import {bookmarkList} from '../api'
 import Pagination from '@/components/Pagination'
-import KeyWordSearch from "@/components/keyWord-search"; // 分页
 
 export default {
   name: 'Home',
@@ -53,6 +58,18 @@ export default {
       total: 0, // 总条数
       listQuery: {
         pageSize: 1000, currentPage: 1, status: "0"
+      },
+      show: false,
+      keyWords: '',
+      results: []
+    }
+  },
+  watch: {
+    show(value) {
+      if (value) {
+        document.body.addEventListener('click', this.close)
+      } else {
+        document.body.removeEventListener('click', this.close)
       }
     }
   },
@@ -63,34 +80,109 @@ export default {
     Post,
     SmallIco,
     Quote,
-    Pagination,
-    KeyWordSearch
+    Pagination
   },
   mounted() {
-    //this.fetchFocus();
-    this.fetchList();
+    this.bookmarksList();
   },
   methods: {
-    fetchFocus() {
-      fetchList(this.listQuery.currentPage).then(res => {
-        this.bookmarkList = res.data.records || []
-        this.total = res.data.total
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-    fetchList() {
+    bookmarksList() {
       bookmarkList(this.listQuery.currentPage).then(res => {
         this.bookmarkList = res.data.records || []
         this.total = res.data.total
       }).catch(err => {
         console.log(err)
       })
+    },
+    click() {
+      this.searchValue = ''
+      this.show = !this.show
+      if (this.show) {
+        this.$refs.searchInput && this.$refs.searchInput.focus()
+      }
+    },
+    close() {
+      this.$refs.searchInput && this.$refs.searchInput.blur()
+      this.show = false
+    },
+    clearTimer() {
+      if (this.timer) {
+        clearTimeout(this.timer)
+      }
+    },
+    handleQuery(event) {
+      this.clearTimer()
+      this.timer = setTimeout(() => {
+        // console.log(this.lastTime)
+        // if (this.lastTime - event.timeStamp === 0) {
+        bookmarkList(this.listQuery.currentPage).then(res => {
+          this.changeColor(res.data.records)
+        }).catch(err => {
+          console.log(err)
+        })
+        // }
+      }, 1000)
+    },
+
+    changeColor(resultsList) {
+      this.bookmarkList = [];
+      resultsList.map((item, index) => {
+        if (this.keyWords && this.keyWords.length > 0) {
+          // 匹配关键字正则
+          let replaceReg = new RegExp(this.keyWords, 'g')
+          // 高亮替换v-html值
+          let replaceString = '<span class="search-text">' + this.keyWords + '</span>'
+          resultsList[index].name = item.name.replace(
+              replaceReg,
+              replaceString
+          )
+          if (item.name.includes(this.keyWords)) {
+            this.bookmarkList.push(resultsList[index]);
+          }
+        } else {
+          this.bookmarkList = resultsList;
+        }
+      })
     }
   }
 }
 </script>
-<style scoped lang="less">
+<style lang="less">
+
+.search-text {
+  color: red;
+}
+
+.header-search {
+  display: inline-block;
+  position: relative;
+
+  i {
+    font-size: 18px;
+    position: relative;
+    top: 3px;
+  }
+
+  input {
+    border: none;
+    outline: none;
+    overflow: hidden;
+    background: transparent;
+    height: 30px;
+    width: 0;
+    transition: .2s all;
+
+    &.show {
+      width: 200px;
+      margin-left: 10px;
+    }
+
+    &:focus {
+      border-bottom: 1px solid #8fd0cc;
+    }
+  }
+}
+
 #up {
   height: 100%;
   width: 100%;
