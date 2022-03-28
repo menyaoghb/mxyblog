@@ -114,7 +114,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="操作时间：">{{ temp.operTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</el-form-item>
+            <el-form-item label="操作时间：">{{ temp.operTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</el-form-item>
           </el-col>
         </el-row>
       </el-form>

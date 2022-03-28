@@ -1,7 +1,7 @@
 package com.mxy.system.mapper;
 
-import com.mxy.system.entity.SysBookmarks;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mxy.common.core.entity.SysBookmarks;
 
 /**
  * <p>

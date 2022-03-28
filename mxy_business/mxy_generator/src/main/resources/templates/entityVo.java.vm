@@ -22,7 +22,6 @@ import java.util.Date;
 #if(${entityLombokModel})
 @Data
 #end
-
 #if(${superEntityClass})
 public class ${entity}VO extends BaseVO<${entity}> {
 #end

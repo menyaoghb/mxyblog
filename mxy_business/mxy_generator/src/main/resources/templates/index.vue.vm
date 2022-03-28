@@ -30,7 +30,7 @@
       <el-table-column type="index" width="50" align="center"/>
 #foreach($field in ${table.fields})
   #if(!${field.keyFlag})##生成普通字段
-  <el-table-column prop="${field.propertyName}" label="${field.comment}" align="center"></el-table-column>
+  <el-table-column prop="${field.propertyName}" label="${field.comment}" show-overflow-tooltip align="center"></el-table-column>
   #end
 #end
       <el-table-column label="操作" align="center" width="230" class-name="small-padding">
@@ -40,10 +40,6 @@
           <el-popconfirm confirm-button-text='删除' cancel-button-text='取消' icon="el-icon-info"
                          icon-color="red" title="确定删除吗？" @confirm="handleDelete(row)">
             <el-button slot="reference" size="mini" type="text">删除</el-button>
-          </el-popconfirm>
-          <el-popconfirm confirm-button-text='重置' cancel-button-text='取消' icon="el-icon-info"
-                         icon-color="red" title="确定重置密码吗？" @confirm="resetPassword(row)">
-            <el-button slot="reference" size="mini" type="text">重置密码</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>

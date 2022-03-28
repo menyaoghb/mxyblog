@@ -5,7 +5,7 @@
       <el-row :gutter="20">
         <el-col :span="4">
           <el-input placeholder="请输入名称" v-model="listQuery.name" clearable @keyup.enter.native="handleFilter">
-            <template slot="prepend">姓名</template>
+            <template slot="prepend">书签名称</template>
           </el-input>
         </el-col>
         <el-col :span="6">
@@ -27,17 +27,21 @@
       style="width: 100%" :row-style="{height:'40px'}"
       :cell-style="{padding:'0px'}" v-loading="listLoading"
       element-loading-spinner="el-icon-loading">
-      <el-table-column type="index" width="50" align="center"/>
-      <el-table-column prop="url" label="书签链接" align="center"></el-table-column>
-      <el-table-column prop="name" label="书签名称" align="center"></el-table-column>
-      <el-table-column prop="type" label="书签分类" align="center"></el-table-column>
-      <el-table-column prop="status" label="状态（0正常 1停用）" align="center"></el-table-column>
-      <el-table-column prop="isDelete" label="是否删除（0未删除1已删除）" align="center"></el-table-column>
-      <el-table-column prop="createUser" label="创建者" align="center"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
-      <el-table-column prop="updateUser" label="更新者" align="center"></el-table-column>
-      <el-table-column prop="updateTime" label="更新时间" align="center"></el-table-column>
-      <el-table-column prop="remark" label="备注" align="center"></el-table-column>
+
+      <el-table-column type="expand">
+        <template slot-scope="{row}">
+          <el-form label-position="left" inline class="word-table-expand">
+            <el-form-item label="">
+              <div style="margin-left: 58px;" title="点击详情"><a target="_blank" :href="row.url" style="color: blue;">{{ row.url }}</a></div>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
+      <el-table-column prop="url" label="书签链接" show-overflow-tooltip align="left"></el-table-column>
+      <el-table-column prop="name" label="书签名称" show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column prop="type" label="书签分类" show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column prop="status" label="状态" align="center"></el-table-column>
+      <el-table-column prop="remark" label="备注" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding">
         <template slot-scope="{row}">
           <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
@@ -45,10 +49,6 @@
           <el-popconfirm confirm-button-text='删除' cancel-button-text='取消' icon="el-icon-info"
                          icon-color="red" title="确定删除吗？" @confirm="handleDelete(row)">
             <el-button slot="reference" size="mini" type="text">删除</el-button>
-          </el-popconfirm>
-          <el-popconfirm confirm-button-text='重置' cancel-button-text='取消' icon="el-icon-info"
-                         icon-color="red" title="确定重置密码吗？" @confirm="resetPassword(row)">
-            <el-button slot="reference" size="mini" type="text">重置密码</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
@@ -70,23 +70,8 @@
         <el-form-item label="书签分类">
           <el-input v-model="temp.type"/>
         </el-form-item>
-        <el-form-item label="状态（0正常 1停用）">
+        <el-form-item label="状态">
           <el-input v-model="temp.status"/>
-        </el-form-item>
-        <el-form-item label="是否删除（0未删除1已删除）">
-          <el-input v-model="temp.isDelete"/>
-        </el-form-item>
-        <el-form-item label="创建者">
-          <el-input v-model="temp.createUser"/>
-        </el-form-item>
-        <el-form-item label="创建时间">
-          <el-input v-model="temp.createTime"/>
-        </el-form-item>
-        <el-form-item label="更新者">
-          <el-input v-model="temp.updateUser"/>
-        </el-form-item>
-        <el-form-item label="更新时间">
-          <el-input v-model="temp.updateTime"/>
         </el-form-item>
         <el-form-item label="备注">
           <el-input v-model="temp.remark"/>
@@ -115,24 +100,18 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="书签分类：">{{ temp.type }}</el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="状态（0正常 1停用）：">{{ temp.status }}</el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="是否删除（0未删除1已删除）：">{{ temp.isDelete }}</el-form-item>
-          </el-col>
+          </el-col
           <el-col :span="12">
             <el-form-item label="创建者：">{{ temp.createUser }}</el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="创建时间：">{{ temp.createTime }}</el-form-item>
+            <el-form-item label="创建时间：">{{ temp.createTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="更新者：">{{ temp.updateUser }}</el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="更新时间：">{{ temp.updateTime }}</el-form-item>
+            <el-form-item label="更新时间：">{{ temp.updateTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="备注：">{{ temp.remark }}</el-form-item>
@@ -171,11 +150,6 @@ export default {
         name: '',
         type: '',
         status: '',
-        isDelete: '',
-        createUser: '',
-        createTime: '',
-        updateUser: '',
-        updateTime: '',
         remark: '',
       },
       dialogFormVisible: false, //控制新增页关闭
@@ -208,20 +182,16 @@ export default {
     },
     /*条件重置*/
     handleRest() {
+      this.listQuery.name = "";
     },
     /*表单重置*/
     resetTemp() {
       this.temp = {
-        id: '',
+        id: undefined,
         url: '',
         name: '',
         type: '',
         status: '',
-        isDelete: '',
-        createUser: '',
-        createTime: '',
-        updateUser: '',
-        updateTime: '',
         remark: '',
       }
     },
@@ -234,7 +204,10 @@ export default {
     /*新增提交*/
     createData() {
       add(this.temp).then(() => {
-        addMsg();
+        this.$message({
+          message: '新增成功',
+          type: 'success'
+        });
         this.dialogFormVisible = false
         this.getList();
       })
@@ -248,7 +221,10 @@ export default {
     /*修改提交*/
     updateData() {
       edit(this.temp).then(() => {
-        editMsg();
+        this.$message({
+          message: '修改成功',
+          type: 'success'
+        });
         this.dialogFormVisible = false
         this.getList();
       })
@@ -257,7 +233,10 @@ export default {
     handleDelete(row) {
       this.temp.id = row.id;
       deleteData(this.temp).then(() => {
-        delMsg();
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        });
         this.dialogFormVisible = false
         this.getList();
       })

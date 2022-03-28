@@ -1,5 +1,5 @@
 import com.alibaba.fastjson.JSONObject;
-import com.mxy.system.entity.SysBookmarks;
+import com.mxy.common.core.entity.SysBookmarks;
 import com.mxy.system.service.SysBookmarksService;
 import com.mxy.system.service.SysUserRoleService;
 import com.mxy.system.service.SysUserService;
@@ -14,7 +14,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Description
