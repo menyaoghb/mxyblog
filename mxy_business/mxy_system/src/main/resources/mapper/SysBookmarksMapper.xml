@@ -3,7 +3,7 @@
 <mapper namespace="com.mxy.system.mapper.SysBookmarksMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mxy.system.entity.SysBookmarks">
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysBookmarks">
         <id column="id" property="id" />
         <result column="url" property="url" />
         <result column="name" property="name" />

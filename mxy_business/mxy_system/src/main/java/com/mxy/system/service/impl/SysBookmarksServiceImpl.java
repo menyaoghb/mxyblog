@@ -6,12 +6,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.entity.SelfUserEntity;
+import com.mxy.common.core.entity.SysBookmarks;
 import com.mxy.common.core.utils.ServiceResult;
-import com.mxy.system.entity.SysBookmarks;
 import com.mxy.system.entity.vo.SysBookmarksVO;
 import com.mxy.system.mapper.SysBookmarksMapper;
 import com.mxy.system.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysBookmarksService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,10 @@ public class SysBookmarksServiceImpl extends ServiceImpl<SysBookmarksMapper, Sys
     @Override
     public String getList(SysBookmarksVO sysBookmarksVO) {
         QueryWrapper queryWrapper = new QueryWrapper();
+        if (StringUtils.isNotEmpty(sysBookmarksVO.getName())) {
+            queryWrapper.like("name", sysBookmarksVO.getName());
+        }
+        queryWrapper.orderByDesc("create_time");
         Page<SysBookmarks> page = new Page<>();
         page.setCurrent(sysBookmarksVO.getCurrentPage());
         page.setSize(sysBookmarksVO.getPageSize());
@@ -74,6 +79,17 @@ public class SysBookmarksServiceImpl extends ServiceImpl<SysBookmarksMapper, Sys
         } else {
             return ServiceResult.successMsg(BaseMessage.DELETE_FAIL);
         }
+    }
+
+
+    public static void main(String[] args) {
+        int a = 0;
+        a+=1;
+        a+=0;
+        a+=0;
+        a+=1;
+        a+=0;
+        System.out.println(a);
     }
 
 }
