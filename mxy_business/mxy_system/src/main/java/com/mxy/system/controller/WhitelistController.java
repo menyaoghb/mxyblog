@@ -69,6 +69,7 @@ public class WhitelistController {
     @ApiOperation(value = "博客网站-文章列表展示")
     @PostMapping("/getList")
     public String getList(@RequestBody SysArticleVO sysArticleVO) {
+        sysArticleVO.setStatus("0");
         return sysArticleService.getList(sysArticleVO);
     }
 
@@ -186,6 +187,7 @@ public class WhitelistController {
     @ApiOperation(value = "获取收藏书签列表")
     @PostMapping("/getBookmarkList")
     public String getBookmarkList(@RequestBody SysBookmarksVO sysBookmarksVO) {
+        sysBookmarksVO.setStatus("0");
         return sysBookmarksService.getList(sysBookmarksVO);
     }
 }
