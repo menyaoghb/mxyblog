@@ -7,14 +7,15 @@
           <h1 style="font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;color: #000000;font-family: cursive;">
             收藏</h1>
           <div>
-            <el-divider>工具</el-divider>
-            <a href="http://www.bejson.com/explore/index_new/" target="_blank" class="header-title">JSON在线校验格式化工具</a>
-            <el-divider></el-divider>
-            <a href="https://www.iconfont.cn/" target="_blank" class="header-title">阿里巴巴矢量图标库</a>
-            <el-divider></el-divider>
-            <a href="https://www.sukoutu.com/#" target="_blank" class="header-title">在线抠图</a>
-            <el-divider></el-divider>
-            <a href="https://c.runoob.com/front-end/854/" target="_blank" class="header-title">正则表达式在线测试</a>
+            <template v-for="item in bookmarkList">
+              <el-divider></el-divider>
+              <a :href="item.url" target="_blank" class="header-title">{{item.name}}</a>
+            </template>
+          </div>
+          <div style="text-align: center">
+            <pagination v-show="total>0" :total="total" :page.sync="listQuery.currentPage"
+                        :limit.sync="listQuery.pageSize"
+                        @pagination="fetchList"/>
           </div>
         </div>
       </div>
@@ -29,7 +30,7 @@ import sectionTitle from '@/components/section-title'
 import Post from '@/components/post'
 import SmallIco from '@/components/small-ico'
 import Quote from '@/components/quote'
-import {fetchFocus, fetchList} from '../api'
+import {bookmarkList, fetchFocus, fetchList} from '../api'
 import Pagination from '@/components/Pagination' // 分页
 
 export default {
@@ -38,11 +39,11 @@ export default {
   data() {
     return {
       features: [],
-      postList: [],
+      bookmarkList: [],
       currPage: 1,
       total: 0, // 总条数
       listQuery: {
-        pageSize: 5, currentPage: 1, status: "0"
+        pageSize: 100, currentPage: 1, status: "0"
       }
     }
   },
@@ -55,36 +56,22 @@ export default {
     Quote,
     Pagination
   },
-  computed: {
-    searchWords() {
-      return this.$route.params.words
-    },
-    category() {
-      return this.$route.params.cate
-    },
-    hideSlogan() {
-      return this.category || this.searchWords
-    },
-    notice() {
-      return this.$store.getters.notice
-    }
-  },
   mounted() {
-    this.fetchFocus();
+    //this.fetchFocus();
     this.fetchList();
   },
   methods: {
     fetchFocus() {
       fetchList(this.listQuery.currentPage).then(res => {
-        this.postList = res.data.records || []
+        this.bookmarkList = res.data.records || []
         this.total = res.data.total
       }).catch(err => {
         console.log(err)
       })
     },
     fetchList() {
-      fetchList(this.listQuery.currentPage).then(res => {
-        this.postList = res.data.records || []
+      bookmarkList(this.listQuery.currentPage).then(res => {
+        this.bookmarkList = res.data.records || []
         this.total = res.data.total
       }).catch(err => {
         console.log(err)
