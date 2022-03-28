@@ -2,14 +2,21 @@
   <div class="home">
     <div class="site-content animate" style="width: 100%;">
       <!--通-->
-      <div style="margin-top: 100px;    text-align: center;">
+      <div class="bookmarkContent" style="margin-top: 100px;    text-align: center;">
         <div style="display: inline-block;vertical-align: middle;">
           <h1 style="font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;color: #000000;font-family: cursive;">
             收藏</h1>
+          <template>
+            <el-backtop target=".bookmarkContent">
+              <div id="up">
+                UP
+              </div>
+            </el-backtop>
+          </template>
           <div>
             <template v-for="item in bookmarkList">
               <el-divider></el-divider>
-              <a :href="item.url" target="_blank" class="header-title">{{item.name}}</a>
+              <a :href="item.url" target="_blank" class="header-title">{{ item.name }}</a>
             </template>
           </div>
           <div style="text-align: center">
@@ -43,7 +50,7 @@ export default {
       currPage: 1,
       total: 0, // 总条数
       listQuery: {
-        pageSize: 100, currentPage: 1, status: "0"
+        pageSize: 1000, currentPage: 1, status: "0"
       }
     }
   },
@@ -81,6 +88,20 @@ export default {
 }
 </script>
 <style scoped lang="less">
+#up {
+  height: 100%;
+  width: 100%;
+  background-color: #f2f5f6;
+  box-shadow: 0 0 6px rgba(0, 0, 0, .12);
+  text-align: center;
+  line-height: 40px;
+  color: #1989fa;
+}
+
+.bookmarkContent {
+  height: 100vh;
+  overflow-x: hidden;
+}
 
 .site-content {
 

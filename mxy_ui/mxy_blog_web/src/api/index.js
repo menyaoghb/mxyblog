@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 export function fetchList(params) {
-    const data = {pageSize: 5, currentPage: params, status: "0"};
+    const data = {pageSize: 5, currentPage: params};
     return request({
         url: '/foreign/getList',
         method: 'post',
@@ -67,7 +67,7 @@ export function getDataById(params) {
 }
 
 export function bookmarkList(params) {
-    const data = {pageSize: 100, currentPage: params, status: "0"};
+    const data = {pageSize: 1000, currentPage: params};
     return request({
         url: '/foreign/getBookmarkList',
         method: 'post',
