@@ -4,8 +4,8 @@ import {getTimeInterval} from '../utils/index'
 import {fetchSocial,fetchSiteInfo} from '@/api'
 
 Vue.use(Vuex)
-// 略:后台获取系统运行时间
-const runAt = '1589878800000';
+// 2021-08-16 20:00:00
+const runAt = '1629115200000';
 let timer = null;
 const state = {
     loading: false,
@@ -60,7 +60,7 @@ const actions = {
                 resolve(state.socials)
             } else {
                 fetchSocial().then(res =>{
-                    let data = res.data || []
+                    let data = res.data.value || []
                     commit('SET_SOCIALS',data);
                     resolve(data);
                 }).catch(err =>{
@@ -73,7 +73,8 @@ const actions = {
 const getters = {
     loading: state => state.loading,
     runTimeInterval: state => state.runTimeInterval,
-    notice: state => state.websiteInfo?state.websiteInfo.notice:''
+    notice: state => state.websiteInfo?state.websiteInfo.notice:'',
+    socials: state => state.socials
 }
 export default new Vuex.Store({
     state,
