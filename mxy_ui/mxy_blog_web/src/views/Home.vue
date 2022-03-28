@@ -5,8 +5,8 @@
       <!--通-->
       <div style="margin-top: 60px;    text-align: center;">
         <div style="display: inline-block;vertical-align: middle;">
-          <h1 style="font-family: 'Softbrush';font-size: 32px;padding-bottom: 30px;position: relative;font-weight: 500;color: #000000;">
-            生活只有两种选择，重新出发，做自己生命的主角。抑或停留在原地，做别人的配角。</h1>
+          <h1 style="font-family: cursive;font-size: 25px;padding-bottom: 25px;position: relative;font-weight: 300;color: #000000;">
+            {{ socials }}</h1>
           <p style="font-family: 'League';margin-top: 20px;line-height: 22px;color: #888;">
             Meng Xiao Yao
           </p>
@@ -61,6 +61,9 @@ export default {
     },
     notice() {
       return this.$store.getters.notice
+    },
+    socials() {
+      return this.$store.getters.socials
     }
   },
   mounted() {

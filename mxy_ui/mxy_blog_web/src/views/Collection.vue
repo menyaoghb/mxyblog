@@ -9,7 +9,7 @@
           <template>
             <el-backtop target=".bookmarkContent">
               <div id="up">
-                UP
+                <i class="el-icon-caret-top"></i>
               </div>
             </el-backtop>
           </template>
