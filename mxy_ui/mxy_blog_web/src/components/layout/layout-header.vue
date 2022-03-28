@@ -15,7 +15,6 @@
       <!--标题-->
       <div class="menu-item">
         <ul>
-          <li><div class="title-line header-title"><div class="menu-item header-search"><header-search/></div></div></li>
           <router-link to="/"><li><div class="title-line header-title">二零二二</div></li></router-link>
           <router-link to="/blog"><li><div class="title-line header-title">博客</div></li></router-link>
           <router-link to="/Original"><li><div class="title-line header-title">原创</div></li></router-link>

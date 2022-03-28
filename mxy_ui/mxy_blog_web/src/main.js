@@ -35,6 +35,10 @@ Vue.directive('highlight',function (el) {
         hljs.highlightBlock(block)
     })
 })
+import Clipboard from 'clipboard';
+Vue.prototype.clipboard = Clipboard;
+
+
 new Vue({
     router,
     store,

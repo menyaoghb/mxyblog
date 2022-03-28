@@ -113,8 +113,6 @@ export default {
     handleQuery(event) {
       this.clearTimer()
       this.timer = setTimeout(() => {
-        // console.log(this.lastTime)
-        // if (this.lastTime - event.timeStamp === 0) {
         bookmarkList(this.listQuery.currentPage).then(res => {
           this.changeColor(res.data.records)
         }).catch(err => {
@@ -123,7 +121,6 @@ export default {
         // }
       }, 1000)
     },
-
     changeColor(resultsList) {
       this.bookmarkList = [];
       resultsList.map((item, index) => {

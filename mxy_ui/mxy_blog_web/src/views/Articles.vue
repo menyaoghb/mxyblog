@@ -19,8 +19,15 @@
               </div>
             </div>
           </header>
+          <div
+              class="copy-text"
+              data-clipboard-target=".hljs"
+              @click="copy()"
+          >
+            复制
+          </div>
           <!-- 正文输出 -->
-          <div class="entry-content" v-html="postList.content" v-highlight>
+          <div id="code" class="entry-content" v-html="postList.content" v-highlight>
           </div>
           <!-- 文章底部 -->
           <section-title>
@@ -62,6 +69,22 @@ export default {
     menuTree
   },
   methods: {
+    copy() {
+      var clipboard = new this.clipboard('.copy-text');
+      clipboard.on('success', function(e) {
+        e.clearSelection(); //选中时不显示选中的背景色
+        this.$message({
+          message: '复制成功',
+          type: 'success'
+        });
+      });
+      clipboard.on('error', function() {
+        this.$message({
+          message: '复制失败',
+          type: 'error'
+        });
+      });
+    },
     getComment() {
       fetchComment().then(res => {
         this.comments = res.data || []
@@ -118,6 +141,13 @@ export default {
 }
 </script>
 <style scoped lang="less">
+
+.copy-text{
+  float: right;
+  margin-right: 20px;
+  cursor:pointer;
+}
+
 .source{
   background: #dcdfe6a8;
   border-radius: 5px;
