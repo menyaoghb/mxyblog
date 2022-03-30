@@ -1,5 +1,5 @@
 <template>
-    <div id="banner" :class="{'home-banner':isHome}" style="margin-top: 0;height: 11vh;">
+    <div id="banner" :class="{'home-banner':isHome}" style="margin-top: 0;height: 9vh;">
         <div class="banner-img" :style="{'background-image': `url(${src})`}">
             <template v-if="isHome">
                 <!--博主信息-->

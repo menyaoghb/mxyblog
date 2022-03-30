@@ -94,8 +94,8 @@ export default {
         container: '#mui-player',
         title: '星辰大海',
         muted:true,
-        src: 'http://mxy.mxyit.com/videos/VID_20220302_161849.mp4',
-        poster: 'https://muiplayer.oss-cn-shanghai.aliyuncs.com/static/image/poster.jpg',
+        src: 'http://mxy.mxyit.com/common/202203301551.mp4',
+        poster: 'http://mxy.mxyit.com/common/20220330162149.png',
       };
       config.plugins = [
         typeof MuiPlayerDesktopPlugin == 'function' ? new MuiPlayerDesktopPlugin({
