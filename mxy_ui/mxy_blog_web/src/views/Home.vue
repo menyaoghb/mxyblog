@@ -1,6 +1,10 @@
 <template>
   <div class="home">
-    <banner isHome="true"></banner>
+    <div>
+      <video src="http://mxy.mxyit.com/common/202203301551%281%29.mp4" crossorigin="anonymous" loop autoplay muted height="100%" id="video"
+             style="display: block;  width: 100%; height: 50%; top: 280px; left: 0px;">
+      </video>
+    </div>
     <div class="site-content animate" style="width: 100%;">
       <!--通-->
       <div style="margin-top: 60px;    text-align: center;">
@@ -67,8 +71,8 @@ export default {
     }
   },
   mounted() {
-    this.fetchFocus();
-    this.fetchList();
+    //this.fetchFocus();
+    //this.fetchList();
   },
   methods: {
     fetchFocus() {
