@@ -1,5 +1,7 @@
 package com.mxy.system.controller;
 
+import com.mxy.common.log.annotation.SysLog;
+import com.mxy.common.log.enums.OperType;
 import com.mxy.system.entity.vo.SysCodeGenerateVO;
 import com.mxy.system.service.SysCodeGenerateService;
 import io.swagger.annotations.Api;
@@ -42,6 +44,7 @@ public class SysCodeGenerateController {
      * @author 孟小耀
      * @date 2022-04-18
      */
+    @SysLog(module = "操作代码生成", operType = OperType.GENERATE)
     @ApiOperation(value = "代码生成")
     @PostMapping("/codeGenerate")
     public String codeGenerate(@RequestBody SysCodeGenerateVO sysCodeGenerateVO) {
