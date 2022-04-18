@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div>
-      <video src="http://mxy.mxyit.com/common/202203301551%281%29.mp4" crossorigin="anonymous" loop autoplay muted height="100%" id="video"
+      <video src="http://mxy.mxyit.com/common/202204071113.mp4" crossorigin="anonymous" loop autoplay muted height="100%" id="video"
              style="display: block;  width: 100%; height: 50%; top: 280px; left: 0px;">
       </video>
     </div>

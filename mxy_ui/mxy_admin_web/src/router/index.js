@@ -123,6 +123,24 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/assist',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'assist',
+    meta: {
+      title: '辅助系统',
+      icon: 'el-icon-orange'
+    },
+    children: [
+      {
+        path: 'codeGeneratorPath',
+        component: () => import('@/views/assist/codeGenerator/index'),
+        name: 'codeGeneratorName',
+        meta: {title: '代码生成', icon: 'el-icon-lollipop'}
+      }
+    ]
+  },
+  {
     path: '/system',
     component: Layout,
     redirect: 'noRedirect',
