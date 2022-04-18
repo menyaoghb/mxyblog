@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {getTableName} from "@/api/assist/codeGenerator/codeGenerator";
+import {getTableName, codeGenerate} from "@/api/assist/codeGenerator/codeGenerator";
 
 export default {
   data() {
@@ -44,15 +44,22 @@ export default {
   },
   methods: {
     // 请求查询表名
-    /*字典查询*/
     getTableName() {
       getTableName().then(response => {
         this.options = response.data
       })
     },
     // 发起生成请求
+    codeGenerate() {
+      codeGenerate({tableName:this.value}).then(response => {
+        this.active++;
+      })
+    },
     // 步骤条
     next() {
+      if (this.active === 0) {
+        this.codeGenerate();
+      }
       if (this.active++ > 3) this.active = 0;
     }
   }

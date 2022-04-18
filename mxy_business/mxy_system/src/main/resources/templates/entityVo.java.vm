@@ -1,0 +1,40 @@
+package ${package.Entity}.vo;
+
+#if(${entityLombokModel})
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+#if(${chainModel})
+import lombok.experimental.Accessors;
+#end
+#end
+import com.mxy.common.core.entity.vo.BaseVO;
+import ${package.Entity}.${entity};
+
+import java.util.Date;
+/**
+ * <p>
+ * $!{table.comment}-VO
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${entityLombokModel})
+@Data
+#end
+#if(${superEntityClass})
+public class ${entity}VO extends BaseVO<${entity}> {
+#end
+
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+  #if("$!field.comment" != "")
+    /**
+     * ${field.comment}
+     */
+  #end
+    private ${field.propertyType} ${field.propertyName};
+#end
+## ----------  END 字段循环遍历  ----------
+
+}

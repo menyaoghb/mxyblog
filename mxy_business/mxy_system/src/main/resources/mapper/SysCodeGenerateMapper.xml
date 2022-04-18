@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mxy.system.mapper.SysCodeGenerateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysCodeGenerate">
+        <result column="id" property="id" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        WHERE 1 = 1
+    <if test="id!=null and id!=''">
+        AND id = #{id}
+    </if>
+    </sql>
+
+
+    <select id="getTableName" resultType="map">
+        select table_name as lable,table_name as value from information_schema.tables where table_schema='mxy_blog'
+    </select>
+
+</mapper>
