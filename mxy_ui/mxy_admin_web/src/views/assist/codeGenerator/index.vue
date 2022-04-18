@@ -11,14 +11,9 @@
     </el-steps>
     <el-divider></el-divider>
     <div style="text-align: center">
-      <el-select v-model="value" filterable placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
+      <el-radio-group v-model="tableName">
+        <el-radio v-for="item in tableNameList" :key="item.key" :label="item.key" class="el-radio-role">{{ item.name }}</el-radio>
+      </el-radio-group>
     </div>
 
     <el-divider></el-divider>
@@ -34,8 +29,8 @@ import {getTableName, codeGenerate} from "@/api/assist/codeGenerator/codeGenerat
 export default {
   data() {
     return {
-      options: [],
-      value: '',
+      tableNameList: [],
+      tableName: '',
       active: 0
     };
   },
@@ -46,12 +41,14 @@ export default {
     // 请求查询表名
     getTableName() {
       getTableName().then(response => {
-        this.options = response.data
+        this.tableNameList = response.data
       })
     },
     // 发起生成请求
     codeGenerate() {
-      codeGenerate({tableName:this.value}).then(response => {
+      codeGenerate({tableName:this.tableName}).then(response => {
+        this.active++;
+        this.active++;
         this.active++;
       })
     },
@@ -66,5 +63,27 @@ export default {
 }
 </script>
 <style>
+.el-radio-group {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  place-items: start left;
+}
+.el-radio-group > * {
+  margin-bottom: 20px;
+}
+.el-radio__input.is-checked+.el-radio__label{
+  color: #67c23a;
+}
+
+
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: #67c23a;
+  background: #67c23a;
+}
+
+ .el-radio__inner:hover {
+   border-color: #67c23a;
+ }
+
 
 </style>
