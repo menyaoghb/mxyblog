@@ -65,5 +65,10 @@ public enum OperType {
     /**
      * 错误
      */
-    ERROR
+    ERROR,
+
+    /**
+     * 代码生成
+     */
+    GENERATE
 }

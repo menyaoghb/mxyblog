@@ -9,7 +9,7 @@
                     @keyup.enter.native="handleFilter" clearable/>
         </el-col>
         <el-col :span="4">
-          <el-select v-model="listQuery.businessType" class="filter-item" style="width: 100%;">
+          <el-select v-model="listQuery.businessType" placeholder="请选择操作类型" class="filter-item" style="width: 100%;">
             <el-option v-for="item in TypeOptions" :key="item.key" :label="item.name" :value="item.key"/>
           </el-select>
         </el-col>
@@ -144,6 +144,7 @@ const TypeOptions = [
   {key: 9, name: '登入'},
   {key: 10, name: '登出'},
   {key: 11, name: '失败'},
+  {key: 12, name: '代码生成'},
   {key: 99, name: '失败原因'},
   {key: 0, name: '其他'}
 ]
@@ -203,7 +204,7 @@ export default {
     handleFilter() {
       this.listQuery.currentPage = 1
       const createTime = this.createTime;
-      if (createTime !== null && createTime !== ''){
+      if (createTime != null && createTime != ''){
         this.listQuery.startTime = createTime[0];
         this.listQuery.endTime = createTime[1]
       }
