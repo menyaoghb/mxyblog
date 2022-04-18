@@ -17,7 +17,7 @@
 
 
     <select id="getTableName" resultType="map">
-        select table_name as lable,table_name as value from information_schema.tables where table_schema='mxy_blog'
+        select table_name as `key`,table_name as `name` from information_schema.tables where table_schema='mxy_blog'
     </select>
 
 </mapper>
