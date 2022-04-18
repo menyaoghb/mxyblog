@@ -1,0 +1,84 @@
+package ${package.ServiceImpl};
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mxy.common.core.constant.BaseMessage;
+import com.mxy.common.core.entity.SelfUserEntity;
+import com.mxy.common.core.utils.ServiceResult;
+import ${package.Entity}.${entity};
+import ${package.Entity}.vo.${entity}VO;
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import org.springframework.stereotype.Service;
+import org.springframework.beans.BeanUtils;
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+}
+#else
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+
+    @Override
+    public String getList(${entity}VO ${table.entityPath}VO) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        Page<${entity}> page = new Page<>();
+        page.setCurrent(${table.entityPath}VO.getCurrentPage());
+        page.setSize(${table.entityPath}VO.getPageSize());
+        IPage<${entity}> pageList = this.page(page, queryWrapper);
+        return ServiceResult.success(pageList);
+    }
+
+    @Override
+    public String add(${entity}VO ${table.entityPath}VO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
+        ${entity} ${table.entityPath} = new ${entity}();
+        BeanUtils.copyProperties(${table.entityPath}VO, ${table.entityPath});
+        ${table.entityPath}.setCreateUser(userDetails.getUsername());
+        Boolean result = ${table.entityPath}.insert();
+        if (result) {
+            return ServiceResult.successMsg(BaseMessage.INSERT_SUCCESS);
+        } else {
+            return ServiceResult.successMsg(BaseMessage.INSERT_FAIL);
+        }
+    }
+
+    @Override
+    public String edit(${entity}VO ${table.entityPath}VO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
+        ${entity} ${table.entityPath} = new ${entity}();
+        BeanUtils.copyProperties(${table.entityPath}VO, ${table.entityPath});
+        ${table.entityPath}.setUpdateUser(userDetails.getUsername());
+        Boolean result = ${table.entityPath}.updateById();
+        if (result) {
+            return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);
+        } else {
+            return ServiceResult.successMsg(BaseMessage.UPDATE_FAIL);
+        }
+    }
+
+    @Override
+    public String delete(${entity}VO ${table.entityPath}VO) {
+        ${entity} ${table.entityPath} = new ${entity}();
+        BeanUtils.copyProperties(${table.entityPath}VO, ${table.entityPath});
+        Boolean result = ${table.entityPath}.deleteById();
+        if (result) {
+            return ServiceResult.successMsg(BaseMessage.DELETE_SUCCESS);
+        } else {
+            return ServiceResult.successMsg(BaseMessage.DELETE_FAIL);
+        }
+    }
+
+}
+#end
