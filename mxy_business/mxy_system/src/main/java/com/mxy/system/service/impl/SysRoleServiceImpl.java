@@ -11,7 +11,7 @@ import com.mxy.common.core.entity.SysRoleMenu;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysRoleVO;
 import com.mxy.system.mapper.SysRoleMapper;
-import com.mxy.system.security.common.util.SecurityUtil;
+import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysRoleService;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;

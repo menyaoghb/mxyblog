@@ -10,7 +10,7 @@ import com.mxy.common.core.entity.SysMenu;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysMenuVO;
 import com.mxy.system.mapper.SysMenuMapper;
-import com.mxy.system.security.common.util.SecurityUtil;
+import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysMenuService;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;

@@ -24,7 +24,7 @@
             <router-link  target="_blank" :to="item.path">
               <div class="img-box">
                 <div>{{ item.name }}</div>
-                <img :src="item.src" alt="">
+                <img width="200" height="250" :src="item.src" alt="">
               </div>
             </router-link>
           </el-carousel-item>
@@ -98,35 +98,35 @@ export default {
         {
           name: ' ',
           path: { path:'/',query:{type : ''}},
-          src: 'http://mxy.mxyit.com/2'
+          src: 'http://mxy.mxyit.com/0570c3e1-b06c-4093-9efd-9a0c83fafc3e'
         }, {
           name: ' ',
           path: { path:'/',query:{type : ''}},
-          src: 'http://mxy.mxyit.com/2'
+          src: 'http://mxy.mxyit.com/e0568183-7cc6-48e9-8137-cd762498ea9a'
         }, {
           name: ' ',
           path: { path:'/',query:{type : ''}},
-          src: 'http://mxy.mxyit.com/2'
+          src: 'http://mxy.mxyit.com/886f9f6a-172e-4693-84f1-4b0befa4b6a2'
         }, {
           name: ' ',
           path: { path:'/',query:{type : ''}},
-          src: 'http://mxy.mxyit.com/2'
+          src: 'http://mxy.mxyit.com/3744eda2-c49d-4259-a1f0-cdbb2752abec'
         }, {
           name: ' ',
           path: { path:'/',query:{type : ''}},
-          src: 'http://mxy.mxyit.com/2'
+          src: 'http://mxy.mxyit.com/da233a3b-533c-44be-a102-b02b10acbd35'
         }, {
           name: ' ',
           path: { path:'/',query:{type : ''}},
-          src: 'http://mxy.mxyit.com/2'
+          src: 'http://mxy.mxyit.com/5eb48b31-778c-4f52-8bbe-9a0bed10d119'
         }, {
           name: ' ',
           path: { path:'/',query:{type : ''}},
-          src: 'http://mxy.mxyit.com/2'
+          src: 'http://mxy.mxyit.com/340ea8ca-fc27-4e23-92cb-f3a575adfe8f'
         }, {
           name: ' ',
           path: { path:'/',query:{type : ''}},
-          src: 'http://mxy.mxyit.com/2'
+          src: 'http://mxy.mxyit.com/f060914c-3ed1-412e-b7ed-227ac711f88d'
         }
       ]//旋转图片
     }
