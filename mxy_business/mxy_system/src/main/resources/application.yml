@@ -123,3 +123,7 @@ xxl:
       logpath: /data/applogs/xxl-job/jobhandler
       appname: mxy-joba
       logretentiondays: 300
+elasticsearch:
+  address: 124.221.76.235:9200
+  connectTimeoutMin: 5000
+  connectTimeoutMax: 60000
