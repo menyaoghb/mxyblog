@@ -10,7 +10,7 @@ import com.mxy.common.core.entity.SysBookmarks;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysBookmarksVO;
 import com.mxy.system.mapper.SysBookmarksMapper;
-import com.mxy.system.security.common.util.SecurityUtil;
+import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysBookmarksService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;

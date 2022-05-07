@@ -9,7 +9,7 @@ import com.mxy.common.core.entity.*;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysUserVO;
 import com.mxy.system.mapper.SysUserMapper;
-import com.mxy.system.security.common.util.SecurityUtil;
+import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -68,7 +68,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(sysUserVO, sysUser);
         sysUser.setPassword(bCryptPasswordEncoder.encode(sysUserVO.getPassword()));
-        sysUser.setAvatar("http://mxy.mxyit.com/2");
+        sysUser.setAvatar("http://mxy.mxyit.com/b5abd829-8544-4378-8642-c099345f1579");
         sysUser.setCreateUser(userDetails.getUsername());
         Boolean result = sysUser.insert();
         if (result) {

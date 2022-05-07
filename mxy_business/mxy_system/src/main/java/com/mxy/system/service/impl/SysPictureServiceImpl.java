@@ -10,7 +10,7 @@ import com.mxy.common.core.entity.SysPicture;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysPictureVO;
 import com.mxy.system.mapper.SysPictureMapper;
-import com.mxy.system.security.common.util.SecurityUtil;
+import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysPictureService;
 import com.mxy.system.utils.QiniuUploadUtil;
 import lombok.extern.slf4j.Slf4j;

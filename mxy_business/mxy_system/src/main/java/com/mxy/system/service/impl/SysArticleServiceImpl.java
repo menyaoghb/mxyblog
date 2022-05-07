@@ -11,7 +11,7 @@ import com.mxy.common.core.utils.RedisUtil;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysArticleVO;
 import com.mxy.system.mapper.SysArticleMapper;
-import com.mxy.system.security.common.util.SecurityUtil;
+import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysArticleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;

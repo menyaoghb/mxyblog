@@ -10,7 +10,7 @@ import com.mxy.common.core.entity.SysDictType;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysDictTypeVO;
 import com.mxy.system.mapper.SysDictTypeMapper;
-import com.mxy.system.security.common.util.SecurityUtil;
+import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysDictTypeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
