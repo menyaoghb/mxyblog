@@ -103,12 +103,12 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
             sysArticle = (SysArticle) redisUtil.get(id);
             sysArticle.setPageViews(sysArticle.getPageViews() == null ? 1 : sysArticle.getPageViews() + 1);
             sysArticle.setContent(HtmlUtils.htmlUnescape(sysArticle.getContent()));
-            redisUtil.set(id, sysArticle,60);
+            redisUtil.set(id, sysArticle,365);
         } else {
             sysArticle = this.baseMapper.selectById(id);
             sysArticle.setContent(HtmlUtils.htmlUnescape(sysArticle.getContent()));
             sysArticle.setPageViews(sysArticle.getPageViews() == null ? 1 : sysArticle.getPageViews() + 1);
-            redisUtil.set(id, sysArticle,60);
+            redisUtil.set(id, sysArticle,365);
         }
         // 每2次更新一次数据
         if (sysArticle.getPageViews() != 0) {

@@ -81,6 +81,7 @@
         </el-form-item>
       </el-form>
       <el-upload
+        :multiple="true"
         ref="fileUpload"
         action="#"
         list-type="picture-card"
