@@ -47,9 +47,11 @@ public class SysCodeGenerateServiceImpl extends ServiceImpl<SysCodeGenerateMappe
     @Value("${spring.datasource.password}")
     private String password;
 
-    private final String PATH = "D:\\codeTest\\my\\mxy_blog\\mxy_blog\\mxy_business\\mxy_system";
+//    private final String PATH = "mxy_system";
+    private final String PATH = "D:\\codeTest";
 
-    private final String GENPATH = "D:\\codeTest\\my\\mxy_blog\\mxy_blog\\mxy_common\\mxy_common_core";
+//    private final String GENPATH = "mxy_common_core";
+    private final String GENPATH = "D:\\codeTest";
 
     @Override
     public String getTableName() {
@@ -76,7 +78,7 @@ public class SysCodeGenerateServiceImpl extends ServiceImpl<SysCodeGenerateMappe
         GlobalConfig gc = new GlobalConfig();
         // 生成文件的输出目录
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(PATH + "/src/main/java");
+        gc.setOutputDir(PATH + "/com");
         // 是否打开输出目录，默认true
         gc.setOpen(false);
         // 是否覆盖已有文件,默认false
@@ -161,14 +163,14 @@ public class SysCodeGenerateServiceImpl extends ServiceImpl<SysCodeGenerateMappe
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return PATH + "/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                return PATH + "/com/resources/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
         //调整 entityVO 生成目录
         focList.add(new FileOutConfig("/templates/entityVo.java.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return PATH + "/src/main/java/com/mxy/system/entity/vo/" + tableInfo.getEntityName() + "VO.java";
+                return PATH + "/com/entity/vo/" + tableInfo.getEntityName() + "VO.java";
             }
         });
 
@@ -176,7 +178,7 @@ public class SysCodeGenerateServiceImpl extends ServiceImpl<SysCodeGenerateMappe
         focList.add(new FileOutConfig("/templates/entity.java.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return GENPATH + "/src/main/java/com/mxy/common/core/entity/" + tableInfo.getEntityName() + ".java";
+                return PATH + "/com/entity/" + tableInfo.getEntityName() + ".java";
             }
         });
 
@@ -184,7 +186,7 @@ public class SysCodeGenerateServiceImpl extends ServiceImpl<SysCodeGenerateMappe
         focList.add(new FileOutConfig("/templates/index.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return GENPATH + "/src/main/java/com/mxy/common/core/entity/" + tableInfo.getEntityName() + ".vue";
+                return PATH + "/com/vue/" + tableInfo.getEntityName() + ".vue";
             }
         });
 
@@ -192,7 +194,7 @@ public class SysCodeGenerateServiceImpl extends ServiceImpl<SysCodeGenerateMappe
         focList.add(new FileOutConfig("/templates/js.js.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return GENPATH + "/src/main/java/com/mxy/common/core/entity/" + tableInfo.getEntityName() + ".js";
+                return PATH + "/com/vue/" + tableInfo.getEntityName() + ".js";
             }
         });
 

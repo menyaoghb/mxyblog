@@ -1,22 +1,19 @@
 <template>
   <div class="login-container">
+    <div class="title-container" style="text-align: left">
+      <img src="http://mxy.mxyit.com/093ad0a8-c1b5-42a1-af9a-75a11287c148" class="mxy-logo">
+    </div>
     <div class="word-s">
-      <div class="word-t">
+      <div class="word-t" :style="{color:colorStyle}">
         <span>{{text}}</span>
       </div>
     </div>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-      <div class="title-container">
-        <img src="http://mxy.mxyit.com/logo/yftlogo.png" class="mxy-logo">
-      </div>
       <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          placeholder="账号"
           name="username"
           type="text"
           tabindex="1"
@@ -24,15 +21,12 @@
         />
       </el-form-item>
       <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
         <el-input
           :key="passwordType"
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="Password"
+          placeholder="密码"
           name="password"
           tabindex="2"
           auto-complete="on"
@@ -81,7 +75,8 @@ export default {
       show: true,
       text: '',
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      colorStyle:"#ff6a00"
     }
   },
   watch: {
@@ -94,6 +89,7 @@ export default {
   },
   created() {
     this.getRandWord();
+    this.randomColor();
   },
   methods: {
     showPwd() {
@@ -112,8 +108,17 @@ export default {
           this.loading = true
           this.show = false
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: '/' })
+            this.$confirm('是否进入新世界？', "警告", {
+              confirmButtonText: '是',
+              cancelButtonText: '否',
+              type: 'success'
+            }).then(() => {
+              this.$router.push({ path: '/' })
+            }).catch(() => {
+              this.$store.dispatch('user/logout')
+            });
             this.loading = false
+            this.show = true
           }).catch(() => {
             this.loading = false
             this.show = true
@@ -129,6 +134,11 @@ export default {
       getRandWord().then(response => {
         this.text = response.data.value
       })
+    },
+    randomColor() {
+      var col = "#";
+      for (var i = 0; i < 6; i++) col+=parseInt(Math.random() * 16).toString(16);
+      this.colorStyle = col;
     }
   }
 }
@@ -144,8 +154,8 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#283443;
-$light_gray:green;
-$cursor: green;
+$light_gray:#000000;
+$cursor: #000000;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
@@ -166,13 +176,14 @@ $cursor: green;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: $light_gray;
+      color: #ff6a00;
       height: 47px;
       caret-color: $cursor;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
+        //box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: $cursor !important;
+        box-shadow:0 10px 10px rgba(0, 0, 0, 0.4) inset !important;
       }
     }
   }
@@ -187,25 +198,56 @@ $cursor: green;
 </style>
 
 <style lang="scss" scoped>
-$bg:#000000;
-$dark_gray:green;
+/*———————————————————————————字体颜色随机变化———————————————————————————*/
+$red: #fc5545;
+$pink: #FCCCD1;
+$green: #005E61;
+$greenLight: #42BA80;
+$yellow: #ffcf6f;
+$orange: #F57859;
+$orangeLight: #FABD91;
+$greyLight: #ebebeb;
+$greyDark: #2e2e2e;
+$blue: #29A8BF;
+$blueLight: #B8E3EB;
+$blueDark: #142447;
+
+$colors: $pink, $green, $greenLight, $yellow, $orange, $orangeLight, $blue, $blueLight, $blueDark;
+$colorsText: $blueDark, $orangeLight, $blueLight, $red, $blueLight, $red, $blueLight, $blue, $pink;
+
+$key: random( length($colors) );
+$nthText: nth( $colorsText, $key );
+
+$randomText: $nthText !default;
+
+.boxTitle {
+  animation: dynamicColor 1s linear infinite;
+}
+
+@keyframes dynamicColor {
+//color:$randomText !important;
+}
+/*———————————————————————————字体颜色随机变化———————————————————————————*/
+
+$bg:#ffffff;
+$dark_gray:000000;
 $light_gray:#eee;
 
 .el-button--primary {
-  color: green;
-  background-color: #000000;
-  border-color: #000000;
+  color: #ffffff;
+  background-color: #ff6a00;
+  border-color: #ff6a00;
 }
 
 .word-s{
-  color: green;
+  color: #ff6a00;
   width: 100%;
   line-height: 40px;
   padding-top: 50px;
   margin: 0 auto;
   text-align: center;
   font-family: cursive;
-  font-size: unset;
+  font-size: xx-large;
   font-style: italic;
 
   animation: fadeInAnimation ease 3s;
@@ -228,6 +270,11 @@ $light_gray:#eee;
   min-height: 100%;
   width: 100%;
   background-color: $bg;
+  background-image: url(http://mxy.mxyit.com/eadc0cb9-7999-4226-9814-ab86a479d2ff);
+  background-position:center;
+  background-attachment:fixed;
+  background-repeat:no-repeat;
+  background-size:1920px 929px;
   overflow: hidden;
 
   .login-form {
@@ -244,7 +291,7 @@ $light_gray:#eee;
 
   .tips {
     font-size: 14px;
-    color: green;
+    color: #000000;
     margin-bottom: 10px;
 
     span {

@@ -5,7 +5,6 @@ import com.mxy.common.core.utils.DateUtils;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -13,7 +12,7 @@ import java.util.Date;
 /**
  * @author 孟耀
  */
-@Component
+//@Component
 public class JobHandler {
 
     @Resource
@@ -23,6 +22,7 @@ public class JobHandler {
     public void jobHandler() throws Exception {
         for (int i = 0; i < 1000; i++) {
             SysUser sysUser = new SysUser();
+
             sysUser.setStatus("0");
             sysUser.setCreateUser("系统");
             sysUser.setPassword(bCryptPasswordEncoder.encode("12345678Az@"));
