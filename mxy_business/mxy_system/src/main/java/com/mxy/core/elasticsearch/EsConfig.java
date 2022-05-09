@@ -24,7 +24,7 @@ public class EsConfig {
 
     private Logger logger = LoggerFactory.getLogger(EsConfig.class);
 
-    @Value("${elasticsearch.address}")
+    @Value("${elasticsearch.clusterNodes}")
     private String address;
 
     @Value("${elasticsearch.connectTimeoutMin}")
@@ -40,10 +40,10 @@ public class EsConfig {
 
     private RestClientBuilder getClientBuilder() {
 
-        String[] addressArray = address.split(";");
+        String[] addressArray = address.split(",");
         int len = addressArray.length;
         HttpHost[] httpHostsArray = new HttpHost[len];
-        for (int i=0;i<len;i++) {
+        for (int i = 0; i < len; i++) {
             String[] iphost = addressArray[i].split(":");
             httpHostsArray[i] = new HttpHost(iphost[0], Integer.parseInt(iphost[1]), "http");
         }

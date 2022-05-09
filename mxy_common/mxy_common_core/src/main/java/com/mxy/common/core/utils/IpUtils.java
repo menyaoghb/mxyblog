@@ -83,9 +83,16 @@ public class IpUtils {
     public static String recordIp(String ip) {
         String url = "http://ip.taobao.com/outGetIpInfo?ip=" + ip + "&accessKey=alibaba-inc";
         String jsonStr = OkGetArt(url);
-        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
-        JSONObject result = (JSONObject) jsonObject.get("data");
-        return result.get("country") + "-" + result.get("region") + "-" + result.get("city") + "-" + result.get("isp");
+        try {
+            JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+            JSONObject result = (JSONObject) jsonObject.get("data");
+            if (result != null) {
+                return result.get("country") + "-" + result.get("region") + "-" + result.get("city") + "-" + result.get("isp");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "IP解析异常";
 
     }
 

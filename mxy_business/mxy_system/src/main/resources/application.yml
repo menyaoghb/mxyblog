@@ -123,7 +123,10 @@ xxl:
       logpath: /data/applogs/xxl-job/jobhandler
       appname: mxy-joba
       logretentiondays: 300
+#es搜索配置
 elasticsearch:
-  address: 124.221.76.235:9200
+  #集群节点，多个节点逗号分隔
+  clusterNodes: 124.221.76.235:9200
+  #连接超时设置
   connectTimeoutMin: 5000
   connectTimeoutMax: 60000
