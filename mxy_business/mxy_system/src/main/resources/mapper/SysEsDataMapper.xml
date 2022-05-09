@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mxy.system.mapper.SysEsDataMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysEsData">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="phone" property="phone" />
+        <result column="salary" property="salary" />
+        <result column="company" property="company" />
+        <result column="sex" property="sex" />
+        <result column="address" property="address" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="create_user" property="createUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="is_delete" property="isDelete" />
+        <result column="field_one" property="fieldOne" />
+        <result column="field_two" property="fieldTwo" />
+        <result column="field_three" property="fieldThree" />
+        <result column="field_four" property="fieldFour" />
+        <result column="field_five" property="fieldFive" />
+        <result column="field_six" property="fieldSix" />
+        <result column="field_seven" property="fieldSeven" />
+        <result column="field_eight" property="fieldEight" />
+        <result column="field_nine" property="fieldNine" />
+        <result column="field_ten" property="fieldTen" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        WHERE 1 = 1
+    <if test="id!=null and id!=''">
+        AND id = #{id}
+    </if>
+    <if test="name!=null and name!=''">
+        AND name = #{name}
+    </if>
+    <if test="phone!=null and phone!=''">
+        AND phone = #{phone}
+    </if>
+    <if test="salary!=null and salary!=''">
+        AND salary = #{salary}
+    </if>
+    <if test="company!=null and company!=''">
+        AND company = #{company}
+    </if>
+    <if test="sex!=null and sex!=''">
+        AND sex = #{sex}
+    </if>
+    <if test="address!=null and address!=''">
+        AND address = #{address}
+    </if>
+    <if test="status!=null and status!=''">
+        AND status = #{status}
+    </if>
+    <if test="createTime!=null and createTime!=''">
+        AND create_time = #{createTime}
+    </if>
+    <if test="createUser!=null and createUser!=''">
+        AND create_user = #{createUser}
+    </if>
+    <if test="updateTime!=null and updateTime!=''">
+        AND update_time = #{updateTime}
+    </if>
+    <if test="updateUser!=null and updateUser!=''">
+        AND update_user = #{updateUser}
+    </if>
+    <if test="isDelete!=null and isDelete!=''">
+        AND is_delete = #{isDelete}
+    </if>
+    <if test="fieldOne!=null and fieldOne!=''">
+        AND field_one = #{fieldOne}
+    </if>
+    <if test="fieldTwo!=null and fieldTwo!=''">
+        AND field_two = #{fieldTwo}
+    </if>
+    <if test="fieldThree!=null and fieldThree!=''">
+        AND field_three = #{fieldThree}
+    </if>
+    <if test="fieldFour!=null and fieldFour!=''">
+        AND field_four = #{fieldFour}
+    </if>
+    <if test="fieldFive!=null and fieldFive!=''">
+        AND field_five = #{fieldFive}
+    </if>
+    <if test="fieldSix!=null and fieldSix!=''">
+        AND field_six = #{fieldSix}
+    </if>
+    <if test="fieldSeven!=null and fieldSeven!=''">
+        AND field_seven = #{fieldSeven}
+    </if>
+    <if test="fieldEight!=null and fieldEight!=''">
+        AND field_eight = #{fieldEight}
+    </if>
+    <if test="fieldNine!=null and fieldNine!=''">
+        AND field_nine = #{fieldNine}
+    </if>
+    <if test="fieldTen!=null and fieldTen!=''">
+        AND field_ten = #{fieldTen}
+    </if>
+    </sql>
+
+</mapper>

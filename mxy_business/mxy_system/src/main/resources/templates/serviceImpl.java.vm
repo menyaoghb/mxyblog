@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.utils.ServiceResult;
+import com.mxy.security.common.util.SecurityUtil;
 import ${package.Entity}.${entity};
 import ${package.Entity}.vo.${entity}VO;
 import ${package.Mapper}.${table.mapperName};
