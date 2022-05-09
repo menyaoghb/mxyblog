@@ -55,7 +55,7 @@ public class EsServiceImpl implements IEsService {
         DeleteIndexRequest request = new DeleteIndexRequest(index);
         try {
             AcknowledgedResponse response = client.indices().delete(request, COMMON_OPTIONS);
-            System.out.println(response.isAcknowledged());
+            log.info(" 删除索引响应 : {}", response.isAcknowledged());
         } catch (IOException e) {
             log.error("删除索引库【{}】失败", index, e);
         }
