@@ -1,19 +1,31 @@
 package com.mxy.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysEsData;
 import com.mxy.common.core.utils.ServiceResult;
+import com.mxy.core.elasticsearch.EsServiceImpl;
 import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.entity.vo.SysEsDataVO;
 import com.mxy.system.mapper.SysEsDataMapper;
 import com.mxy.system.service.SysEsDataService;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.HttpAsyncResponseConsumerFactory;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * <p>
@@ -26,14 +38,55 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysEsDataServiceImpl extends ServiceImpl<SysEsDataMapper, SysEsData> implements SysEsDataService {
 
+    private static String INDEX_NAME = "person";
+
+    @Autowired
+    public RestHighLevelClient client;
+
+    protected static final RequestOptions COMMON_OPTIONS;
+
+    static {
+        RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
+        // 默认缓冲限制为100MB，此处修改为30MB。
+        builder.setHttpAsyncResponseConsumerFactory(new HttpAsyncResponseConsumerFactory.HeapBufferedResponseConsumerFactory(30 * 1024 * 1024));
+        COMMON_OPTIONS = builder.build();
+    }
+
+    @Resource
+    private EsServiceImpl esService;
+
     @Override
     public String getList(SysEsDataVO sysEsDataVO) {
-        QueryWrapper queryWrapper = new QueryWrapper();
-        Page<SysEsData> page = new Page<>();
-        page.setCurrent(sysEsDataVO.getCurrentPage());
-        page.setSize(sysEsDataVO.getPageSize());
-        IPage<SysEsData> pageList = this.page(page, queryWrapper);
-        return ServiceResult.success(pageList);
+        List<SysEsData> list = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        try {
+            SearchRequest searchRequest = new SearchRequest(INDEX_NAME);
+            SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+            searchSourceBuilder.trackTotalHits(true);
+            searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+            searchSourceBuilder.from(Integer.parseInt(String.valueOf((sysEsDataVO.getCurrentPage() - 1) * sysEsDataVO.getPageSize())));
+            searchSourceBuilder.size(Integer.parseInt(String.valueOf(sysEsDataVO.getPageSize())));
+
+            searchRequest.source(searchSourceBuilder);
+            SearchResponse search = client.search(searchRequest, COMMON_OPTIONS);
+
+            SearchHit[] hits = search.getHits().getHits();
+            long count = search.getHits().getTotalHits().value;
+            Arrays.stream(hits).forEach(hit -> {
+                Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+                SysEsData esData = BeanUtil.mapToBean(sourceAsMap, SysEsData.class, true);
+                list.add(esData);
+            });
+
+            map.put("current",sysEsDataVO.getCurrentPage());
+            map.put("size",sysEsDataVO.getPageSize());
+            map.put("total",count);
+            map.put("records",list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return ServiceResult.success(map);
     }
 
     @Override
