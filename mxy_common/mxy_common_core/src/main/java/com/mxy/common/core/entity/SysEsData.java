@@ -3,10 +3,10 @@ package com.mxy.common.core.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.mxy.common.core.entity.vo.BaseEntity;
 import io.swagger.annotations.ApiModel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -18,6 +18,9 @@ import java.util.Date;
  * @since 2022-05-09
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_es_data")
 @ApiModel(value="SysEsData对象", description="ES数据存储")
@@ -32,6 +35,11 @@ public class SysEsData extends BaseEntity<SysEsData> {
     private Long id;
 
     /**
+     * 唯一标识
+     */
+    private String dataId;
+
+    /**
      * 姓名
      */
     private String name;
@@ -39,12 +47,12 @@ public class SysEsData extends BaseEntity<SysEsData> {
     /**
      * 手机号
      */
-    private String phone;
+    private Long phone;
 
     /**
      * 工资
      */
-    private Integer salary;
+    private BigDecimal salary;
 
     /**
      * 公司

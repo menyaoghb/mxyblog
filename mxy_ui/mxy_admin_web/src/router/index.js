@@ -137,6 +137,12 @@ export const asyncRoutes = [
         component: () => import('@/views/assist/codeGenerator/index'),
         name: 'codeGeneratorName',
         meta: {title: '代码生成', icon: 'el-icon-lollipop'}
+      },
+      {
+        path: 'esDataPath',
+        component: () => import('@/views/es/index'),
+        name: 'esDataName',
+        meta: {title: 'ES数据存储', icon: 'el-icon-lollipop'}
       }
     ]
   },
