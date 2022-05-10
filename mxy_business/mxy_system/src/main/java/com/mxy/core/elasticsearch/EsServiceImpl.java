@@ -6,9 +6,12 @@ import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.HttpAsyncResponseConsumerFactory;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -66,7 +69,7 @@ public class EsServiceImpl implements IEsService {
         UpdateRequest updateRequest = new UpdateRequest(index, id);
         updateRequest.doc(BeanUtil.beanToMap(object), XContentType.JSON);
         try {
-            client.update(updateRequest, COMMON_OPTIONS);
+            UpdateResponse update = client.update(updateRequest, COMMON_OPTIONS);
         } catch (IOException e) {
             log.error("更新索引文档 {" + index + "} 数据 {" + object + "} 失败", e);
         }
@@ -76,7 +79,7 @@ public class EsServiceImpl implements IEsService {
     public void insertRequest(String index, String id, Object object) {
         IndexRequest indexRequest = new IndexRequest(index).id(id).source(BeanUtil.beanToMap(object), XContentType.JSON);
         try {
-            client.index(indexRequest, COMMON_OPTIONS);
+            IndexResponse insert = client.index(indexRequest, COMMON_OPTIONS);
         } catch (IOException e) {
             log.error("创建索引文档 {" + index + "} 数据 {" + object + "} 失败", e);
         }
@@ -87,7 +90,7 @@ public class EsServiceImpl implements IEsService {
     public void deleteRequest(String index, String id) {
         DeleteRequest deleteRequest = new DeleteRequest(index, id);
         try {
-            client.delete(deleteRequest, COMMON_OPTIONS);
+            DeleteResponse delete = client.delete(deleteRequest, COMMON_OPTIONS);
         } catch (IOException e) {
             log.error("删除索引文档 {" + index + "} 数据id {" + id + "} 失败", e);
         }

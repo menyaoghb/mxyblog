@@ -1,12 +1,17 @@
 package com.mxy.security.controller;
 
+import com.mxy.common.core.entity.SysCountry;
+import com.mxy.core.elasticsearch.EsServiceImpl;
 import com.mxy.core.elasticsearch.Lol;
 import com.mxy.core.elasticsearch.LolService;
+import com.mxy.system.service.SysCountryService;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +28,15 @@ public class IndexController {
 
     @Autowired
     private LolService lolService;
+
+    @Autowired
+    public RestHighLevelClient client;
+
+    @Autowired
+    public SysCountryService sysEsDataService;
+
+    @Resource
+    private EsServiceImpl esService;
 
     /**
      * 首页
@@ -55,6 +69,14 @@ public class IndexController {
         List<Lol> personList = lolService.searchList(INDEX_NAME);
         System.out.println(personList);
 
+    }
+
+    @RequestMapping(value = "/insert",method = RequestMethod.GET)
+    public void insert(){
+        List<SysCountry> sysCountryList = sysEsDataService.selectList();
+        for (SysCountry sysCountry : sysCountryList) {
+            esService.insertRequest("country", sysCountry.getId(), sysCountry);
+        }
     }
 
 }
