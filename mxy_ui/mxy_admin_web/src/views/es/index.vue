@@ -2,160 +2,227 @@
   <div class="app-container">
     <!--查询-->
     <div class="filter-container">
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-input placeholder="请输入姓名/模糊查询" v-model="listQuery.name" clearable @keyup.enter.native="handleFilter">
-            <template slot="prepend">姓名</template>
-          </el-input>
-        </el-col>
-        <el-col :span="6">
-          <el-input placeholder="请输入手机号/精确查询" v-model="listQuery.phone" clearable @keyup.enter.native="handleFilter">
-            <template slot="prepend">手机号</template>
-          </el-input>
-        </el-col>
-        <el-col :span="6">
-          <el-input placeholder="请输入工资/范围查询" v-model="listQuery.salary" clearable @keyup.enter.native="handleFilter">
-            <template slot="prepend">工资</template>
-          </el-input>
-        </el-col>
-        <el-col :span="6">
-          <el-input placeholder="请输入公司名称/模糊查询" v-model="listQuery.company" clearable @keyup.enter.native="handleFilter">
-            <template slot="prepend">公司</template>
-          </el-input>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-cascader
-            clearable
-            style="width: 100%;"
-            placeholder="请选择地区"
-            v-model="cascaderValue"
-            :options="cascaderOptions"
-            :props="{ expandTrigger: 'hover' }"
-            filterable
-            @change="handleChange"></el-cascader>
-        </el-col>
-        <el-col :span="6">
-          <el-cascader
-            style="width: 100%;"
-            placeholder="多选"
-            v-model="cascaderValue"
-            :options="cascaderOptions"
-            :props="{ multiple: true }"
-            filterable
-            collapse-tags
-            clearable></el-cascader>
-        </el-col>
-        <el-col :span="6">
-          <el-cascader
-            v-model="cascaderValue"
-            style="width: 100%;"
-            placeholder="多选任意"
-            :options="cascaderOptions"
-            :props="{ multiple: true, checkStrictly: true }"
-            filterable
-            clearable></el-cascader>
-        </el-col>
-        <el-col :span="6">
-          <el-select v-model="listQuery.status" filterable clearable placeholder="请选择数据状态" class="filter-item"
-                     style="width: 100%;">
-            <el-option v-for="item in statusOptions" :key="item.key" :label="item.name" :value="item.key"/>
-          </el-select>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-date-picker
-            v-model="createTime"
-            format="yyyy-MM-dd HH:mm:ss"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            style="width: 100%"
-            type="datetimerange"
-            range-separator="~"
-            start-placeholder="开始时间"
-            end-placeholder="结束时间"
-          >
-          </el-date-picker>
-        </el-col>
-        <el-col :span="6">
-          <el-date-picker
-            v-model="weekDate"
-            type="week"
-            format="yyyy 第 WW 周"
-            style="width: 100%"
-            placeholder="选择周">
-          </el-date-picker>
-        </el-col>
-        <el-col :span="6">
-          <el-date-picker
-            v-model="createDate"
-            type="daterange"
-            align="right"
-            unlink-panels
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            style="width: 100%"
-            :picker-options="pickerOptions">
-          </el-date-picker>
-        </el-col>
-        <el-col :span="6">
-          <el-date-picker
-            v-model="monthDate"
-            type="monthrange"
-            align="right"
-            unlink-panels
-            range-separator="至"
-            start-placeholder="开始月份"
-            end-placeholder="结束月份"
-            style="width: 100%"
-            :picker-options="monthDateOptions">
-          </el-date-picker>
-        </el-col>
-
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-input placeholder="请输入地址名称" v-model="listQuery.address" clearable @keyup.enter.native="handleFilter">
-            <template slot="prepend">地址</template>
-          </el-input>
-        </el-col>
-        <el-col :span="6">
-          <el-input placeholder="请输入数据ID" v-model="listQuery.nickName" clearable @keyup.enter.native="handleFilter">
-            <template slot="prepend">数据ID</template>
-          </el-input>
-        </el-col>
-        <el-col :span="6">
-          <el-time-picker
-            v-model="startTimeDate"
-            style="width: 100%;"
-            :picker-options="{selectableRange: '00:00:00 - 23:59:59'}"
-            placeholder="请选择开始时间点">
-          </el-time-picker>
-        </el-col>
-        <el-col :span="6">
-          <el-time-picker
-            v-model="endTimeDate"
-            style="width: 100%;"
-            :picker-options="{selectableRange: '00:00:00 - 23:59:59'}"
-            placeholder="请选择结束时间点">
-          </el-time-picker>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-button class="filter-item" @click="handleFilter" size="small">
-            查询
-          </el-button>
-          <el-button class="filter-item" style="margin-left: 10px;" @click="handleRest" size="small">
-            重置
-          </el-button>
-          <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" size="small">
-            新增
-          </el-button>
-        </el-col>
-      </el-row>
+      <el-form ref="form" label-position="left" label-width="80px">
+        <el-row :gutter="20">
+          <el-col :span="6">
+            <el-form-item label="姓名">
+              <el-input size="small" placeholder="姓名/模糊查询" v-model="listQuery.name" clearable
+                        @keyup.enter.native="handleFilter"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="手机号">
+              <el-input size="small" placeholder="手机号/精确查询" v-model="listQuery.phone" clearable
+                        @keyup.enter.native="handleFilter"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="公司">
+              <el-input size="small" placeholder="公司名称/模糊查询" v-model="listQuery.company" clearable
+                        @keyup.enter.native="handleFilter"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item>
+            <el-button class="filter-item" @click="handleFilter" size="small">
+              查询
+            </el-button>
+            <el-button class="filter-item" style="margin-left: 10px;" @click="handleRest" size="small">
+              重置
+            </el-button>
+            <el-link v-show="!filterShow" style="margin-left: 10px;font-size: small;" type="primary" @click="filterShow=true" :underline="false">高级搜索</el-link>
+            <el-link v-show="filterShow" style="margin-left: 10px;font-size: small;" type="primary" @click="filterShow=false" :underline="false">高级搜索</el-link>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <div v-show="filterShow">
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <el-form-item label="姓名">
+                <el-input size="small" placeholder="姓名/模糊查询" v-model="listQuery.name" clearable
+                          @keyup.enter.native="handleFilter"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="手机号">
+                <el-input size="small" placeholder="手机号/精确查询" v-model="listQuery.phone" clearable
+                          @keyup.enter.native="handleFilter"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="公司">
+                <el-input size="small" placeholder="公司名称/模糊查询" v-model="listQuery.company" clearable
+                          @keyup.enter.native="handleFilter"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="地址">
+                <el-input size="small" placeholder="地址名称/模糊查询" v-model="listQuery.address" clearable
+                          @keyup.enter.native="handleFilter"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <el-form-item label="地区">
+                <el-cascader
+                  size="small"
+                  clearable
+                  style="width: 100%;"
+                  placeholder="请选择地区"
+                  v-model="cascaderValue"
+                  :options="cascaderOptions"
+                  :props="{ expandTrigger: 'hover' }"
+                  filterable
+                  @change="handleChange"></el-cascader>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="地区">
+                <el-cascader
+                  size="small"
+                  style="width: 100%;"
+                  placeholder="多选"
+                  v-model="cascaderValue"
+                  :options="cascaderOptions"
+                  :props="{ multiple: true }"
+                  filterable
+                  collapse-tags
+                  clearable></el-cascader>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="地区">
+                <el-cascader
+                  size="small"
+                  v-model="cascaderValue"
+                  style="width: 100%;"
+                  placeholder="多选任意"
+                  :options="cascaderOptions"
+                  :props="{ multiple: true, checkStrictly: true }"
+                  filterable
+                  clearable></el-cascader>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="数据状态">
+                <el-select size="small" v-model="listQuery.status" filterable clearable placeholder="数据状态" class="filter-item"
+                           style="width: 100%;">
+                  <el-option v-for="item in statusOptions" :key="item.key" :label="item.name" :value="item.key"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <el-form-item label="创建时间">
+                <el-date-picker
+                  size="small"
+                  v-model="createTime"
+                  format="yyyy-MM-dd HH:mm:ss"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  style="width: 100%"
+                  type="datetimerange"
+                  range-separator="~"
+                  start-placeholder="开始时间"
+                  end-placeholder="结束时间"
+                >
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="创建时间">
+                <el-date-picker
+                  size="small"
+                  v-model="weekDate"
+                  type="week"
+                  format="yyyy 第 WW 周"
+                  style="width: 100%"
+                  placeholder="选择周">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="创建时间">
+                <el-date-picker
+                  size="small"
+                  v-model="createDate"
+                  type="daterange"
+                  align="right"
+                  unlink-panels
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  style="width: 100%"
+                  :picker-options="pickerOptions">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="创建时间">
+                <el-date-picker
+                  size="small"
+                  v-model="monthDate"
+                  type="monthrange"
+                  align="right"
+                  unlink-panels
+                  range-separator="至"
+                  start-placeholder="开始月份"
+                  end-placeholder="结束月份"
+                  style="width: 100%"
+                  :picker-options="monthDateOptions">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="6" class="col-salary">
+              <el-form-item label="工资">
+                <el-input
+                  size="small"
+                  placeholder="最小工资"
+                  suffix-icon="el-icon-minus"
+                  v-model="listQuery.salary">
+                </el-input>
+                <el-input
+                  size="small"
+                  placeholder="最大工资"
+                  suffix-icon="el-icon-plus"
+                  v-model="listQuery.salary">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="数据ID">
+                <el-input size="small" placeholder="请输入数据ID" v-model="listQuery.nickName" clearable @keyup.enter.native="handleFilter">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="开始点">
+                <el-time-picker
+                  size="small"
+                  v-model="startTimeDate"
+                  style="width: 100%;"
+                  :picker-options="{selectableRange: '00:00:00 - 23:59:59'}"
+                  placeholder="请选择开始时间点">
+                </el-time-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="结束点">
+                <el-time-picker
+                  size="small"
+                  v-model="endTimeDate"
+                  style="width: 100%;"
+                  :picker-options="{selectableRange: '00:00:00 - 23:59:59'}"
+                  placeholder="请选择结束时间点">
+                </el-time-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
+      </el-form>
     </div>
     <!--表格-->
     <el-table
@@ -179,7 +246,9 @@
       <el-table-column prop="address" label="地址" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column label="状态" align="center">
         <template slot-scope="{row}">
-          <span v-for="item in statusOptions" v-if="row.status===item.key"><el-tag size="medium" effect="success">{{ item.name }}</el-tag></span>
+          <span v-for="item in statusOptions" v-if="row.status===item.key"><el-tag size="medium" type="success">{{
+              item.name
+            }}</el-tag></span>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" width="150"> show-overflow-tooltip>
@@ -194,7 +263,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="updateUser" label="更新者" show-overflow-tooltip align="center"></el-table-column>
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding">
+      <el-table-column fixed="right" label="操作" align="center" width="150" class-name="small-padding">
         <template slot-scope="{row}">
           <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
           <el-button size="mini" @click="handleView(row)" type="text">详情</el-button>
@@ -392,6 +461,7 @@ export default {
   filters: {},
   data() {
     return {
+      filterShow:false,
       list: null, //表格列表数据
       total: 0, // 总条数
       listLoading: true, // 列表加载圈
@@ -400,7 +470,8 @@ export default {
         pageSize: 10,
         name: undefined,
         phone: undefined,
-        salary: undefined,
+        minSalary: undefined,
+        maxSalary: undefined,
         company: undefined,
         sex: undefined,
         address: undefined,
@@ -573,7 +644,7 @@ export default {
     handleFilter() {
       this.listQuery.currentPage = 1
       const createTime = this.createTime;
-      if (createTime != null && createTime != ''){
+      if (createTime != null && createTime != '') {
         this.listQuery.startTime = createTime[0];
         this.listQuery.endTime = createTime[1]
       }
@@ -581,6 +652,21 @@ export default {
     },
     /*条件重置*/
     handleRest() {
+      this.listQuery = {
+        currentPage: 1,
+        pageSize: 10,
+        name: undefined,
+        phone: undefined,
+        minSalary: undefined,
+        maxSalary: undefined,
+        company: undefined,
+        sex: undefined,
+        address: undefined,
+        status: undefined,
+        startTime: undefined,
+        endTime: undefined
+      }
+      this.createTime = [];
     },
     /*表单重置*/
     resetTemp() {
@@ -669,7 +755,11 @@ export default {
   margin-bottom: 18px;
 }
 
-.el-row {
+.filter-container .el-form-item {
   margin-bottom: 10px;
+}
+
+.col-salary .el-form-item__content {
+  display: flex;
 }
 </style>
