@@ -11,20 +11,25 @@ import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.entity.vo.SysEsDataVO;
 import com.mxy.system.mapper.SysEsDataMapper;
 import com.mxy.system.service.SysEsDataService;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.HttpAsyncResponseConsumerFactory;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.RangeQueryBuilder;
+import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -62,11 +67,43 @@ public class SysEsDataServiceImpl extends ServiceImpl<SysEsDataMapper, SysEsData
         try {
             SearchRequest searchRequest = new SearchRequest(INDEX_NAME);
             SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-            searchSourceBuilder.trackTotalHits(true);
-            searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+            BoolQueryBuilder bool = new BoolQueryBuilder();
+
+            // 精确查询
+            if (StringUtils.isNotEmpty(sysEsDataVO.getPhone())) {
+                bool.must(new TermQueryBuilder("phone", sysEsDataVO.getPhone()));
+            }
+            if (sysEsDataVO.getSalary() != null) {
+                bool.must(new TermQueryBuilder("salary", sysEsDataVO.getSalary()));
+            }
+            if (StringUtils.isNotBlank(sysEsDataVO.getStatus())) {
+                bool.must(new TermQueryBuilder("status.keyword", sysEsDataVO.getStatus()));
+            }
+            // 模糊查询
+            if (StringUtils.isNotBlank(sysEsDataVO.getName())) {
+                bool.must(QueryBuilders.wildcardQuery("name.keyword", "*" + sysEsDataVO.getName() + "*"));
+            }
+            if (StringUtils.isNotBlank(sysEsDataVO.getAddress())) {
+                bool.must(QueryBuilders.wildcardQuery("address.keyword", "*" + sysEsDataVO.getAddress() + "*"));
+            }
+            if (StringUtils.isNotBlank(sysEsDataVO.getCompany())) {
+                bool.must(QueryBuilders.wildcardQuery("company.keyword", "*" + sysEsDataVO.getCompany() + "*"));
+            }
+            //日期查询
+            if (StringUtils.isNotBlank(sysEsDataVO.getStartTime()) && StringUtils.isNotBlank(sysEsDataVO.getEndTime())) {
+                RangeQueryBuilder timeRange = new RangeQueryBuilder("createTime");
+                timeRange.gte(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(sysEsDataVO.getStartTime()));
+                timeRange.lte(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(sysEsDataVO.getEndTime()));
+                bool.must(timeRange);
+            }
+            searchSourceBuilder.query(bool);
+            // 分页
             searchSourceBuilder.from(Integer.parseInt(String.valueOf((sysEsDataVO.getCurrentPage() - 1) * sysEsDataVO.getPageSize())));
             searchSourceBuilder.size(Integer.parseInt(String.valueOf(sysEsDataVO.getPageSize())));
-
+            // 时间排序
+            searchSourceBuilder.sort("createTime", SortOrder.DESC);
+            // 获取超过1w条数据 需要加上  "track_total_hits":true ，不然只能显示出9999条
+            searchSourceBuilder.trackTotalHits(true);
             searchRequest.source(searchSourceBuilder);
             SearchResponse search = client.search(searchRequest, COMMON_OPTIONS);
 
@@ -78,11 +115,11 @@ public class SysEsDataServiceImpl extends ServiceImpl<SysEsDataMapper, SysEsData
                 list.add(esData);
             });
 
-            map.put("current",sysEsDataVO.getCurrentPage());
-            map.put("size",sysEsDataVO.getPageSize());
-            map.put("total",count);
-            map.put("records",list);
-        } catch (IOException e) {
+            map.put("current", sysEsDataVO.getCurrentPage());
+            map.put("size", sysEsDataVO.getPageSize());
+            map.put("total", count);
+            map.put("records", list);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
