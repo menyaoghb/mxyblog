@@ -197,6 +197,12 @@ export const asyncRoutes = [
         component: () => import('@/views/sys/config/index'),
         name: 'config',
         meta: {title: '系统参数', icon: 'el-icon-watermelon'}
+      },
+      {
+        path: 'country',
+        component: () => import('@/views/sys/country/index'),
+        name: 'country',
+        meta: {title: '国家省分', icon: 'el-icon-watermelon'}
       }
     ]
   },
