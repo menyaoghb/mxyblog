@@ -3,13 +3,149 @@
     <!--查询-->
     <div class="filter-container">
       <el-row :gutter="20">
-        <el-col :span="4">
-          <el-input placeholder="请输入名称" v-model="listQuery.nickName" clearable @keyup.enter.native="handleFilter">
+        <el-col :span="6">
+          <el-input placeholder="请输入姓名/模糊查询" v-model="listQuery.name" clearable @keyup.enter.native="handleFilter">
             <template slot="prepend">姓名</template>
           </el-input>
         </el-col>
         <el-col :span="6">
-          <el-button class="filter-item" style="margin-left: 10px;" @click="handleFilter" size="small">
+          <el-input placeholder="请输入手机号/精确查询" v-model="listQuery.phone" clearable @keyup.enter.native="handleFilter">
+            <template slot="prepend">手机号</template>
+          </el-input>
+        </el-col>
+        <el-col :span="6">
+          <el-input placeholder="请输入工资/范围查询" v-model="listQuery.salary" clearable @keyup.enter.native="handleFilter">
+            <template slot="prepend">工资</template>
+          </el-input>
+        </el-col>
+        <el-col :span="6">
+          <el-input placeholder="请输入公司名称/模糊查询" v-model="listQuery.company" clearable @keyup.enter.native="handleFilter">
+            <template slot="prepend">公司</template>
+          </el-input>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-cascader
+            clearable
+            style="width: 100%;"
+            placeholder="请选择地区"
+            v-model="cascaderValue"
+            :options="cascaderOptions"
+            :props="{ expandTrigger: 'hover' }"
+            filterable
+            @change="handleChange"></el-cascader>
+        </el-col>
+        <el-col :span="6">
+          <el-cascader
+            style="width: 100%;"
+            placeholder="多选"
+            v-model="cascaderValue"
+            :options="cascaderOptions"
+            :props="{ multiple: true }"
+            filterable
+            collapse-tags
+            clearable></el-cascader>
+        </el-col>
+        <el-col :span="6">
+          <el-cascader
+            v-model="cascaderValue"
+            style="width: 100%;"
+            placeholder="多选任意"
+            :options="cascaderOptions"
+            :props="{ multiple: true, checkStrictly: true }"
+            filterable
+            clearable></el-cascader>
+        </el-col>
+        <el-col :span="6">
+          <el-select v-model="listQuery.status" filterable clearable placeholder="请选择数据状态" class="filter-item"
+                     style="width: 100%;">
+            <el-option v-for="item in statusOptions" :key="item.key" :label="item.name" :value="item.key"/>
+          </el-select>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-date-picker
+            v-model="createTime"
+            format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            style="width: 100%"
+            type="datetimerange"
+            range-separator="~"
+            start-placeholder="开始时间"
+            end-placeholder="结束时间"
+          >
+          </el-date-picker>
+        </el-col>
+        <el-col :span="6">
+          <el-date-picker
+            v-model="weekDate"
+            type="week"
+            format="yyyy 第 WW 周"
+            style="width: 100%"
+            placeholder="选择周">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="6">
+          <el-date-picker
+            v-model="createDate"
+            type="daterange"
+            align="right"
+            unlink-panels
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            style="width: 100%"
+            :picker-options="pickerOptions">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="6">
+          <el-date-picker
+            v-model="monthDate"
+            type="monthrange"
+            align="right"
+            unlink-panels
+            range-separator="至"
+            start-placeholder="开始月份"
+            end-placeholder="结束月份"
+            style="width: 100%"
+            :picker-options="monthDateOptions">
+          </el-date-picker>
+        </el-col>
+
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-input placeholder="请输入地址名称" v-model="listQuery.address" clearable @keyup.enter.native="handleFilter">
+            <template slot="prepend">地址</template>
+          </el-input>
+        </el-col>
+        <el-col :span="6">
+          <el-input placeholder="请输入数据ID" v-model="listQuery.nickName" clearable @keyup.enter.native="handleFilter">
+            <template slot="prepend">数据ID</template>
+          </el-input>
+        </el-col>
+        <el-col :span="6">
+          <el-time-picker
+            v-model="startTimeDate"
+            style="width: 100%;"
+            :picker-options="{selectableRange: '00:00:00 - 23:59:59'}"
+            placeholder="请选择开始时间点">
+          </el-time-picker>
+        </el-col>
+        <el-col :span="6">
+          <el-time-picker
+            v-model="endTimeDate"
+            style="width: 100%;"
+            :picker-options="{selectableRange: '00:00:00 - 23:59:59'}"
+            placeholder="请选择结束时间点">
+          </el-time-picker>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-button class="filter-item" @click="handleFilter" size="small">
             查询
           </el-button>
           <el-button class="filter-item" style="margin-left: 10px;" @click="handleRest" size="small">
@@ -29,15 +165,34 @@
       element-loading-spinner="el-icon-loading">
       <el-table-column type="index" width="50" align="center"/>
       <el-table-column prop="name" label="姓名" show-overflow-tooltip align="center"></el-table-column>
-      <el-table-column prop="phone" label="手机号" show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column prop="phone" label="手机号" show-overflow-tooltip align="center" width="150"></el-table-column>
       <el-table-column prop="salary" label="工资" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="company" label="公司" show-overflow-tooltip align="center"></el-table-column>
-      <el-table-column prop="sex" label="性别" show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column label="性别" align="center">
+        <template slot-scope="{row}">
+          <span v-for="item in sexOptions" v-if="row.sex===item.key">
+            <el-tag v-if="item.key===1" size="medium" type="warning" style="color: #ff9c0a">{{ item.name }}</el-tag>
+            <el-tag v-if="item.key===0" size="medium" style="color: #019dff">{{ item.name }}</el-tag>
+          </span>
+        </template>
+      </el-table-column>
       <el-table-column prop="address" label="地址" show-overflow-tooltip align="center"></el-table-column>
-      <el-table-column prop="status" label="状态" show-overflow-tooltip align="center"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column label="状态" align="center">
+        <template slot-scope="{row}">
+          <span v-for="item in statusOptions" v-if="row.status===item.key"><el-tag size="medium" effect="success">{{ item.name }}</el-tag></span>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建时间" align="center" width="150"> show-overflow-tooltip>
+        <template slot-scope="{row}">
+          <span>{{ row.createTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="createUser" label="创建者" show-overflow-tooltip align="center"></el-table-column>
-      <el-table-column prop="updateTime" label="更新时间" show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column label="更新时间" align="center" width="150"> show-overflow-tooltip>
+        <template slot-scope="{row}">
+          <span>{{ row.updateTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="updateUser" label="更新者" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding">
         <template slot-scope="{row}">
@@ -220,6 +375,17 @@ import {getList, add, edit, deleteData} from '@/api/es/SysEsData'
 import {addMsg, editMsg, delMsg} from "@/api/common/common";
 import Pagination from '@/components/Pagination' // 分页
 
+// 数据状态
+const statusOptions = [
+  {key: "0", name: '正常'},
+  {key: "1", name: '失败'}
+]
+// 数据状态
+const sexOptions = [
+  {key: 0, name: '男'},
+  {key: 1, name: '女'}
+]
+
 export default {
   name: 'SysEsDataTable',
   components: {Pagination},
@@ -231,7 +397,16 @@ export default {
       listLoading: true, // 列表加载圈
       listQuery: {
         currentPage: 1,
-        pageSize: 10
+        pageSize: 10,
+        name: undefined,
+        phone: undefined,
+        salary: undefined,
+        company: undefined,
+        sex: undefined,
+        address: undefined,
+        status: undefined,
+        startTime: undefined,
+        endTime: undefined
       },
       temp: {
         id: '',
@@ -265,13 +440,126 @@ export default {
         add: '新增',
         edit: '编辑'
       },
-      rules: {}
+      createTime: undefined,
+      createDate: undefined,
+      monthDate: undefined,
+      weekDate: undefined,
+      startTimeDate: undefined,
+      endTimeDate: undefined,
+      statusOptions,
+      sexOptions,
+      rules: {},
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
+      monthDateOptions: {
+        shortcuts: [{
+          text: '本月',
+          onClick(picker) {
+            picker.$emit('pick', [new Date(), new Date()]);
+          }
+        }, {
+          text: '今年至今',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date(new Date().getFullYear(), 0);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近六个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setMonth(start.getMonth() - 6);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      cascaderValue: [],
+      cascaderOptions: [{
+        value: 1,
+        label: '东南',
+        children: [{
+          value: 2,
+          label: '上海',
+          children: [
+            {value: 3, label: '普陀'},
+            {value: 4, label: '黄埔'},
+            {value: 5, label: '徐汇'}
+          ]
+        }, {
+          value: 7,
+          label: '江苏',
+          children: [
+            {value: 8, label: '南京'},
+            {value: 9, label: '苏州'},
+            {value: 10, label: '无锡'}
+          ]
+        }, {
+          value: 12,
+          label: '浙江',
+          children: [
+            {value: 13, label: '杭州'},
+            {value: 14, label: '宁波'},
+            {value: 15, label: '嘉兴'}
+          ]
+        }]
+      }, {
+        value: 17,
+        label: '西北',
+        children: [{
+          value: 18,
+          label: '陕西',
+          children: [
+            {value: 19, label: '西安'},
+            {value: 20, label: '延安'}
+          ]
+        }, {
+          value: 21,
+          label: '新疆维吾尔族自治区',
+          children: [
+            {value: 22, label: '乌鲁木齐'},
+            {value: 23, label: '克拉玛依'}
+          ]
+        }]
+      }]
     }
   },
   created() {
     this.getList();
   },
   methods: {
+    handleChange(value) {
+      console.log(value);
+    },
     /*列表查询*/
     getList() {
       this.listLoading = true
@@ -284,6 +572,11 @@ export default {
     /*条件查询*/
     handleFilter() {
       this.listQuery.currentPage = 1
+      const createTime = this.createTime;
+      if (createTime != null && createTime != ''){
+        this.listQuery.startTime = createTime[0];
+        this.listQuery.endTime = createTime[1]
+      }
       this.getList()
     },
     /*条件重置*/
@@ -374,5 +667,9 @@ export default {
 
 .filter-container {
   margin-bottom: 18px;
+}
+
+.el-row {
+  margin-bottom: 10px;
 }
 </style>
