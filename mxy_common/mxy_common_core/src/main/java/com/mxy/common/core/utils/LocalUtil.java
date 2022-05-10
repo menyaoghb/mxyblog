@@ -5,9 +5,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Description 选择地区工具，包含全国各地省级市级
@@ -22,7 +20,7 @@ public class LocalUtil {
     /**
      * 所有国家名称List
      */
-    private static final List<String> COUNTRY_REGION = new ArrayList<String>();
+    private static final List<Map<String, String>> COUNTRY_REGION = new ArrayList<>();
     private static LocalUtil localutil;
     private SAXReader reader;
     private Document document;
@@ -51,14 +49,17 @@ public class LocalUtil {
         Element ele = null;
         while (it.hasNext()) {
             ele = (Element) it.next();
-            COUNTRY_REGION.add(ele.attributeValue("Name"));
+            Map<String, String> map = new HashMap<>();
+            map.put("name",ele.attributeValue("Name"));
+            map.put("value",ele.attributeValue("Code"));
+            COUNTRY_REGION.add(map);
         }
     }
 
     /**
      * 获取所有国家名称
      */
-    public List<String> getCountry() {
+    public List<Map<String, String>> getCountry() {
         return COUNTRY_REGION;
     }
 
@@ -71,7 +72,10 @@ public class LocalUtil {
         Element ele = null;
         while (it.hasNext()) {
             ele = (Element) it.next();
-            COUNTRY_REGION.add(ele.attributeValue("Name"));
+            Map<String, String> map = new HashMap<>();
+            map.put("name",ele.attributeValue("Name"));
+            map.put("value",ele.attributeValue("Code"));
+            COUNTRY_REGION.add(map);
             if (ele.attributeValue("Name").equals(countryName)) {
                 provinces = ele.elements();
                 break;
@@ -86,11 +90,14 @@ public class LocalUtil {
      * @param countryName 国家名，从getCountry()从取出
      * @return List<Element>
      */
-    public List<String> getProvinces(String countryName) {
+    public List<Map<String, String>> getProvinces(String countryName) {
         List<Element> tmp = this.provinces(countryName);
-        List<String> list = new ArrayList<String>();
+        List<Map<String, String>> list = new ArrayList<>();
         for (int i = 0; i < tmp.size(); i++) {
-            list.add(tmp.get(i).attributeValue("Name"));
+            Map<String, String> map = new HashMap<>();
+            map.put("name",tmp.get(i).attributeValue("Name"));
+            map.put("value",tmp.get(i).attributeValue("Code"));
+            list.add(map);
         }
         return list;
     }
@@ -127,11 +134,14 @@ public class LocalUtil {
      * @param provinceName 省份名
      * @return List<String>
      */
-    public List<String> getCities(String countryName, String provinceName) {
+    public List<Map<String, String>> getCities(String countryName, String provinceName) {
         List<Element> tmp = this.cities(countryName, provinceName);
-        List<String> cities = new ArrayList<String>();
+        List<Map<String, String>> cities = new ArrayList<>();
         for (int i = 0; i < tmp.size(); i++) {
-            cities.add(tmp.get(i).attributeValue("Name"));
+            Map<String, String> map = new HashMap<>();
+            map.put("name",tmp.get(i).attributeValue("Name"));
+            map.put("value",tmp.get(i).attributeValue("Code"));
+            cities.add(map);
         }
         return cities;
     }
@@ -169,11 +179,14 @@ public class LocalUtil {
      * @param city
      * @return
      */
-    public List<String> getcounty(String countryName, String provinceName, String city) {
+    public List<Map<String, String>> getcounty(String countryName, String provinceName, String city) {
         List<Element> tmp = this.county(countryName, provinceName, city);
-        List<String> cities = new ArrayList<String>();
+        List<Map<String, String>> cities = new ArrayList<>();
         for (int i = 0; i < tmp.size(); i++) {
-            cities.add(tmp.get(i).attributeValue("Name"));
+            Map<String, String> map = new HashMap<>();
+            map.put("name",tmp.get(i).attributeValue("Name"));
+            map.put("value",tmp.get(i).attributeValue("Code"));
+            cities.add(map);
         }
         return cities;
     }
