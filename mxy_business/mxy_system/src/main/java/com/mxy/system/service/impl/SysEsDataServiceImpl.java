@@ -73,8 +73,18 @@ public class SysEsDataServiceImpl extends ServiceImpl<SysEsDataMapper, SysEsData
             if (StringUtils.isNotEmpty(sysEsDataVO.getPhone())) {
                 bool.must(new TermQueryBuilder("phone", sysEsDataVO.getPhone()));
             }
-            if (sysEsDataVO.getSalary() != null) {
-                bool.must(new TermQueryBuilder("salary", sysEsDataVO.getSalary()));
+            if (StringUtils.isNotBlank(sysEsDataVO.getMinSalary())||StringUtils.isNotBlank(sysEsDataVO.getMaxSalary())) {
+                if (StringUtils.isNotBlank(sysEsDataVO.getMinSalary())&&StringUtils.isNotBlank(sysEsDataVO.getMaxSalary())){
+                    // 工资范围查询
+                    RangeQueryBuilder salaryRange = new RangeQueryBuilder("salary");
+                    salaryRange.gte(sysEsDataVO.getMinSalary());
+                    salaryRange.lte(sysEsDataVO.getMaxSalary());
+                    bool.must(salaryRange);
+                }else if (StringUtils.isNotBlank(sysEsDataVO.getMinSalary())){
+                    bool.must(new TermQueryBuilder("salary", sysEsDataVO.getMinSalary()));
+                }else {
+                    bool.must(new TermQueryBuilder("salary", sysEsDataVO.getMaxSalary()));
+                }
             }
             if (StringUtils.isNotBlank(sysEsDataVO.getStatus())) {
                 bool.must(new TermQueryBuilder("status.keyword", sysEsDataVO.getStatus()));
