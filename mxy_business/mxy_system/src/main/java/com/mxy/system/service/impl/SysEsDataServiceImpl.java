@@ -6,7 +6,6 @@ import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysEsData;
 import com.mxy.common.core.utils.ServiceResult;
-import com.mxy.core.elasticsearch.EsServiceImpl;
 import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.entity.vo.SysEsDataVO;
 import com.mxy.system.mapper.SysEsDataMapper;
@@ -14,7 +13,6 @@ import com.mxy.system.service.SysEsDataService;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.HttpAsyncResponseConsumerFactory;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -28,7 +26,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -48,17 +45,6 @@ public class SysEsDataServiceImpl extends ServiceImpl<SysEsDataMapper, SysEsData
     @Autowired
     public RestHighLevelClient client;
 
-    protected static final RequestOptions COMMON_OPTIONS;
-
-    static {
-        RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
-        // 默认缓冲限制为100MB，此处修改为30MB。
-        builder.setHttpAsyncResponseConsumerFactory(new HttpAsyncResponseConsumerFactory.HeapBufferedResponseConsumerFactory(30 * 1024 * 1024));
-        COMMON_OPTIONS = builder.build();
-    }
-
-    @Resource
-    private EsServiceImpl esService;
 
     @Override
     public String getList(SysEsDataVO sysEsDataVO) {
@@ -115,7 +101,7 @@ public class SysEsDataServiceImpl extends ServiceImpl<SysEsDataMapper, SysEsData
             // 获取超过1w条数据 需要加上  "track_total_hits":true ，不然只能显示出9999条
             searchSourceBuilder.trackTotalHits(true);
             searchRequest.source(searchSourceBuilder);
-            SearchResponse search = client.search(searchRequest, COMMON_OPTIONS);
+            SearchResponse search = client.search(searchRequest, RequestOptions.DEFAULT);
 
             SearchHit[] hits = search.getHits().getHits();
             long count = search.getHits().getTotalHits().value;

@@ -15,6 +15,8 @@ import com.mxy.system.service.SysCountryService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 国家省分地市区县 服务实现类
@@ -74,6 +76,11 @@ public class SysCountryServiceImpl extends ServiceImpl<SysCountryMapper, SysCoun
         } else {
             return ServiceResult.successMsg(BaseMessage.DELETE_FAIL);
         }
+    }
+
+    @Override
+    public List<SysCountry> selectList() {
+        return this.baseMapper.selectList(new QueryWrapper<>());
     }
 
 }
