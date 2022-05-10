@@ -108,5 +108,13 @@ public class SysEsDataVO extends BaseVO<SysEsData> {
      * 备用字段十
      */
     private Date fieldTen;
+    /**
+     * 最小工资
+     */
+    private String minSalary;
+    /**
+     * 最大工资
+     */
+    private String maxSalary;
 
 }

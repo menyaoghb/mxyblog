@@ -182,13 +182,15 @@
                   size="small"
                   placeholder="最小工资"
                   suffix-icon="el-icon-minus"
-                  v-model="listQuery.salary">
+                  clearable
+                  v-model="listQuery.minSalary">
                 </el-input>
                 <el-input
                   size="small"
                   placeholder="最大工资"
                   suffix-icon="el-icon-plus"
-                  v-model="listQuery.salary">
+                  clearable
+                  v-model="listQuery.maxSalary">
                 </el-input>
               </el-form-item>
             </el-col>
@@ -231,6 +233,7 @@
       :cell-style="{padding:'0px'}" v-loading="listLoading"
       element-loading-spinner="el-icon-loading">
       <el-table-column type="index" width="50" align="center"/>
+      <el-table-column prop="fieldOne" label="生产ID" show-overflow-tooltip align="center" width="300"></el-table-column>
       <el-table-column prop="name" label="姓名" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="phone" label="手机号" show-overflow-tooltip align="center" width="150"></el-table-column>
       <el-table-column prop="salary" label="工资" show-overflow-tooltip align="center"></el-table-column>
@@ -251,6 +254,20 @@
             }}</el-tag></span>
         </template>
       </el-table-column>
+      <el-table-column prop="fieldTwo" label="备用字段二" show-overflow-tooltip align="center" width="150"></el-table-column>
+      <el-table-column prop="fieldThree" label="备用字段三" show-overflow-tooltip align="center" width="150"></el-table-column>
+      <el-table-column prop="fieldFour" label="备用字段四" show-overflow-tooltip align="center" width="150"></el-table-column>
+      <el-table-column prop="fieldFive" label="备用字段五" show-overflow-tooltip align="center" width="150"></el-table-column>
+      <el-table-column prop="fieldSix" label="备用字段六" show-overflow-tooltip align="center" width="150"></el-table-column>
+      <el-table-column prop="fieldSeven" label="备用字段七" show-overflow-tooltip align="center" width="150"></el-table-column>
+      <el-table-column prop="fieldEight" label="备用字段八" show-overflow-tooltip align="center" width="150"></el-table-column>
+      <el-table-column prop="fieldNine" label="备用字段九" show-overflow-tooltip align="center" width="150"></el-table-column>
+      <el-table-column label="备用字段十" align="center" width="150"> show-overflow-tooltip>
+        <template slot-scope="{row}">
+          <span>{{ row.fieldTen | parseTime('{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="dataId" label="数据ID" show-overflow-tooltip align="center" width="300"></el-table-column>
       <el-table-column label="创建时间" align="center" width="150"> show-overflow-tooltip>
         <template slot-scope="{row}">
           <span>{{ row.createTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
