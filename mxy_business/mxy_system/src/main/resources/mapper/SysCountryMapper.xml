@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mxy.system.mapper.SysCountryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysCountry">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="value" property="value" />
+        <result column="parent_id" property="parentId" />
+        <result column="path" property="path" />
+        <result column="is_delete" property="isDelete" />
+        <result column="create_user" property="createUser" />
+        <result column="create_time" property="createTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        WHERE 1 = 1
+    <if test="id!=null and id!=''">
+        AND id = #{id}
+    </if>
+    <if test="name!=null and name!=''">
+        AND name = #{name}
+    </if>
+    <if test="value!=null and value!=''">
+        AND value = #{value}
+    </if>
+    <if test="parentId!=null and parentId!=''">
+        AND parent_id = #{parentId}
+    </if>
+    <if test="path!=null and path!=''">
+        AND path = #{path}
+    </if>
+    <if test="isDelete!=null and isDelete!=''">
+        AND is_delete = #{isDelete}
+    </if>
+    <if test="createUser!=null and createUser!=''">
+        AND create_user = #{createUser}
+    </if>
+    <if test="createTime!=null and createTime!=''">
+        AND create_time = #{createTime}
+    </if>
+    <if test="updateUser!=null and updateUser!=''">
+        AND update_user = #{updateUser}
+    </if>
+    <if test="updateTime!=null and updateTime!=''">
+        AND update_time = #{updateTime}
+    </if>
+    <if test="remark!=null and remark!=''">
+        AND remark = #{remark}
+    </if>
+    </sql>
+
+</mapper>

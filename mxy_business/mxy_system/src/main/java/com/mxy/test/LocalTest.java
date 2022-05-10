@@ -50,7 +50,7 @@ public class LocalTest {
         List<String> city = new ArrayList<>();
         List<String> county = new ArrayList<>();
         List<String> list = lu.getCountry();
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < 1; i++) {
             country.add(list.get(i));
             List<String> provincesList =  lu.getProvinces(list.get(i));
             for(int j=0; j<provincesList.size(); j++){
@@ -65,5 +65,9 @@ public class LocalTest {
                 }
             }
         }
+        System.out.println(country);
+        System.out.println(provinces);
+        System.out.println(city);
+        System.out.println(county);
     }
 }
