@@ -42,8 +42,8 @@ public class CodeGenerator {
         String mapperXmlPath = "mapper.xml";
         String mapperPath = "mapper";
 
-        String path = "D:\\codeTest\\my\\mxy_blog\\mxy_blog\\mxy_business\\mxy_system";
-        String genPath = "D:\\codeTest\\my\\mxy_blog\\mxy_blog\\mxy_common\\mxy_common_core";
+        String path = "D:\\work\\my\\mxy_blog\\mxy_blog\\mxy_business\\mxy_system";
+        String genPath = "D:\\work\\my\\mxy_blog\\mxy_blog\\mxy_common\\mxy_common_core";
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 

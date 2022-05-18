@@ -56,6 +56,8 @@ public class CountryHandler {
             }
         }
         // 2、刷新redis中数据
-        redisUtil.listSet("COUNTRY_DATA", sysCountryList);
+        boolean flag = redisUtil.listSet("COUNTRY_DATA", sysCountryList);
+        XxlJobHelper.log("刷新redis结果：" + flag);
+        XxlJobHelper.log("redis数据size：" + redisUtil.lGetListSize("COUNTRY_DATA"));
     }
 }
