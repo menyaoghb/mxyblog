@@ -31,6 +31,7 @@ public class SysCountryServiceImpl extends ServiceImpl<SysCountryMapper, SysCoun
     @Override
     public String getList(SysCountryVO sysCountryVO) {
         QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.orderByAsc("value");
         Page<SysCountry> page = new Page<>();
         page.setCurrent(sysCountryVO.getCurrentPage());
         page.setSize(sysCountryVO.getPageSize());

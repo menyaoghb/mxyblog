@@ -317,7 +317,7 @@
         <el-form-item label="地址">
           <el-input v-model="temp.address"/>
         </el-form-item>
-        <el-form-item label="状态（0正常 1停用）">
+        <el-form-item label="状态">
           <el-input v-model="temp.status"/>
         </el-form-item>
         <el-form-item label="创建时间">
@@ -400,7 +400,7 @@
             <el-form-item label="地址：">{{ temp.address }}</el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="状态（0正常 1停用）：">{{ temp.status }}</el-form-item>
+            <el-form-item label="状态：">{{ temp.status }}</el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="创建时间：">{{ temp.createTime }}</el-form-item>
