@@ -19,13 +19,13 @@
               </div>
             </div>
           </header>
-          <div
-              class="copy-text"
-              data-clipboard-target=".hljs"
-              @click="copy()"
-          >
-            复制
-          </div>
+<!--          <div-->
+<!--              class="copy-text"-->
+<!--              data-clipboard-target=".hljs"-->
+<!--              @click="copy()"-->
+<!--          >-->
+<!--            复制-->
+<!--          </div>-->
           <!-- 正文输出 -->
           <div id="code" class="entry-content" v-html="postList.content" v-highlight>
           </div>

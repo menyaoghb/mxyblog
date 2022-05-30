@@ -105,6 +105,39 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/report',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'report',
+    meta: {
+      title: '报表统计',
+      icon: 'el-icon-orange'
+    },
+    children: [
+      {
+        path: 'index1Path',
+        component: () => import('@/views/echarts/index1'),
+        name: 'index1Name',
+        meta: {title: '报表样例一', icon: 'el-icon-lollipop'}
+      },{
+        path: 'index2Path',
+        component: () => import('@/views/echarts/index2'),
+        name: 'index2Name',
+        meta: {title: '报表样例二', icon: 'el-icon-lollipop'}
+      },{
+        path: 'index3Path',
+        component: () => import('@/views/echarts/index3'),
+        name: 'index3Name',
+        meta: {title: '报表样例三', icon: 'el-icon-lollipop'}
+      },{
+        path: 'index4Path',
+        component: () => import('@/views/echarts/index4'),
+        name: 'index4Name',
+        meta: {title: '报表样例四', icon: 'el-icon-lollipop'}
+      }
+    ]
+  },
+  {
     path: '/collection',
     component: Layout,
     redirect: 'noRedirect',
