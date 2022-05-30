@@ -1,4 +1,4 @@
-package com.mxy.test;
+package com.mxy.test.insert;
 
 import com.mxy.common.core.entity.SysCountry;
 import com.mxy.common.core.utils.CommonUtils;

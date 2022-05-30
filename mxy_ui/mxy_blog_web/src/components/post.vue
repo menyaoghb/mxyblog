@@ -2,14 +2,14 @@
     <article class="post post-list">
       <div class="post-entry" style="width: 50%;">
         <h1 class="entry-title">
-          <router-link :to="`/article/${post.id}`"><!--<span v-if="post.isTop" style="color:#ff6d6d;font-weight:600">[置顶] </span>--><span style="font-family: cursive;">{{post.title}}</span></router-link>
+          <router-link target="_blank" :to="`/article/${post.id}`"><!--<span v-if="post.isTop" style="color:#ff6d6d;font-weight:600">[置顶] </span>--><span style="font-family: cursive;">{{post.title}}</span></router-link>
         </h1>
       </div>
       <div style="display: inline-block">
         <img height="70" width="120" :src="post.filePath">
       </div>
         <div class="post-entry" style="display: inline-block;width: 50%;position: absolute;">
-          <router-link :to="`/article/${post.id}`"><p class="summary" :title="post.summary" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin-top: 20px">{{post.summary}}</p></router-link>
+          <router-link target="_blank" :to="`/article/${post.id}`"><p class="summary" :title="post.summary" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin-top: 20px">{{post.summary}}</p></router-link>
             <p class="summary" style="font-size:xx-small;text-align: left;margin-top: 10px;"><span v-show="post.pageViews!==0"><i class="iconfont iconeyes"></i>    {{post.pageViews}}        </span><i class="iconfont iconmeditor-time"></i>    {{post.createTime | parseTime}}</p>
         </div>
 

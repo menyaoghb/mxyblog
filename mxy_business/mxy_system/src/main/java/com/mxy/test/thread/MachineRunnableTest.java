@@ -1,4 +1,4 @@
-package com.mxy.test;
+package com.mxy.test.thread;
 
 /**
  * 实现Runnable接口
@@ -10,11 +10,6 @@ public class MachineRunnableTest implements Runnable {
     public void run() {
         for (a = 0; a < 50; a++) {
             System.out.println(Thread.currentThread().getName() + ":" + a);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 
