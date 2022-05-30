@@ -10,7 +10,7 @@
             <el-row :gutter="20">
               <el-col :span="24">
                 <el-card :body-style="{ padding: '0px' }">
-                  <img width="600" height="300" src="http://mxy.mxyit.com/63f7a45d-b72d-45ff-a5a8-3f653e99ebc9" class="image">
+                  <img width="600" height="300" src="http://mxy.mxyit.com/c59e2c6e-e64d-4bd8-8efc-2d18f5865913" class="image">
                   <div style="padding: 14px;">
                     <span>一天</span>
                     <div class="bottom clearfix">
@@ -25,7 +25,7 @@
             <el-row :gutter="20">
               <el-col :span="24">
                 <el-card :body-style="{ padding: '0px' }">
-                  <img width="600" height="300" src="http://mxy.mxyit.com/0116c306-8d73-4186-a9a1-15bb3de0332a" class="image">
+                  <img width="600" height="300" src="http://mxy.mxyit.com/e0c5198c-f13b-4d21-8315-b215a01710ee" class="image">
                   <div style="padding: 14px;">
                     <span>美好</span>
                     <div class="bottom clearfix">
