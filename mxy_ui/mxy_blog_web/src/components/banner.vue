@@ -1,5 +1,5 @@
 <template>
-    <div id="banner" :class="{'home-banner':isHome}" style="margin-top: 0;height: 9vh;">
+    <div id="banner" :class="{'home-banner':isHome}" style="margin-top: 84px;height: 100vh;">
         <div class="banner-img" :style="{'background-image': `url(${src})`}">
             <template v-if="isHome">
                 <!--博主信息-->
@@ -38,7 +38,7 @@
         props:{
             src:{
                 type: String,
-                default: 'http://mxy.mxyit.com/09c38fc1-e14c-46c5-ab95-5a4ec6a197ea'
+                default: 'http://mxy.mxyit.com/e0c5198c-f13b-4d21-8315-b215a01710ee'
             },
             isHome:{
                 type: [Boolean,String],

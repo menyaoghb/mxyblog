@@ -1,10 +1,11 @@
 <template>
   <div class="home">
-    <div>
-      <video src="http://mxy.mxyit.com/common/202204071113.mp4" crossorigin="anonymous" loop autoplay muted height="100%" id="video"
-             style="display: block;  width: 100%; height: 50%; top: 280px; left: 0px;">
-      </video>
-    </div>
+<!--    <div>-->
+<!--      <video src="http://mxy.mxyit.com/common/202204071113.mp4" crossorigin="anonymous" loop autoplay muted height="100%" id="video"-->
+<!--             style="display: block;  width: 100%; height: 50%; top: 280px; left: 0px;">-->
+<!--      </video>-->
+<!--    </div>-->
+    <banner isHome="true"></banner>
     <div class="site-content animate" style="width: 100%;">
       <!--通-->
       <div style="margin-top: 60px;    text-align: center;">
