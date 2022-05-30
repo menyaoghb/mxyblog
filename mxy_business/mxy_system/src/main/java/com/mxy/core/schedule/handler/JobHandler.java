@@ -1,12 +1,18 @@
 package com.mxy.core.schedule.handler;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.mxy.common.core.entity.SysEsData;
 import com.mxy.common.core.utils.AutoNameUtils;
 import com.mxy.common.core.utils.DateUtils;
 import com.mxy.core.elasticsearch.EsServiceImpl;
-import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -28,6 +34,9 @@ public class JobHandler {
     @Resource
     private EsServiceImpl esService;
 
+    @Autowired
+    public RestHighLevelClient client;
+
     private AtomicInteger integer = new AtomicInteger();
 
     private String[] names = {"紫南", "安蕾", "春雁", "凌香", "凡梦", "雅琴", "寻文", "青筠", "小萱", "访烟", "妙竹", "千青", "幻灵", "天荷", "春竹", "之瑶", "代云", "芷蕾"};
@@ -36,12 +45,11 @@ public class JobHandler {
 
     @XxlJob("esDataInsOne")
     public void esDataIns() throws Exception {
-        for (int i = 0; i < 137; i++) {
+        BulkRequest bulkRequest = new BulkRequest();
+        for (int i = 0; i < 200; i++) {
             Random random = new Random();
-            XxlJobHelper.log(DateUtils.getFromNow(Integer.parseInt(DateUtils.getRandom(2))));
-            XxlJobHelper.log(String.valueOf(Integer.parseInt(DateUtils.getRandom(9))));
-            esService.insertRequest(INDEX_NAME, UUID.randomUUID().toString().replace("-",""), SysEsData.builder()
-                    .dataId(UUID.randomUUID().toString().replace("-",""))
+            IndexRequest indexRequest = new IndexRequest(INDEX_NAME).source(BeanUtil.beanToMap(SysEsData.builder()
+                    .dataId(UUID.randomUUID().toString().replace("-", ""))
                     .name(AutoNameUtils.autoSurAndName())
                     .phone(18700000000L + random.nextInt(88888888))
                     .salary(new BigDecimal(random.nextInt(99999)))
@@ -62,18 +70,19 @@ public class JobHandler {
                     .fieldEight(DateUtils.getTimeShort())
                     .fieldNine(Integer.parseInt(DateUtils.getRandom(9)))
                     .fieldTen(DateUtils.strToDate(DateUtils.dateToStr(new Date())))
-                    .build());
+                    .build()), XContentType.JSON);
+            bulkRequest.add(indexRequest);
         }
+        client.bulk(bulkRequest, RequestOptions.DEFAULT);
     }
 
     @XxlJob("esDataInsTwo")
     public void esDataInsTwo() throws Exception {
-        for (int i = 0; i < 63; i++) {
+        BulkRequest bulkRequest = new BulkRequest();
+        for (int i = 0; i < 100; i++) {
             Random random = new Random();
-            XxlJobHelper.log(DateUtils.getFromNow(Integer.parseInt(DateUtils.getRandom(2))));
-            XxlJobHelper.log(String.valueOf(Integer.parseInt(DateUtils.getRandom(9))));
-            esService.insertRequest(INDEX_NAME, UUID.randomUUID().toString().replace("-",""), SysEsData.builder()
-                    .dataId(UUID.randomUUID().toString().replace("-",""))
+            IndexRequest indexRequest = new IndexRequest(INDEX_NAME).source(BeanUtil.beanToMap(SysEsData.builder()
+                    .dataId(UUID.randomUUID().toString().replace("-", ""))
                     .name(AutoNameUtils.autoSurAndName())
                     .phone(15100000000L + random.nextInt(88888888))
                     .salary(new BigDecimal(random.nextInt(99999)))
@@ -94,9 +103,10 @@ public class JobHandler {
                     .fieldEight(DateUtils.getTimeShort())
                     .fieldNine(Integer.parseInt(DateUtils.getRandom(9)))
                     .fieldTen(DateUtils.strToDate(DateUtils.dateToStr(new Date())))
-                    .build());
-
+                    .build()), XContentType.JSON);
+            bulkRequest.add(indexRequest);
         }
+        client.bulk(bulkRequest, RequestOptions.DEFAULT);
     }
 
 }
