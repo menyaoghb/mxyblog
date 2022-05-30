@@ -1,4 +1,4 @@
-package com.mxy.test;
+package com.mxy.test.thread;
 
 /**
  * 继承java.lang.Thread类
