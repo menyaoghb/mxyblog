@@ -5,33 +5,67 @@
       <el-form ref="form" label-position="left" label-width="80px">
         <el-row :gutter="20">
           <el-col :span="6">
-            <el-form-item label="姓名">
-              <el-input size="small" placeholder="姓名/模糊查询" v-model="listQuery.name" clearable
-                        @keyup.enter.native="handleFilter"></el-input>
+            <el-form-item label="入库时间">
+              <el-date-picker
+                size="small"
+                v-model="createTime"
+                format="yyyy-MM-dd HH:mm:ss"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                style="width: 100%"
+                type="datetimerange"
+                range-separator="~"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+              >
+              </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="手机号">
-              <el-input size="small" placeholder="手机号/精确查询" v-model="listQuery.phone" clearable
-                        @keyup.enter.native="handleFilter"></el-input>
+
+            <el-form-item label="地区">
+              <el-cascader
+                size="small"
+                v-model="cascaderValue"
+                style="width: 100%;"
+                placeholder="多选任意"
+                :options="cascaderOptions"
+                :props="{ multiple: true, checkStrictly: true }"
+                filterable
+                clearable></el-cascader>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="公司">
-              <el-input size="small" placeholder="公司名称/模糊查询" v-model="listQuery.company" clearable
-                        @keyup.enter.native="handleFilter"></el-input>
+          <el-col :span="6" class="col-salary">
+            <el-form-item label="工资">
+              <el-input
+                size="small"
+                placeholder="最小工资"
+                suffix-icon="el-icon-minus"
+                clearable
+                v-model="listQuery.minSalary">
+              </el-input>
+              <el-input
+                size="small"
+                placeholder="最大工资"
+                suffix-icon="el-icon-plus"
+                clearable
+                v-model="listQuery.maxSalary">
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item>
-            <el-button class="filter-item" @click="handleFilter" size="small">
-              查询
-            </el-button>
-            <el-button class="filter-item" style="margin-left: 10px;" @click="handleRest" size="small">
-              重置
-            </el-button>
-            <el-link v-show="!filterShow" style="margin-left: 10px;font-size: small;" type="primary" @click="filterShow=true" :underline="false">高级搜索</el-link>
-            <el-link v-show="filterShow" style="margin-left: 10px;font-size: small;" type="primary" @click="filterShow=false" :underline="false">高级搜索</el-link>
+              <el-button class="filter-item" @click="handleFilter" size="small">
+                查询
+              </el-button>
+              <el-button class="filter-item" style="margin-left: 10px;" @click="handleRest" size="small">
+                重置
+              </el-button>
+              <el-link v-show="!filterShow" style="margin-left: 10px;font-size: small;" type="primary"
+                       @click="filterShow=true" :underline="false">高级搜索
+              </el-link>
+              <el-link v-show="filterShow" style="margin-left: 10px;font-size: small;" type="primary"
+                       @click="filterShow=false" :underline="false">高级搜索
+              </el-link>
             </el-form-item>
           </el-col>
         </el-row>
@@ -64,74 +98,7 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :span="6">
-              <el-form-item label="地区">
-                <el-cascader
-                  size="small"
-                  clearable
-                  style="width: 100%;"
-                  placeholder="请选择地区"
-                  v-model="cascaderValue"
-                  :options="cascaderOptions"
-                  :props="{ expandTrigger: 'hover' }"
-                  filterable
-                  @change="handleChange"></el-cascader>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="地区">
-                <el-cascader
-                  size="small"
-                  style="width: 100%;"
-                  placeholder="多选"
-                  v-model="cascaderValue"
-                  :options="cascaderOptions"
-                  :props="{ multiple: true }"
-                  filterable
-                  collapse-tags
-                  clearable></el-cascader>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="地区">
-                <el-cascader
-                  size="small"
-                  v-model="cascaderValue"
-                  style="width: 100%;"
-                  placeholder="多选任意"
-                  :options="cascaderOptions"
-                  :props="{ multiple: true, checkStrictly: true }"
-                  filterable
-                  clearable></el-cascader>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="数据状态">
-                <el-select size="small" v-model="listQuery.status" filterable clearable placeholder="数据状态" class="filter-item"
-                           style="width: 100%;">
-                  <el-option v-for="item in statusOptions" :key="item.key" :label="item.name" :value="item.key"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="6">
-              <el-form-item label="创建时间">
-                <el-date-picker
-                  size="small"
-                  v-model="createTime"
-                  format="yyyy-MM-dd HH:mm:ss"
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  style="width: 100%"
-                  type="datetimerange"
-                  range-separator="~"
-                  start-placeholder="开始时间"
-                  end-placeholder="结束时间"
-                >
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="创建时间">
+              <el-form-item label="字段三">
                 <el-date-picker
                   size="small"
                   v-model="weekDate"
@@ -143,23 +110,14 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="创建时间">
-                <el-date-picker
-                  size="small"
-                  v-model="createDate"
-                  type="daterange"
-                  align="right"
-                  unlink-panels
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  style="width: 100%"
-                  :picker-options="pickerOptions">
-                </el-date-picker>
+              <el-form-item label="数据ID">
+                <el-input size="small" placeholder="请输入数据ID" v-model="listQuery.fieldOne" clearable
+                          @keyup.enter.native="handleFilter">
+                </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="创建时间">
+              <el-form-item label="月份">
                 <el-date-picker
                   size="small"
                   v-model="monthDate"
@@ -174,52 +132,13 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="6" class="col-salary">
-              <el-form-item label="工资">
-                <el-input
-                  size="small"
-                  placeholder="最小工资"
-                  suffix-icon="el-icon-minus"
-                  clearable
-                  v-model="listQuery.minSalary">
-                </el-input>
-                <el-input
-                  size="small"
-                  placeholder="最大工资"
-                  suffix-icon="el-icon-plus"
-                  clearable
-                  v-model="listQuery.maxSalary">
-                </el-input>
-              </el-form-item>
-            </el-col>
             <el-col :span="6">
-              <el-form-item label="数据ID">
-                <el-input size="small" placeholder="请输入数据ID" v-model="listQuery.nickName" clearable @keyup.enter.native="handleFilter">
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="开始点">
-                <el-time-picker
-                  size="small"
-                  v-model="startTimeDate"
-                  style="width: 100%;"
-                  :picker-options="{selectableRange: '00:00:00 - 23:59:59'}"
-                  placeholder="请选择开始时间点">
-                </el-time-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="结束点">
-                <el-time-picker
-                  size="small"
-                  v-model="endTimeDate"
-                  style="width: 100%;"
-                  :picker-options="{selectableRange: '00:00:00 - 23:59:59'}"
-                  placeholder="请选择结束时间点">
-                </el-time-picker>
+              <el-form-item label="数据状态">
+                <el-select size="small" v-model="listQuery.status" filterable clearable placeholder="数据状态"
+                           class="filter-item"
+                           style="width: 100%;">
+                  <el-option v-for="item in statusOptions" :key="item.key" :label="item.name" :value="item.key"/>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -255,13 +174,19 @@
         </template>
       </el-table-column>
       <el-table-column prop="fieldTwo" label="备用字段二" show-overflow-tooltip align="center" width="150"></el-table-column>
-      <el-table-column prop="fieldThree" label="备用字段三" show-overflow-tooltip align="center" width="150"></el-table-column>
-      <el-table-column prop="fieldFour" label="备用字段四" show-overflow-tooltip align="center" width="150"></el-table-column>
-      <el-table-column prop="fieldFive" label="备用字段五" show-overflow-tooltip align="center" width="150"></el-table-column>
+      <el-table-column prop="fieldThree" label="备用字段三" show-overflow-tooltip align="center"
+                       width="150"></el-table-column>
+      <el-table-column prop="fieldFour" label="备用字段四" show-overflow-tooltip align="center"
+                       width="150"></el-table-column>
+      <el-table-column prop="fieldFive" label="备用字段五" show-overflow-tooltip align="center"
+                       width="150"></el-table-column>
       <el-table-column prop="fieldSix" label="备用字段六" show-overflow-tooltip align="center" width="150"></el-table-column>
-      <el-table-column prop="fieldSeven" label="备用字段七" show-overflow-tooltip align="center" width="150"></el-table-column>
-      <el-table-column prop="fieldEight" label="备用字段八" show-overflow-tooltip align="center" width="150"></el-table-column>
-      <el-table-column prop="fieldNine" label="备用字段九" show-overflow-tooltip align="center" width="150"></el-table-column>
+      <el-table-column prop="fieldSeven" label="备用字段七" show-overflow-tooltip align="center"
+                       width="150"></el-table-column>
+      <el-table-column prop="fieldEight" label="备用字段八" show-overflow-tooltip align="center"
+                       width="150"></el-table-column>
+      <el-table-column prop="fieldNine" label="备用字段九" show-overflow-tooltip align="center"
+                       width="150"></el-table-column>
       <el-table-column label="备用字段十" align="center" width="150"> show-overflow-tooltip>
         <template slot-scope="{row}">
           <span>{{ row.fieldTen | parseTime('{y}-{m}-{d}') }}</span>
@@ -459,7 +384,8 @@
 <script>
 import {getList, add, edit, deleteData} from '@/api/es/SysEsData'
 import {addMsg, editMsg, delMsg} from "@/api/common/common";
-import Pagination from '@/components/Pagination' // 分页
+import Pagination from '@/components/Pagination'
+import {parseTime} from "@/utils"; // 分页
 
 // 数据状态
 const statusOptions = [
@@ -478,7 +404,7 @@ export default {
   filters: {},
   data() {
     return {
-      filterShow:false,
+      filterShow: false,
       list: null, //表格列表数据
       total: 0, // 总条数
       listLoading: true, // 列表加载圈
@@ -494,7 +420,9 @@ export default {
         address: undefined,
         status: undefined,
         startTime: undefined,
-        endTime: undefined
+        endTime: undefined,
+        fieldOne: undefined,
+        fieldThree: undefined
       },
       temp: {
         id: '',
@@ -642,6 +570,7 @@ export default {
     }
   },
   created() {
+    this.defaultTime();
     this.getList();
   },
   methods: {
@@ -664,6 +593,12 @@ export default {
       if (createTime != null && createTime != '') {
         this.listQuery.startTime = createTime[0];
         this.listQuery.endTime = createTime[1]
+      } else {
+        this.$message({
+          message: '入库时间不许为空哦',
+          type: 'warning'
+        });
+        return;
       }
       this.getList()
     },
@@ -683,7 +618,7 @@ export default {
         startTime: undefined,
         endTime: undefined
       }
-      this.createTime = [];
+      this.defaultTime();
     },
     /*表单重置*/
     resetTemp() {
@@ -754,6 +689,14 @@ export default {
     handleView(row) {
       this.dialogFormVisibleView = true;
       this.temp = row;
+    },
+    defaultTime() {
+      const end = new Date();
+      const start = new Date();
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+      this.createTime = [parseTime(start, '{y}-{m}-{d} {h}:{i}:{s}'), parseTime(end, '{y}-{m}-{d} {h}:{i}:{s}')];
+      this.listQuery.startTime = this.createTime[0];
+      this.listQuery.endTime = this.createTime[1];
     }
   }
 }

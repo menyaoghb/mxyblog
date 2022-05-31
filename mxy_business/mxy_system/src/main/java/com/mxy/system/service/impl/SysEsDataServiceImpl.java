@@ -57,7 +57,12 @@ public class SysEsDataServiceImpl extends ServiceImpl<SysEsDataMapper, SysEsData
 
             // 精确查询
             if (StringUtils.isNotEmpty(sysEsDataVO.getPhone())) {
+                // 手机号码
                 bool.must(new TermQueryBuilder("phone", sysEsDataVO.getPhone()));
+            }
+            if (StringUtils.isNotEmpty(sysEsDataVO.getFieldOne())) {
+                // 数据id
+                bool.must(new TermQueryBuilder("fieldOne", sysEsDataVO.getFieldOne()));
             }
             if (StringUtils.isNotBlank(sysEsDataVO.getMinSalary())||StringUtils.isNotBlank(sysEsDataVO.getMaxSalary())) {
                 if (StringUtils.isNotBlank(sysEsDataVO.getMinSalary())&&StringUtils.isNotBlank(sysEsDataVO.getMaxSalary())){
