@@ -27,7 +27,9 @@ public class DruidConfiguration {
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(),"/druid/*");
         //添加初始化参数：initParams
         //白名单：
-        servletRegistrationBean.addInitParameter("allow","10.0.4.4");
+        servletRegistrationBean.addInitParameter("allow","127.0.0.1");
+        servletRegistrationBean.addInitParameter("allow","10.0.4.10");
+
         //登录查看信息的账号密码.
         servletRegistrationBean.addInitParameter("loginUsername","admin");
         servletRegistrationBean.addInitParameter("loginPassword","123456");
