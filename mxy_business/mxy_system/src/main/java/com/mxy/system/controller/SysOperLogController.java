@@ -5,11 +5,11 @@ import com.mxy.system.entity.vo.SysOperLogVO;
 import com.mxy.system.service.SysOperLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author 孟小耀
  * @since 2021-07-25
  */
-@Api(value = "操作日志记录",tags = "操作日志记录")
+@Api(value = "操作日志记录", tags = "操作日志记录")
 @RestController
 @RequestMapping("/api/sysOperLog")
 public class SysOperLogController {
@@ -47,7 +47,7 @@ public class SysOperLogController {
     @PostMapping("/add")
     public String add(@RequestBody SysOperLogVO sysOperLogVO) {
         return sysOperLogService.add(sysOperLogVO);
-        }
+    }
 
     /**
      * @Description 编辑操作日志记录
@@ -58,7 +58,7 @@ public class SysOperLogController {
     @PostMapping("/edit")
     public String edit(@RequestBody SysOperLogVO sysOperLogVO) {
         return sysOperLogService.edit(sysOperLogVO);
-        }
+    }
 
     /**
      * @Description 删除操作日志记录
@@ -69,7 +69,17 @@ public class SysOperLogController {
     @PostMapping("/delete")
     public String delete(@RequestBody SysOperLogVO sysOperLogVO) {
         return sysOperLogService.delete(sysOperLogVO);
-        }
+    }
 
+    @ApiOperation(value = "导出操作日志记录")
+    @GetMapping("/export")
+    public void exportSysLog(HttpServletRequest request, HttpServletResponse response,@RequestParam(value = "startTime") String startTime, @RequestParam(value = "endTime") String endTime) {
+        SysOperLogVO sysOperLogVO = new SysOperLogVO();
+//        sysOperLogVO.setTitle(title);
+//        sysOperLogVO.setBusinessType(Integer.parseInt(businessType));
+        sysOperLogVO.setStartTime(startTime);
+        sysOperLogVO.setEndTime(endTime);
+        sysOperLogService.exportSysLog(request, response, sysOperLogVO);
+    }
 }
 

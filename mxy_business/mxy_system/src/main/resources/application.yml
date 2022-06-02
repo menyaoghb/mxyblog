@@ -141,7 +141,7 @@ jwt:
   # 过期时间 单位秒 1天后过期=86400 7天后过期=604800
   expiration: 86400
   # 配置不需要认证的接口
-  antMatchers: /index/**,/druid/**,/api/as/**,/api/test/**,/kafka/**,/api/foreign/**,/favicon.ico,/login/**,/api/sysCountry/**,
+  antMatchers: /index/**,/druid/**,/api/as/**,/api/test/**,/kafka/**,/api/foreign/**,/favicon.ico,/login/**,/api/sysCountry/**,/api/sysOperLog/**
 # xxl-job配置
 xxl:
   job:
