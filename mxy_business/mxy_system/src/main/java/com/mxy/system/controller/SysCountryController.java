@@ -6,10 +6,10 @@ import com.mxy.system.entity.vo.SysCountryVO;
 import com.mxy.system.service.SysCountryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -75,6 +75,18 @@ public class SysCountryController {
     public String delete(@RequestBody SysCountryVO sysCountryVO) {
         return sysCountryService.delete(sysCountryVO);
         }
+
+    /**
+     * @Description 加载世界树
+     * @author 孟小耀
+     * @date 2022-05-10
+     */
+    @SysLog(module = "加载世界树", operType = OperType.DELETE)
+    @ApiOperation(value = "加载世界树")
+    @PostMapping("/getWorldTree")
+    public String worldTree() {
+        return sysCountryService.worldTree();
+    }
 
 }
 

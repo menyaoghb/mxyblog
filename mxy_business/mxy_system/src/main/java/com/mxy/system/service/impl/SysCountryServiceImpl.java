@@ -7,15 +7,24 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysCountry;
+import com.mxy.common.core.utils.RedisUtil;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.entity.vo.SysCountryVO;
 import com.mxy.system.mapper.SysCountryMapper;
 import com.mxy.system.service.SysCountryService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -27,6 +36,12 @@ import java.util.List;
  */
 @Service
 public class SysCountryServiceImpl extends ServiceImpl<SysCountryMapper, SysCountry> implements SysCountryService {
+
+    @Autowired
+    private ThreadPoolExecutor executor;
+
+    @Resource
+    private RedisUtil redisUtil;
 
     @Override
     public String getList(SysCountryVO sysCountryVO) {
@@ -81,7 +96,66 @@ public class SysCountryServiceImpl extends ServiceImpl<SysCountryMapper, SysCoun
 
     @Override
     public List<SysCountry> selectList() {
-        return this.baseMapper.selectList(new QueryWrapper<>());
+        QueryWrapper query = new QueryWrapper<>();
+        query.orderByAsc("create_time,value");
+        return this.baseMapper.selectList(query);
     }
 
+    @Override
+    public String worldTree() {
+        List<SysCountry> listAll = this.selectList();
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        boolean hasKey = redisUtil.hasKey("WORLD_TREE");
+        if (hasKey) {
+            mapList = (List<Map<String, Object>>) redisUtil.get("WORLD_TREE");
+        } else {
+        QueryWrapper query = new QueryWrapper<>();
+        query.eq("parent_id", "0");
+        query.orderByAsc("create_time,value");
+        List<SysCountry> list = this.baseMapper.selectList(query);
+        List<Map<String, Object>> finalMapList = new ArrayList<>();
+        List<CompletableFuture<Map<String, Object>>> futures = new ArrayList<>();
+        list.forEach(m -> {
+            CompletableFuture<Map<String, Object>> mapCompletableFuture = CompletableFuture.supplyAsync(() -> {
+                Map<String, Object> map = new HashMap<>();
+                map.put("label", m.getName());
+                map.put("value", m.getValue());
+                List<SysCountry> childrenList =  listAll.stream().filter(k->k.getParentId().equals(m.getId())).collect(Collectors.toList());
+                if (CollectionUtils.isNotEmpty(childrenList)) {
+                    map.put("children", data(listAll,childrenList));
+                }
+                return map;
+            });
+            futures.add(mapCompletableFuture);
+        });
+        futures.forEach(p -> {
+            try {
+                Map<String, Object> map = p.get();
+                finalMapList.add(map);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        mapList = finalMapList;
+            redisUtil.set("WORLD_TREE", mapList,1800);
+        }
+        return ServiceResult.success(mapList);
+
+    }
+
+
+    public List<Map<String, Object>> data(List<SysCountry> listAll,List<SysCountry> childrenList) {
+        List<Map<String, Object>> childList = new ArrayList<>();
+        childrenList.forEach(m -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("label", m.getName());
+            map.put("value", m.getValue());
+            List<SysCountry> children = listAll.stream().filter(k->k.getParentId().equals(m.getId())).collect(Collectors.toList());
+            if (CollectionUtils.isNotEmpty(children)) {
+                map.put("children", data(listAll,children));
+            }
+            childList.add(map);
+        });
+        return childList;
+    }
 }

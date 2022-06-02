@@ -41,4 +41,10 @@ public interface SysCountryService extends IService<SysCountry> {
      */
     public List<SysCountry> selectList();
 
+    /**
+     * 加载世界树
+     * @return
+     */
+    public String worldTree();
+
 }
