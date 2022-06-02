@@ -19,11 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.*;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 /**
@@ -104,55 +102,52 @@ public class SysCountryServiceImpl extends ServiceImpl<SysCountryMapper, SysCoun
     @Override
     public String worldTree() {
         List<SysCountry> listAll = this.selectList();
-        List<Map<String, Object>> mapList = new ArrayList<>();
+        List<Map<String, Object>> mapList = new LinkedList<>();
         boolean hasKey = redisUtil.hasKey("WORLD_TREE");
         if (hasKey) {
             mapList = (List<Map<String, Object>>) redisUtil.get("WORLD_TREE");
         } else {
-        QueryWrapper query = new QueryWrapper<>();
-        query.eq("parent_id", "0");
-        query.orderByAsc("create_time,value");
-        List<SysCountry> list = this.baseMapper.selectList(query);
-        List<Map<String, Object>> finalMapList = new ArrayList<>();
-        List<CompletableFuture<Map<String, Object>>> futures = new ArrayList<>();
-        list.forEach(m -> {
-            CompletableFuture<Map<String, Object>> mapCompletableFuture = CompletableFuture.supplyAsync(() -> {
-                Map<String, Object> map = new HashMap<>();
-                map.put("label", m.getName());
-                map.put("value", m.getValue());
-                List<SysCountry> childrenList =  listAll.stream().filter(k->k.getParentId().equals(m.getId())).collect(Collectors.toList());
-                if (CollectionUtils.isNotEmpty(childrenList)) {
-                    map.put("children", data(listAll,childrenList));
-                }
-                return map;
+            List<SysCountry> list = listAll.stream().filter(k -> "0".equals(k.getParentId())).sorted(Comparator.comparing(SysCountry::getCreateTime)).sorted(Comparator.comparing(SysCountry::getValue)).collect(Collectors.toList());
+            List<Map<String, Object>> finalMapList = new LinkedList<>();
+            List<CompletableFuture<Map<String, Object>>> futures = new ArrayList<>();
+            list.forEach(m -> {
+                CompletableFuture<Map<String, Object>> mapCompletableFuture = CompletableFuture.supplyAsync(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("label", m.getName());
+                    map.put("value", m.getValue());
+                    List<SysCountry> childrenList = listAll.stream().filter(k -> k.getParentId().equals(m.getId())).sorted(Comparator.comparing(SysCountry::getValue)).collect(Collectors.toList());
+                    if (CollectionUtils.isNotEmpty(childrenList)) {
+                        map.put("children", data(listAll, childrenList));
+                    }
+                    return map;
+                });
+                futures.add(mapCompletableFuture);
             });
-            futures.add(mapCompletableFuture);
-        });
-        futures.forEach(p -> {
-            try {
-                Map<String, Object> map = p.get();
-                finalMapList.add(map);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        mapList = finalMapList;
-            redisUtil.set("WORLD_TREE", mapList,1800);
+            futures.forEach(p -> {
+                try {
+                    Map<String, Object> map = p.get();
+                    finalMapList.add(map);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            mapList = finalMapList;
+            redisUtil.set("WORLD_TREE", mapList, 1800);
         }
         return ServiceResult.success(mapList);
 
     }
 
 
-    public List<Map<String, Object>> data(List<SysCountry> listAll,List<SysCountry> childrenList) {
+    public List<Map<String, Object>> data(List<SysCountry> listAll, List<SysCountry> childrenList) {
         List<Map<String, Object>> childList = new ArrayList<>();
         childrenList.forEach(m -> {
             Map<String, Object> map = new HashMap<>();
             map.put("label", m.getName());
             map.put("value", m.getValue());
-            List<SysCountry> children = listAll.stream().filter(k->k.getParentId().equals(m.getId())).collect(Collectors.toList());
+            List<SysCountry> children = listAll.stream().filter(k -> k.getParentId().equals(m.getId())).sorted(Comparator.comparing(SysCountry::getValue)).collect(Collectors.toList());
             if (CollectionUtils.isNotEmpty(children)) {
-                map.put("children", data(listAll,children));
+                map.put("children", data(listAll, children));
             }
             childList.add(map);
         });

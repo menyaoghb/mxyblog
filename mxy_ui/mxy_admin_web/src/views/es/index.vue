@@ -29,8 +29,9 @@
                 style="width: 100%;"
                 placeholder="支持搜索"
                 :options="cascaderOptions"
-                :props="{ multiple: true, checkStrictly: true }"
+                :props="{ multiple: true, checkStrictly: true,expandTrigger: 'hover' }"
                 filterable
+                collapse-tags
                 clearable></el-cascader>
             </el-form-item>
           </el-col>
@@ -579,6 +580,7 @@ export default {
         endTime: undefined
       }
       this.defaultTime();
+      this.cascaderValue = [];
     },
     /*表单重置*/
     resetTemp() {
