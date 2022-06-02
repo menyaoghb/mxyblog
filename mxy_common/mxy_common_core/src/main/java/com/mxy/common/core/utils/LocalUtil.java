@@ -15,7 +15,7 @@ public class LocalUtil {
     /**
      * 各地区xml⽂件路径
      */
-    private static final String LOCAL_LIST_PATH = "D:\\LifeSoft\\Tim\\I18N\\2052\\LocList.xml";
+    private static final String LOCAL_LIST_PATH = "D:\\codeTest\\LocList01.xml";
 
     /**
      * 所有国家名称List
@@ -50,8 +50,8 @@ public class LocalUtil {
         while (it.hasNext()) {
             ele = (Element) it.next();
             Map<String, String> map = new HashMap<>();
-            map.put("name",ele.attributeValue("Name"));
-            map.put("value",ele.attributeValue("Code"));
+            map.put("name", ele.attributeValue("Name"));
+            map.put("value", ele.attributeValue("Code"));
             COUNTRY_REGION.add(map);
         }
     }
@@ -73,8 +73,8 @@ public class LocalUtil {
         while (it.hasNext()) {
             ele = (Element) it.next();
             Map<String, String> map = new HashMap<>();
-            map.put("name",ele.attributeValue("Name"));
-            map.put("value",ele.attributeValue("Code"));
+            map.put("name", ele.attributeValue("Name"));
+            map.put("value", ele.attributeValue("Code"));
             COUNTRY_REGION.add(map);
             if (ele.attributeValue("Name").equals(countryName)) {
                 provinces = ele.elements();
@@ -95,9 +95,11 @@ public class LocalUtil {
         List<Map<String, String>> list = new ArrayList<>();
         for (int i = 0; i < tmp.size(); i++) {
             Map<String, String> map = new HashMap<>();
-            map.put("name",tmp.get(i).attributeValue("Name"));
-            map.put("value",tmp.get(i).attributeValue("Code"));
-            list.add(map);
+            if (tmp.get(i).attributeValue("Name") != null) {
+                map.put("name", tmp.get(i).attributeValue("Name"));
+                map.put("value", tmp.get(i).attributeValue("Code"));
+                list.add(map);
+            }
         }
         return list;
     }
@@ -139,9 +141,11 @@ public class LocalUtil {
         List<Map<String, String>> cities = new ArrayList<>();
         for (int i = 0; i < tmp.size(); i++) {
             Map<String, String> map = new HashMap<>();
-            map.put("name",tmp.get(i).attributeValue("Name"));
-            map.put("value",tmp.get(i).attributeValue("Code"));
-            cities.add(map);
+            if (tmp.get(i).attributeValue("Name") != null) {
+                map.put("name", tmp.get(i).attributeValue("Name"));
+                map.put("value", tmp.get(i).attributeValue("Code"));
+                cities.add(map);
+            }
         }
         return cities;
     }
@@ -184,9 +188,11 @@ public class LocalUtil {
         List<Map<String, String>> cities = new ArrayList<>();
         for (int i = 0; i < tmp.size(); i++) {
             Map<String, String> map = new HashMap<>();
-            map.put("name",tmp.get(i).attributeValue("Name"));
-            map.put("value",tmp.get(i).attributeValue("Code"));
-            cities.add(map);
+            if (tmp.get(i).attributeValue("Name") != null) {
+                map.put("name", tmp.get(i).attributeValue("Name"));
+                map.put("value", tmp.get(i).attributeValue("Code"));
+                cities.add(map);
+            }
         }
         return cities;
     }

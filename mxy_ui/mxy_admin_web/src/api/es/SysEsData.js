@@ -32,3 +32,10 @@ export function deleteData(data) {
         data
     })
 }
+
+export function getWorldTree() {
+  return request({
+    url: '/sysCountry/getWorldTree',
+    method: 'post'
+  })
+}

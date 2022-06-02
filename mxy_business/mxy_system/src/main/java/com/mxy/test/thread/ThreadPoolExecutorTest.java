@@ -17,7 +17,7 @@ public class ThreadPoolExecutorTest {
     }
 
     public static ThreadPoolExecutor threadPoolExecutor() {
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(4, 6, 5, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100));        executor.allowCoreThreadTimeOut(true);
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(4, 6, 5, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100));
         executor.allowCoreThreadTimeOut(true);
         return executor;
     }
