@@ -204,7 +204,7 @@ export default {
     handleFilter() {
       this.listQuery.currentPage = 1
       const createTime = this.createTime;
-      if (createTime != null && createTime != ''){
+      if (createTime != null && createTime != '') {
         this.listQuery.startTime = createTime[0];
         this.listQuery.endTime = createTime[1]
       }
@@ -225,37 +225,11 @@ export default {
     },
     /*数据导出*/
     exportDownload() {
-      const headers = {
-        '模块标题': 'title',
-        '操作类型': 'businessType',
-        '请求URL': 'operUrl',
-        '请求时间': 'resTime',
-        '主机地址': 'operIp',
-        '操作地点': 'operLocation',
-        '操作人员': 'operName',
-        '操作时间': 'operTime'
-      }
-      import('@/vendor/Export2Excel').then(async excel => {
-        const list = this.list
-        const data = this.formatJson(headers, list)
-        excel.export_json_to_excel({
-          header: Object.keys(headers),
-          data,
-          filename: '数据导出',
-          autoWidth: true,
-          bookType: 'xlsx'
-        })
-      })
-    },
-    formatJson(headers, rows) {
-      return rows.map(item => {
-        return Object.keys(headers).map(key => {
-          if (headers[key] === 'operTime') {
-            return parseTime(item[headers[key]])
-          }
-          return item[headers[key]]
-        })
-      })
+      window.location.href = "http://localhost:8001/api/sysOperLog/export?startTime=" + this.listQuery.startTime + "&endTime=" + this.listQuery.endTime;
+      this.$message({
+        message: '下载中，请稍后...',
+        type: 'success'
+      });
     }
   }
 }
@@ -265,7 +239,8 @@ export default {
 .dialog-footer {
   text-align: center;
 }
-.filter-container{
+
+.filter-container {
   margin-bottom: 18px;
 }
 </style>

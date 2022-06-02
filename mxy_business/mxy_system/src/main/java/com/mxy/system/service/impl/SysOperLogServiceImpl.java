@@ -3,16 +3,22 @@ package com.mxy.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
-import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.common.core.entity.SysOperLog;
+import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysOperLogVO;
 import com.mxy.system.mapper.SysOperLogMapper;
 import com.mxy.system.service.SysOperLogService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mxy.system.utils.ExcelUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * <p>
@@ -81,5 +87,28 @@ public class SysOperLogServiceImpl extends ServiceImpl<SysOperLogMapper, SysOper
             return ServiceResult.successMsg(BaseMessage.DELETE_FAIL);
         }
     }
+
+    @Override
+    public void exportSysLog(HttpServletRequest request, HttpServletResponse response, SysOperLogVO sysOperLogVO) {
+        QueryWrapper<SysOperLog> queryWrapper = new QueryWrapper<>();
+        if (StringUtils.isNotEmpty(sysOperLogVO.getTitle())) {
+            queryWrapper.like("title", sysOperLogVO.getTitle());
+        }
+        if (null != sysOperLogVO.getBusinessType()) {
+            queryWrapper.eq("business_type", sysOperLogVO.getBusinessType());
+        }
+        if (StringUtils.isNotEmpty(sysOperLogVO.getStartTime())) {
+            queryWrapper.ge("oper_time", sysOperLogVO.getStartTime());
+            queryWrapper.le("oper_time", sysOperLogVO.getEndTime());
+        }
+        queryWrapper.orderByDesc("oper_time");
+        List<SysOperLog> sysOperLogs = this.baseMapper.selectList(queryWrapper);
+        try {
+            ExcelUtils.exportExcel(response, sysOperLogs, "操作日志记录", SysOperLogVO.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

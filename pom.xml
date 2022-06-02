@@ -90,17 +90,17 @@
                 <version>2.10.2</version>
             </dependency>
             <!--xls-->
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi</artifactId>
-                <version>${poi.version}</version>
-            </dependency>
-            <!--xlsx-->
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi-ooxml</artifactId>
-                <version>${poi.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.apache.poi</groupId>-->
+<!--                <artifactId>poi</artifactId>-->
+<!--                <version>${poi.version}</version>-->
+<!--            </dependency>-->
+<!--            &lt;!&ndash;xlsx&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>org.apache.poi</groupId>-->
+<!--                <artifactId>poi-ooxml</artifactId>-->
+<!--                <version>${poi.version}</version>-->
+<!--            </dependency>-->
             <!--文件上传-->
             <dependency>
                 <groupId>commons-fileupload</groupId>
