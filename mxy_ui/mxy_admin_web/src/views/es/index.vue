@@ -655,7 +655,7 @@ export default {
     defaultTime() {
       const end = new Date();
       const start = new Date();
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
       this.createTime = [parseTime(start, '{y}-{m}-{d} {h}:{i}:{s}'), parseTime(end, '{y}-{m}-{d} {h}:{i}:{s}')];
       this.listQuery.startTime = this.createTime[0];
       this.listQuery.endTime = this.createTime[1];

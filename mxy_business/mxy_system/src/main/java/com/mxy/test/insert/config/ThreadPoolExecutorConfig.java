@@ -23,7 +23,7 @@ public class ThreadPoolExecutorConfig {
 
     final int maximumPoolSize = 92;
 
-    final int keepAliveTime = 3;
+    final int keepAliveTime = 30;
 
     @Bean
     public ThreadPoolExecutor threadPoolExecutor() {
