@@ -225,7 +225,7 @@ export default {
     },
     /*数据导出*/
     exportDownload() {
-      window.location.href = "http://localhost:8001/api/sysOperLog/export?startTime=" + this.listQuery.startTime + "&endTime=" + this.listQuery.endTime;
+      window.location.href = "http://mxyit.com:8088/api/sysOperLog/export?startTime=" + this.listQuery.startTime + "&endTime=" + this.listQuery.endTime;
       this.$message({
         message: '下载中，请稍后...',
         type: 'success'
