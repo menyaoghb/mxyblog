@@ -62,9 +62,26 @@
           </el-row>
         </div>
         <div>
-          <EditorTool class="tool-style" style="margin-top: 50px;margin-left: 15px" v-model="postForm.content"
-                      :is-clear="isClear"
-                      @change="changeEditor"/>
+
+          <div class="tool-style" style="margin-top: 50px;margin-left: 15px">
+            <div class="full-screen-container" style="border: 1px solid #ccc;">
+              <Toolbar
+                style="border-bottom: 1px solid #ccc"
+                :editor="editor"
+                :defaultConfig="toolbarConfig"
+                :mode="mode"
+              />
+              <Editor
+                style="height: 500px; overflow-y: hidden;"
+                v-model="postForm.content"
+                :defaultConfig="editorConfig"
+                :mode="mode"
+                @onCreated="onCreated"
+                @onChange="onChange"
+              />
+            </div>
+          </div>
+
           <span v-show="contentLength" class="word-content">{{ contentLength }}字符</span>
         </div>
       </div>
@@ -107,13 +124,16 @@
 </template>
 
 <script>
-import EditorTool from './components/wangEditor'
 import MDinput from '@/components/MDinput'
 import Sticky from '@/components/Sticky'
 import {addArticle, editArticle, uploadPhoto} from '@/api/blog/blog'
 import axios from 'axios'
 import {getFileTypeList, getList} from "@/api/file/img/img";
 import {getDictData} from "@/api/sys/dictData/data";
+
+import {Editor, Toolbar} from "@wangeditor/editor-for-vue";
+import Vue from 'vue'
+import '@wangeditor/editor/dist/css/style.css'
 
 const defaultForm = {
   status: '0',
@@ -127,9 +147,9 @@ const defaultForm = {
   display_time: undefined, // 前台展示时间
   id: undefined
 }
-export default {
+export default Vue.extend({
   name: 'UpdateArticle',
-  components: {EditorTool, MDinput, Sticky},
+  components: {Editor, Toolbar, MDinput, Sticky},
   data() {
     return {
       postForm: Object.assign({}, defaultForm),
@@ -148,7 +168,12 @@ export default {
       imageList: [],
       /*图片预览地址*/
       imageUrl: '',
-      dictData: null
+      dictData: null,
+      /*编辑器*/
+      editor: null,
+      toolbarConfig: {},
+      editorConfig: {placeholder: '请输入内容...'},
+      mode: 'default', // or 'simple'
     }
   },
   computed: {
@@ -174,6 +199,12 @@ export default {
     this.getDictData();
   },
   methods: {
+    onCreated(editor) {
+      this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
+    },
+    onChange(editor) {
+      console.log('content', this.postForm.content)
+    },
     /*类型列表查询*/
     getDictData() {
       getDictData({dictType: "BLOG-TYPE"}).then(response => {
@@ -252,10 +283,19 @@ export default {
       this.imageUrl = url.pictureId;
       this.imageUrlDialog = true;
     }
+  },
+  beforeDestroy() {
+    const editor = this.editor
+    if (editor == null) return
+    editor.destroy() // 组件销毁时，及时销毁编辑器
   }
-}
+})
 </script>
 <style lang="scss" scoped>
+.full-screen-container {
+  z-index: 1000000; /* 如有需要，可以自定义 z-index */
+}
+
 .word-content {
   position: relative;
   float: right;
