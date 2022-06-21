@@ -110,6 +110,9 @@
             <span class="image-icon image-center" @click="indexPreview(url)">
               <i class="el-icon-zoom-in" title="预览"></i>
             </span>
+            <span class="image-icon image-center" @click="indexCopy(url)">
+              <i class="el-icon-copy-document" title="复制链接"></i>
+            </span>
           </span>
               </div>
             </div>
@@ -172,7 +175,40 @@ export default Vue.extend({
       /*编辑器*/
       editor: null,
       toolbarConfig: {},
-      editorConfig: {placeholder: '请输入内容...'},
+      editorConfig: {
+        placeholder: '请输入内容...',
+        MENU_CONF: {
+          // 图片的上传
+          uploadImage: {
+            async customUpload(file, insertFn) {
+              let formData = new FormData();
+              formData.append("file", file);
+              formData.append('fileName', "博文")
+              formData.append('fileType', "博文图片合集")
+              const res = await axios({
+                url: 'http://mxyit.com:8088/api/foreign/uploadPicture',
+                method: 'post',
+                data: formData,
+                headers: {'Content-Type': 'multipart/form-data'},
+                onUploadProgress: progressEvent => {
+                  let percent = (progressEvent.loaded / progressEvent.total * 100 | 0);
+                  console.log(percent)
+                }
+              }).then(res => {
+                const {status, data, code} = res.data;
+                if (code === 200) {
+                  const alt = (data.split("/")[data.split("/").length - 1]).substring(36);
+                  insertFn(data, alt, data);  // insertFn 参数1：路径； 参数2：alt值； 参数三：路径
+                } else {
+                  console.log("上传失败");
+                }
+              }).then(error => {
+                console.log(error)
+              })
+            }
+          }
+        }
+      },
       mode: 'default', // or 'simple'
     }
   },
@@ -279,9 +315,25 @@ export default Vue.extend({
     handleClick(tab, event) {
       this.comKey += 1;
     },
+    /*图片预览*/
     indexPreview(url) {
       this.imageUrl = url.pictureId;
       this.imageUrlDialog = true;
+    },
+    /*图片链接复制*/
+    indexCopy(url) {
+      let domUrl = document.createElement("input");
+      domUrl.value = url.pictureId;
+      domUrl.id = "creatDom";
+      document.body.appendChild(domUrl);
+      domUrl.select(); // 选择对象
+      document.execCommand("Copy"); // 执行浏览器复制命令
+      let creatDom = document.getElementById("creatDom");
+      creatDom.parentNode.removeChild(creatDom);
+      this.$message({
+        message: '链接复制成功',
+        type: 'success'
+      });
     }
   },
   beforeDestroy() {
@@ -295,6 +347,15 @@ export default Vue.extend({
 .full-screen-container {
   z-index: 1000000; /* 如有需要，可以自定义 z-index */
 }
+
+.image-center {
+  padding: 15px;
+}
+
+.image-center :hover {
+  color: #20a0ff;
+}
+
 
 .word-content {
   position: relative;

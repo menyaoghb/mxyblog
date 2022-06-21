@@ -21,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * <p>
@@ -104,12 +101,13 @@ public class SysPictureServiceImpl extends ServiceImpl<SysPictureMapper, SysPict
     @Override
     public String uploadPicture(Map<String, Object> map, MultipartFile multipartFile) {
         Boolean b = false;
+        String key = "";
         try {
 
             String id = UUID.randomUUID().toString();
             String name = multipartFile.getOriginalFilename();
-            String key = QiniuUploadUtil.upload(id, multipartFile.getBytes());
-            if (key != null) {
+            key = QiniuUploadUtil.upload(id, multipartFile.getBytes());
+            if (StringUtils.isNotBlank(key)) {
                 SysPicture sysPicture = new SysPicture();
                 sysPicture.setId(id);
                 sysPicture.setPictureId(key);
@@ -132,9 +130,9 @@ public class SysPictureServiceImpl extends ServiceImpl<SysPictureMapper, SysPict
             e.printStackTrace();
         }
         if (b) {
-            return ServiceResult.success();
+            return ServiceResult.success(key);
         } else {
-            return ServiceResult.error();
+            return ServiceResult.error(key);
         }
     }
 
