@@ -1,9 +1,8 @@
 package com.mxy.system.entity.vo;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.mxy.common.core.entity.SysBlog;
 import com.mxy.common.core.entity.vo.BaseVO;
-import com.mxy.system.entity.SysBlog;
+import lombok.Data;
 
 import java.util.Date;
 /**
@@ -28,7 +27,7 @@ public class SysBlogVO extends BaseVO<SysBlog> {
     /**
      * 简介
      */
-    private String Introduction;
+    private String introduction;
     /**
      * 内容
      */

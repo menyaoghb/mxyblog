@@ -1,7 +1,7 @@
 package com.mxy.system.service;
 
-import com.mxy.system.entity.SysBlog;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mxy.common.core.entity.SysBlog;
 import com.mxy.system.entity.vo.SysBlogVO;
 
 /**

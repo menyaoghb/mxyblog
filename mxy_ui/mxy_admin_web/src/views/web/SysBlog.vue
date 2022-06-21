@@ -29,7 +29,7 @@
       element-loading-spinner="el-icon-loading">
       <el-table-column type="index" width="50" align="center"/>
       <el-table-column prop="title" label="标题" show-overflow-tooltip align="center"></el-table-column>
-      <el-table-column prop="Introduction" label="简介" show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column prop="introduction" label="简介" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="content" label="内容" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="url" label="图片url" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="urlList" label="图片url（多图片JSON）" show-overflow-tooltip align="center"></el-table-column>
@@ -67,7 +67,7 @@
           <el-input v-model="temp.title"/>
         </el-form-item>
         <el-form-item label="简介">
-          <el-input v-model="temp.Introduction"/>
+          <el-input v-model="temp.introduction"/>
         </el-form-item>
         <el-form-item label="内容">
           <el-input v-model="temp.content"/>
@@ -131,7 +131,7 @@
             <el-form-item label="标题：">{{ temp.title }}</el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="简介：">{{ temp.Introduction }}</el-form-item>
+            <el-form-item label="简介：">{{ temp.introduction }}</el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="内容：">{{ temp.content }}</el-form-item>
@@ -205,7 +205,7 @@ export default {
       temp: {
         id:'',
         title:'',
-        Introduction:'',
+        introduction:'',
         content:'',
         url:'',
         urlList:'',
@@ -256,7 +256,7 @@ export default {
       this.temp = {
         id:'',
         title:'',
-        Introduction:'',
+        introduction:'',
         content:'',
         url:'',
         urlList:'',
