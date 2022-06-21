@@ -98,18 +98,18 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
     @Override
     public String getDataById(String id) {
         SysArticle sysArticle = new SysArticle();
-        boolean hasKey = redisUtil.hasKey(id);
-        if (hasKey) {
-            sysArticle = (SysArticle) redisUtil.get(id);
-            sysArticle.setPageViews(sysArticle.getPageViews() == null ? 1 : sysArticle.getPageViews() + 1);
-            sysArticle.setContent(HtmlUtils.htmlUnescape(sysArticle.getContent()));
-            redisUtil.set(id, sysArticle,1800);
-        } else {
+//        boolean hasKey = redisUtil.hasKey(id);
+//        if (false) {
+//            sysArticle = (SysArticle) redisUtil.get(id);
+//            sysArticle.setPageViews(sysArticle.getPageViews() == null ? 1 : sysArticle.getPageViews() + 1);
+//            sysArticle.setContent(HtmlUtils.htmlUnescape(sysArticle.getContent()));
+//            redisUtil.set(id, sysArticle, 1800);
+//        } else {
             sysArticle = this.baseMapper.selectById(id);
             sysArticle.setContent(HtmlUtils.htmlUnescape(sysArticle.getContent()));
             sysArticle.setPageViews(sysArticle.getPageViews() == null ? 1 : sysArticle.getPageViews() + 1);
-            redisUtil.set(id, sysArticle,1800);
-        }
+//            redisUtil.set(id, sysArticle, 1800);
+//        }
         // 每2次更新一次数据
         if (sysArticle.getPageViews() != 0) {
             sysArticle.updateById();
