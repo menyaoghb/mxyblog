@@ -3,10 +3,10 @@
 <mapper namespace="com.mxy.system.mapper.SysBlogMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mxy.system.entity.SysBlog">
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysBlog">
         <id column="id" property="id" />
         <result column="title" property="title" />
-        <result column="Introduction" property="Introduction" />
+        <result column="introduction" property="introduction" />
         <result column="content" property="content" />
         <result column="url" property="url" />
         <result column="url_list" property="urlList" />
@@ -32,8 +32,8 @@
     <if test="title!=null and title!=''">
         AND title = #{title}
     </if>
-    <if test="Introduction!=null and Introduction!=''">
-        AND Introduction = #{Introduction}
+    <if test="introduction!=null and introduction!=''">
+        AND introduction = #{introduction}
     </if>
     <if test="content!=null and content!=''">
         AND content = #{content}
