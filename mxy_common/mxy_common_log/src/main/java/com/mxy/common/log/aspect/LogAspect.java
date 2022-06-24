@@ -3,7 +3,7 @@ package com.mxy.common.log.aspect;
 import com.google.gson.Gson;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysOperLog;
-import com.mxy.common.core.utils.IpUtils;
+import com.mxy.common.core.utils.IPUtils;
 import com.mxy.common.core.utils.ServletUtils;
 import com.mxy.common.log.annotation.SysLog;
 import com.mxy.common.log.enums.Status;
@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Description 系统日志切面
@@ -75,7 +76,7 @@ public class LogAspect {
         try {
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
             Method method = signature.getMethod();
-            SelfUserEntity userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
+            SelfUserEntity userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             SysOperLog sysOperLog = new SysOperLog();
             SysLog sysLog = method.getAnnotation(SysLog.class);
             if (sysLog != null) {
@@ -96,17 +97,12 @@ public class LogAspect {
             }
             sysOperLog.setOperParam(list.toString());
             // 请求方式
-            sysOperLog.setRequestMethod(ServletUtils.getRequest().getMethod());
-            String ip = IpUtils.getIpAddrs(ServletUtils.getRequest());
+            sysOperLog.setRequestMethod(Objects.requireNonNull(ServletUtils.getRequest()).getMethod());
+            String ip = IPUtils.getClientIp(ServletUtils.getRequest());
             // 主机地址
             sysOperLog.setOperIp(ip);
             // 操作地址
-            String ipName = "";
-            if (StringUtils.isEmpty(ip)) {
-                ipName = IpUtils.recordIp("220.248.243.122");
-            } else {
-                ipName = IpUtils.recordIp(ip);
-            }
+            String ipName = IPUtils.getIpAddress(ip);
             sysOperLog.setOperLocation(ipName);
             // 请求URL
             sysOperLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
