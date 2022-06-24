@@ -322,6 +322,12 @@ export const asyncRoutes = [
     },
     children: [
       {
+        path: 'loginLog',
+        component: () => import('@/views/log/loginLog/index'),
+        name: 'loginLog',
+        meta: {title: '登录日志', icon: 'el-icon-watermelon'}
+      },
+      {
         path: 'log',
         component: () => import('@/views/log/operLog/index'),
         name: 'log',

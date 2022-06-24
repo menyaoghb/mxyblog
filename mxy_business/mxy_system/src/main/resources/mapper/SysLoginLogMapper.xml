@@ -9,7 +9,7 @@
         <result column="user_name" property="userName" />
         <result column="ip" property="ip" />
         <result column="address" property="address" />
-        <result column="describe" property="describe" />
+        <result column="description" property="description" />
         <result column="login_type" property="loginType" />
         <result column="login_time" property="loginTime" />
     </resultMap>
@@ -32,8 +32,8 @@
     <if test="address!=null and address!=''">
         AND address = #{address}
     </if>
-    <if test="describe!=null and describe!=''">
-        AND describe = #{describe}
+    <if test="description!=null and description!=''">
+        AND description = #{description}
     </if>
     <if test="loginType!=null and loginType!=''">
         AND login_type = #{loginType}

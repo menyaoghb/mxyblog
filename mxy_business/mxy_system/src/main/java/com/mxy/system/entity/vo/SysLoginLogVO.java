@@ -39,7 +39,7 @@ public class SysLoginLogVO extends BaseVO<SysLoginLog> {
     /**
      * 登录描述
      */
-    private String describe;
+    private String description;
     /**
      * 登录方式
      */

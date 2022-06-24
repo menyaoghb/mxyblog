@@ -61,7 +61,7 @@ public class LogUtil {
      * @Author 孟耀
      * @Date 2022/6/24 15:28
      */
-    public static void saveLoginLog(SelfUserEntity userDetails, String type) {
+    public static void saveLoginLog(SelfUserEntity userDetails, String type,String description) {
         SysLoginLog login = new SysLoginLog();
         login.setUserId(userDetails.getUsername());
         login.setUserName(userDetails.getRelName());
@@ -76,6 +76,7 @@ public class LogUtil {
             ipName = IPUtils.getIpAddress(ip);
         }
         login.setAddress(ipName);
+        login.setDescription(description);
         login.insert();
     }
 }
