@@ -4,7 +4,7 @@ package com.mxy.system.utils;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysLoginLog;
 import com.mxy.common.core.entity.SysOperLog;
-import com.mxy.common.core.utils.IpUtils;
+import com.mxy.common.core.utils.IPUtils;
 import com.mxy.common.core.utils.ServletUtils;
 import com.mxy.common.log.enums.Status;
 import org.springframework.stereotype.Component;
@@ -33,13 +33,13 @@ public class LogUtil {
         sysOperLog.setOperParam("");
         // 请求方式
         sysOperLog.setRequestMethod(Objects.requireNonNull(ServletUtils.getRequest()).getMethod());
-        String ip = IpUtils.getIpAddrs(Objects.requireNonNull(ServletUtils.getRequest()));
+        String ip = IPUtils.getClientIp(Objects.requireNonNull(ServletUtils.getRequest()));
         // 主机地址
         sysOperLog.setOperIp(ip);
         // 操作地址
         String ipName = "";
         if (StringUtils.isEmpty(ip)) {
-            ipName = IpUtils.recordIp(ip);
+            ipName = IPUtils.getIpAddress(ip);
         }
         sysOperLog.setOperLocation(ipName);
         // 请求URL
@@ -67,13 +67,13 @@ public class LogUtil {
         login.setUserName(userDetails.getRelName());
         login.setLoginTime(new Date());
         login.setLoginType(type);
-        String ip = IpUtils.getIpAddrs(Objects.requireNonNull(ServletUtils.getRequest()));
+        String ip = IPUtils.getClientIp(Objects.requireNonNull(ServletUtils.getRequest()));
         // 主机地址
         login.setIp(ip);
         // 操作地址
         String ipName = "";
-        if (StringUtils.isEmpty(ip)) {
-            ipName = IpUtils.recordIp(ip);
+        if (!StringUtils.isEmpty(ip)) {
+            ipName = IPUtils.getIpAddress(ip);
         }
         login.setAddress(ipName);
         login.insert();
