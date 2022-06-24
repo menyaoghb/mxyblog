@@ -19,6 +19,7 @@ import java.util.Map;
 
 /**
  * 普通用户
+ *
  * @Author Mxy
  * @CreateTime 2022/01/2 14:43
  */
@@ -34,35 +35,37 @@ public class UserController {
 
     /**
      * 用户端信息
+     *
      * @Author Mxy
      * @CreateTime 2022/01/2 14:52
-     * @Return Map<String,Object> 返回数据MAP
+     * @Return Map<String, Object> 返回数据MAP
      */
-    @RequestMapping(value = "/info",method = RequestMethod.GET)
-    public Map<String,Object> userLogin(){
-        Map<String,Object> result = new HashMap<>();
-        SelfUserEntity userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public Map<String, Object> userLogin() {
+        Map<String, Object> result = new HashMap<>();
+        SelfUserEntity userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         SysUser sysUser = sysUserService.getById(userDetails.getUserId());
-        result.put("title","用户信息");
-        result.put("data",userDetails);
-        result.put("user",sysUser);
+        result.put("title", "用户信息");
+        result.put("data", userDetails);
+        result.put("user", sysUser);
         return ResultUtil.resultSuccess(result);
 
     }
 
     /**
      * 拥有USER角色和sys:user:info权限可以访问
+     *
      * @Author Mxy
      * @CreateTime 2022/01/2 14:22
-     * @Return Map<String,Object> 返回数据MAP
+     * @Return Map<String, Object> 返回数据MAP
      */
     @PreAuthorize("hasRole('USER') and hasPermission('/user/menuList','sys:user:info')")
-    @RequestMapping(value = "/menuList",method = RequestMethod.GET)
-    public Map<String,Object> sysMenuEntity(){
-        Map<String,Object> result = new HashMap<>();
+    @RequestMapping(value = "/menuList", method = RequestMethod.GET)
+    public Map<String, Object> sysMenuEntity() {
+        Map<String, Object> result = new HashMap<>();
         List<SysMenu> sysMenuEntityList = sysMenuService.list();
-        result.put("title","拥有USER角色和sys:user:info权限可以访问");
-        result.put("data",sysMenuEntityList);
+        result.put("title", "拥有USER角色和sys:user:info权限可以访问");
+        result.put("data", sysMenuEntityList);
         return ResultUtil.resultSuccess(result);
     }
 

@@ -1,6 +1,6 @@
 package ${package.Service};
 
-import ${package.Entity}.${entity};
+import com.mxy.common.core.entity.${entity};
 import ${superServiceClassPackage};
 import ${package.Entity}.vo.${entity}VO;
 

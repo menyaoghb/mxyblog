@@ -38,6 +38,10 @@ public class SelfUserEntity implements Serializable, UserDetails {
 	 * 头像地址
 	 */
 	private String avatar;
+	/**
+	 * 真实姓名
+	 */
+	private String relName;
 
 	/**
 	 * 用户角色

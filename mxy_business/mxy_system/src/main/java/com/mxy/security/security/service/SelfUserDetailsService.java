@@ -35,6 +35,7 @@ public class SelfUserDetailsService implements UserDetailsService {
             // 组装参数
             SelfUserEntity selfUserEntity = new SelfUserEntity();
             BeanUtils.copyProperties(sysUserEntity,selfUserEntity);
+            selfUserEntity.setRelName(sysUserEntity.getNickName());
             return selfUserEntity;
         }
         return null;
