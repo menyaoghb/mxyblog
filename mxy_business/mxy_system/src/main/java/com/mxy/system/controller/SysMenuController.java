@@ -87,5 +87,18 @@ public class SysMenuController {
     public String treeData(@RequestBody Map<String, Object> map) {
         return sysMenuService.treeData(map);
     }
+
+
+    /**
+     * @Description 菜单表格
+     * @Author 孟耀
+     * @Date 2022/6/24 22:19
+     */
+    @SysLog(module = "菜单表格")
+    @ApiOperation(value = "菜单表格")
+    @PostMapping("/treeTableData")
+    public String treeTableData(@RequestBody Map<String, Object> map) {
+        return sysMenuService.treeTableData(map);
+    }
 }
 

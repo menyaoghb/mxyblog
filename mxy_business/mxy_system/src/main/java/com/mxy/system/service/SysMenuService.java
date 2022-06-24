@@ -41,4 +41,9 @@ public interface SysMenuService extends IService<SysMenu> {
      */
     public String treeData(Map<String, Object> map);
 
+    /**
+     * 获取菜单表格
+     */
+    public String treeTableData(Map<String, Object> map);
+
 }

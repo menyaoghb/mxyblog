@@ -8,10 +8,11 @@ import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysMenu;
 import com.mxy.common.core.utils.ServiceResult;
+import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.entity.vo.SysMenuVO;
 import com.mxy.system.mapper.SysMenuMapper;
-import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.service.SysMenuService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -93,17 +94,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public String treeData(Map<String, Object> map) {
         //获取父节点数据
         List<Map<String, Object>> mapList = this.baseMapper.getSysMenuTreeData("0");
-        if (StringUtils.isNotEmpty(MapUtils.getString(map,"roleId"))){
-            Map<String,Object> resultMap = new HashMap<>();
-            resultMap.put("treeData",treeData(mapList));
-            List<Map<String, Object>> checkTreeDataList = this.baseMapper.getCheckMenuId(MapUtils.getString(map,"roleId"));
+        if (StringUtils.isNotEmpty(MapUtils.getString(map, "roleId"))) {
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("treeData", treeData(mapList));
+            List<Map<String, Object>> checkTreeDataList = this.baseMapper.getCheckMenuId(MapUtils.getString(map, "roleId"));
             List<String> list = new ArrayList<>();
             for (Map<String, Object> objectMap : checkTreeDataList) {
                 list.add(objectMap.get("id").toString());
             }
-            resultMap.put("checkTreeData",list);
+            resultMap.put("checkTreeData", list);
             return ServiceResult.success(resultMap);
-        }else {
+        } else {
             return ServiceResult.success(treeData(mapList));
         }
     }
@@ -117,6 +118,29 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             }
         });
         return mapList;
+    }
+
+    public List<Map<String, Object>> selectList(String id) {
+        return this.baseMapper.getSysMenuTreeTableData(id);
+    }
+
+    @Override
+    public String treeTableData(Map<String, Object> map) {
+        List<Map<String, Object>> list = selectList("0");
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("tableData", treeTableData(list));
+        return ServiceResult.success(resultMap);
+    }
+
+    public List<Map<String, Object>> treeTableData(List<Map<String, Object>> list) {
+        list.forEach(k -> {
+            List<Map<String, Object>> childList = selectList(k.get("menuId").toString());
+            if (CollectionUtils.isNotEmpty(childList)) {
+                k.put("children", childList);
+                childList = treeTableData(childList);
+            }
+        });
+        return list;
     }
 
 }

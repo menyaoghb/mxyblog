@@ -44,3 +44,12 @@ export function getTreeData(data) {
     data
   })
 }
+
+/*树形表格数据*/
+export function getTreeTableData(data) {
+  return request({
+    url: '/sysMenu/treeTableData',
+    method: 'post',
+    data
+  })
+}
