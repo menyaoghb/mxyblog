@@ -57,7 +57,7 @@ public class SysLoginLog extends BaseEntity<SysLoginLog> {
     /**
      * 登录描述
      */
-    private String describe;
+    private String description;
 
     /**
      * 登录方式

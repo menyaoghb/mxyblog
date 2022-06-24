@@ -21,7 +21,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @Description 系统日志切面
@@ -97,7 +96,7 @@ public class LogAspect {
             }
             sysOperLog.setOperParam(list.toString());
             // 请求方式
-            sysOperLog.setRequestMethod(Objects.requireNonNull(ServletUtils.getRequest()).getMethod());
+            sysOperLog.setRequestMethod(ServletUtils.getRequest().getMethod());
             String ip = IPUtils.getClientIp(ServletUtils.getRequest());
             // 主机地址
             sysOperLog.setOperIp(ip);

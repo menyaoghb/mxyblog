@@ -29,14 +29,15 @@ import java.util.Map;
 public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
     /**
      * 登录成功返回结果
+     *
      * @Author Mxy
      * @CreateTime 2022/01/10 21:20
      */
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         // 组装JWT
-        SelfUserEntity selfUserEntity =  (SelfUserEntity) authentication.getPrincipal();
+        SelfUserEntity selfUserEntity = (SelfUserEntity) authentication.getPrincipal();
         String token = JWTTokenUtil.createAccessToken(selfUserEntity);
         token = JWTConfig.tokenPrefix + token;
         SelfUserEntity userDetails = SecurityUtil.getUserInfo();
@@ -46,13 +47,13 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
         sysUser.setUpdateUser(userDetails.getUsername());
         sysUser.updateById();
         // 封装返回参数
-        Map<String,Object> resultData = new HashMap<>();
-        resultData.put("code","200");
+        Map<String, Object> resultData = new HashMap<>();
+        resultData.put("code", "200");
         resultData.put("msg", "登录成功");
         resultData.put("data", userDetails);
-        resultData.put("token",token);
+        resultData.put("token", token);
         LogUtil.saveLog("登录", OperType.LOGIN.ordinal());
-        LogUtil.saveLoginLog(userDetails, "后台系统登录");
-        ResultUtil.responseJson(response,resultData);
+        LogUtil.saveLoginLog(userDetails, "PC端-系统账号", "后台管理系统");
+        ResultUtil.responseJson(response, resultData);
     }
 }
