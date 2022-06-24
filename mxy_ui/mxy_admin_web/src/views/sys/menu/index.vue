@@ -135,9 +135,9 @@
 
   // 权限
   const userTypeOptions = [
-    {key: '01', name: '目录'},
-    {key: '02', name: '菜单'},
-    {key: '03', name: '按钮'}
+    {key: '1', name: '目录'},
+    {key: '2', name: '菜单'},
+    {key: '3', name: '按钮'}
   ]
   // 状态
   const statusOptions = [

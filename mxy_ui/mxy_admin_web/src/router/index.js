@@ -260,6 +260,12 @@ export const asyncRoutes = [
         component: () => import('@/views/components/wangEditor'),
         name: 'wangEditorName',
         meta: {title: 'wangEditor编辑器', icon: 'el-icon-watermelon'}
+      },
+      {
+        path: 'treeTable',
+        component: () => import('@/views/tree/index'),
+        name: 'treeTableName',
+        meta: {title: '树形表格', icon: 'el-icon-watermelon'}
       }
     ]
   },
