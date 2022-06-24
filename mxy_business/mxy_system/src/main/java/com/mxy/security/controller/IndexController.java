@@ -1,16 +1,10 @@
 package com.mxy.security.controller;
 
-import com.mxy.common.core.entity.SysCountry;
-import com.mxy.core.elasticsearch.EsServiceImpl;
 import com.mxy.system.service.SysCountryService;
-import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 初始页面
@@ -21,14 +15,14 @@ import java.util.List;
 @RequestMapping("/index")
 public class IndexController {
 
-    @Autowired
-    public RestHighLevelClient client;
+//    @Autowired
+//    public RestHighLevelClient client;
 
     @Autowired
     public SysCountryService sysEsDataService;
 
-    @Resource
-    private EsServiceImpl esService;
+//    @Resource
+//    private EsServiceImpl esService;
 
     /**
      * 首页
@@ -41,12 +35,12 @@ public class IndexController {
 
     }
 
-    @RequestMapping(value = "/insert",method = RequestMethod.GET)
-    public void insert(){
-        List<SysCountry> sysCountryList = sysEsDataService.selectList();
-        for (SysCountry sysCountry : sysCountryList) {
-            esService.insertRequest("country", sysCountry.getId(), sysCountry);
-        }
-    }
+//    @RequestMapping(value = "/insert",method = RequestMethod.GET)
+//    public void insert(){
+//        List<SysCountry> sysCountryList = sysEsDataService.selectList();
+//        for (SysCountry sysCountry : sysCountryList) {
+//            esService.insertRequest("country", sysCountry.getId(), sysCountry);
+//        }
+//    }
 
 }
