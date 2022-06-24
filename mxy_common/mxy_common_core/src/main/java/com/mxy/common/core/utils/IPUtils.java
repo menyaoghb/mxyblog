@@ -6,11 +6,14 @@ import org.lionsoul.ip2region.DataBlock;
 import org.lionsoul.ip2region.DbConfig;
 import org.lionsoul.ip2region.DbSearcher;
 import org.lionsoul.ip2region.Util;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
-import java.net.URL;
 
 /**
  * @Description IP工具类
@@ -45,14 +48,36 @@ public class IPUtils {
      * 例：中国-安徽-合肥-联通
      */
     public static String getIpAddress(String ip) {
-        URL url = IPUtils.class.getClassLoader().getResource("ip2region.db");
-        String dbPath = url.getFile();
+        // 读流
+        ClassPathResource classPathResource = new ClassPathResource("ip2region.db");
+        // 新建文件，把流存放到这个文件，再从这个文件里面读取数据
+        File file = new File("ip2region.db");
+        // 获取输入流
+        InputStream inputStream = null;
+        try {
+            FileUtils.inputStreamToFile(classPathResource.getInputStream(), file);
+            inputStream = new FileInputStream(file);
+            int len;
+            byte[] buffer = new byte[1024];
+            while ((len = inputStream.read(buffer)) != -1) {
+            }
+        } catch (IOException e) {
+            log.error("初始化文件 ip2region.db 失败");
+            e.printStackTrace();
+        } finally {
+            // 关闭流操作
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         // 查询算法B-tree, Binary, Memory
         int algorithm = DbSearcher.MEMORY_ALGORITYM;
         DbSearcher searcher = null;
         try {
             DbConfig config = new DbConfig();
-            searcher = new DbSearcher(config, dbPath);
+            searcher = new DbSearcher(config, file.getPath());
             Method method;
             switch (algorithm) {
                 case DbSearcher.BTREE_ALGORITHM:

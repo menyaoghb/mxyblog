@@ -1,24 +1,15 @@
-//package com.mxy.common.core.utils;
-//
-//import org.apache.commons.collections4.MapUtils;
-//import org.apache.poi.hssf.usermodel.*;
-//import org.apache.poi.ss.usermodel.HorizontalAlignment;
-//import org.apache.poi.ss.usermodel.VerticalAlignment;
-//
-//import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpServletResponse;
-//import java.io.*;
-//import java.net.URLEncoder;
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
-//
-///**
-// * @Description 文件相关 工具类
-// * @Date 2021/8/3 17:58
-// */
-//public class FileUtils {
+package com.mxy.common.core.utils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+/**
+ * @Description 文件相关 工具类
+ * @Date 2021/8/3 17:58
+ */
+public class FileUtils {
 //
 //
 //    public Map<String, Object> download(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -134,31 +125,32 @@
 //        return is;
 //    }
 //
-//    /**
-//     * InputStream转File
-//     */
-//    public static void inputStreamToFile(InputStream ins, File file) {
-//        OutputStream os = null;
-//        try {
-//            os = new FileOutputStream(file);
-//            int bytesRead = 0;
-//            byte[] buffer = new byte[8192];
-//            while ((bytesRead = ins.read(buffer, 0, 8192)) != -1) {
-//                os.write(buffer, 0, bytesRead);
-//            }
-//            os.close();
-//            ins.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (null != os) {
-//                try {
-//                    os.close();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
-//
-//}
+
+    /**
+     * InputStream转File
+     */
+    public static void inputStreamToFile(InputStream ins, File file) {
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(file);
+            int bytesRead = 0;
+            byte[] buffer = new byte[8192];
+            while ((bytesRead = ins.read(buffer, 0, 8192)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            os.close();
+            ins.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != os) {
+                try {
+                    os.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+}
