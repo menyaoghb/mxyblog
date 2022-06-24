@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 #end
 #end
 import com.mxy.common.core.entity.vo.BaseVO;
-import ${package.Entity}.${entity};
+import com.mxy.common.core.entity.${entity};
 
 import java.util.Date;
 /**

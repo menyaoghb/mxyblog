@@ -1,4 +1,4 @@
-package ${package.Entity};
+package com.mxy.common.core.entity;
 
 #foreach($pkg in ${table.importPackages})
 import ${pkg};

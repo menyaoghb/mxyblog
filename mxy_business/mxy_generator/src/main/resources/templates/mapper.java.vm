@@ -1,6 +1,6 @@
 package ${package.Mapper};
 
-import ${package.Entity}.${entity};
+import com.mxy.common.core.entity.${entity};
 import ${superMapperClassPackage};
 
 /**

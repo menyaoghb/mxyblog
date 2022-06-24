@@ -1,6 +1,8 @@
 package com.mxy.system.utils;
 
 
+import com.mxy.common.core.entity.SelfUserEntity;
+import com.mxy.common.core.entity.SysLoginLog;
 import com.mxy.common.core.entity.SysOperLog;
 import com.mxy.common.core.utils.IpUtils;
 import com.mxy.common.core.utils.ServletUtils;
@@ -19,7 +21,7 @@ import java.util.Objects;
 @Component
 public class LogUtil {
 
-    public static void saveLog(String title,Integer type) {
+    public static void saveLog(String title, Integer type) {
         SysOperLog sysOperLog = new SysOperLog();
         // 模块标题
         sysOperLog.setTitle(title);
@@ -52,5 +54,28 @@ public class LogUtil {
         sysOperLog.setOperTime(new Date());
         sysOperLog.setOperName("");
         sysOperLog.insert();
+    }
+
+    /**
+     * @Description 记录登录日志
+     * @Author 孟耀
+     * @Date 2022/6/24 15:28
+     */
+    public static void saveLoginLog(SelfUserEntity userDetails, String type) {
+        SysLoginLog login = new SysLoginLog();
+        login.setUserId(userDetails.getUsername());
+        login.setUserName(userDetails.getRelName());
+        login.setLoginTime(new Date());
+        login.setLoginType(type);
+        String ip = IpUtils.getIpAddrs(Objects.requireNonNull(ServletUtils.getRequest()));
+        // 主机地址
+        login.setIp(ip);
+        // 操作地址
+        String ipName = "";
+        if (StringUtils.isEmpty(ip)) {
+            ipName = IpUtils.recordIp(ip);
+        }
+        login.setAddress(ipName);
+        login.insert();
     }
 }

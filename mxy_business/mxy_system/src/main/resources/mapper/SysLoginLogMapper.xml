@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mxy.system.mapper.SysLoginLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mxy.common.core.entity.SysLoginLog">
+        <id column="login_id" property="loginId" />
+        <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="ip" property="ip" />
+        <result column="address" property="address" />
+        <result column="describe" property="describe" />
+        <result column="login_type" property="loginType" />
+        <result column="login_time" property="loginTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        WHERE 1 = 1
+    <if test="loginId!=null and loginId!=''">
+        AND login_id = #{loginId}
+    </if>
+    <if test="userId!=null and userId!=''">
+        AND user_id = #{userId}
+    </if>
+    <if test="userName!=null and userName!=''">
+        AND user_name = #{userName}
+    </if>
+    <if test="ip!=null and ip!=''">
+        AND ip = #{ip}
+    </if>
+    <if test="address!=null and address!=''">
+        AND address = #{address}
+    </if>
+    <if test="describe!=null and describe!=''">
+        AND describe = #{describe}
+    </if>
+    <if test="loginType!=null and loginType!=''">
+        AND login_type = #{loginType}
+    </if>
+    <if test="loginTime!=null and loginTime!=''">
+        AND login_time = #{loginTime}
+    </if>
+    </sql>
+
+</mapper>

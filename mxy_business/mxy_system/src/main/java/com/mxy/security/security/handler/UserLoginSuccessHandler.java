@@ -52,6 +52,7 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
         resultData.put("data", userDetails);
         resultData.put("token",token);
         LogUtil.saveLog("登录", OperType.LOGIN.ordinal());
+        LogUtil.saveLoginLog(userDetails, "后台系统登录");
         ResultUtil.responseJson(response,resultData);
     }
 }
