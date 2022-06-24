@@ -6,14 +6,12 @@ import com.mxy.common.core.utils.AutoNameUtils;
 import com.mxy.common.core.utils.DateUtils;
 import com.mxy.core.elasticsearch.EsServiceImpl;
 import com.xxl.job.core.handler.annotation.XxlJob;
-import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -25,8 +23,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author 孟耀
  */
-@Component
-@Slf4j
+//@Component
+//@Slf4j
 public class JobHandler {
 
     private static String INDEX_NAME = "person";

@@ -19,8 +19,6 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -32,8 +30,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * 测试类
  */
-@RestController
-@RequestMapping("/api/test/local")
+//@RestController
+//@RequestMapping("/api/test/local")
 public class LocalController {
 
     @Autowired
