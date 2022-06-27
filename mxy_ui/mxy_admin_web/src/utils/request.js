@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import {MessageBox, Message} from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import {getToken} from '@/utils/auth'
 
 // 创建一个axios实例
 const service = axios.create({
@@ -31,7 +31,6 @@ service.interceptors.request.use(
 
 // 响应拦截器
 service.interceptors.response.use(
-
   response => {
     const res = response.data
     // 如果自定义代码不是200，则判断为错误。
@@ -43,7 +42,7 @@ service.interceptors.response.use(
       })
 
       // 50008:非法令牌;50012:其他客户端登录;50014:令牌过期;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      if (res.code == 401) {
         // 重新登录
         MessageBox.confirm('您已退出登录，您可以取消以留在此页面，或重新登录', '确认注销', {
           confirmButtonText: '重新登入',
@@ -63,11 +62,11 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error) // for debug
     Message({
-      message: error.message,
+      message: "登录失效",
       type: 'error',
       duration: 5 * 1000
     })
-    return Promise.reject(error)
+    return Promise.reject("请重新登录")
   }
 )
 

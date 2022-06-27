@@ -38,7 +38,7 @@ public class LogUtil {
         sysOperLog.setOperIp(ip);
         // 操作地址
         String ipName = "";
-        if (StringUtils.isEmpty(ip)) {
+        if (!StringUtils.isEmpty(ip)) {
             ipName = IPUtils.getIpAddress(ip);
         }
         sysOperLog.setOperLocation(ipName);

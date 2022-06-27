@@ -29,6 +29,7 @@ public class SysLoginLogServiceImpl extends ServiceImpl<SysLoginLogMapper, SysLo
     @Override
     public String getList(SysLoginLogVO sysLoginLogVO) {
         QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.orderByDesc("login_time");
         Page<SysLoginLog> page = new Page<>();
         page.setCurrent(sysLoginLogVO.getCurrentPage());
         page.setSize(sysLoginLogVO.getPageSize());

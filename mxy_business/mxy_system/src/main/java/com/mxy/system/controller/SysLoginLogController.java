@@ -33,8 +33,8 @@ public class SysLoginLogController {
      * @author 孟小耀
      * @date 2022-06-24
      */
-    @SysLog(module = "获取登录日志列表")
-    @ApiOperation(value = "获取登录日志列表")
+    @SysLog(module = "登录日志")
+    @ApiOperation(value = "登录日志")
     @PostMapping("/getList")
     public String getList(@RequestBody SysLoginLogVO sysLoginLogVO) {
         return sysLoginLogService.getList(sysLoginLogVO);
