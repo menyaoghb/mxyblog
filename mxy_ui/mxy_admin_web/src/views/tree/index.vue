@@ -60,11 +60,11 @@
             <el-col :span="18">
               <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px"
                        style="width: 400px; margin-left:160px;">
-                <el-form-item label="菜单名称">
+                <el-form-item label="名称">
                   <el-input v-model="temp.menuName"/>
                 </el-form-item>
-                <el-form-item label="父菜单ID">
-                  <el-input v-model="temp.parentId"/>
+                <el-form-item label="父级">
+                  <el-input v-model="parentName"/>
                 </el-form-item>
                 <el-form-item label="路由地址">
                   <el-input v-model="temp.path"/>
@@ -104,8 +104,9 @@
                 ref="tree"
                 empty-text=" "
                 icon-class="el-icon-loading"
-                highlight-current
+                :highlight-current="true"
                 :props="defaultProps"
+                :default-expanded-keys="defaulKeys"
                 @node-click="handleNodeClick"
                 v-loading="listLoading"
                 element-loading-spinner="el-icon-loading">
@@ -179,10 +180,12 @@ export default {
       rules: {},
 
       data: [],
+      defaulKeys: [],
       defaultProps: {
         children: 'children',
         label: 'label'
-      }
+      },
+      parentName: ""
     }
   },
   created() {
@@ -245,6 +248,7 @@ export default {
     /*新增跳转*/
     handleCreate() {
       this.resetTemp();
+      this.parentName = "";
       this.dialogStatus = 'add'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -270,6 +274,18 @@ export default {
     /*修改跳转*/
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
+      if (this.temp.parentId === "0") {
+        this.parentName = "YFTest";
+      } else {
+        this.defaulKeys = [this.temp.parentId];
+        this.$nextTick(() => {
+          this.$refs["tree"].setCurrentKey(this.temp.parentId);
+        });
+        this.$nextTick(() => {
+          let node = this.$refs.tree.getCurrentNode();
+          this.parentName = node.label;
+        });
+      }
       this.dialogStatus = 'edit'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -314,6 +330,7 @@ export default {
     },
     /*树点击事件*/
     handleNodeClick(data) {
+      this.parentName = data.label;
       this.temp.parentId = data.id;
     }
   }
