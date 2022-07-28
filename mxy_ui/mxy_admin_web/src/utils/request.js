@@ -7,6 +7,9 @@ import {getToken} from '@/utils/auth'
 const service = axios.create({
   baseURL: '/api', // url = base url + request url
   withCredentials: true, // 当跨域请求时发送cookie
+  headers: {
+    token: getToken()
+  },
   timeout: 60000 // 请求超时
 })
 

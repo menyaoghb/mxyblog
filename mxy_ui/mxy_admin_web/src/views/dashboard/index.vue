@@ -61,7 +61,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import clip from "../../../../mxy_system_web/src/utils/clipboard";
 
 export default {
   name: 'Dashboard',
