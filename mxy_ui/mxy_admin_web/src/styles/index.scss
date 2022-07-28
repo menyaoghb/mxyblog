@@ -63,3 +63,12 @@ div:focus {
 .app-container {
   padding: 20px;
 }
+.el-dialog__header:before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 0;
+  height: 44px;
+  width: 5px;
+  background: #4ba7fc;
+}
