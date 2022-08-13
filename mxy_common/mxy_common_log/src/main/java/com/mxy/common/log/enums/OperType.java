@@ -70,5 +70,15 @@ public enum OperType {
     /**
      * 代码生成
      */
-    GENERATE
+    GENERATE,
+
+    /**
+     * 博客预览
+     */
+    BOLG,
+
+    /**
+     * 博客详细
+     */
+    DETAIL
 }

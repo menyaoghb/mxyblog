@@ -8,6 +8,7 @@ import com.mxy.common.core.utils.ServletUtils;
 import com.mxy.common.log.annotation.SysLog;
 import com.mxy.common.log.enums.Status;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,7 +16,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -101,8 +101,14 @@ public class LogAspect {
             // 主机地址
             sysOperLog.setOperIp(ip);
             // 操作地址
-            String ipName = IPUtils.getIpAddress(ip);
-            sysOperLog.setOperLocation(ipName);
+            String ipName = "";
+            if (!StringUtils.isEmpty(ip)) {
+                ipName = IPUtils.getIpAddress(ip);
+            } else {
+                sysOperLog.setOperIp("0.0.0.0");
+                ipName = "未知";
+            }
+            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName)?ipName:"未知");
             // 请求URL
             sysOperLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
             // 请求时长
@@ -120,7 +126,7 @@ public class LogAspect {
             }
             // 操作时间
             sysOperLog.setOperTime(new Date());
-            sysOperLog.setOperName(userDetails.getUsername());
+            sysOperLog.setOperName(StringUtils.isNotBlank(userDetails.getUsername()) ? userDetails.getUsername() : "unknown");
             sysOperLog.insert();
         } catch (Exception exception) {
             exception.printStackTrace();

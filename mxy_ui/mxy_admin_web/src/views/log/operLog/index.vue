@@ -10,7 +10,7 @@
         </el-col>
         <el-col :span="4">
           <el-select v-model="listQuery.businessType" placeholder="请选择操作类型" class="filter-item" style="width: 100%;">
-            <el-option v-for="item in TypeOptions" :key="item.key" :label="item.name" :value="item.key"/>
+            <el-option v-for="item in dictLogType" :key="item.value" :label="item.name" :value="item.value"/>
           </el-select>
         </el-col>
         <el-col :span="6">
@@ -48,7 +48,7 @@
       <el-table-column prop="title" label="模块标题" align="center" show-overflow-tooltip width="150"></el-table-column>
       <el-table-column label="操作类型" align="center">
         <template slot-scope="{row}">
-          <span v-for="item in TypeOptions" v-if="row.businessType===item.key">{{ item.name }}</span>
+          <span v-for="item in dictLogType" v-if="row.businessType==item.value">{{ item.name }}</span>
         </template>
       </el-table-column>
       <!--<el-table-column prop="method" label="方法名称" align="center"></el-table-column>-->
@@ -129,7 +129,8 @@
 <script>
 import {getSysLogList, detailLog} from '@/api/log/log'
 import Pagination from '@/components/Pagination'
-import {parseTime} from "../../../../../mxy_system_web/src/utils"; // 分页
+import {parseTime} from "../../../../../mxy_system_web/src/utils";
+import {getDictData} from "@/api/sys/dictData/data"; // 分页
 
 // 操作类型
 const TypeOptions = [
@@ -184,13 +185,20 @@ export default {
         status: '',
         remark: ''
       },
+      dictLogType: null,
       dialogFormVisible: false //控制新增页关闭
     }
   },
   created() {
+    this.getDictData()
     this.getList()
   },
   methods: {
+    getDictData() {
+      getDictData({dictType: "LOG_TYPE"}).then(response => {
+        this.dictLogType = response.data
+      })
+    },
     /*列表查询*/
     getList() {
       this.listLoading = true

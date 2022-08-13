@@ -2,12 +2,14 @@ package com.mxy.system.controller;
 
 import com.mxy.common.core.entity.SysPicture;
 import com.mxy.common.core.utils.ServiceResult;
+import com.mxy.common.log.enums.OperType;
 import com.mxy.system.entity.vo.SysArticleVO;
 import com.mxy.system.entity.vo.SysBookmarksVO;
 import com.mxy.system.service.BeautifulWordsService;
 import com.mxy.system.service.SysArticleService;
 import com.mxy.system.service.SysBookmarksService;
 import com.mxy.system.service.SysPictureService;
+import com.mxy.system.utils.LogUtil;
 import com.mxy.system.utils.QiniuUploadUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -70,6 +72,7 @@ public class WhitelistController {
     @PostMapping("/getList")
     public String getList(@RequestBody SysArticleVO sysArticleVO) {
         sysArticleVO.setStatus("0");
+        LogUtil.saveBlogLog("博客预览", String.valueOf(sysArticleVO), OperType.BOLG.ordinal());
         return sysArticleService.getList(sysArticleVO);
     }
 
@@ -96,6 +99,7 @@ public class WhitelistController {
         Map<String, Object> map = new HashMap<>();
         map.put("fileName", fileName);
         map.put("fileType", fileType);
+        LogUtil.saveBlogLog("图片上传", fileName, OperType.UPLOAD.ordinal());
         return sysPictureService.uploadPicture(map, file);
     }
 
@@ -110,6 +114,7 @@ public class WhitelistController {
         //QiniuUploadUtil.deleteImg(id);
         // 再修改 成新的图片
         String key = QiniuUploadUtil.upload(id, file.getBytes());
+        LogUtil.saveBlogLog("用户头像上传", id, OperType.UPLOAD.ordinal());
         if (key != null) {
             return ServiceResult.success(key);
         } else {
@@ -177,6 +182,7 @@ public class WhitelistController {
         } catch (Exception e) {
             throw new RuntimeException("图片下载失败");
         }
+        LogUtil.saveBlogLog("图片下载", id, OperType.DOWNLOAD.ordinal());
     }
 
     /**
@@ -184,10 +190,11 @@ public class WhitelistController {
      * @author 孟小耀
      * @date 2022-03-07
      */
-    @ApiOperation(value = "获取收藏书签列表")
+    @ApiOperation(value = "查询收藏书签列表")
     @PostMapping("/getBookmarkList")
     public String getBookmarkList(@RequestBody SysBookmarksVO sysBookmarksVO) {
         sysBookmarksVO.setStatus("0");
+        LogUtil.saveBlogLog("博客收藏书签查询", String.valueOf(sysBookmarksVO), OperType.SELECT.ordinal());
         return sysBookmarksService.getList(sysBookmarksVO);
     }
 }

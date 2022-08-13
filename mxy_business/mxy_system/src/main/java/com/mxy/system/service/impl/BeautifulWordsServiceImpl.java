@@ -6,15 +6,18 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.common.core.entity.BeautifulWords;
+import com.mxy.common.log.enums.OperType;
 import com.mxy.system.entity.vo.BeautifulWordsVO;
 import com.mxy.system.mapper.BeautifulWordsMapper;
 import com.mxy.system.service.BeautifulWordsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mxy.system.utils.LogUtil;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +106,7 @@ public class BeautifulWordsServiceImpl extends ServiceImpl<BeautifulWordsMapper,
         Map<String,String> insMap = this.baseMapper.selectWordRand();
         Map<String, Object> map = new HashMap<>();
         map.put("value", MapUtils.getString(insMap,"value"));
+        LogUtil.saveBlogLog(MapUtils.getString(insMap,"value"), "后台系统-首页随机句", OperType.SELECT.ordinal());
         return ServiceResult.success(map);
     }
 
