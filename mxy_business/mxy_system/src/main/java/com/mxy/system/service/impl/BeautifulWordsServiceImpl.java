@@ -106,7 +106,7 @@ public class BeautifulWordsServiceImpl extends ServiceImpl<BeautifulWordsMapper,
         Map<String,String> insMap = this.baseMapper.selectWordRand();
         Map<String, Object> map = new HashMap<>();
         map.put("value", MapUtils.getString(insMap,"value"));
-        LogUtil.saveBlogLog(MapUtils.getString(insMap,"value"), "后台系统-首页随机句", OperType.SELECT.ordinal());
+        LogUtil.saveBlogLog(MapUtils.getString(insMap,"value"), "后台系统-首页随机句", OperType.DETAILONE.ordinal());
         return ServiceResult.success(map);
     }
 

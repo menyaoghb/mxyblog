@@ -110,5 +110,10 @@ public class SysOperLogServiceImpl extends ServiceImpl<SysOperLogMapper, SysOper
         }
     }
 
+    @Override
+    public String statisticsLogInfo(SysOperLogVO sysOperLogVO) {
+        return ServiceResult.success(this.baseMapper.statisticsLogInfo());
+    }
+
 
 }

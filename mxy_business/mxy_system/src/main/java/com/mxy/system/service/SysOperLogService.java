@@ -43,4 +43,9 @@ public interface SysOperLogService extends IService<SysOperLog> {
      */
     public void exportSysLog(HttpServletRequest request, HttpServletResponse response, SysOperLogVO sysOperLogVO);
 
+    /**
+     * 统计操作日志
+     */
+    public String statisticsLogInfo(SysOperLogVO sysOperLogVO);
+
 }
