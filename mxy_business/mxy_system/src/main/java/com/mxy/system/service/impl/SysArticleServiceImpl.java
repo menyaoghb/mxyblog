@@ -9,10 +9,12 @@ import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysArticle;
 import com.mxy.common.core.utils.RedisUtil;
 import com.mxy.common.core.utils.ServiceResult;
+import com.mxy.common.log.enums.OperType;
 import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.entity.vo.SysArticleVO;
 import com.mxy.system.mapper.SysArticleMapper;
 import com.mxy.system.service.SysArticleService;
+import com.mxy.system.utils.LogUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -105,15 +107,16 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
 //            sysArticle.setContent(HtmlUtils.htmlUnescape(sysArticle.getContent()));
 //            redisUtil.set(id, sysArticle, 1800);
 //        } else {
-            sysArticle = this.baseMapper.selectById(id);
-            sysArticle.setContent(HtmlUtils.htmlUnescape(sysArticle.getContent()));
-            sysArticle.setPageViews(sysArticle.getPageViews() == null ? 1 : sysArticle.getPageViews() + 1);
+        sysArticle = this.baseMapper.selectById(id);
+        sysArticle.setContent(HtmlUtils.htmlUnescape(sysArticle.getContent()));
+        sysArticle.setPageViews(sysArticle.getPageViews() == null ? 1 : sysArticle.getPageViews() + 1);
 //            redisUtil.set(id, sysArticle, 1800);
 //        }
         // 每2次更新一次数据
         if (sysArticle.getPageViews() != 0) {
             sysArticle.updateById();
         }
+        LogUtil.saveBlogLog(sysArticle.getTitle(), id, OperType.DETAIL.ordinal());
         return ServiceResult.success(sysArticle);
     }
 }
