@@ -16,4 +16,12 @@ export function detailLog(data) {
     data
   })
 }
+/*统计日志*/
+export function statisticsLogInfo(data) {
+  return request({
+    url: '/indexInfo/statisticsLogInfo',
+    method: 'post',
+    data
+  })
+}
 

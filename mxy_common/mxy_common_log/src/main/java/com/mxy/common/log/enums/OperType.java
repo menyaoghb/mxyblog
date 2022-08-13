@@ -80,5 +80,10 @@ public enum OperType {
     /**
      * 博客详细
      */
-    DETAIL
+    DETAIL,
+
+    /**
+     * 单条详细
+     */
+    DETAILONE
 }
