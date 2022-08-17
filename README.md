@@ -4,13 +4,18 @@
 个人博客-正在开发中...
 
 #### 软件架构
+ **springboot+mybatisplus+vue+element** 
+
 前端：http://mxyit.com/
 后台：http://mxyit.com:8088/
-
+admin/123456
 
 #### 系统截图
-![输入图片说明](https://images.gitee.com/uploads/images/2021/0807/093042_3b908599_7797080.png "jy.png")
-
+![输入图片说明](doc/image.png)
+![输入图片说明](doc/image-01.png)
+![输入图片说明](doc/image-02.png)
+![输入图片说明](doc/image-03.png)
+![输入图片说明](doc/image-04.png)
 
 #### 使用说明
 
