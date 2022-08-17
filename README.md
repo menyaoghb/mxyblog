@@ -4,7 +4,8 @@
 个人博客-正在开发中...
 
 #### 软件架构
-http://mxyit.com/
+前端：http://mxyit.com/
+后台：http://mxyit.com:8088/
 
 
 #### 系统截图
