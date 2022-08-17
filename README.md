@@ -3,6 +3,8 @@
 #### 介绍
 个人博客-正在开发中...
 
+发布博客功能已完成，其余系统基础功能正在完善中
+
 #### 软件架构
  **springboot+mybatisplus+vue+element** 
 
