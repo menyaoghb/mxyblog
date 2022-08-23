@@ -60,6 +60,15 @@ export default {
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  background-image: url(http://mxy.mxyit.com/c935f5f1-a105-45e4-8d52-e33fa65ccbeb);
+  background-attachment:fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
 
   .hamburger-container {
     line-height: 46px;

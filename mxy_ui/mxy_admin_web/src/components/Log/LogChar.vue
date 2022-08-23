@@ -14,6 +14,12 @@ export default {
   data() {
     return {
       option:{
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow",
+          },
+        },
         grid: {
           top: '10%',
           left: '10%',
@@ -107,9 +113,10 @@ export default {
       this.xData.push(x);
       this.option.xAxis = this.xData;
       let item = {
-        type: 'bar',
+        name: "操作量",
+        type: 'line',
         data: this.chartData.data,
-        barWidth: 32,
+        barWidth: '60%',
         itemStyle: {
           normal: {
             color: '#8aa9f9',

@@ -93,7 +93,7 @@ export default {
 <style scoped>
 .pagination-container {
   position: relative;
-  height: 25px;
+  height: 50px;
   margin-bottom: 10px;
   margin-top: 10px;
   background: #fff;

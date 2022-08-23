@@ -1,8 +1,8 @@
 <template>
   <div class="login-container">
-    <div class="title-container" style="text-align: left">
-      <img src="http://mxy.mxyit.com/093ad0a8-c1b5-42a1-af9a-75a11287c148" class="mxy-logo">
-    </div>
+      <div class="title-container" style="text-align: left">
+        <img src="http://mxy.mxyit.com/093ad0a8-c1b5-42a1-af9a-75a11287c148" class="mxy-logo">
+      </div>
     <div class="word-s">
       <div class="word-t" :style="{color:colorStyle}">
         <span>{{text}}</span>
@@ -36,7 +36,7 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-      <el-button v-show="show" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button v-show="show" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登入</el-button>
     </el-form>
   </div>
 </template>
@@ -88,8 +88,8 @@ export default {
     }
   },
   created() {
-    this.getRandWord();
-    this.randomColor();
+    // this.getRandWord();
+    // this.randomColor();
   },
   methods: {
     showPwd() {
@@ -108,15 +108,7 @@ export default {
           this.loading = true
           this.show = false
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$confirm('是否进入新世界？', "警告", {
-              confirmButtonText: '是',
-              cancelButtonText: '否',
-              type: 'success'
-            }).then(() => {
-              this.$router.push({ path: '/' })
-            }).catch(() => {
-              this.$store.dispatch('user/logout')
-            });
+            this.$router.push({ path: '/' })
             this.loading = false
             this.show = true
           }).catch(() => {
@@ -155,13 +147,7 @@ export default {
 
 $bg:#283443;
 $light_gray:#000000;
-$cursor: #000000;
-
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
-}
+$cursor: #ffffff;
 
 /* reset element-ui css */
 .login-container {
@@ -176,15 +162,9 @@ $cursor: #000000;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: #ff6a00;
+      color: #ffffff;
       height: 47px;
       caret-color: $cursor;
-
-      &:-webkit-autofill {
-        //box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-        box-shadow:0 10px 10px rgba(0, 0, 0, 0.4) inset !important;
-      }
     }
   }
 
@@ -235,12 +215,13 @@ $light_gray:#eee;
 
 .el-button--primary {
   color: #ffffff;
-  background-color: #ff6a00;
-  border-color: #ff6a00;
+  background-color: #7151cc;
+  border-color: #7151cc;
+  opacity: 0.5;
 }
 
 .word-s{
-  color: #ff6a00;
+  color: #ffffff;
   width: 100%;
   line-height: 40px;
   padding-top: 50px;
@@ -269,13 +250,22 @@ $light_gray:#eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
-  background-image: url(http://mxy.mxyit.com/eadc0cb9-7999-4226-9814-ab86a479d2ff);
-  background-position:center;
+  //background-image: url(http://mxy.mxyit.com/53864988-127e-455e-911a-f6145677ddd1);
+  //background-image: url(http://mxy.mxyit.com/8c8dfa4b-aaf2-41f5-b477-23ddd330aa87);
+  //background-image: url(http://mxy.mxyit.com/53aea0e5-7cb6-4ec5-ab73-ce5504359abd);
+  background-image: url(http://mxy.mxyit.com/d9b9511d-4174-420f-9104-3385ba636489);
   background-attachment:fixed;
-  background-repeat:no-repeat;
-  background-size:1920px 929px;
   overflow: hidden;
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-color: #e8eaf2;
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
 
   .login-form {
     position: relative;
