@@ -15,13 +15,13 @@
       <!--标题-->
       <div class="menu-item">
         <ul>
-          <router-link target="_blank" to="/"><li><div class="title-line header-title">二零二二</div></li></router-link>
-          <router-link target="_blank" to="/blog"><li><div class="title-line header-title">博客</div></li></router-link>
-          <router-link target="_blank" to="/Original"><li><div class="title-line header-title">原创</div></li></router-link>
-          <router-link target="_blank" to="/Photo"><li><div class="title-line header-title">相册</div></li></router-link>
-          <router-link target="_blank" to="/Diary"><li><div class="title-line header-title">成长</div></li></router-link>
-          <router-link target="_blank" to="/Collection"><li><div class="title-line header-title">收藏</div></li></router-link>
-          <router-link target="_blank" to="/MuiPlayer"><li><div class="title-line header-title">视频</div></li></router-link>
+          <router-link  to="/"><li><div class="title-line header-title">二零二二</div></li></router-link>
+          <router-link  to="/blog"><li><div class="title-line header-title">博客</div></li></router-link>
+          <router-link  to="/Original"><li><div class="title-line header-title">原创</div></li></router-link>
+          <router-link  to="/Photo"><li><div class="title-line header-title">相册</div></li></router-link>
+          <router-link  to="/Diary"><li><div class="title-line header-title">成长</div></li></router-link>
+          <router-link  to="/Collection"><li><div class="title-line header-title">收藏</div></li></router-link>
+          <router-link  to="/MuiPlayer"><li><div class="title-line header-title">视频</div></li></router-link>
           <li><div class="title-line"><el-badge :value="99999" :max="num" class="item"><a href="#" @click="open5" class="header-title">元气值</a></el-badge></div>
           </li>
         </ul>
