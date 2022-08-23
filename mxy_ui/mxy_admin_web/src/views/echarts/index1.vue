@@ -56,7 +56,7 @@ export default {
       series: [
         {
           name: "每月花费",
-          type: "bar",
+          type: "line",
           barWidth: "60%",
           data: [995, 666, 444, 858, 654, 236, 645, 546, 846, 225, 547, 356],
         },

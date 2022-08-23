@@ -13,10 +13,7 @@
       </el-col>
       <el-col :span="6">
         <div class="grid-content bg-purple">
-          <el-card shadow="always">
-            <el-divider content-position="left">时间</el-divider>
-            <el-progress type="circle" :percentage="66"></el-progress>
-          </el-card>
+          <img :src="avatar+'?imageView2/1/w/200/h/200'" class="user-avatar">
         </div>
       </el-col>
       <el-col :span="6">
@@ -34,7 +31,12 @@
         </div>
       </el-col>
       <el-col :span="6">
-        <div class="grid-content bg-purple"></div>
+        <div class="grid-content bg-purple">
+          <el-card shadow="always">
+            <el-divider content-position="left">时间</el-divider>
+            <el-progress type="circle" :percentage="66"></el-progress>
+          </el-card>
+        </div>
       </el-col>
     </el-row>
     <el-row :gutter="20">
@@ -86,6 +88,7 @@ export default {
   computed: {
     ...mapGetters([
       'name',
+      'avatar',
       'roles'
     ])
   },
