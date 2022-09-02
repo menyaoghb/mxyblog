@@ -15,7 +15,7 @@ import com.mxy.system.entity.vo.SysRoleMenuVO;
 public interface SysRoleMenuService extends IService<SysRoleMenu> {
 
     /**
-     * 获取角色和菜单关联列表
+     * 查询角色和菜单关联列表
      */
     public String getList(SysRoleMenuVO sysRoleMenuVO);
 

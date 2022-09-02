@@ -15,7 +15,7 @@ import com.mxy.system.entity.vo.SysEsDataVO;
 public interface SysEsDataService extends IService<SysEsData> {
 
     /**
-     * 获取ES数据存储列表
+     * 查询ES数据存储列表
      */
     public String getList(SysEsDataVO sysEsDataVO);
 

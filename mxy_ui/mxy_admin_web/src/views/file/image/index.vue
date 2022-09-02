@@ -173,7 +173,7 @@ export default {
       formData.append('fileName', this.fileData.fileName)
       formData.append('fileType', this.fileData.fileType)
       axios({
-        url: 'http://mxyit.com:8088/api/foreign/uploadPicture',
+        url: window.SITE_CONFIG['systemUrl'] +'/api/foreign/uploadPicture',
         method: 'post',
         data: formData,
         headers: {'Content-Type': 'multipart/form-data'},
@@ -204,7 +204,7 @@ export default {
       this.dialogVisible = true;
     },
     indexDownload(url) {
-      window.location.href="http://mxyit.com:8088/api/foreign/downloadPicture?id="+url.id
+      window.location.href = window.SITE_CONFIG['systemUrl'] + '/api/foreign/downloadPicture?id=' + url.id
       this.$message({
         message: '下载中，请稍后...',
         type: 'success'

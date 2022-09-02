@@ -15,7 +15,7 @@ import com.mxy.system.entity.vo.SysBookmarksVO;
 public interface SysBookmarksService extends IService<SysBookmarks> {
 
     /**
-     * 获取收藏书签列表
+     * 查询收藏书签列表
      */
     public String getList(SysBookmarksVO sysBookmarksVO);
 

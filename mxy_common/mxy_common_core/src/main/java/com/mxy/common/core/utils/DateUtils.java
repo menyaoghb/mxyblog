@@ -620,5 +620,18 @@ public class DateUtils {
         return format.format(date);
     }
 
+    /**
+     * 计算当天23点59分59秒的秒数
+     */
+    public static Long getDifferentTimes() {
+        //计算当前时间到0点的秒数
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return (cal.getTimeInMillis() - System.currentTimeMillis()) / 1000;
+    }
 
 }

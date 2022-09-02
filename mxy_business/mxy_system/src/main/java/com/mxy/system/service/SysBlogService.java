@@ -15,7 +15,7 @@ import com.mxy.system.entity.vo.SysBlogVO;
 public interface SysBlogService extends IService<SysBlog> {
 
     /**
-     * 获取博客列表
+     * 查询博客列表
      */
     public String getList(SysBlogVO sysBlogVO);
 

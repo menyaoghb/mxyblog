@@ -17,7 +17,7 @@ import java.util.List;
 public interface SysCountryService extends IService<SysCountry> {
 
     /**
-     * 获取国家省分地市区县列表
+     * 查询国家省分地市区县列表
      */
     public String getList(SysCountryVO sysCountryVO);
 
@@ -37,7 +37,7 @@ public interface SysCountryService extends IService<SysCountry> {
     public String delete(SysCountryVO sysCountryVO);
 
     /**
-     * 获取所有国家省分地市区县数据
+     * 查询所有国家省分地市区县数据
      */
     public List<SysCountry> selectList();
 

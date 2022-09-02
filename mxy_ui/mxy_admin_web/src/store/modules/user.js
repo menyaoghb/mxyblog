@@ -6,7 +6,13 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
+    nickName: '',
+    email: '',
+    phoneNumber: '',
+    sex: '',
     avatar: '',
+    loginIp: '',
+    loginDate: '',
     roles: []
   }
 }
@@ -22,6 +28,24 @@ const mutations = {
   },
   SET_NAME: (state, name) => {
     state.name = name
+  },
+  SET_NICKNAME: (state, nickName) => {
+    state.nickName = nickName
+  },
+  SET_EMAIL: (state, email) => {
+    state.email = email
+  },
+  SET_PHONE_NUMBER: (state, phoneNumber) => {
+    state.phoneNumber = phoneNumber
+  },
+  SET_SEX: (state, sex) => {
+    state.sex = sex
+  },
+  SET_LOGIN_IP: (state, loginIp) => {
+    state.loginIp = loginIp
+  },
+  SET_LOGIN_DATE: (state, loginDate) => {
+    state.loginDate = loginDate
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
@@ -66,6 +90,12 @@ const actions = {
         commit('SET_ROLES', data.roles)
         commit('SET_NAME', data.username)
         commit('SET_AVATAR', user.avatar)
+        commit('SET_NICKNAME', user.nickName)
+        commit('SET_EMAIL', user.email)
+        commit('SET_PHONE_NUMBER', user.phoneNumber)
+        commit('SET_SEX', user.sex)
+        commit('SET_LOGIN_IP', user.loginIp)
+        commit('SET_LOGIN_DATE', user.loginDate)
         resolve(data)
       }).catch(error => {
         reject(error)

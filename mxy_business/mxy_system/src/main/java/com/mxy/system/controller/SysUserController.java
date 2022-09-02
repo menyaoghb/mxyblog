@@ -101,5 +101,18 @@ public class SysUserController {
         return sysUserService.editUserStatus(sysUserVO);
     }
 
+
+    /**
+     * @Description 修改密码
+     * @author 孟小耀
+     * @date 2022-08-28
+     */
+    @SysLog(module = "修改密码", operType = OperType.UPDATE)
+    @ApiOperation(value = "修改密码")
+    @PostMapping("/updatePassword")
+    public String updatePassword(@RequestBody SysUserVO sysUserVO) {
+        return sysUserService.updatePassword(sysUserVO);
+    }
+
 }
 

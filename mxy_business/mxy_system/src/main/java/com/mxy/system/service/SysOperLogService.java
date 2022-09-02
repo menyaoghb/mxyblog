@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public interface SysOperLogService extends IService<SysOperLog> {
 
     /**
-     * 获取操作日志记录列表
+     * 查询操作日志记录列表
      */
     public String getList(SysOperLogVO sysOperLogVO);
 

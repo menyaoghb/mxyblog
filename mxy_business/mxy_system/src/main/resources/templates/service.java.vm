@@ -18,7 +18,7 @@ interface ${table.serviceName} : ${superServiceClass}<${entity}>
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
 
     /**
-     * 获取${table.comment}列表
+     * 查询${table.comment}列表
      */
     public String getList(${entity}VO ${table.entityPath}VO);
 

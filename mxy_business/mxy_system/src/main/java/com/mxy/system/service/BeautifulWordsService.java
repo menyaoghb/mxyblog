@@ -15,7 +15,7 @@ import com.mxy.system.entity.vo.BeautifulWordsVO;
 public interface BeautifulWordsService extends IService<BeautifulWords> {
 
     /**
-     * 获取优美的句子列表
+     * 查询优美的句子列表
      */
     public String getList(BeautifulWordsVO beautifulWordsVO);
 

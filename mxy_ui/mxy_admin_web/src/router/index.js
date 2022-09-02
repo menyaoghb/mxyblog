@@ -53,6 +53,20 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: {title: '仪表盘', icon: 'dashboard'}
     }]
+  },
+  {
+    path: '/profile',
+    component: Layout,
+    redirect: '/profile/index',
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/profile/index'),
+        name: 'Profile',
+        meta: {title: '个人中心', icon: 'user', noCache: true}
+      }
+    ]
   }
 ]
 
@@ -338,6 +352,12 @@ export const asyncRoutes = [
         component: () => import('@/views/log/operLog/index'),
         name: 'log',
         meta: {title: '操作日志', icon: 'el-icon-watermelon'}
+      },
+      {
+        path: 'smsLog',
+        component: () => import('@/views/log/smsLog/SysSmsSendLog'),
+        name: 'smsLog',
+        meta: {title: '短信日志', icon: 'el-icon-watermelon'}
       },
       {
         path: 'blogLog',

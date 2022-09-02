@@ -61,8 +61,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public String add(SysUserVO sysUserVO) {
         SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         // 用户账号去重
-        SysUser sysUserEntity =selectUserByName(sysUserVO.getUsername());
-        if (sysUserEntity!=null){
+        SysUser sysUserEntity = selectUserByName(sysUserVO.getUsername());
+        if (sysUserEntity != null) {
             return ServiceResult.errorMsg(BaseMessage.INSERT_FAIL_USER_REPEAT);
         }
         SysUser sysUser = new SysUser();
@@ -100,7 +100,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             sysUserRole.setUserId(sysUser.getUserId());
             sysUserRole.setRoleId(sysUser.getUserType());
             QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("user_id",sysUser.getUserId());
+            queryWrapper.eq("user_id", sysUser.getUserId());
             sysUserRole.update(queryWrapper);
             return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);
         } else {
@@ -150,24 +150,46 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
     }
 
+    @Override
+    public String updatePassword(SysUserVO sysUserVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
+        String password = userDetails.getPassword();
+        if (!password.equals(sysUserVO.getOldPassword())) {
+            return ServiceResult.successMsg(BaseMessage.OLD_PASSWORD_ERROR);
+        }
+        SysUser sysUser = new SysUser();
+        sysUser.setUserId(sysUserVO.getUserId());
+        sysUser.setPassword(bCryptPasswordEncoder.encode(sysUserVO.getPassword()));
+        sysUser.setUpdateUser(userDetails.getUsername());
+        Boolean result = sysUser.updateById();
+        if (result) {
+            return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);
+        } else {
+            return ServiceResult.successMsg(BaseMessage.UPDATE_FAIL);
+        }
+    }
+
     /**
      * 根据用户名查询实体
+     *
      * @Author Mxy
      * @CreateTime 2022/01/14 16:30
-     * @Param  userName 用户名
+     * @Param userName 用户名
      * @Return SysUserEntity 用户实体
      */
     @Override
     public SysUser selectUserByName(String userName) {
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(SysUser::getUsername,userName);
+        queryWrapper.lambda().eq(SysUser::getUsername, userName);
         return this.baseMapper.selectOne(queryWrapper);
     }
+
     /**
      * 通过用户ID查询角色集合
+     *
      * @Author Mxy
      * @CreateTime 2022/01/18 18:01
-     * @Param  userId 用户ID
+     * @Param userId 用户ID
      * @Return List<SysRoleEntity> 角色名集合
      */
     @Override
@@ -177,6 +199,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     /**
      * 根据用户ID查询权限集合
+     *
      * @Author Mxy
      * @CreateTime 2022/01/18 18:01
      * @Param userId 用户ID

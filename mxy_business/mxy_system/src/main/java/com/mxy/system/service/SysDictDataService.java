@@ -15,7 +15,7 @@ import com.mxy.system.entity.vo.SysDictDataVO;
 public interface SysDictDataService extends IService<SysDictData> {
 
     /**
-     * 获取字典数据列表
+     * 查询字典数据列表
      */
     public String getList(SysDictDataVO sysDictDataVO);
 

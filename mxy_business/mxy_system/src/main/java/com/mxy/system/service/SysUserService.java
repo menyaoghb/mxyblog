@@ -19,7 +19,7 @@ import java.util.List;
 public interface SysUserService extends IService<SysUser> {
 
     /**
-     * 获取用户信息列表
+     * 查询用户信息列表
      */
     public String getList(SysUserVO sysUserVO);
 
@@ -47,6 +47,11 @@ public interface SysUserService extends IService<SysUser> {
      * 用户状态改变
      */
     public String editUserStatus(SysUserVO sysUserVO);
+
+    /**
+     * 修改密码
+     */
+    public String updatePassword(SysUserVO sysUserVO);
 
     /**
      * 根据用户名查询实体
