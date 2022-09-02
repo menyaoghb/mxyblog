@@ -17,7 +17,7 @@ import java.util.Map;
 public interface SysMenuService extends IService<SysMenu> {
 
     /**
-     * 获取菜单权限列表
+     * 查询菜单权限列表
      */
     public String getList(SysMenuVO sysMenuVO);
 
@@ -37,12 +37,12 @@ public interface SysMenuService extends IService<SysMenu> {
     public String delete(SysMenuVO sysMenuVO);
 
     /**
-     * 获取菜单树数据
+     * 查询菜单树数据
      */
     public String treeData(Map<String, Object> map);
 
     /**
-     * 获取菜单表格
+     * 查询菜单表格
      */
     public String treeTableData(Map<String, Object> map);
 

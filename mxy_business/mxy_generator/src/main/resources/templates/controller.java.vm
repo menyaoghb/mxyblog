@@ -48,12 +48,12 @@ public class ${table.controllerName} {
     public ${table.serviceName} ${table.entityPath}Service;
 
     /**
-     * @Description 获取${table.comment}列表
+     * @Description 查询${table.comment}列表
      * @author ${author}
      * @date ${date}
      */
-    @SysLog(module = "获取${table.comment}列表")
-    @ApiOperation(value = "获取${table.comment}列表")
+    @SysLog(module = "查询${table.comment}列表")
+    @ApiOperation(value = "查询${table.comment}列表")
     @PostMapping("/getList")
     public String getList(@RequestBody ${entity}VO ${table.entityPath}VO) {
         return ${table.entityPath}Service.getList(${table.entityPath}VO);

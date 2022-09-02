@@ -15,7 +15,7 @@ import com.mxy.system.entity.vo.SysArticleVO;
 public interface SysArticleService extends IService<SysArticle> {
 
     /**
-     * 获取文章列表
+     * 查询文章列表
      */
     public String getList(SysArticleVO sysArticleVO);
 
@@ -35,7 +35,7 @@ public interface SysArticleService extends IService<SysArticle> {
     public String delete(SysArticleVO sysArticleVO);
 
     /**
-     * 获取文章详情
+     * 查询文章详情
      */
     public String getDataById(String id);
 

@@ -17,11 +17,11 @@ import java.util.Map;
 public interface SysRoleService extends IService<SysRole> {
 
     /**
-     * 获取角色信息列表
+     * 查询角色信息列表
      */
     public String getList(SysRoleVO sysRoleVO);
     /**
-     * 获取角色信息列表
+     * 查询角色信息列表
      */
     public String getRoles();
 

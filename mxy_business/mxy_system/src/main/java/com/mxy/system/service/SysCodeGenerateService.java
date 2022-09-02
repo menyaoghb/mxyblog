@@ -15,7 +15,7 @@ import com.mxy.system.entity.vo.SysCodeGenerateVO;
 public interface SysCodeGenerateService extends IService<SysCodeGenerate> {
 
     /**
-     * 获取系统数据库表名
+     * 查询系统数据库表名
      */
     public String getTableName();
 

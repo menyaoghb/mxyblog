@@ -33,7 +33,7 @@ public class LoginController {
     SysUserServiceImpl sysUserService;
 
     /**
-     * @Description: 获取用户信息
+     * @Description: 查询用户信息
      * @Param: [token, name]
      * @return: java.lang.String
      * @Author: 孟耀

@@ -104,7 +104,7 @@
         select
         @s :=-1) as init
         where
-        @s &lt; 6
+        @s &lt; 15
         order by
         _date) as t2
         left join
@@ -119,7 +119,7 @@
         from
         sys_oper_log
         where
-        DATE_SUB(CURDATE(), interval 6 day) &lt;= date(oper_time)
+        DATE_SUB(CURDATE(), interval 15 day) &lt;= date(oper_time)
         ) t1
         group by
         days) as t3 on

@@ -15,7 +15,7 @@ import com.mxy.system.entity.vo.SysDictTypeVO;
 public interface SysDictTypeService extends IService<SysDictType> {
 
     /**
-     * 获取字典类型列表
+     * 查询字典类型列表
      */
     public String getList(SysDictTypeVO sysDictTypeVO);
 

@@ -35,7 +35,7 @@ public class CountryHandler {
 
     @XxlJob("refreshCountry")
     public void refreshCountry() throws Exception {
-        // 获取所有省分数据
+        // 查询所有省分数据
         List<SysCountry> sysCountryList = sysEsDataService.selectList();
         // 1、更新es中数据
 //        for (SysCountry sysCountry : sysCountryList) {

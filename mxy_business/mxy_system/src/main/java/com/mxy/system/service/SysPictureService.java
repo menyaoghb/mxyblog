@@ -18,7 +18,7 @@ import java.util.Map;
 public interface SysPictureService extends IService<SysPicture> {
 
     /**
-     * 获取图片列表
+     * 查询图片列表
      */
     public String getList(SysPictureVO sysPictureVO);
 

@@ -15,4 +15,5 @@ public class BaseMessage {
     public static final String UPDATE_FAIL = "更新失败";
     public static final String DELETE_SUCCESS = "删除成功";
     public static final String DELETE_FAIL = "删除失败";
+    public static final String OLD_PASSWORD_ERROR = "旧密码错误";
 }

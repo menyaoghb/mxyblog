@@ -4,6 +4,7 @@ import java.util.Date;
 import lombok.Data;
 import com.mxy.common.core.entity.vo.BaseVO;
 import com.mxy.common.core.entity.SysUser;
+import lombok.EqualsAndHashCode;
 
 /**
  * <p>
@@ -13,6 +14,7 @@ import com.mxy.common.core.entity.SysUser;
  * @author 孟小耀
  * @since 2021-07-21
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class SysUserVO extends BaseVO<SysUser> {
 
@@ -48,6 +50,10 @@ public class SysUserVO extends BaseVO<SysUser> {
      * 头像地址
      */
     private String avatar;
+    /**
+     * 旧密码
+     */
+    private String oldPassword;
     /**
      * 密码
      */

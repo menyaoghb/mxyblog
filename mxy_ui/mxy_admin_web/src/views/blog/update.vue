@@ -186,7 +186,7 @@ export default Vue.extend({
               formData.append('fileName', "博文")
               formData.append('fileType', "博文图片合集")
               const res = await axios({
-                url: 'http://mxyit.com:8088/api/foreign/uploadPicture',
+                url: window.SITE_CONFIG['systemUrl'] +'/api/foreign/uploadPicture',
                 method: 'post',
                 data: formData,
                 headers: {'Content-Type': 'multipart/form-data'},

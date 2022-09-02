@@ -29,7 +29,7 @@ public class SysMenuController {
     public SysMenuService sysMenuService;
 
     /**
-     * @Description 获取菜单权限列表
+     * @Description 查询菜单权限列表
      * @author 孟小耀
      * @date 2021-07-25
      */

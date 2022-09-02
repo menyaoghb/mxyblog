@@ -15,7 +15,7 @@ import com.mxy.system.entity.vo.SysWebConfigVO;
 public interface SysWebConfigService extends IService<SysWebConfig> {
 
     /**
-     * 获取网站参数配置列表
+     * 查询网站参数配置列表
      */
     public String getList(SysWebConfigVO sysWebConfigVO);
 

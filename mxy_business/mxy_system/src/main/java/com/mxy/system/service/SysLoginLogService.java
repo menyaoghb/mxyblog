@@ -15,7 +15,7 @@ import com.mxy.system.entity.vo.SysLoginLogVO;
 public interface SysLoginLogService extends IService<SysLoginLog> {
 
     /**
-     * 获取登录日志列表
+     * 查询登录日志列表
      */
     public String getList(SysLoginLogVO sysLoginLogVO);
 

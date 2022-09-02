@@ -15,7 +15,7 @@ import com.mxy.system.entity.vo.SysUserRoleVO;
 public interface SysUserRoleService extends IService<SysUserRole> {
 
     /**
-     * 获取用户和角色关联列表
+     * 查询用户和角色关联列表
      */
     public String getList(SysUserRoleVO sysUserRoleVO);
 

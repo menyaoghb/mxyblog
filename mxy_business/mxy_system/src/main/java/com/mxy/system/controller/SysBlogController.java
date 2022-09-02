@@ -27,7 +27,7 @@ public class SysBlogController {
     public SysBlogService sysBlogService;
 
     /**
-     * @Description 获取博客列表
+     * @Description 查询博客列表
      * @author 孟小耀
      * @date 2022-06-14
      */

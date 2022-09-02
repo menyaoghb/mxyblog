@@ -15,7 +15,7 @@ import com.mxy.system.entity.vo.SysConfigVO;
 public interface SysConfigService extends IService<SysConfig> {
 
     /**
-     * 获取系统参数配置列表
+     * 查询系统参数配置列表
      */
     public String getList(SysConfigVO sysConfigVO);
 
