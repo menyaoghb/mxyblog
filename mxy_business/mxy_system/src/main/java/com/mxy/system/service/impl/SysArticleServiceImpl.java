@@ -60,6 +60,24 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
     }
 
     @Override
+    public String getWebList(SysArticleVO sysArticleVO) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if (StringUtils.isNotEmpty(sysArticleVO.getStatus())) {
+            queryWrapper.eq("status", sysArticleVO.getStatus());
+        }
+        queryWrapper.orderByDesc("create_time");
+        Page<SysArticle> page = new Page<>();
+        page.setCurrent(sysArticleVO.getCurrentPage());
+        page.setSize(sysArticleVO.getPageSize());
+        IPage<SysArticle> pageList = this.page(page, queryWrapper);
+        List<SysArticle> list = pageList.getRecords();
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setContent(HtmlUtils.htmlUnescape(list.get(i).getContent()));
+        }
+        return ServiceResult.success(pageList);
+    }
+
+    @Override
     public String add(SysArticleVO sysArticleVO) {
         SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         SysArticle sysArticle = new SysArticle();

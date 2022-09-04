@@ -5,7 +5,7 @@
       <div style="text-align: right;">
         <sticky>
           <el-button style="margin-left: 10px;" type="success" @click="submitForm">
-            发布
+            提交审核
           </el-button>
           <el-button type="warning" @click="draftForm">
             保存
@@ -136,7 +136,7 @@ import Vue from 'vue'
 import '@wangeditor/editor/dist/css/style.css'
 
 const defaultForm = {
-  status: '0',
+  status: '9',
   title: '', // 文章题目
   content: '', // 文章内容
   summary: '', // 文章摘要
