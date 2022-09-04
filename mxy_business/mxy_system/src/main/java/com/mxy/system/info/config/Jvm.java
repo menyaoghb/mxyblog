@@ -1,4 +1,4 @@
-package com.mxy.info.config;
+package com.mxy.system.info.config;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;

@@ -5,6 +5,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+/**
+ * 短信验证码
+ *
+ * @author mengyao
+ */
 @RestController
 @CrossOrigin
 @RequestMapping("/api/foreign/sms")
@@ -13,17 +18,15 @@ public class SmsController {
     @Resource
     private SmsService smsService;
 
-
     /**
      * 发送短信验证码
+     *
      * @return
      */
-    @ApiOperation(value="发送短信验证码", httpMethod = "GET", notes = "发送短信验证码")
+    @ApiOperation(value = "发送短信验证码", httpMethod = "GET", notes = "发送短信验证码")
     @GetMapping(value = "/customer/sendMessageCode")
-    public String sendMessageCode(@RequestParam(value = "phoneNo") String phoneNo){
-        return  smsService.sendMessageCode(phoneNo);
+    public String sendMessageCode(@RequestParam(value = "phoneNo") String phoneNo) {
+        return smsService.sendMessageCode(phoneNo);
     }
-
-
 
 }

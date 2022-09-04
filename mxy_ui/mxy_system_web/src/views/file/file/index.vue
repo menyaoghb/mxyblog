@@ -282,7 +282,7 @@
       },
       /*用户状态改变*/
       handleModifyStatus(row) {
-        debugger
+
         let text = row.status === "0" ? "启用" : "禁用";
         this.$confirm('确认要"' + text + '""' + row.userName + '"这个用户吗?', "警告", {
           confirmButtonText: "确定",

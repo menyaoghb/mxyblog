@@ -1,6 +1,6 @@
-package com.mxy.info.utils;
+package com.mxy.system.info.utils;
 
-import com.mxy.info.config.*;
+import com.mxy.system.info.config.*;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.GlobalMemory;

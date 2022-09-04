@@ -1,4 +1,4 @@
-package com.mxy.info.utils;
+package com.mxy.system.info.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
