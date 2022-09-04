@@ -264,4 +264,7 @@ export default {
 .dialog-footer {
   text-align: center;
 }
+.filter-container {
+  margin-bottom: 18px;
+}
 </style>

@@ -13,6 +13,7 @@ const getDefaultState = () => {
     avatar: '',
     loginIp: '',
     loginDate: '',
+    remark: '',
     roles: []
   }
 }
@@ -46,6 +47,9 @@ const mutations = {
   },
   SET_LOGIN_DATE: (state, loginDate) => {
     state.loginDate = loginDate
+  },
+  SET_REMARK: (state, remark) => {
+    state.remark = remark
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
@@ -110,6 +114,7 @@ const actions = {
         commit('SET_SEX', user.sex)
         commit('SET_LOGIN_IP', user.loginIp)
         commit('SET_LOGIN_DATE', user.loginDate)
+        commit('SET_REMARK', user.remark)
         resolve(data)
       }).catch(error => {
         reject(error)

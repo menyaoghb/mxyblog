@@ -85,5 +85,10 @@ public enum OperType {
     /**
      * 单条详细
      */
-    DETAILONE
+    DETAILONE,
+
+    /**
+     * 账号注册
+     */
+    REGISTRATION
 }

@@ -7,12 +7,12 @@
         <h3 class="title">个人日常博客</h3>
       </div>
 
-      <el-tabs type="border-card" class="login-tab">
+      <el-tabs v-show="isRegist" type="border-card" class="login-tab">
         <el-tab-pane><span slot="label"><i class="el-icon-monitor"></i> 系统账号登录</span>
           <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user"/>
-        </span>
+            <span class="svg-container">
+              <svg-icon icon-class="user"/>
+            </span>
             <el-input
               ref="username"
               v-model="loginForm.username"
@@ -42,68 +42,12 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
         </span>
           </el-form-item>
-          <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
+          <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:15px;"
                      @click.native.prevent="handleLogin">登录
           </el-button>
           <p class="tips">
-            <a href="/register" type="primary">还没有帐号？立即注册</a>
+            <a @click.prevent="isRegist=false" type="primary">手机验证码快捷登录</a>
           </p>
-        </el-tab-pane>
-        <el-tab-pane><span slot="label"><i class="el-icon-mobile-phone"></i> 手机号登录</span>
-
-          <el-form
-            ref="phoneForm"
-            :model="phoneForm"
-            :rules="loginRules"
-            autocomplete="off"
-            :hide-required-asterisk="true"
-            size="medium"
-          >
-
-            <el-form-item prop="phoneNo">
-         <span class="svg-container">
-          <svg-icon icon-class="user"/>
-        </span>
-              <el-input
-                v-model="phoneForm.phoneNo"
-                placeholder="输入手机号并点击发送验证码"
-              />
-            </el-form-item>
-            <div>
-              <div style="width: 50%;display: inline-block;">
-                <el-form-item prop="code">
-              <span class="svg-container">
-                <svg-icon icon-class="password"/>
-              </span>
-                  <el-input
-                    v-model="phoneForm.code"
-                    maxlength="6"
-                    placeholder="请输入验证码"
-                  />
-                </el-form-item>
-              </div>
-              <div style="display: inline-block;margin-left: 20px;">
-                <el-button
-                  :loading="codeLoading"
-                  :disabled="isDisable"
-                  size="small"
-                  round
-                  @click="sendMsg"
-                >发送验证码
-                </el-button>
-                <span class="status">{{ statusMsg }}</span>
-              </div>
-            </div>
-
-            <el-form-item>
-              <el-button
-                type="primary"
-                style="width: 100%"
-                @click="phoneLogin"
-              >登录
-              </el-button>
-            </el-form-item>
-          </el-form>
         </el-tab-pane>
         <!--        <el-tab-pane><span slot="label"><i class="el-icon-position"></i> 邮箱登录</span>-->
 
@@ -144,6 +88,64 @@
         <!--          </el-form-item>-->
 
         <!--        </el-tab-pane>-->
+      </el-tabs>
+
+      <el-tabs v-show="!isRegist" type="border-card" class="login-tab">
+        <el-tab-pane><span slot="label"><i class="el-icon-mobile-phone"></i> 手机号登录</span>
+          <el-form
+            ref="phoneForm"
+            :model="phoneForm"
+            :rules="loginRules"
+            autocomplete="off"
+            :hide-required-asterisk="true"
+            size="medium"
+          >
+            <el-form-item prop="phoneNo">
+              <span class="svg-container">
+                <svg-icon icon-class="user"/>
+              </span>
+              <el-input
+                v-model="phoneForm.phoneNo"
+                placeholder="请输入手机号/自动注册"
+              />
+            </el-form-item>
+            <div>
+              <div style="width: 50%;display: inline-block;">
+                <el-form-item prop="code">
+              <span class="svg-container">
+                <svg-icon icon-class="password"/>
+              </span>
+                  <el-input
+                    v-model="phoneForm.code"
+                    maxlength="6"
+                    placeholder="请输入验证码"
+                  />
+                </el-form-item>
+              </div>
+              <div style="display: inline-block;margin-left: 20px;">
+                <el-button
+                  :loading="codeLoading"
+                  :disabled="isDisable"
+                  size="small"
+                  round
+                  @click="sendMsg"
+                >短信验证
+                </el-button>
+                <span class="status">{{ statusMsg }}</span>
+              </div>
+            </div>
+            <el-button
+              :loading="loading"
+              type="primary"
+              style="width:100%;margin-bottom:15px;"
+              @click.native.prevent="phoneLogin"
+            >登录
+            </el-button>
+            <p class="tips">
+              <a @click.prevent="isRegist=true" type="primary">账号密码登录</a>
+            </p>
+          </el-form>
+        </el-tab-pane>
       </el-tabs>
 
     </el-form>
@@ -238,7 +240,8 @@ export default {
       isDisable: false,// 验证码按钮禁用
       codeLoading: false,// 验证码loading
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      isRegist: true
     }
   },
   watch: {
@@ -384,6 +387,10 @@ $cursor: #fff;
   color: #e6a23c;
 }
 
+.el-form-item--medium .el-form-item__content, .el-form-item--medium .el-form-item__label {
+  line-height: 40px;
+}
+
 /* reset element-ui css */
 .login-container {
   .el-input {
@@ -456,7 +463,7 @@ $light_gray: #eee;
   }
 
   .tips {
-    float: right;
+    text-align: center;
     font-size: 14px;
     color: #6c757d !important;
     margin-bottom: 10px;

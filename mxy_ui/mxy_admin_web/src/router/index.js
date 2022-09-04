@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: {title: '仪表盘', icon: 'dashboard'}
+      meta: {roles: ['system', 'user'], title: '仪表盘', icon: 'dashboard'}
     }]
   },
   {
@@ -64,7 +64,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/profile/index'),
         name: 'Profile',
-        meta: {title: '个人中心', icon: 'user', noCache: true}
+        meta: {roles: ['system', 'user'], title: '个人中心', icon: 'user', noCache: true}
       }
     ]
   }
@@ -81,6 +81,7 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'sysBlog',
     meta: {
+      roles: ['system', 'user'],
       title: '博客系统',
       icon: 'el-icon-orange'
     },
@@ -89,32 +90,32 @@ export const asyncRoutes = [
         path: 'createBlog',
         component: () => import('@/views/blog/create'),
         name: 'createBlog',
-        meta: {title: '写博客', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system', 'user'], title: '写博客', icon: 'el-icon-lollipop'}
       },
       {
         path: 'updateBlog',
         component: () => import('@/views/blog/update'),
         name: 'updateBlog',
         hidden: true,
-        meta: {title: '编辑博客', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system', 'user'], title: '编辑博客', icon: 'el-icon-lollipop'}
       },
       {
         path: 'blogList',
         component: () => import('@/views/blog/index.vue'),
         name: 'blogList',
-        meta: {title: '查博客', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system', 'user'], title: '查博客', icon: 'el-icon-lollipop'}
       },
       {
         path: 'beautifulWords',
         component: () => import('@/views/blog/beautifulWords/index'),
         name: 'beautifulWords',
-        meta: {title: '抄佳句', icon: 'el-icon-grape'}
+        meta: {roles: ['system'], title: '抄佳句', icon: 'el-icon-grape'}
       },
       {
         path: 'webConfig',
         component: () => import('@/views/blog/config/index'),
         name: 'webConfig',
-        meta: {title: '网站配置', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: '网站配置', icon: 'el-icon-lollipop'}
       }
     ]
   },
@@ -124,6 +125,7 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'assist',
     meta: {
+      roles: ['system'],
       title: '辅助系统',
       icon: 'el-icon-orange'
     },
@@ -132,13 +134,13 @@ export const asyncRoutes = [
         path: 'codeGeneratorPath',
         component: () => import('@/views/assist/codeGenerator/index'),
         name: 'codeGeneratorName',
-        meta: {title: '代码生成', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: '代码生成', icon: 'el-icon-lollipop'}
       },
       {
         path: 'esDataPath',
         component: () => import('@/views/es/index'),
         name: 'esDataName',
-        meta: {title: 'ES数据存储', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: 'ES数据存储', icon: 'el-icon-lollipop'}
       }
     ]
   },
@@ -148,6 +150,7 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'system',
     meta: {
+      roles: ['system'],
       title: '操作系统',
       icon: 'el-icon-orange'
     },
@@ -156,49 +159,49 @@ export const asyncRoutes = [
         path: 'user',
         component: () => import('@/views/sys/user/index'),
         name: 'user',
-        meta: {title: '用户管理', icon: 'el-icon-apple'}
+        meta: {roles: ['system'], title: '用户管理', icon: 'el-icon-apple'}
       },
       {
         path: 'role',
         component: () => import('@/views/sys/role/index'),
         name: 'role',
-        meta: {title: '角色管理', icon: 'el-icon-cherry'}
+        meta: {roles: ['system'], title: '角色管理', icon: 'el-icon-cherry'}
       },
       {
         path: 'menu',
         component: () => import('@/views/sys/menu/index'),
         name: 'menu',
-        meta: {title: '菜单管理', icon: 'el-icon-grape'}
+        meta: {roles: ['system'], title: '菜单管理', icon: 'el-icon-grape'}
       },
       {
         path: 'DictType',
         component: () => import('@/views/sys/dictType'),
         name: 'DictType',
-        meta: {title: '业务字典', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: '业务字典', icon: 'el-icon-lollipop'}
       },
       {
         path: 'DictData',
         component: () => import('@/views/sys/dictData'),
         name: 'DictData',
-        meta: {title: '字典细分', icon: 'el-icon-sugar'}
+        meta: {roles: ['system'], title: '字典细分', icon: 'el-icon-sugar'}
       },
       {
         path: 'job',
         component: () => import('@/views/sys/job/index'),
         name: 'job',
-        meta: {title: '定时任务', icon: 'el-icon-watermelon'}
+        meta: {roles: ['system'], title: '定时任务', icon: 'el-icon-watermelon'}
       },
       {
         path: 'config',
         component: () => import('@/views/sys/config/index'),
         name: 'config',
-        meta: {title: '系统参数', icon: 'el-icon-watermelon'}
+        meta: {roles: ['system'], title: '系统参数', icon: 'el-icon-watermelon'}
       },
       {
         path: 'country',
         component: () => import('@/views/sys/country/index'),
         name: 'country',
-        meta: {title: '国家省分', icon: 'el-icon-watermelon'}
+        meta: {roles: ['system'], title: '国家省分', icon: 'el-icon-watermelon'}
       }
     ]
   },
@@ -208,6 +211,7 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'sysFile',
     meta: {
+      roles: ['system'],
       title: '文件系统',
       icon: 'el-icon-orange'
     },
@@ -216,13 +220,13 @@ export const asyncRoutes = [
         path: 'filePath',
         component: () => import('@/views/file/file/index'),
         name: 'fileName',
-        meta: {title: '文件管理', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: '文件管理', icon: 'el-icon-lollipop'}
       },
       {
         path: 'imagePath',
         component: () => import('@/views/file/image/index'),
         name: 'imageName',
-        meta: {title: '图片管理', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: '图片管理', icon: 'el-icon-lollipop'}
       }
     ]
   },
@@ -232,6 +236,7 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'report',
     meta: {
+      roles: ['system'],
       title: '报表统计',
       icon: 'el-icon-orange'
     },
@@ -240,22 +245,22 @@ export const asyncRoutes = [
         path: 'index1Path',
         component: () => import('@/views/echarts/index1'),
         name: 'index1Name',
-        meta: {title: '报表样例一', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: '报表样例一', icon: 'el-icon-lollipop'}
       }, {
         path: 'index2Path',
         component: () => import('@/views/echarts/index2'),
         name: 'index2Name',
-        meta: {title: '报表样例二', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: '报表样例二', icon: 'el-icon-lollipop'}
       }, {
         path: 'index3Path',
         component: () => import('@/views/echarts/index3'),
         name: 'index3Name',
-        meta: {title: '报表样例三', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: '报表样例三', icon: 'el-icon-lollipop'}
       }, {
         path: 'index4Path',
         component: () => import('@/views/echarts/index4'),
         name: 'index4Name',
-        meta: {title: '报表样例四', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: '报表样例四', icon: 'el-icon-lollipop'}
       }
     ]
   },
@@ -265,6 +270,7 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'components',
     meta: {
+      roles: ['system'],
       title: '组件示例',
       icon: 'el-icon-orange'
     },
@@ -273,13 +279,13 @@ export const asyncRoutes = [
         path: 'wangEditorPath',
         component: () => import('@/views/components/wangEditor'),
         name: 'wangEditorName',
-        meta: {title: 'wangEditor编辑器', icon: 'el-icon-watermelon'}
+        meta: {roles: ['system'], title: 'wangEditor编辑器', icon: 'el-icon-watermelon'}
       },
       {
         path: 'treeTable',
         component: () => import('@/views/tree/index'),
         name: 'treeTableName',
-        meta: {title: '树形表格', icon: 'el-icon-watermelon'}
+        meta: {roles: ['system'], title: '树形表格', icon: 'el-icon-watermelon'}
       }
     ]
   },
@@ -289,6 +295,7 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'collection',
     meta: {
+      roles: ['system'],
       title: '收藏系统',
       icon: 'el-icon-orange'
     },
@@ -297,7 +304,7 @@ export const asyncRoutes = [
         path: 'bookmarkPath',
         component: () => import('@/views/collection/bookmark/index'),
         name: 'bookmarkName',
-        meta: {title: '书签管理', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: '书签管理', icon: 'el-icon-lollipop'}
       }
     ]
   },
@@ -307,6 +314,7 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'monitoring',
     meta: {
+      roles: ['system'],
       title: '监控系统',
       icon: 'el-icon-orange'
     },
@@ -315,19 +323,19 @@ export const asyncRoutes = [
         path: 'druid',
         component: () => import('@/views/monitoring/druid/index'),
         name: 'druidName',
-        meta: {title: 'Druid监控', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: 'Druid监控', icon: 'el-icon-lollipop'}
       },
       {
         path: 'redis',
         component: () => import('@/views/monitoring/redis/index'),
         name: 'redisName',
-        meta: {title: 'Redis监控', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: 'Redis监控', icon: 'el-icon-lollipop'}
       },
       {
         path: 'sysInfo',
         component: () => import('@/views/monitoring/sysInfo/index'),
         name: 'sysInfo',
-        meta: {title: '系统监控', icon: 'el-icon-watermelon'}
+        meta: {roles: ['system'], title: '系统监控', icon: 'el-icon-watermelon'}
       },
     ]
   },
@@ -337,6 +345,7 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'sysLog',
     meta: {
+      roles: ['system'],
       title: '日志系统',
       icon: 'el-icon-orange'
     },
@@ -345,25 +354,25 @@ export const asyncRoutes = [
         path: 'loginLog',
         component: () => import('@/views/log/loginLog/index'),
         name: 'loginLog',
-        meta: {title: '登录日志', icon: 'el-icon-watermelon'}
+        meta: {roles: ['system'], title: '登录日志', icon: 'el-icon-watermelon'}
       },
       {
         path: 'log',
         component: () => import('@/views/log/operLog/index'),
         name: 'log',
-        meta: {title: '操作日志', icon: 'el-icon-watermelon'}
+        meta: {roles: ['system'], title: '操作日志', icon: 'el-icon-watermelon'}
       },
       {
         path: 'smsLog',
         component: () => import('@/views/log/smsLog/SysSmsSendLog'),
         name: 'smsLog',
-        meta: {title: '短信日志', icon: 'el-icon-watermelon'}
+        meta: {roles: ['system'], title: '短信日志', icon: 'el-icon-watermelon'}
       },
       {
         path: 'blogLog',
         component: () => import('@/views/log/blogLog/index'),
         name: 'blogLog',
-        meta: {title: '博客日志', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system'], title: '博客日志', icon: 'el-icon-lollipop'}
       }
     ]
   },

@@ -106,9 +106,9 @@ public class LogAspect {
                 ipName = IPUtils.getIpAddress(ip);
             } else {
                 sysOperLog.setOperIp("0.0.0.0");
-                ipName = "未知";
+                ipName = "地球";
             }
-            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName)?ipName:"未知");
+            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName)?ipName:"地球");
             // 请求URL
             sysOperLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
             // 请求时长

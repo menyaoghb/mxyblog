@@ -74,14 +74,13 @@ public class SmsSend {
         //验证码
         request.putQueryParameter("TemplateParam", "{code:" + verifyCode + "}");
         try {
-//            CommonResponse response = client.getCommonResponse(request);
-            CommonResponse response = new CommonResponse();
+            CommonResponse response = client.getCommonResponse(request);
             SysSmsSendLog sendLog = new SysSmsSendLog();
             sendLog.setPhone(phoneNo);
             sendLog.setRequest(smsTemplate);
             sendLog.setResponse(String.valueOf(response.getData()));
             sendLog.insert();
-//            log.info(phoneNo + "短信发送：" + response.getData());
+            log.info(phoneNo + "短信发送：" + response.getData());
         } catch (Exception e) {
             e.printStackTrace();
             log.info(phoneNo + "短信发送失败：" + e.getMessage());

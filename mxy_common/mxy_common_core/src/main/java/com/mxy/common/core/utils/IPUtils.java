@@ -134,6 +134,6 @@ public class IPUtils {
                 return cityList[0];
             }
         }
-        return "未知";
+        return "地球";
     }
 }

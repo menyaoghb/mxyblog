@@ -40,8 +40,12 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
     @Override
     public String getList(SysArticleVO sysArticleVO) {
         QueryWrapper queryWrapper = new QueryWrapper();
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
         if (StringUtils.isNotEmpty(sysArticleVO.getStatus())) {
             queryWrapper.eq("status", sysArticleVO.getStatus());
+        }
+        if (!"1".equals(userDetails.getUserId())){
+            queryWrapper.eq("create_user", userDetails.getUserId());
         }
         queryWrapper.orderByDesc("create_time");
         Page<SysArticle> page = new Page<>();
@@ -61,7 +65,7 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
         SysArticle sysArticle = new SysArticle();
         BeanUtils.copyProperties(sysArticleVO, sysArticle);
         HtmlUtils.htmlEscapeHex(sysArticle.getContent());
-        sysArticle.setCreateUser(userDetails.getUsername());
+        sysArticle.setCreateUser(userDetails.getUserId());
         sysArticle.setPageViews(0);
         Boolean result = sysArticle.insert();
         if (result) {
