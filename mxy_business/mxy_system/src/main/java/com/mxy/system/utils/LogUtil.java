@@ -50,9 +50,9 @@ public class LogUtil {
                 ipName = IPUtils.getIpAddress(ip);
             } else {
                 sysOperLog.setOperIp("0.0.0.0");
-                ipName = "未知";
+                ipName = "地球";
             }
-            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName) ? ipName : "未知");
+            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName) ? ipName : "地球");
             // 请求URL
             sysOperLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
             // 请求时长
@@ -97,9 +97,9 @@ public class LogUtil {
                 ipName = IPUtils.getIpAddress(ip);
             } else {
                 sysOperLog.setOperIp("0.0.0.0");
-                ipName = "未知";
+                ipName = "地球";
             }
-            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName) ? ipName : "未知");
+            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName) ? ipName : "地球");
             // 请求URL
             sysOperLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
             // 请求时长
@@ -138,11 +138,58 @@ public class LogUtil {
                 ipName = IPUtils.getIpAddress(ip);
             } else {
                 login.setIp("0.0.0.0");
-                ipName = "未知";
+                ipName = "地球";
             }
-            login.setAddress(StringUtils.isNotBlank(ipName) ? ipName : "未知");
+            login.setAddress(StringUtils.isNotBlank(ipName) ? ipName : "地球");
             login.setDescription(description);
             login.insert();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @description: 记录免登录日志
+     * @author: meng.yao
+     * @date: 2022/8/13 18:39
+     **/
+    public static void saveNoLoginLog(String title,String param,Integer type) {
+        try {
+            SysOperLog sysOperLog = new SysOperLog();
+            // 模块标题
+            sysOperLog.setTitle(title);
+            // 操作类型
+            sysOperLog.setBusinessType(type);
+            // 方法名称
+            sysOperLog.setMethod("com.mxy");
+            // 请求参数
+            sysOperLog.setOperParam(param);
+            // 请求方式
+            sysOperLog.setRequestMethod(Objects.requireNonNull(ServletUtils.getRequest()).getMethod());
+            String ip = IPUtils.getClientIp(Objects.requireNonNull(ServletUtils.getRequest()));
+            // 主机地址
+            sysOperLog.setOperIp(ip);
+            // 操作地址
+            String ipName = "";
+            if (!StringUtils.isEmpty(ip)) {
+                ipName = IPUtils.getIpAddress(ip);
+            } else {
+                sysOperLog.setOperIp("0.0.0.0");
+                ipName = "地球";
+            }
+            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName) ? ipName : "地球");
+            // 请求URL
+            sysOperLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
+            // 请求时长
+            sysOperLog.setResTime(100);
+            // 操作状态
+            sysOperLog.setStatus(Status.SUCCESS.ordinal());
+            // 错误消息
+            sysOperLog.setErrorMsg("");
+            // 操作时间
+            sysOperLog.setOperTime(new Date());
+            sysOperLog.setOperName("SYSTEM");
+            sysOperLog.insert();
         } catch (Exception e) {
             e.printStackTrace();
         }

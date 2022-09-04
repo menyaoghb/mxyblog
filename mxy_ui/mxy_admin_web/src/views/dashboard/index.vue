@@ -1,77 +1,80 @@
 <template>
   <div class="dashboard-container">
-    <el-row :gutter="20">
-      <el-col :span="6">
-        <el-card shadow="always">
-          <div class="grid-content bg-purple">
-            <el-divider content-position="left">账号</el-divider>
-            <div class="dashboard-text">{{ name }}</div>
-            <el-divider content-position="left">角色</el-divider>
-            <div class="dashboard-text"><span v-for="role in roles" :key="role">{{ role }}</span></div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <div class="grid-content bg-purple">
-          <img :src="avatar+'?imageView2/1/w/200/h/200'" class="user-avatar">
-        </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="grid-content bg-purple">
-          <el-carousel :interval="4000" type="card" height="200px">
-            <el-carousel-item v-for="(item,index) in carouselList" :key="index">
-              <router-link target="_blank" :to="item.path">
-                <div class="img-box">
-                  <div>{{ item.name }}</div>
-                  <img width="200" height="250" :src="item.src" alt="">
-                </div>
-              </router-link>
-            </el-carousel-item>
-          </el-carousel>
-        </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="grid-content bg-purple">
-          <el-card shadow="always">
-            <el-divider content-position="left">时间</el-divider>
-            <el-progress type="circle" :percentage="66"></el-progress>
-          </el-card>
-        </div>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="20">
+    <div style="text-align: center">
+      <h1>个人日常博客</h1>
+    </div>
+<!--    <el-row :gutter="20">-->
+<!--      <el-col :span="6">-->
+<!--        <el-card shadow="always">-->
+<!--          <div class="grid-content bg-purple">-->
+<!--            <el-divider content-position="left">账号</el-divider>-->
+<!--            <div class="dashboard-text">{{ name }}</div>-->
+<!--            <el-divider content-position="left">角色</el-divider>-->
+<!--            <div class="dashboard-text"><span v-for="role in roles" :key="role">{{ role }}</span></div>-->
+<!--          </div>-->
+<!--        </el-card>-->
+<!--      </el-col>-->
+<!--      <el-col :span="6">-->
+<!--        <div class="grid-content bg-purple">-->
+<!--          <img :src="avatar+'?imageView2/1/w/200/h/200'" class="user-avatar">-->
+<!--        </div>-->
+<!--      </el-col>-->
+<!--      <el-col :span="6">-->
+<!--        <div class="grid-content bg-purple">-->
+<!--          <el-carousel :interval="4000" type="card" height="200px">-->
+<!--            <el-carousel-item v-for="(item,index) in carouselList" :key="index">-->
+<!--              <router-link target="_blank" :to="item.path">-->
+<!--                <div class="img-box">-->
+<!--                  <div>{{ item.name }}</div>-->
+<!--                  <img width="200" height="250" :src="item.src" alt="">-->
+<!--                </div>-->
+<!--              </router-link>-->
+<!--            </el-carousel-item>-->
+<!--          </el-carousel>-->
+<!--        </div>-->
+<!--      </el-col>-->
+<!--      <el-col :span="6">-->
+<!--        <div class="grid-content bg-purple">-->
+<!--          <el-card shadow="always">-->
+<!--            <el-divider content-position="left">时间</el-divider>-->
+<!--            <el-progress type="circle" :percentage="66"></el-progress>-->
+<!--          </el-card>-->
+<!--        </div>-->
+<!--      </el-col>-->
+<!--    </el-row>-->
+    <el-row :gutter="20" style="margin-top: 100px;">
+      <el-col :span="24">
         <div class="grid-content bg-purple">
           <LogChar ref="logChar" :chart-data="warnChar"></LogChar>
         </div>
       </el-col>
-      <el-col :span="4">
-        <div class="grid-content bg-purple"></div>
-      </el-col>
+<!--      <el-col :span="4">-->
+<!--        <div class="grid-content bg-purple"></div>-->
+<!--      </el-col>-->
     </el-row>
-    <el-row :gutter="20">
-      <el-col :span="8">
-        <div class="grid-content bg-purple"></div>
-      </el-col>
-      <el-col :span="8">
-        <div class="grid-content bg-purple"></div>
-      </el-col>
-      <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <el-divider content-position="left">进度</el-divider>
-          <div class="block">
-            <el-timeline>
-              <el-timeline-item color="#0bbd87" v-for="index in timeLine" :timestamp="index.timestamp" placement="top">
-                <el-card>
-                  <h4>{{ index.content }}</h4>
-                  <p>{{ index.user }}</p>
-                </el-card>
-              </el-timeline-item>
-            </el-timeline>
-          </div>
-        </div>
-      </el-col>
-    </el-row>
+<!--    <el-row :gutter="20">-->
+<!--      <el-col :span="8">-->
+<!--        <div class="grid-content bg-purple"></div>-->
+<!--      </el-col>-->
+<!--      <el-col :span="8">-->
+<!--        <div class="grid-content bg-purple"></div>-->
+<!--      </el-col>-->
+<!--      <el-col :span="8">-->
+<!--        <div class="grid-content bg-purple">-->
+<!--          <el-divider content-position="left">进度</el-divider>-->
+<!--          <div class="block">-->
+<!--            <el-timeline>-->
+<!--              <el-timeline-item color="#0bbd87" v-for="index in timeLine" :timestamp="index.timestamp" placement="top">-->
+<!--                <el-card>-->
+<!--                  <h4>{{ index.content }}</h4>-->
+<!--                  <p>{{ index.user }}</p>-->
+<!--                </el-card>-->
+<!--              </el-timeline-item>-->
+<!--            </el-timeline>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </el-col>-->
+<!--    </el-row>-->
   </div>
 </template>
 

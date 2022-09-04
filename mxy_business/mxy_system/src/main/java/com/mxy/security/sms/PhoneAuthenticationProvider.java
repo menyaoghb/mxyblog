@@ -1,11 +1,13 @@
 package com.mxy.security.sms;
 
+import com.alibaba.fastjson.JSONObject;
 import com.mxy.common.core.constant.Constants;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysRole;
 import com.mxy.common.core.entity.SysUser;
 import com.mxy.common.core.entity.SysUserRole;
 import com.mxy.common.core.utils.RedisUtil;
+import com.mxy.common.log.enums.OperType;
 import com.mxy.security.security.service.SelfUserDetailsService;
 import com.mxy.system.service.SysUserService;
 import com.mxy.system.utils.LogUtil;
@@ -138,18 +140,20 @@ public class PhoneAuthenticationProvider implements AuthenticationProvider {
         sysUser.setPassword(bCryptPasswordEncoder.encode(password));
         sysUser.setAvatar("http://mxy.mxyit.com/4c91b381-c107-4359-909a-e0b40b960b74");
         sysUser.setCreateUser("system");
-        sysUser.setRemark("默认密码为：" + password);
+        sysUser.setRemark("首次注册默认密码为：" + password);
         sysUser.setLoginDate(new Date());
+        sysUser.setUserType("2");
         sysUser.insert();
 
         // 新增用户角色关系
         SysUserRole sysUserRole = new SysUserRole();
         sysUserRole.setUserId(sysUser.getUserId());
         // 游客
-        sysUserRole.setRoleId("1483686913015730177");
+        sysUserRole.setRoleId("2");
         sysUserRole.insert();
         BeanUtils.copyProperties(sysUser, selfUser);
         selfUser.setRelName(sysUser.getNickName());
+        LogUtil.saveNoLoginLog("账号注册", JSONObject.toJSONString(sysUser), OperType.REGISTRATION.ordinal());
         return selfUser;
     }
 

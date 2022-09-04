@@ -10,6 +10,7 @@ const getters = {
   sex: state => state.user.sex,
   loginIp: state => state.user.loginIp,
   loginDate: state => state.user.loginDate,
+  remark: state => state.user.remark,
   roles: state => state.user.roles,
   permission_routes: state => state.permission.routes
 }
