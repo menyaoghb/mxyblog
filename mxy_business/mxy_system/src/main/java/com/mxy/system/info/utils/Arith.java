@@ -1,4 +1,4 @@
-package com.mxy.info.utils;
+package com.mxy.system.info.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

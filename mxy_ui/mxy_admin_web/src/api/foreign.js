@@ -7,3 +7,11 @@ export function getRandWord(data) {
     data
   })
 }
+
+export function sendMessageCode(phoneNo) {
+  return request({
+    url: '/foreign/sms/customer/sendMessageCode',
+    method: 'get',
+    params: {phoneNo: phoneNo}
+  })
+}

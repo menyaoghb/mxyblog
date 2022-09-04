@@ -1,4 +1,4 @@
-package com.mxy.info.utils;
+package com.mxy.system.info.utils;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

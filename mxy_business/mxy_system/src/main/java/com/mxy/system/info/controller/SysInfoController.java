@@ -1,8 +1,8 @@
-package com.mxy.info.controller;
+package com.mxy.system.info.controller;
 
 import com.mxy.common.core.utils.ServiceResult;
-import com.mxy.info.config.Server;
-import com.mxy.info.utils.MonitorServerUtil;
+import com.mxy.system.info.config.Server;
+import com.mxy.system.info.utils.MonitorServerUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.CrossOrigin;

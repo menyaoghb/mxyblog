@@ -193,7 +193,7 @@ export default Vue.extend({
                 }
               }).then(res => {
                 const {status, data, code} = res.data;
-                debugger
+
                 if (code === 200) {
                   const alt = (data.split("/")[data.split("/").length - 1]).substring(36);
                   insertFn(data, alt, data);  // insertFn 参数1：路径； 参数2：alt值； 参数三：路径

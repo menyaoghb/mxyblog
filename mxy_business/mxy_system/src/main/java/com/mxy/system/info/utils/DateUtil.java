@@ -1,4 +1,4 @@
-package com.mxy.info.utils;
+package com.mxy.system.info.utils;
 
 import java.lang.management.ManagementFactory;
 import java.text.ParseException;
