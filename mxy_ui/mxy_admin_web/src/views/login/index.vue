@@ -16,7 +16,7 @@
             <el-input
               ref="username"
               v-model="loginForm.username"
-              placeholder="邮箱"
+              placeholder="请输入系统账号"
               name="username"
               type="text"
               tabindex="1"

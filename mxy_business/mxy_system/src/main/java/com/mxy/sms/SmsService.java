@@ -61,7 +61,7 @@ public class SmsService {
         // 当日0点过期
         redisUtil.set(sendMsgKey, count + 1, expireTime);
         // 异步请求下发短信
-        smsSend.sendMessage(phoneNo, verifyCode, 0);
+        smsSend.sendMessage(phoneNo, verifyCode, 2);
         return ServiceResult.success("短信发送成功");
     }
 

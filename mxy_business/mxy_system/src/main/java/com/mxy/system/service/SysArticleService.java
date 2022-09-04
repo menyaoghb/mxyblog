@@ -20,6 +20,11 @@ public interface SysArticleService extends IService<SysArticle> {
     public String getList(SysArticleVO sysArticleVO);
 
     /**
+     * 查询文章列表（网站）
+     */
+    public String getWebList(SysArticleVO sysArticleVO);
+
+    /**
     * 新增文章
     */
     public String add(SysArticleVO sysArticleVO);

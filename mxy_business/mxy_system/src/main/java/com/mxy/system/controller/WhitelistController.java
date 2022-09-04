@@ -73,7 +73,7 @@ public class WhitelistController {
     public String getList(@RequestBody SysArticleVO sysArticleVO) {
         sysArticleVO.setStatus("0");
         LogUtil.saveBlogLog("博客预览", String.valueOf(sysArticleVO), OperType.BOLG.ordinal());
-        return sysArticleService.getList(sysArticleVO);
+        return sysArticleService.getWebList(sysArticleVO);
     }
 
     /**
