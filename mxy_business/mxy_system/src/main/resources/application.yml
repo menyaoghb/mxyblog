@@ -129,6 +129,11 @@ spring:
           ms: 0
       retries: 0
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  mail:
+    host: smtp.qq.com  # 发送邮件的服务器地址
+    username:  # 开启 IMAP/SMTP服务 的qq邮箱的账号
+    password:   # 开启 IMAP/SMTP服务 获得的授权码,而不是qq邮箱的登录密码
+    default-encoding: UTF-8
 
 # JWT配置
 jwt:
@@ -141,7 +146,7 @@ jwt:
   # 过期时间 单位秒 1天后过期=86400 7天后过期=604800
   expiration: 86400
   # 配置不需要认证的接口
-  antMatchers: /index/**,/druid/**,/api/as/**,/api/test/**,/kafka/**,/api/foreign/**,/favicon.ico,/login/**,/api/sysCountry/**,/api/sysOperLog/**
+  antMatchers: /index/**,/druid/**,/api/as/**,/api/login/**,/api/phone/**,/api/email/**,/api/test/**,/kafka/**,/api/foreign/**,/favicon.ico,/login/**,/api/sysCountry/**,/api/sysOperLog/**
 # xxl-job配置
 xxl:
   job:
@@ -166,3 +171,10 @@ elasticsearch:
   #连接超时设置
   connectTimeoutMin: 5000
   connectTimeoutMax: 60000
+sms:
+  accessKeyId:
+  secret:
+  max:
+    limit: 10
+  sendError:
+    content: 当日的获取验证码次数已用尽，请联系管理员解除限制。
