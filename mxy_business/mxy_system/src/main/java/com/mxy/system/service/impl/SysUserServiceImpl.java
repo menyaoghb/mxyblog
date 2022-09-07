@@ -153,12 +153,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public String updatePassword(SysUserVO sysUserVO) {
         SelfUserEntity userDetails = SecurityUtil.getUserInfo();
-        String password = userDetails.getPassword();
-        if (!password.equals(sysUserVO.getOldPassword())) {
-            return ServiceResult.successMsg(BaseMessage.OLD_PASSWORD_ERROR);
-        }
         SysUser sysUser = new SysUser();
-        sysUser.setUserId(sysUserVO.getUserId());
+        sysUser.setUserId(userDetails.getUserId());
         sysUser.setPassword(bCryptPasswordEncoder.encode(sysUserVO.getPassword()));
         sysUser.setUpdateUser(userDetails.getUsername());
         Boolean result = sysUser.updateById();
@@ -166,6 +162,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);
         } else {
             return ServiceResult.successMsg(BaseMessage.UPDATE_FAIL);
+        }
+    }
+
+    @Override
+    public String verifyOldPassword(SysUserVO sysUserVO) {
+        SelfUserEntity userDetails = SecurityUtil.getUserInfo();
+        SysUser sysUser = this.baseMapper.selectById(userDetails.getUserId());
+        System.out.println(bCryptPasswordEncoder.encode(sysUserVO.getOldPassword()));
+        System.out.println(bCryptPasswordEncoder.encode(sysUserVO.getOldPassword()));
+        if (!sysUser.getPassword().equals(bCryptPasswordEncoder.encode(sysUserVO.getOldPassword()))) {
+            return ServiceResult.error(BaseMessage.OLD_PASSWORD_ERROR);
+        } else {
+            return ServiceResult.successMsg(BaseMessage.UPDATE_SUCCESS);
         }
     }
 
