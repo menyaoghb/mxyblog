@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-@Component
-@Slf4j
+//@Component
+//@Slf4j
 public class TestHandler {
 
 
