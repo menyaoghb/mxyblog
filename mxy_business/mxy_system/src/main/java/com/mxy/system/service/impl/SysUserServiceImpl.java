@@ -92,6 +92,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setUsername(sysUserVO.getUsername());
         sysUser.setUserType(sysUserVO.getUserType());
         sysUser.setRemark(sysUserVO.getRemark());
+        sysUser.setEmail(sysUserVO.getEmail());
+        sysUser.setPhoneNumber(sysUserVO.getPhoneNumber());
         sysUser.setUpdateUser(userDetails.getUsername());
         Boolean result = sysUser.updateById();
         if (result) {
