@@ -15,7 +15,7 @@
               <el-tab-pane label="密码修改" name="account">
                 <account :user="user" />
               </el-tab-pane>
-              <el-tab-pane label="心情语录" name="activity">
+              <el-tab-pane label="吐槽一下吧" name="activity">
                 <activity />
               </el-tab-pane>
             </el-tabs>

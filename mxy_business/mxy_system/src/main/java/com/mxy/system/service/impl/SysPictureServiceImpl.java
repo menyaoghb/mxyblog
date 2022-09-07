@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysPicture;
+import com.mxy.common.core.utils.DateUtils;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysPictureVO;
 import com.mxy.system.mapper.SysPictureMapper;
@@ -105,7 +106,7 @@ public class SysPictureServiceImpl extends ServiceImpl<SysPictureMapper, SysPict
         try {
 
             String id = UUID.randomUUID().toString();
-            String name = multipartFile.getOriginalFilename();
+            String name = DateUtils.getNo(4) + multipartFile.getOriginalFilename();
             key = QiniuUploadUtil.upload(id, multipartFile.getBytes());
             if (StringUtils.isNotBlank(key)) {
                 SysPicture sysPicture = new SysPicture();
@@ -123,6 +124,8 @@ public class SysPictureServiceImpl extends ServiceImpl<SysPictureMapper, SysPict
                 }
                 sysPicture.setFileType(name.substring(name.indexOf(".") + 1));
                 b = sysPicture.insert();
+            } else {
+                return ServiceResult.error("上传失败");
             }
 
         } catch (IOException e) {
