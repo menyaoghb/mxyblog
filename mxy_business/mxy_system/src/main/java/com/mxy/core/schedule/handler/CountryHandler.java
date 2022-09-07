@@ -18,8 +18,8 @@ import java.util.List;
  *
  * @author 孟耀
  */
-@Component
-@Slf4j
+//@Component
+//@Slf4j
 public class CountryHandler {
 
     private static String INDEX_NAME = "country";
