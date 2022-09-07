@@ -1,17 +1,21 @@
-package com.mxy.sms;
+package com.mxy.notice.sms;
 
-import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
-import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.mxy.common.core.entity.SysSmsSendLog;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * 短信发送
@@ -28,6 +32,8 @@ public class SmsSend {
     @Value("${sms.secret}")
     private String secret;
 
+    @Resource
+    private JavaMailSender sender;
 
     /**
      * @description: 短信验证码发送
@@ -40,7 +46,7 @@ public class SmsSend {
      * 注册验证码模板：SMS_250750257    您正在申请手机注册，验证码为：${code}，5分钟内有效！
      **/
     @Async("threadPoolTaskExecutor")
-    public void sendMessage(String phoneNo, String verifyCode, int type) {
+    public void sendSmsMessage(String phoneNo, String verifyCode, int type) {
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou",
                 accessKeyId, secret);
         IAcsClient client = new DefaultAcsClient(profile);
@@ -84,6 +90,27 @@ public class SmsSend {
         } catch (Exception e) {
             e.printStackTrace();
             log.info(phoneNo + "短信发送失败：" + e.getMessage());
+        }
+    }
+
+    @Async("threadPoolTaskExecutor")
+    public void sendEmailMessage(String email, String verifyCode) {
+        try {
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setFrom("my.mxy@qq.com");
+            mailMessage.setTo(email);
+            mailMessage.setSubject("个人日常博客验证码");
+            mailMessage.setText("您的验证码" + verifyCode + "，该验证码5分钟内有效，请勿泄漏于他人！");
+            sender.send(mailMessage);
+            SysSmsSendLog sendLog = new SysSmsSendLog();
+            sendLog.setPhone(email);
+            sendLog.setRequest(mailMessage.getText());
+            sendLog.setResponse("OK");
+            log.info(email + "->邮件发送：" + mailMessage.getText());
+            sendLog.insert();
+        } catch (MailException e) {
+            e.printStackTrace();
+            log.info(email + "邮件发送失败：" + e.getMessage());
         }
     }
 

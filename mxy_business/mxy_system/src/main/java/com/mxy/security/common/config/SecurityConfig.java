@@ -3,6 +3,8 @@ package com.mxy.security.common.config;
 import com.alibaba.fastjson.JSONObject;
 import com.mxy.common.log.enums.OperType;
 import com.mxy.security.common.util.ResultUtil;
+import com.mxy.security.email.EmailAuthenticationProvider;
+import com.mxy.security.email.EmailNumAuthenticationFilter;
 import com.mxy.security.security.UserAuthenticationProvider;
 import com.mxy.security.security.UserPermissionEvaluator;
 import com.mxy.security.security.handler.*;
@@ -76,9 +78,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private UserAuthenticationProvider userAuthenticationProvider;
-
+    /**
+     * 短信验证登录逻辑验证器
+     */
     @Autowired
     private PhoneAuthenticationProvider phoneAuthenticationProvider;
+    /**
+     * 邮箱验证登录逻辑验证器
+     */
+    @Autowired
+    private EmailAuthenticationProvider emailAuthenticationProvider;
 
     /**
      * 加密方式
@@ -111,6 +120,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(userAuthenticationProvider);
         // 手机号登录逻辑
         auth.authenticationProvider(phoneAuthenticationProvider);
+        // 邮箱登录逻辑
+        auth.authenticationProvider(emailAuthenticationProvider);
     }
 
     /**
@@ -164,9 +175,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilter(new JWTAuthenticationTokenFilter(authenticationManager()));
         //把 手机号认证过滤器 加到拦截器链中
         http.addFilterAfter(phoneNumAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        //把 邮箱认证过滤器 加到拦截器链中
+        http.addFilterAfter(emailNumAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-
+    /**
+     * 手机号认证过滤器
+     */
     @Bean
     public PhoneNumAuthenticationFilter phoneNumAuthenticationFilter() throws Exception {
         PhoneNumAuthenticationFilter filter = new PhoneNumAuthenticationFilter();
@@ -179,6 +194,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             @Override
             public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
                 LogUtil.saveLog("手机登陆失败：" + exception.getMessage(), OperType.ERROR.ordinal());
+                ResultUtil.responseJson(response, ResultUtil.resultCode(500, exception.getMessage()));
+            }
+        });
+        return filter;
+    }
+
+    /**
+     * 邮箱认证过滤器
+     */
+    @Bean
+    public EmailNumAuthenticationFilter emailNumAuthenticationFilter() throws Exception {
+        EmailNumAuthenticationFilter filter = new EmailNumAuthenticationFilter();
+        //认证使用
+        filter.setAuthenticationManager(authenticationManagerBean());
+        //设置登陆成功返回值是json
+        filter.setAuthenticationSuccessHandler(userLoginSuccessHandler);
+        //设置登陆失败返回值是json
+        filter.setAuthenticationFailureHandler(new AuthenticationFailureHandler() {
+            @Override
+            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+                LogUtil.saveLog("邮箱登陆失败：" + exception.getMessage(), OperType.ERROR.ordinal());
                 ResultUtil.responseJson(response, ResultUtil.resultCode(500, exception.getMessage()));
             }
         });

@@ -1,4 +1,4 @@
-import { login,phoneLogin, logout, getInfo } from '@/api/login/user'
+import { login,phoneLogin,emailLogin, logout, getInfo } from '@/api/login/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -79,6 +79,20 @@ const actions = {
     const { phoneNo, code } = userInfo
     return new Promise((resolve, reject) => {
       phoneLogin({ phone: phoneNo.trim(), code: code.trim() }).then(response => {
+        commit('SET_TOKEN', response.token)
+        setToken(response.token)
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  // phone login
+  emailLogin({ commit }, userInfo) {
+    const { email, code } = userInfo
+    return new Promise((resolve, reject) => {
+      emailLogin({ email: email.trim(), code: code.trim() }).then(response => {
         commit('SET_TOKEN', response.token)
         setToken(response.token)
         resolve()
