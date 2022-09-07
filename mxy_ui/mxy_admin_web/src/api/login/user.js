@@ -16,6 +16,14 @@ export function phoneLogin(data) {
   })
 }
 
+export function emailLogin(data) {
+  return request({
+    url: '/email/emailLogin',
+    method: 'post',
+    params: {email: data.email, code: data.code}
+  })
+}
+
 export function getInfo(token) {
   return request({
     url: '/user/info',

@@ -49,45 +49,6 @@
             <a @click.prevent="isRegist=false" type="primary">手机验证码快捷登录</a>
           </p>
         </el-tab-pane>
-        <!--        <el-tab-pane><span slot="label"><i class="el-icon-position"></i> 邮箱登录</span>-->
-
-        <!--          <el-form-item label="邮箱" prop="email">-->
-        <!--            <el-col :span="10">-->
-        <!--              <el-input-->
-        <!--                v-model="loginRules.email"-->
-        <!--                placeholder="输入邮箱并点击发送验证码"-->
-        <!--              />-->
-        <!--            </el-col>-->
-        <!--            <el-button-->
-        <!--              :loading="codeLoading"-->
-        <!--              :disabled="isDisable"-->
-        <!--              size="small"-->
-        <!--              round-->
-        <!--              @click="sendMsg"-->
-        <!--            >发送验证码-->
-        <!--            </el-button>-->
-
-        <!--            <span class="status">{{ statusMsg }}</span>-->
-        <!--          </el-form-item>-->
-        <!--          <el-form-item label="验证码" prop="code">-->
-        <!--            <el-col :span="10">-->
-        <!--              <el-input-->
-        <!--                v-model="loginRules.code"-->
-        <!--                maxlength="6"-->
-        <!--                placeholder="请登录邮箱接收验证码"-->
-        <!--              />-->
-        <!--            </el-col>-->
-        <!--          </el-form-item>-->
-        <!--          <el-form-item>-->
-        <!--            <el-button-->
-        <!--              type="primary"-->
-        <!--              style="width: 40%"-->
-        <!--              @click="register"-->
-        <!--            >登录-->
-        <!--            </el-button>-->
-        <!--          </el-form-item>-->
-
-        <!--        </el-tab-pane>-->
       </el-tabs>
 
       <el-tabs v-show="!isRegist" type="border-card" class="login-tab">
@@ -128,7 +89,7 @@
                   :disabled="isDisable"
                   size="small"
                   round
-                  @click="sendMsg"
+                  @click="sendMsg(1)"
                 >短信验证
                 </el-button>
                 <span class="status">{{ statusMsg }}</span>
@@ -139,6 +100,61 @@
               type="primary"
               style="width:100%;margin-bottom:15px;"
               @click.native.prevent="phoneLogin"
+            >登录
+            </el-button>
+            <p class="tips">
+              <a @click.prevent="isRegist=true" type="primary">账号密码登录</a>
+            </p>
+          </el-form>
+        </el-tab-pane>
+        <el-tab-pane><span slot="label"><i class="el-icon-mobile-phone"></i> 邮箱登录</span>
+          <el-form
+            ref="emailForm"
+            :model="emailForm"
+            :rules="loginRules"
+            autocomplete="off"
+            :hide-required-asterisk="true"
+            size="medium"
+          >
+            <el-form-item prop="email">
+              <span class="svg-container">
+                <svg-icon icon-class="user"/>
+              </span>
+              <el-input
+                v-model="emailForm.email"
+                placeholder="请输入邮箱/自动注册"
+              />
+            </el-form-item>
+            <div>
+              <div style="width: 50%;display: inline-block;">
+                <el-form-item prop="code">
+              <span class="svg-container">
+                <svg-icon icon-class="password"/>
+              </span>
+                  <el-input
+                    v-model="emailForm.code"
+                    maxlength="6"
+                    placeholder="请输入验证码"
+                  />
+                </el-form-item>
+              </div>
+              <div style="display: inline-block;margin-left: 20px;">
+                <el-button
+                  :loading="codeLoading"
+                  :disabled="isDisable"
+                  size="small"
+                  round
+                  @click="sendMsg(2)"
+                >邮箱验证
+                </el-button>
+                <span class="status">{{ statusMsg }}</span>
+              </div>
+            </div>
+            <el-button
+              :loading="loading"
+              type="primary"
+              style="width:100%;margin-bottom:15px;"
+              @click.native.prevent="emailLogin"
             >登录
             </el-button>
             <p class="tips">
@@ -253,66 +269,133 @@ export default {
     }
   },
   methods: {
-    sendMsg: function () {
-      const self = this
-      let phonePass
-      let timeRid
-      if (timeRid) {
-        return false
-      }
-      self.statusMsg = ''
-      this.$refs['phoneForm'].validateField('phoneNo', (valid) => {
-        phonePass = valid
-      })
-      // 向后台API验证码发送
-      if (!phonePass) {
-        self.codeLoading = true
-        self.statusMsg = '验证码发送中...'
-        axios({
-          url: window.SITE_CONFIG['systemUrl'] + '/api/foreign/sms/customer/sendMessageCode',
-          method: 'get',
-          params: {phoneNo: self.phoneForm.phoneNo}
-        }).then(res => {
+    sendMsg: function (type) {
+      if (type ===1) {
+        const self = this
+        let phonePass
+        let timeRid
+        if (timeRid) {
+          return false
+        }
+        self.statusMsg = ''
+        this.$refs['phoneForm'].validateField('phoneNo', (valid) => {
+          phonePass = valid
+        })
+        // 向后台API验证码发送
+        if (!phonePass) {
+          self.codeLoading = true
+          self.statusMsg = '验证码发送中...'
 
-          console.log(res)
-          let result = res.data
-          if (result.code == 200) {
-            this.$message({
-              showClose: true,
-              message: '发送成功，验证码有效期5分钟',
-              type: 'success'
-            })
-            let count = 60
-            self.phoneForm.code = ''
-            self.codeLoading = false
-            self.isDisable = true
-            self.statusMsg = `验证码已发送,${count--}秒后重新发送`
-            timeRid = window.setInterval(function () {
+          let url = "";
+          let params = {};
+
+          axios({
+            url: window.SITE_CONFIG['systemUrl'] + '/api/foreign/sms/customer/sendMessageCode',
+            method: 'get',
+            params: {phoneNo: self.phoneForm.phoneNo}
+          }).then(res => {
+
+            console.log(res)
+            let result = res.data
+            if (result.code == 200) {
+              this.$message({
+                showClose: true,
+                message: '发送成功，验证码有效期5分钟',
+                type: 'success'
+              })
+              let count = 60
+              self.phoneForm.code = ''
+              self.codeLoading = false
+              self.isDisable = true
               self.statusMsg = `验证码已发送,${count--}秒后重新发送`
-              if (count <= 0) {
-                window.clearInterval(timeRid)
-                self.isDisable = false
-                self.statusMsg = ''
-              }
-            }, 1000)
-          } else {
-            this.$message({
-              showClose: true,
-              message: result.data,
-              type: 'warning'
-            })
+              timeRid = window.setInterval(function () {
+                self.statusMsg = `验证码已发送,${count--}秒后重新发送`
+                if (count <= 0) {
+                  window.clearInterval(timeRid)
+                  self.isDisable = false
+                  self.statusMsg = ''
+                }
+              }, 1000)
+            } else {
+              this.$message({
+                showClose: true,
+                message: result.data,
+                type: 'warning'
+              })
+              this.isDisable = false
+              this.statusMsg = ''
+              this.codeLoading = false
+            }
+
+          }).catch(err => {
+            console.log(err)
             this.isDisable = false
             this.statusMsg = ''
             this.codeLoading = false
-          }
-
-        }).catch(err => {
-          console.log(err)
-          this.isDisable = false
-          this.statusMsg = ''
-          this.codeLoading = false
-          console.log(err.data)
+            console.log(err.data)
+          })
+        }
+      }
+      if (type ===2) {
+        const self = this
+        let emailPass
+        let timeRid
+        if (timeRid) {
+          return false
+        }
+        self.statusMsg = ''
+        this.$refs['emailForm'].validateField('email', (valid) => {
+          emailPass = valid
         })
+        // 向后台API验证码发送
+        if (!emailPass) {
+          self.codeLoading = true
+          self.statusMsg = '验证码发送中...'
+          axios({
+            url: window.SITE_CONFIG['systemUrl'] + '/api/foreign/sms/customer/sendEmailMessage',
+            method: 'get',
+            params: {email: self.emailForm.email}
+          }).then(res => {
+            console.log(res)
+            let result = res.data
+            if (result.code == 200) {
+              this.$message({
+                showClose: true,
+                message: '发送成功，验证码有效期5分钟',
+                type: 'success'
+              })
+              let count = 60
+              self.emailForm.code = ''
+              self.codeLoading = false
+              self.isDisable = true
+              self.statusMsg = `验证码已发送,${count--}秒后重新发送`
+              timeRid = window.setInterval(function () {
+                self.statusMsg = `验证码已发送,${count--}秒后重新发送`
+                if (count <= 0) {
+                  window.clearInterval(timeRid)
+                  self.isDisable = false
+                  self.statusMsg = ''
+                }
+              }, 1000)
+            } else {
+              this.$message({
+                showClose: true,
+                message: result.data,
+                type: 'warning'
+              })
+              this.isDisable = false
+              this.statusMsg = ''
+              this.codeLoading = false
+            }
+
+          }).catch(err => {
+            console.log(err)
+            this.isDisable = false
+            this.statusMsg = ''
+            this.codeLoading = false
+            console.log(err.data)
+          })
+        }
       }
     },
     showPwd() {
@@ -350,6 +433,25 @@ export default {
           this.loading = true
           this.show = false
           this.$store.dispatch('user/phoneLogin', this.phoneForm).then(() => {
+            this.$router.push({path: '/'})
+            this.loading = false
+            this.show = true
+          }).catch(() => {
+            this.loading = false
+            this.show = true
+          })
+        } else {
+          console.log('操作异常')
+          return false
+        }
+      })
+    },
+    emailLogin() {
+      this.$refs.emailForm.validate(valid => {
+        if (valid) {
+          this.loading = true
+          this.show = false
+          this.$store.dispatch('user/emailLogin', this.emailForm).then(() => {
             this.$router.push({path: '/'})
             this.loading = false
             this.show = true
