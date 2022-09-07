@@ -70,7 +70,7 @@ export function editUserStatus(data) {
   })
 }
 
-/*修改*/
+/*校验*/
 export function verifyOldPassword(data) {
   return requestNew({
     url: '/sysUser/verifyOldPassword',
