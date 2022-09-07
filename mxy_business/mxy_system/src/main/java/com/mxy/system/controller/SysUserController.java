@@ -114,5 +114,19 @@ public class SysUserController {
         return sysUserService.updatePassword(sysUserVO);
     }
 
+
+    /**
+     * @Description 校验旧密码
+     * @author 孟小耀
+     * @date 2022-09-07
+     */
+    @SysLog(module = "校验旧密码", operType = OperType.UPDATE)
+    @ApiOperation(value = "校验旧密码")
+    @PostMapping("/verifyOldPassword")
+    public String verifyOldPassword(@RequestBody SysUserVO sysUserVO) {
+        return sysUserService.verifyOldPassword(sysUserVO);
+    }
+
+
 }
 

@@ -1,4 +1,6 @@
 import request from '@/utils/request'
+import requestNew from '@/utils/request-new'
+
 
 /*列表查询*/
 export function getSysUserList(data) {
@@ -63,6 +65,24 @@ export function resetPassword(data) {
 export function editUserStatus(data) {
   return request({
     url: '/sysUser/editUserStatus',
+    method: 'post',
+    data
+  })
+}
+
+/*修改*/
+export function verifyOldPassword(data) {
+  return requestNew({
+    url: '/sysUser/verifyOldPassword',
+    method: 'post',
+    data
+  })
+}
+
+/*修改*/
+export function updatePassword(data) {
+  return requestNew({
+    url: '/sysUser/updatePassword',
     method: 'post',
     data
   })

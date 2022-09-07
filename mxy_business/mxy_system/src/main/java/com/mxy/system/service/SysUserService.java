@@ -54,6 +54,11 @@ public interface SysUserService extends IService<SysUser> {
     public String updatePassword(SysUserVO sysUserVO);
 
     /**
+     * 校验旧密码
+     */
+    public String verifyOldPassword(SysUserVO sysUserVO);
+
+    /**
      * 根据用户名查询实体
      * @Author Mxy
      * @CreateTime 2022/01/14 16:30
@@ -61,6 +66,7 @@ public interface SysUserService extends IService<SysUser> {
      * @Return SysUserEntity 用户实体
      */
     SysUser selectUserByName(String userName);
+
     /**
      * 根据用户ID查询角色集合
      * @Author Mxy
@@ -69,6 +75,7 @@ public interface SysUserService extends IService<SysUser> {
      * @Return List<SysRoleEntity> 角色名集合
      */
     List<SysRole> selectSysRoleByUserId(String userId);
+
     /**
      * 根据用户ID查询权限集合
      * @Author Mxy
