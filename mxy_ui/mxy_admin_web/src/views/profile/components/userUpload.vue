@@ -16,7 +16,7 @@
 
 <script>
 import store from "@/store";
-import {uploadPhoto} from "@/api/sys/user/user"
+import {editUser, uploadPhoto} from "@/api/sys/user/user"
 import axios from "axios";
 
 export default {
@@ -39,11 +39,14 @@ export default {
         headers: {'Content-Type': 'multipart/form-data'}
       }).then(res => {
         console.log("res", res)
-        if (res.code === 200) {
-          this.$message({
-            message: '上传成功',
-            type: 'success'
-          });
+        if (res.data.code === 200) {
+          this.imageUrl = res.data.data
+          editUser({userId: store.getters.userId, avatar: res.data.data}).then((data) => {
+            this.$message({
+              message: '上传成功',
+              type: 'success'
+            });
+          })
         } else {
           this.$message({
             message: '上传失败',
