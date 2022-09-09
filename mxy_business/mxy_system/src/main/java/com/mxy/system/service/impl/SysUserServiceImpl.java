@@ -95,7 +95,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setEmail(sysUserVO.getEmail());
         sysUser.setPhoneNumber(sysUserVO.getPhoneNumber());
         sysUser.setUpdateUser(userDetails.getUsername());
-        Boolean result = sysUser.updateById();
+        sysUser.setAvatar(sysUserVO.getAvatar());
+        boolean result = sysUser.updateById();
         if (result) {
             // 更新用户角色关系
             SysUserRole sysUserRole = new SysUserRole();
