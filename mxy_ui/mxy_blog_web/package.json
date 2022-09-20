@@ -19,6 +19,7 @@
     "mui-player": "^1.6.0",
     "mui-player-desktop-plugin": "^1.4.2",
     "vue": "^2.6.11",
+    "vue-aplayer": "^1.6.1",
     "vue-router": "^3.1.6",
     "vuex": "^3.1.3"
   },

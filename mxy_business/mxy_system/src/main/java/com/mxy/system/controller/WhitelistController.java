@@ -2,13 +2,12 @@ package com.mxy.system.controller;
 
 import com.mxy.common.core.entity.SysPicture;
 import com.mxy.common.core.utils.ServiceResult;
+import com.mxy.common.log.annotation.SysLog;
 import com.mxy.common.log.enums.OperType;
 import com.mxy.system.entity.vo.SysArticleVO;
 import com.mxy.system.entity.vo.SysBookmarksVO;
-import com.mxy.system.service.BeautifulWordsService;
-import com.mxy.system.service.SysArticleService;
-import com.mxy.system.service.SysBookmarksService;
-import com.mxy.system.service.SysPictureService;
+import com.mxy.system.entity.vo.SysMusicVO;
+import com.mxy.system.service.*;
 import com.mxy.system.utils.LogUtil;
 import com.mxy.system.utils.QiniuUploadUtil;
 import io.swagger.annotations.Api;
@@ -17,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -39,17 +39,20 @@ import java.util.zip.ZipOutputStream;
 @RequestMapping("/api/foreign")
 public class WhitelistController {
 
-    @Autowired
+    @Resource
     public BeautifulWordsService beautifulWordsService;
 
-    @Autowired
+    @Resource
     public SysArticleService sysArticleService;
 
-    @Autowired
+    @Resource
     public SysPictureService sysPictureService;
 
-    @Autowired
+    @Resource
     public SysBookmarksService sysBookmarksService;
+
+    @Resource
+    public SysMusicService sysMusicService;
 
     /**
      * @Description 登录页随机获取一条句子
@@ -197,4 +200,16 @@ public class WhitelistController {
         LogUtil.saveBlogLog("博客收藏书签查询", String.valueOf(sysBookmarksVO), OperType.SELECT.ordinal());
         return sysBookmarksService.getList(sysBookmarksVO);
     }
+
+    /**
+     * @Description 查询音乐列表
+     * @author 孟小耀
+     * @date 2022-09-13
+     */
+    @ApiOperation(value = "查询音乐列表")
+    @PostMapping("/getMusicList")
+    public String getMusicList(@RequestBody SysMusicVO sysMusicVO) {
+        return sysMusicService.getList(sysMusicVO);
+    }
+
 }

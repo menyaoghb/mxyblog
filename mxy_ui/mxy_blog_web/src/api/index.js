@@ -74,3 +74,12 @@ export function bookmarkList(params) {
         data
     })
 }
+
+export function getMusicList() {
+    const data = {pageSize: 100, currentPage: 1};
+    return request({
+        url: '/foreign/getMusicList',
+        method: 'post',
+        data
+    })
+}

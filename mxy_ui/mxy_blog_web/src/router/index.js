@@ -24,6 +24,12 @@ const routes = [
         meta: { title: '视频'}
     },
     {
+        path: '/music',
+        name: 'music',
+        component: () => import('../views/Music.vue'),
+        meta: { title: '音乐'}
+    },
+    {
         path: '/index',
         name: 'index',
         component: () => import('../views/Index.vue'),
