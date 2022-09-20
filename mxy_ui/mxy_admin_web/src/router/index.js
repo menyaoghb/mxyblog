@@ -90,7 +90,7 @@ export const asyncRoutes = [
         path: 'createBlog',
         component: () => import('@/views/blog/create'),
         name: 'createBlog',
-        meta: {roles: ['system', 'user'], title: '写博客', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system', 'user'], title: '发布博客', icon: 'el-icon-lollipop'}
       },
       {
         path: 'updateBlog',
@@ -103,13 +103,19 @@ export const asyncRoutes = [
         path: 'blogList',
         component: () => import('@/views/blog/index.vue'),
         name: 'blogList',
-        meta: {roles: ['system', 'user'], title: '查博客', icon: 'el-icon-lollipop'}
+        meta: {roles: ['system', 'user'], title: '博客管理', icon: 'el-icon-lollipop'}
+      },
+      {
+        path: 'music',
+        component: () => import('@/views/blog/music/music.vue'),
+        name: 'music',
+        meta: {roles: ['system'], title: '音乐管理', icon: 'el-icon-apple'}
       },
       {
         path: 'beautifulWords',
         component: () => import('@/views/blog/beautifulWords/index'),
         name: 'beautifulWords',
-        meta: {roles: ['system'], title: '抄佳句', icon: 'el-icon-grape'}
+        meta: {roles: ['system'], title: '每日一句', icon: 'el-icon-grape'}
       },
       {
         path: 'webConfig',
