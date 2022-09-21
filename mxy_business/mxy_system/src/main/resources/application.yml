@@ -1,6 +1,6 @@
 mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
       logic-delete-value: 1
@@ -144,7 +144,7 @@ jwt:
   # Token前缀字符
   tokenPrefix: Mxy-
   # 过期时间 单位秒 1天后过期=86400 7天后过期=604800
-  expiration: 86400
+  expiration: 43200
   # 配置不需要认证的接口
   antMatchers: /index/**,/druid/**,/api/as/**,/api/login/**,/api/phone/**,/api/email/**,/api/test/**,/kafka/**,/api/foreign/**,/favicon.ico,/login/**,/api/sysCountry/**,/api/sysOperLog/**
 # xxl-job配置
@@ -178,3 +178,12 @@ sms:
     limit: 10
   sendError:
     content: 当日的获取验证码次数已用尽，请联系管理员解除限制。
+#数据库监听
+binlog:
+  datasource: # 订阅binlog数据库连接信息，ip，端口，用户密码（用户必须要有权限）
+    host: 110.42.135.120
+    port: 3306
+    username: root
+    passwd: Aa123456.
+  db: mxy_blog # 监听数据库
+  table: sys_blog,sys_login_log,sys_user,sys_oper_log
