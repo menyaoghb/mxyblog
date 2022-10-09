@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 短信验证码
@@ -38,6 +40,17 @@ public class SmsController {
     @GetMapping(value = "/customer/sendEmailMessage")
     public String sendEmailMessage(@RequestParam(value = "email") String email) {
         return smsService.sendEmailMessage(email);
+    }
+
+    /**
+     * 获取验证码
+     *
+     * @return
+     */
+    @ApiOperation(value = "获取验证码", httpMethod = "GET", notes = "获取验证码")
+    @GetMapping(value = "/get/captcha")
+    public String captcha(HttpServletRequest request, HttpServletResponse response) {
+        return smsService.captcha(request,response);
     }
 
 }

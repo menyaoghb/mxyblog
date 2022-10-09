@@ -2,6 +2,7 @@ package com.mxy.security.common.config;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mxy.common.log.enums.OperType;
+import com.mxy.security.account.AccountAuthenticationFilter;
 import com.mxy.security.common.util.ResultUtil;
 import com.mxy.security.email.EmailAuthenticationProvider;
 import com.mxy.security.email.EmailNumAuthenticationFilter;
@@ -173,10 +174,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().cacheControl();
         // 添加JWT过滤器
         http.addFilter(new JWTAuthenticationTokenFilter(authenticationManager()));
+        //把 账号认证过滤器 加到拦截器链中
+        http.addFilterAfter(accountAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         //把 手机号认证过滤器 加到拦截器链中
         http.addFilterAfter(phoneNumAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         //把 邮箱认证过滤器 加到拦截器链中
         http.addFilterAfter(emailNumAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    /**
+     * 账号登录认证过滤器
+     */
+    @Bean
+    public AccountAuthenticationFilter accountAuthenticationFilter() throws Exception {
+        AccountAuthenticationFilter filter = new AccountAuthenticationFilter();
+        //认证使用
+        filter.setAuthenticationManager(authenticationManagerBean());
+        //设置登陆成功返回值是json
+        filter.setAuthenticationSuccessHandler(userLoginSuccessHandler);
+        //设置登陆失败返回值是json
+        filter.setAuthenticationFailureHandler(new AuthenticationFailureHandler() {
+            @Override
+            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+                LogUtil.saveLog("账号登陆失败：" + exception.getMessage(), OperType.ERROR.ordinal());
+                ResultUtil.responseJson(response, ResultUtil.resultCode(500, exception.getMessage()));
+            }
+        });
+        return filter;
     }
 
     /**

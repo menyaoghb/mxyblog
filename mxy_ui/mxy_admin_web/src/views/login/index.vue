@@ -24,7 +24,7 @@
             />
           </el-form-item>
           <el-form-item prop="password">
-        <span class="svg-container">
+            <span class="svg-container">
           <svg-icon icon-class="password"/>
         </span>
             <el-input
@@ -42,6 +42,25 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
         </span>
           </el-form-item>
+
+
+            <div style="width: 50%;float:left;">
+              <el-form-item prop="captcha">
+              <span class="svg-container">
+                <svg-icon icon-class="password"/>
+              </span>
+                <el-input
+                  v-model="loginForm.captcha"
+                  maxlength="6"
+                  placeholder="请输入验证码"
+                />
+              </el-form-item>
+            </div>
+            <div style="float:left;margin-left: 20px">
+              <img id="verImg" :src="imageSrc" @click="getCaptcha" width="150" height="50px" alt=""/>
+            </div>
+
+
           <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:15px;"
                      @click.native.prevent="handleLogin">登录
           </el-button>
@@ -100,7 +119,7 @@
               type="primary"
               style="width:100%;margin-bottom:15px;"
               @click.native.prevent="phoneLogin"
-            >登录
+            >登录/注册
             </el-button>
             <p class="tips">
               <a @click.prevent="isRegist=true" type="primary">账号密码登录</a>
@@ -155,7 +174,7 @@
               type="primary"
               style="width:100%;margin-bottom:15px;"
               @click.native.prevent="emailLogin"
-            >登录
+            >登录/注册
             </el-button>
             <p class="tips">
               <a @click.prevent="isRegist=true" type="primary">账号密码登录</a>
@@ -203,7 +222,9 @@ export default {
     return {
       loginForm: {
         username: '',
-        password: ''
+        password: '',
+        key: '',
+        captcha: ''
       },
       phoneForm: {
         phoneNo: '',
@@ -221,6 +242,12 @@ export default {
           required: true,
           type: 'email',
           message: '请输入邮箱',
+          trigger: 'blur'
+        }],
+        captcha: [{
+          required: true,
+          type: 'string',
+          message: '请输入验证码',
           trigger: 'blur'
         }],
         code: [{
@@ -257,7 +284,9 @@ export default {
       codeLoading: false,// 验证码loading
       passwordType: 'password',
       redirect: undefined,
-      isRegist: true
+      isRegist: true,
+      imageSrc: '',
+      verKey: ''
     }
   },
   watch: {
@@ -268,7 +297,25 @@ export default {
       immediate: true
     }
   },
+  created() {
+    this.getCaptcha();
+  },
   methods: {
+    /*获取验证码*/
+    getCaptcha() {
+      axios({
+        url: window.SITE_CONFIG['systemUrl'] + '/api/foreign/sms/get/captcha',
+        method: 'get',
+        params: {}
+      }).then(res => {
+        console.log(res)
+        let result = res.data.data
+        this.loginForm.key = result.key;
+        this.imageSrc = result.image;
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     sendMsg: function (type) {
       if (type ===1) {
         const self = this
@@ -420,9 +467,11 @@ export default {
           }).catch(() => {
             this.loading = false
             this.show = true
+            this.getCaptcha()
           })
         } else {
           console.log('操作异常')
+          this.getCaptcha()
           return false
         }
       })

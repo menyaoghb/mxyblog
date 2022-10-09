@@ -3,6 +3,8 @@ package com.mxy.security.security;
 import com.mxy.common.core.constant.Constants;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysRole;
+import com.mxy.common.core.utils.RedisUtil;
+import com.mxy.security.account.AccountAuthenticationToken;
 import com.mxy.security.security.service.SelfUserDetailsService;
 import com.mxy.system.service.SysUserService;
 import com.mxy.system.utils.LogUtil;
@@ -35,13 +37,34 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     private SelfUserDetailsService selfUserDetailsService;
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private RedisUtil redisUtil;
+
+    private static final String CAPTCHA_NO = "message_captcha_no:";
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        AccountAuthenticationToken info = (AccountAuthenticationToken) authentication;
         // 获取表单输入中返回的用户名
-        String userName = (String) authentication.getPrincipal();
+        String userName = (String) info.getCredentials();
         // 获取表单中输入的密码
-        String password = (String) authentication.getCredentials();
+        String password = (String) info.getPrincipal();
+
+        String key = (String) info.getKey();
+
+        String captcha = (String) info.getCaptcha();
+
+        // 校验验证码
+        if (!redisUtil.hasKey(CAPTCHA_NO + key)) {
+            throw new BadCredentialsException("验证码已过期");
+        }
+
+        String verCode = (String) redisUtil.get(CAPTCHA_NO + key);
+        // 验证码不正确
+        if (!captcha.equals(verCode.trim().toLowerCase())) {
+            throw new BadCredentialsException("验证码不正确");
+        }
+
         // 查询用户是否存在
         SelfUserEntity userInfo = selfUserDetailsService.loadUserByUsername(userName);
         if (userInfo == null) {
@@ -72,6 +95,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return true;
+        // 如果参数是 AccountAuthenticationToken 类型，返回true
+        return (AccountAuthenticationToken.class.isAssignableFrom(authentication));
     }
 }
