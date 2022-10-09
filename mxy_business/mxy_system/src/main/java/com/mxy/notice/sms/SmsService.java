@@ -3,12 +3,18 @@ package com.mxy.notice.sms;
 import com.mxy.common.core.utils.DateUtils;
 import com.mxy.common.core.utils.RedisUtil;
 import com.mxy.common.core.utils.ServiceResult;
+import com.wf.captcha.SpecCaptcha;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class SmsService {
@@ -32,6 +38,8 @@ public class SmsService {
     private static final String EMAIL_MESSAGE_LIMIT = "email_messager_limit:";
     private static final String EMAIL_SEND_LIMIT = "email_sendmsg_limit_count:";
     private static final String EMAIL_NO = "message_email_no:";
+
+    private static final String CAPTCHA_NO = "message_captcha_no:";
 
     private Random random = new Random();
 
@@ -101,6 +109,19 @@ public class SmsService {
         // 异步请求下发邮件
         smsSend.sendEmailMessage(email, verifyCode);
         return ServiceResult.success("邮件发送成功");
+    }
+
+    public String captcha(HttpServletRequest request, HttpServletResponse response) {
+        SpecCaptcha specCaptcha = new SpecCaptcha(130, 48, 4);
+        String verCode = specCaptcha.text().toLowerCase();
+        String key = UUID.randomUUID().toString();
+        // 存入redis并设置过期时间为300秒
+        redisUtil.set(CAPTCHA_NO + key, verCode, 300);
+        // 将key和base64返回给前端
+        Map<String, Object> map = new HashMap<>();
+        map.put("key", key);
+        map.put("image", specCaptcha.toBase64());
+        return ServiceResult.success(map);
     }
 
 }

@@ -2,9 +2,9 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/as/login',
+    url: '/as/accountLogin',
     method: 'post',
-    params: {username: data.username, password: data.password}
+    params: {username: data.username, password: data.password, key: data.key, captcha: data.captcha}
   })
 }
 
