@@ -92,5 +92,53 @@ public class ExcelUtils {
         }
     }
 
+    public void modelExport(HttpServletResponse response, Class<?> clazz) {
+        response.setContentType("application/vnd.ms-excel");
+        response.setCharacterEncoding("utf-8");
+        // 这里URLEncoder.encode可以防止中文乱码
+        try {
+            String fileName = URLEncoder.encode("AgentInfo", "UTF-8");
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+            //新建ExcelWriter
+            ExcelWriter excelWriter = EasyExcel.write(response.getOutputStream()).build();
+
+
+            //获取sheet0对象
+            WriteSheet agentInfoSheet = EasyExcel.writerSheet(0, "Agent Info").head(clazz).build();
+            //获取模型信息,向sheet0写入数据
+            List<?> agentInfoList = new ArrayList<>();
+            excelWriter.write(agentInfoList, agentInfoSheet);
+
+
+
+            //获取sheet1对象
+            WriteSheet skillInfoSheet = EasyExcel.writerSheet(1, "Skill Info").head(clazz).build();
+            //获取词条信息,向sheet1写入数据
+            List<?> skillInfoList = new ArrayList<>();
+            excelWriter.write(skillInfoList, skillInfoSheet);
+
+
+            //获取sheet2对象
+            WriteSheet skillGroupInfoSheet = EasyExcel.writerSheet(2, "Skill Group Info").head(clazz).build();
+            //获取词条信息,向sheet1写入数据
+            List<?> skillGroupInfoList = new ArrayList<>();
+            excelWriter.write(skillGroupInfoList, skillGroupInfoSheet);
+
+
+            //获取sheet3对象
+            WriteSheet fileVersionSheet = EasyExcel.writerSheet(3, "File Version").head(clazz).build();
+            //获取词条信息,向sheet1写入数据
+            List<?> fileVersionList = new ArrayList<>();
+            excelWriter.write(fileVersionList, fileVersionSheet);
+
+
+            //关闭流
+            excelWriter.finish();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }
