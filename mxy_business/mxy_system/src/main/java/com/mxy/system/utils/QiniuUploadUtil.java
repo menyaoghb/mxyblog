@@ -9,6 +9,8 @@ import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -16,13 +18,29 @@ import com.qiniu.util.Auth;
  * @Author 孟小耀
  * @Date 2021/7/28 0028 20:07
  */
+@Component
 public class QiniuUploadUtil {
 
-    private static final String accessKey = "A9pDMhTAilBkwGDNwmdBurQhDB4fP2PiM-VL6HDg";
-    private static final String secretKey = "gg3-J39diOyaGqkj1haxcUeBrAAmlsgY89oExA6B";
-    private static final String bucket = "mxy-blog";
-    private static final String prix = "http://mxy.mxyit.com/";
-
+    private static String accessKey;
+    @Value("${qny.accessKey}")
+    public void setAccessKey(String accessKey) {
+        QiniuUploadUtil.accessKey = accessKey;
+    }
+    private static String secretKey;
+    @Value("${qny.secretKey}")
+    public void setSecretKey(String secretKey) {
+        QiniuUploadUtil.secretKey = secretKey;
+    }
+    private static String bucket;
+    @Value("${qny.bucket}")
+    public void setBucket(String bucket) {
+        QiniuUploadUtil.bucket = bucket;
+    }
+    private static String prix;
+    @Value("${qny.prix}")
+    public void setPrix(String prix) {
+        QiniuUploadUtil.prix = prix;
+    }
     /**
      * @Description: 上传七牛云图片
      * @Param: [imgName, uploadBytes]

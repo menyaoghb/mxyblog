@@ -171,6 +171,7 @@ elasticsearch:
   #连接超时设置
   connectTimeoutMin: 5000
   connectTimeoutMax: 60000
+#阿里云短信秘钥
 sms:
   accessKeyId:
   secret:
@@ -178,6 +179,12 @@ sms:
     limit: 10
   sendError:
     content: 当日的获取验证码次数已用尽，请联系管理员解除限制。
+#七牛云秘钥
+qny:
+  accessKey: A9pDMhTAilBkwGDNwmdBurQhDB4fP2PiM-VL6HDg
+  secretKey: gg3-J39diOyaGqkj1haxcUeBrAAmlsgY89oExA6B
+  bucket: mxy-blog
+  prix: http://mxy.mxyit.com/
 #数据库监听
 binlog:
   datasource: # 订阅binlog数据库连接信息，ip，端口，用户密码（用户必须要有权限）
