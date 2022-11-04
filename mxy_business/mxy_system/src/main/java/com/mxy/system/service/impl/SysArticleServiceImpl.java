@@ -71,8 +71,8 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
         page.setSize(sysArticleVO.getPageSize());
         IPage<SysArticle> pageList = this.page(page, queryWrapper);
         List<SysArticle> list = pageList.getRecords();
-        for (int i = 0; i < list.size(); i++) {
-            list.get(i).setContent(HtmlUtils.htmlUnescape(list.get(i).getContent()));
+        for (SysArticle sysArticle : list) {
+            sysArticle.setContent(HtmlUtils.htmlUnescape(sysArticle.getContent()));
         }
         return ServiceResult.success(pageList);
     }

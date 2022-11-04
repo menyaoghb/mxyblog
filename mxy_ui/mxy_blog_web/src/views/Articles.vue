@@ -13,9 +13,9 @@
             <hr>
             <div class="breadcrumbs">
               <div id="crumbs" v-show="postList.author">
-                作者：<span class="crumbs">{{ postList.author }}</span>
+                作者：<span class="crumbs"><el-tag size="medium" effect="success">{{ postList.author }}</el-tag></span>
+                来源：<span class="crumbs source"><el-tag size="medium" style="color: limegreen">{{ postList.source }}</el-tag></span>
                 发布时间：<span class="crumbs">{{ postList.createTime | parseTime }}</span>
-                来源：<span class="crumbs source">{{ postList.source }}</span>
               </div>
             </div>
           </header>
