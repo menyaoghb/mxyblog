@@ -15,6 +15,7 @@
 后台：http://mxyit.com:8088/
 
 admin/888888
+user/123456
 
 #### 系统截图
 ![输入图片说明](doc/image.png)
