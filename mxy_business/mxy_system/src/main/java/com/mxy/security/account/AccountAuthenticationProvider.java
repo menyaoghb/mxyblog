@@ -1,10 +1,9 @@
-package com.mxy.security.security;
+package com.mxy.security.account;
 
 import com.mxy.common.core.constant.Constants;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysRole;
 import com.mxy.common.core.utils.RedisUtil;
-import com.mxy.security.account.AccountAuthenticationToken;
 import com.mxy.security.security.service.SelfUserDetailsService;
 import com.mxy.system.service.SysUserService;
 import com.mxy.system.utils.LogUtil;
@@ -32,7 +31,7 @@ import java.util.Set;
  * @CreateTime 2022/01/1 19:11
  */
 @Component
-public class UserAuthenticationProvider implements AuthenticationProvider {
+public class AccountAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private SelfUserDetailsService selfUserDetailsService;
     @Autowired

@@ -33,6 +33,7 @@ public class SysSmsSendLogServiceImpl extends ServiceImpl<SysSmsSendLogMapper, S
         if (StringUtils.isNotBlank(sysSmsSendLogVO.getPhone())) {
             queryWrapper.lambda().eq(SysSmsSendLog::getPhone, sysSmsSendLogVO.getPhone());
         }
+        queryWrapper.orderByDesc("create_time");
         Page<SysSmsSendLog> page = new Page<>();
         page.setCurrent(sysSmsSendLogVO.getCurrentPage());
         page.setSize(sysSmsSendLogVO.getPageSize());

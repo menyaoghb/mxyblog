@@ -10,8 +10,8 @@
   window.initSysUrl = function (env) {
     window.ENV = env || 'development'
     // 本地
-    // window.SITE_CONFIG['systemUrl'] = 'http://localhost:8001'
+    window.SITE_CONFIG['systemUrl'] = 'http://localhost:8001'
     // 生产
-    window.SITE_CONFIG['systemUrl'] = 'http://124.221.76.235:8088'
+    // window.SITE_CONFIG['systemUrl'] = 'http://124.221.76.235:8088'
   }
 })(window)

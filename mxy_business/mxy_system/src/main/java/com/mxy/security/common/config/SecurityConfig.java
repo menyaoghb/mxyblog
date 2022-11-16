@@ -1,12 +1,11 @@
 package com.mxy.security.common.config;
 
-import com.alibaba.fastjson.JSONObject;
 import com.mxy.common.log.enums.OperType;
 import com.mxy.security.account.AccountAuthenticationFilter;
 import com.mxy.security.common.util.ResultUtil;
 import com.mxy.security.email.EmailAuthenticationProvider;
 import com.mxy.security.email.EmailNumAuthenticationFilter;
-import com.mxy.security.security.UserAuthenticationProvider;
+import com.mxy.security.account.AccountAuthenticationProvider;
 import com.mxy.security.security.UserPermissionEvaluator;
 import com.mxy.security.security.handler.*;
 import com.mxy.security.security.jwt.JWTAuthenticationTokenFilter;
@@ -16,28 +15,22 @@ import com.mxy.system.utils.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * SpringSecurity配置类
@@ -78,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * 自定义登录逻辑验证器
      */
     @Autowired
-    private UserAuthenticationProvider userAuthenticationProvider;
+    private AccountAuthenticationProvider accountAuthenticationProvider;
     /**
      * 短信验证登录逻辑验证器
      */
@@ -118,7 +111,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) {
         //这里可启用我们自己的登陆验证逻辑
         // 系统账号登录逻辑
-        auth.authenticationProvider(userAuthenticationProvider);
+        auth.authenticationProvider(accountAuthenticationProvider);
         // 手机号登录逻辑
         auth.authenticationProvider(phoneAuthenticationProvider);
         // 邮箱登录逻辑
