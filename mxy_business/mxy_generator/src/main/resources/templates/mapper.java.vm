@@ -2,6 +2,7 @@ package ${package.Mapper};
 
 import com.mxy.common.core.entity.${entity};
 import ${superMapperClassPackage};
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -12,8 +13,10 @@ import ${superMapperClassPackage};
  * @since ${date}
  */
 #if(${kotlin})
+@Mapper
 interface ${table.mapperName} : ${superMapperClass}<${entity}>
 #else
+@Mapper
 public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
 
 }
