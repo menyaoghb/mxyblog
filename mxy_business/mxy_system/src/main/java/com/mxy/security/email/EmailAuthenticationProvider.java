@@ -153,7 +153,7 @@ public class EmailAuthenticationProvider implements AuthenticationProvider {
         sysUserRole.insert();
         BeanUtils.copyProperties(sysUser, selfUser);
         selfUser.setRelName(sysUser.getNickName());
-        LogUtil.saveNoLoginLog("账号注册", JSONObject.toJSONString(sysUser), OperType.REGISTRATION.ordinal());
+        LogUtil.saveNoLoginLog("账号注册（邮箱）", JSONObject.toJSONString(sysUser), OperType.REGISTRATION.ordinal());
         return selfUser;
     }
 

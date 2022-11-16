@@ -75,7 +75,10 @@ public class LogAspect {
         try {
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
             Method method = signature.getMethod();
-            SelfUserEntity userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            SelfUserEntity userDetails = new SelfUserEntity();
+            if (SecurityContextHolder.getContext().getAuthentication() != null) {
+                userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            }
             SysOperLog sysOperLog = new SysOperLog();
             SysLog sysLog = method.getAnnotation(SysLog.class);
             if (sysLog != null) {

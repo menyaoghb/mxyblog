@@ -6,6 +6,8 @@ import com.mxy.security.common.util.ResultUtil;
 import com.mxy.security.email.EmailAuthenticationProvider;
 import com.mxy.security.email.EmailNumAuthenticationFilter;
 import com.mxy.security.account.AccountAuthenticationProvider;
+import com.mxy.security.qq.QQAuthenticationFilter;
+import com.mxy.security.qq.QQAuthenticationProvider;
 import com.mxy.security.security.UserPermissionEvaluator;
 import com.mxy.security.security.handler.*;
 import com.mxy.security.security.jwt.JWTAuthenticationTokenFilter;
@@ -82,6 +84,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private EmailAuthenticationProvider emailAuthenticationProvider;
+    /**
+     * QQ登录逻辑验证器
+     */
+    @Autowired
+    private QQAuthenticationProvider qqAuthenticationProvider;
 
     /**
      * 加密方式
@@ -116,6 +123,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(phoneAuthenticationProvider);
         // 邮箱登录逻辑
         auth.authenticationProvider(emailAuthenticationProvider);
+        // QQ登录逻辑
+        auth.authenticationProvider(qqAuthenticationProvider);
     }
 
     /**
@@ -173,6 +182,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterAfter(phoneNumAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         //把 邮箱认证过滤器 加到拦截器链中
         http.addFilterAfter(emailNumAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        //把 QQ认证过滤器 加到拦截器链中
+        http.addFilterAfter(qqAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     /**
@@ -232,6 +243,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             @Override
             public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
                 LogUtil.saveLog("邮箱登陆失败：" + exception.getMessage(), OperType.ERROR.ordinal());
+                ResultUtil.responseJson(response, ResultUtil.resultCode(500, exception.getMessage()));
+            }
+        });
+        return filter;
+    }
+
+    /**
+     * QQ认证过滤器
+     */
+    @Bean
+    public QQAuthenticationFilter qqAuthenticationFilter() throws Exception {
+        QQAuthenticationFilter filter = new QQAuthenticationFilter();
+        //认证使用
+        filter.setAuthenticationManager(authenticationManagerBean());
+        //设置登陆成功返回值是json
+        filter.setAuthenticationSuccessHandler(userLoginSuccessHandler);
+        //设置登陆失败返回值是json
+        filter.setAuthenticationFailureHandler(new AuthenticationFailureHandler() {
+            @Override
+            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+                LogUtil.saveLog("QQ登陆失败：" + exception.getMessage(), OperType.ERROR.ordinal());
                 ResultUtil.responseJson(response, ResultUtil.resultCode(500, exception.getMessage()));
             }
         });
