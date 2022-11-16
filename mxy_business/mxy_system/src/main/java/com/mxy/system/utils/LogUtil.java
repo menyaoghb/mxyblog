@@ -29,7 +29,10 @@ public class LogUtil {
      **/
     public static void saveLog(String title, Integer type) {
         try {
-            SelfUserEntity userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            SelfUserEntity userDetails = new SelfUserEntity();
+            if (SecurityContextHolder.getContext().getAuthentication() != null) {
+                userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            }
             SysOperLog sysOperLog = new SysOperLog();
             // 模块标题
             sysOperLog.setTitle(title);
