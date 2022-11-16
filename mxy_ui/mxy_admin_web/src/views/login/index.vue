@@ -68,6 +68,10 @@
             <a @click.prevent="isRegist=false" type="primary">手机验证码快捷登录</a>
           </p>
         </el-tab-pane>
+        <div style="height: 70px;">
+          <el-divider><span style="color: #8c92a4">其它方式登录</span></el-divider>
+          <social-sign />
+        </div>
       </el-tabs>
 
       <el-tabs v-show="!isRegist" type="border-card" class="login-tab">
@@ -181,6 +185,10 @@
             </p>
           </el-form>
         </el-tab-pane>
+        <div style="height: 70px;">
+          <el-divider><span style="color: #8c92a4">其它方式登录</span></el-divider>
+          <social-sign />
+        </div>
       </el-tabs>
 
     </el-form>
@@ -189,9 +197,11 @@
 
 <script>
 import axios from 'axios'
+import SocialSign from './components/SocialSignin'
 
 export default {
   name: 'Login',
+  components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (value.length === 0) {
@@ -286,7 +296,8 @@ export default {
       redirect: undefined,
       isRegist: true,
       imageSrc: '',
-      verKey: ''
+      verKey: '',
+      showDialog: false
     }
   },
   watch: {
@@ -654,6 +665,18 @@ $light_gray: #eee;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+  }
+
+  .thirdparty-button {
+    position: absolute;
+    right: 0;
+    bottom: 6px;
+  }
+
+  @media only screen and (max-width: 470px) {
+    .thirdparty-button {
+      display: none;
+    }
   }
 }
 </style>
