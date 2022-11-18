@@ -130,6 +130,7 @@ import {addArticle} from '@/api/blog/blog'
 import {getFileTypeList, getList} from "@/api/file/img/img";
 import {getDictData} from "@/api/sys/dictData/data";
 import axios from 'axios'
+import store from "@/store";
 
 import {Editor, Toolbar} from "@wangeditor/editor-for-vue";
 import Vue from 'vue'
@@ -140,7 +141,7 @@ const defaultForm = {
   title: '', // 文章题目
   content: '', // 文章内容
   summary: '', // 文章摘要
-  author: '孟耀', // 文章作者
+  author: store.getters.nickName, // 文章作者
   source: '原创', // 文章来源
   classify: '1', // 文章分类
   filePath: 'http://mxy.mxyit.com/de47b1e2-9dec-4a2f-9a93-7328733fc9b7', // 标题图片
@@ -266,7 +267,7 @@ export default Vue.extend({
               title: '', // 文章题目
               content: '', // 文章内容
               summary: '', // 文章摘要
-              author: '孟耀', // 文章摘要
+              author: store.getters.nickName, // 文章摘要
               source: '原创', // 文章摘要
               filePath: 'http://mxy.mxyit.com/278668fa-6aa7-43e2-8f90-ef4645fea5ee', // 标题图片
               display_time: undefined, // 前台展示时间

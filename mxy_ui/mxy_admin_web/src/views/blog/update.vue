@@ -133,7 +133,7 @@ import {addArticle, editArticle, uploadPhoto} from '@/api/blog/blog'
 import axios from 'axios'
 import {getFileTypeList, getList} from "@/api/file/img/img";
 import {getDictData} from "@/api/sys/dictData/data";
-
+import store from "@/store";
 import {Editor, Toolbar} from "@wangeditor/editor-for-vue";
 import Vue from 'vue'
 import '@wangeditor/editor/dist/css/style.css'
@@ -143,7 +143,7 @@ const defaultForm = {
   title: '', // 文章题目
   content: '', // 文章内容
   summary: '', // 文章摘要
-  author: '孟耀', // 文章作者
+  author: store.getters.nickName, // 文章作者
   source: '原创', // 文章来源
   classify: '3', // 文章分类
   filePath: 'http://mxy.mxyit.com/278668fa-6aa7-43e2-8f90-ef4645fea5ee', // 标题图片

@@ -1,19 +1,27 @@
 package com.mxy.security.common.config;
 
+import com.alibaba.fastjson.JSONObject;
+import com.mxy.common.core.entity.SelfUserEntity;
+import com.mxy.common.core.entity.SysUser;
+import com.mxy.common.core.utils.JsonUtils;
+import com.mxy.common.core.utils.RedisUtil;
 import com.mxy.common.log.enums.OperType;
 import com.mxy.security.account.AccountAuthenticationFilter;
+import com.mxy.security.common.util.JWTTokenUtil;
 import com.mxy.security.common.util.ResultUtil;
+import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.security.email.EmailAuthenticationProvider;
 import com.mxy.security.email.EmailNumAuthenticationFilter;
 import com.mxy.security.account.AccountAuthenticationProvider;
-import com.mxy.security.qq.QQAuthenticationFilter;
-import com.mxy.security.qq.QQAuthenticationProvider;
+import com.mxy.security.justauth.ThirdPartyAuthenticationFilter;
+import com.mxy.security.justauth.ThirdPartyAuthenticationProvider;
 import com.mxy.security.security.UserPermissionEvaluator;
 import com.mxy.security.security.handler.*;
 import com.mxy.security.security.jwt.JWTAuthenticationTokenFilter;
 import com.mxy.security.sms.PhoneAuthenticationProvider;
 import com.mxy.security.sms.PhoneNumAuthenticationFilter;
 import com.mxy.system.utils.LogUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +31,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
@@ -33,6 +42,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * SpringSecurity配置类
@@ -40,6 +52,7 @@ import java.io.IOException;
  * @Author Mxy
  * @CreateTime 2022/01/1 9:40
  */
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启权限注解,默认是关闭的
@@ -85,10 +98,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private EmailAuthenticationProvider emailAuthenticationProvider;
     /**
-     * QQ登录逻辑验证器
+     * 第三方登录逻辑验证器
      */
     @Autowired
-    private QQAuthenticationProvider qqAuthenticationProvider;
+    private ThirdPartyAuthenticationProvider thirdPartyAuthenticationProvider;
+    @Autowired
+    private RedisUtil redisUtil;
 
     /**
      * 加密方式
@@ -123,8 +138,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(phoneAuthenticationProvider);
         // 邮箱登录逻辑
         auth.authenticationProvider(emailAuthenticationProvider);
-        // QQ登录逻辑
-        auth.authenticationProvider(qqAuthenticationProvider);
+        // 第三方登录逻辑
+        auth.authenticationProvider(thirdPartyAuthenticationProvider);
     }
 
     /**
@@ -182,8 +197,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterAfter(phoneNumAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         //把 邮箱认证过滤器 加到拦截器链中
         http.addFilterAfter(emailNumAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        //把 QQ认证过滤器 加到拦截器链中
-        http.addFilterAfter(qqAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        //把 第三方认证过滤器 加到拦截器链中
+        http.addFilterAfter(thirdPartyAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     /**
@@ -250,20 +265,53 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * QQ认证过滤器
+     * 第三方认证过滤器
      */
     @Bean
-    public QQAuthenticationFilter qqAuthenticationFilter() throws Exception {
-        QQAuthenticationFilter filter = new QQAuthenticationFilter();
+    public ThirdPartyAuthenticationFilter thirdPartyAuthenticationFilter() throws Exception {
+        ThirdPartyAuthenticationFilter filter = new ThirdPartyAuthenticationFilter();
         //认证使用
         filter.setAuthenticationManager(authenticationManagerBean());
         //设置登陆成功返回值是json
-        filter.setAuthenticationSuccessHandler(userLoginSuccessHandler);
+        filter.setAuthenticationSuccessHandler(new UserLoginSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+                // 组装JWT
+                try {
+                    SelfUserEntity userDetails = SecurityUtil.getUserInfo();
+                    log.info("------登陆成功返回值:{}", JSONObject.toJSONString(userDetails));
+                    String token = JWTTokenUtil.createAccessToken(userDetails);
+                    token = JWTConfig.tokenPrefix + token;
+                    log.info("------登陆成功token:{}", token);
+                    SysUser sysUser = new SysUser();
+                    sysUser.setUserId(userDetails.getUserId());
+                    sysUser.setLoginDate(new Date());
+                    sysUser.setUpdateUser(userDetails.getUsername());
+                    sysUser.updateById();
+                    // 封装返回参数
+                    Map<String, Object> resultData = new HashMap<>();
+                    resultData.put("code", "200");
+                    resultData.put("msg", "第三方登录成功");
+                    resultData.put("data", userDetails);
+                    resultData.put("token", token);
+                    LogUtil.saveLog("第三方登录", OperType.LOGIN.ordinal());
+                    LogUtil.saveLoginLog(userDetails, "PC端-第三方账号", "后台管理系统");
+                    response.sendRedirect("http://mxyit.com/#/dashboard?Authorization=" + token);
+                    ResultUtil.responseJson(response, resultData);
+
+                    // 将用户信息存入redis
+                    redisUtil.set("USER_TOKEN:" + token, JsonUtils.objectToJson(userDetails), 72000);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         //设置登陆失败返回值是json
         filter.setAuthenticationFailureHandler(new AuthenticationFailureHandler() {
             @Override
             public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-                LogUtil.saveLog("QQ登陆失败：" + exception.getMessage(), OperType.ERROR.ordinal());
+                LogUtil.saveLog("第三方登陆失败：" + exception.getMessage(), OperType.ERROR.ordinal());
                 ResultUtil.responseJson(response, ResultUtil.resultCode(500, exception.getMessage()));
             }
         });
