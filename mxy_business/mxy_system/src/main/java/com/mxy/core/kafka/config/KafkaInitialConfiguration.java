@@ -4,7 +4,7 @@ import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
 
 /**
- * @author 孟耀
+ * @author mengyao
  */
 //@Configuration
 public class KafkaInitialConfiguration {

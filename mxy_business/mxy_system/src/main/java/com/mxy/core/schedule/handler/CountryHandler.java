@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 定时每天刷新 省分索引 中的数据
  *
- * @author 孟耀
+ * @author mengyao
  */
 //@Component
 //@Slf4j

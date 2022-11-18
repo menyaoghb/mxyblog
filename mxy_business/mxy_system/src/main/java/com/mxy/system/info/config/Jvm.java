@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * JVM相关信息
  *
- * @author 孟耀
+ * @author mengyao
  */
 @Data
 public class Jvm {

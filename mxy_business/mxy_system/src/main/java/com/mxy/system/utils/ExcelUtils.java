@@ -22,7 +22,7 @@ public class ExcelUtils {
 
     /**
      * @Description excel导出
-     * @Author 孟耀
+     * @Author mengyao
      * @Date 2022/6/2 21:42
      */
     public static void exportExcel(HttpServletResponse response, List<?> list, String fileName, Class<?> clazz) throws IOException {

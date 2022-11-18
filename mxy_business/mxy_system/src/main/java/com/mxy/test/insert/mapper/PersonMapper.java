@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * @author 孟耀
+ * @author mengyao
  */
 @Mapper
 public interface PersonMapper {

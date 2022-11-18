@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 系统相关信息
  *
- * @author 孟耀
+ * @author mengyao
  */
 @Data
 public class Sys {

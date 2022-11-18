@@ -8,7 +8,7 @@ import java.util.Enumeration;
 /**
  * 获取主机工具类
  *
- * @author 孟耀
+ * @author mengyao
  */
 public class HostUtil {
 

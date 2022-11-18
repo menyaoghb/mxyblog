@@ -17,11 +17,14 @@ import com.mxy.system.service.SysArticleService;
 import com.mxy.system.utils.LogUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -41,10 +44,12 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
     public String getList(SysArticleVO sysArticleVO) {
         QueryWrapper queryWrapper = new QueryWrapper();
         SelfUserEntity userDetails = SecurityUtil.getUserInfo();
+        Collection<GrantedAuthority> authorities = userDetails.getAuthorities();
+        long count = authorities.stream().filter(k -> "system".equals(k.getAuthority())).count();
         if (StringUtils.isNotEmpty(sysArticleVO.getStatus())) {
             queryWrapper.eq("status", sysArticleVO.getStatus());
         }
-        if (!"1".equals(userDetails.getUserId())){
+        if (count==0){
             queryWrapper.eq("create_user", userDetails.getUserId());
         }
         queryWrapper.orderByDesc("create_time");

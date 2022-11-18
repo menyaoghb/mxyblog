@@ -45,7 +45,7 @@ public class QiniuUploadUtil {
      * @Description: 上传七牛云图片
      * @Param: [imgName, uploadBytes]
      * @return: java.lang.String
-     * @Author: 孟耀
+     * @Author: mengyao
      * @Date: 2021/7/28
      */
     public static String upload(String imgName, byte[] uploadBytes) {
@@ -87,7 +87,7 @@ public class QiniuUploadUtil {
      * @Description: 删除七牛云图片
      * @Param: [key]
      * @return: void
-     * @Author: 孟耀
+     * @Author: mengyao
      * @Date: 2021/7/28
      */
     public static void deleteImg(String key) {

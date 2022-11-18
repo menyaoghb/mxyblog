@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 配置监控统计功能
- * @author 孟耀
+ * @author mengyao
  */
 @Configuration
 public class DruidConfiguration {

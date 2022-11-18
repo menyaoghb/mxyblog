@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author 孟耀
+ * @author mengyao
  * 线程池 测试类
  */
 public class ThreadPoolExecutorTest {

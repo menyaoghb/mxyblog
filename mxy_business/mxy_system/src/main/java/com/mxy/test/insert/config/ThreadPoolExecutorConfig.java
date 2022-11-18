@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author 孟耀
+ * @author mengyao
  * corePoolSize 核心线程数
  * maximumPoolSize  最大线程数
  * keepAliveTime    最大线程数可以存活的时间，就是线程池中除了核心线程之外的其他的最长可以保留的时间，
