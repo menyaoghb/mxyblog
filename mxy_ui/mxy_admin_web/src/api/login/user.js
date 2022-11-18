@@ -24,6 +24,14 @@ export function emailLogin(data) {
   })
 }
 
+export function thirdLogin(data) {
+  return request({
+    url: '/login/render',
+    method: 'post',
+    params: {source: data.source}
+  })
+}
+
 export function getInfo(token) {
   return request({
     url: '/user/info',

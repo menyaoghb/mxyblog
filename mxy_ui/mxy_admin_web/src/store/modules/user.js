@@ -1,6 +1,8 @@
-import { login,phoneLogin,emailLogin, logout, getInfo } from '@/api/login/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
+import {login, phoneLogin, emailLogin, thirdLogin, logout, getInfo} from '@/api/login/user'
+import {getToken, setToken, removeToken} from '@/utils/auth'
+import {resetRouter} from '@/router'
+import {Message} from "element-ui";
+
 
 const getDefaultState = () => {
   return {
@@ -65,8 +67,8 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
-    const { username, password,key,captcha } = userInfo
+  login({commit}, userInfo) {
+    const {username, password, key, captcha} = userInfo
     return new Promise((resolve, reject) => {
       login({username: username.trim(), password: password, key: key, captcha: captcha}).then(response => {
         commit('SET_TOKEN', response.token)
@@ -79,10 +81,10 @@ const actions = {
   },
 
   // phone login
-  phoneLogin({ commit }, userInfo) {
-    const { phoneNo, code } = userInfo
+  phoneLogin({commit}, userInfo) {
+    const {phoneNo, code} = userInfo
     return new Promise((resolve, reject) => {
-      phoneLogin({ phone: phoneNo.trim(), code: code.trim() }).then(response => {
+      phoneLogin({phone: phoneNo.trim(), code: code.trim()}).then(response => {
         commit('SET_TOKEN', response.token)
         setToken(response.token)
         resolve()
@@ -93,10 +95,10 @@ const actions = {
   },
 
   // phone login
-  emailLogin({ commit }, userInfo) {
-    const { email, code } = userInfo
+  emailLogin({commit}, userInfo) {
+    const {email, code} = userInfo
     return new Promise((resolve, reject) => {
-      emailLogin({ email: email.trim(), code: code.trim() }).then(response => {
+      emailLogin({email: email.trim(), code: code.trim()}).then(response => {
         commit('SET_TOKEN', response.token)
         setToken(response.token)
         resolve()
@@ -106,12 +108,30 @@ const actions = {
     })
   },
 
+  // 第三方登录
+  thirdLogin({commit}, userInfo) {
+    const {source} = userInfo
+    return new Promise((resolve, reject) => {
+      thirdLogin({source: source.trim()}).then(response => {
+        console.log("第三方登录返回", response)
+        if (response.data.code === "200") {
+          window.location.href = response.data.url
+        } else {
+          Message.warning(response.data.msg);
+        }
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
   // get user info
-  getInfo({ commit, state }) {
+  getInfo({commit, state}) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
-        const { data } = response
-        const { user } = response
+        const {data} = response
+        const {user} = response
         if (!data) {
           reject('验证失败，请重新登录.')
         }
@@ -142,7 +162,7 @@ const actions = {
   },
 
   // user logout
-  logout({ commit, state }) {
+  logout({commit, state}) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         removeToken() // must remove  token  first
@@ -156,7 +176,7 @@ const actions = {
   },
 
   // remove token
-  resetToken({ commit }) {
+  resetToken({commit}) {
     return new Promise(resolve => {
       removeToken() // must remove  token  first
       commit('RESET_STATE')
