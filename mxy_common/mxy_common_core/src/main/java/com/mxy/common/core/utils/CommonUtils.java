@@ -2,13 +2,13 @@ package com.mxy.common.core.utils;
 
 /**
  * 通用工具类
- * @author 孟耀
+ * @author mengyao
  */
 public class CommonUtils {
 
     /**
      * @Description 在字符串后面追加0,示例：str为1 length为4 则为 ”1000“
-     * @Author 孟耀
+     * @Author mengyao
      * @Date 2022/5/10 20:53
      */
     public static String numberAfterFillZero(String str,int length){
@@ -25,7 +25,7 @@ public class CommonUtils {
 
     /**
      * @Description 文件大小转换
-     * @Author 孟耀
+     * @Author mengyao
      * @Date 2022/6/10 12:45
      */
     public static String getFileSize(String size) {

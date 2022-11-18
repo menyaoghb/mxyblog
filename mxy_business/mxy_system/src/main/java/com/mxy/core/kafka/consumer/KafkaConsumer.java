@@ -4,7 +4,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 
 /**
- * @author 孟耀
+ * @author mengyao
  */
 //@Component
 public class KafkaConsumer {

@@ -33,10 +33,21 @@ public class TestController {
 //            }
 //        }
 //    }
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        String utf8Str= "NMC-SMS VER 1.0\r\nCommand: Send\r\nSrcNum: 91\r\nDestNum: " + "12312113123" + "\r\nContent-Length: " + 11 + "\r\n\r\n" + "测试测试测试测试" + "";
-        String oldUnicode = new String(utf8Str.getBytes( "UTF-8"), "UTF-8");
-        String gbkStr = new String(oldUnicode.getBytes("GBK"), "GBK");
-        System.out.println(gbkStr );
+//    public static void main(String[] args) throws UnsupportedEncodingException {
+//        String utf8Str= "NMC-SMS VER 1.0\r\nCommand: Send\r\nSrcNum: 91\r\nDestNum: " + "12312113123" + "\r\nContent-Length: " + 11 + "\r\n\r\n" + "测试测试测试测试" + "";
+//        String oldUnicode = new String(utf8Str.getBytes( "UTF-8"), "UTF-8");
+//        String gbkStr = new String(oldUnicode.getBytes("GBK"), "GBK");
+//        System.out.println(gbkStr );
+//    }
+    public static void main(String[] args) {
+        // /context/open/oauth/callback/gitee
+        String uri = "/api/login/callback/gitee";
+        String EXTEND_LOGIN_URL = "/api/login/callback/qq";
+        // "/open/oauth/callback/".length()
+        int common = EXTEND_LOGIN_URL.length() - 2;
+        int start = uri.indexOf(EXTEND_LOGIN_URL.substring(0, common));
+        System.out.println(uri.substring(start + common));
     }
+
+
 }

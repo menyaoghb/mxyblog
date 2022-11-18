@@ -1,7 +1,7 @@
 package com.mxy.core.elasticsearch;
 
 /**
- * @author 孟耀
+ * @author mengyao
  * @date 2022-05-07 20:57
  */
 public interface IEsService {

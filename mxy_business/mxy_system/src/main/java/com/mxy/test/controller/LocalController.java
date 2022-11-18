@@ -53,7 +53,7 @@ public class LocalController {
 
     /**
      * @Description 新增世界地区数据
-     * @Author 孟耀
+     * @Author mengyao
      * @Date 2022/6/2 17:56
      */
     @PostMapping("/insertCountryData")

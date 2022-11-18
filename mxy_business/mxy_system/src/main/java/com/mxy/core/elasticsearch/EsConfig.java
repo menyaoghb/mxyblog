@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Es连接客户端
- * @author 孟耀
+ * @author mengyao
  * @date 2022-05-07 20:57
  */
 @Configuration

@@ -80,7 +80,7 @@ public class SysPictureController {
 
     /**
      * @Description: 图片标签
-     * @Author: 孟耀
+     * @Author: mengyao
      * @Date: 2021/8/24 0024
      */
     @SysLog(module = "图片标签列表")

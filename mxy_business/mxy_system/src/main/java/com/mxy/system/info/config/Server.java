@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 服务器各项信息
  *
- * @author 孟耀
+ * @author mengyao
  */
 @Data
 public class Server {

@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * 日期时间的处理工具类
  *
- * @author 孟耀
+ * @author mengyao
  */
 public class DateUtil {
 

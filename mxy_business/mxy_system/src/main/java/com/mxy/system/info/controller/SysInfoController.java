@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author 孟耀
+ * @author mengyao
  */
 @Api(value = "系统监控", tags = "系统监控")
 @RestController

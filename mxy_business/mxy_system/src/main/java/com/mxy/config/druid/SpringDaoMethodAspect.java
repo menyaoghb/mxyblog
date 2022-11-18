@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Scope;
 
 /**
  *  spring监控
- * @author 孟耀
+ * @author mengyao
  */
 @Configuration
 public class SpringDaoMethodAspect {

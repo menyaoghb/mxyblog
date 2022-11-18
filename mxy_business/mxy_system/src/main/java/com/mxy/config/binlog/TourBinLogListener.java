@@ -20,8 +20,8 @@ import java.util.List;
  * @since 2022/09/21
  **/
 @Slf4j
-@Component
-@Order(value = 1)
+//@Component
+//@Order(value = 1)
 public class TourBinLogListener implements CommandLineRunner {
 
     @Resource

@@ -78,7 +78,7 @@ public class SysMenuController {
 
     /**
      * @Description: 获取菜单树数据
-     * @Author: 孟耀
+     * @Author: mengyao
      * @Date: 2021/7/29 0029
      */
     @SysLog(module = "菜单树数据")
@@ -91,7 +91,7 @@ public class SysMenuController {
 
     /**
      * @Description 菜单表格
-     * @Author 孟耀
+     * @Author mengyao
      * @Date 2022/6/24 22:19
      */
     @SysLog(module = "菜单表格")

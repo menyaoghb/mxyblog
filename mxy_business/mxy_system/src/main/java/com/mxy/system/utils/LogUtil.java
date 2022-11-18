@@ -17,7 +17,7 @@ import java.util.Objects;
 /**
  * 日志存储工具类
  *
- * @author 孟耀
+ * @author mengyao
  */
 @Component
 public class LogUtil {
@@ -29,7 +29,7 @@ public class LogUtil {
      **/
     public static void saveLog(String title, Integer type) {
         try {
-            SelfUserEntity userDetails = new SelfUserEntity();
+                SelfUserEntity userDetails = new SelfUserEntity();
             if (SecurityContextHolder.getContext().getAuthentication() != null) {
                 userDetails = (SelfUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             }
@@ -122,7 +122,7 @@ public class LogUtil {
 
     /**
      * @Description 记录登录日志
-     * @Author 孟耀
+     * @Author mengyao
      * @Date 2022/6/24 15:28
      */
     public static void saveLoginLog(SelfUserEntity userDetails, String type, String description) {

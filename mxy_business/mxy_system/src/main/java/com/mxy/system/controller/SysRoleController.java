@@ -107,7 +107,7 @@ public class SysRoleController {
 
     /**
      * @Description: 角色菜单关联保存
-     * @Author: 孟耀
+     * @Author: mengyao
      * @Date: 2021/7/29 0029
      */
     @SysLog(module = "角色菜单关联保存", operType = OperType.UPDATE)

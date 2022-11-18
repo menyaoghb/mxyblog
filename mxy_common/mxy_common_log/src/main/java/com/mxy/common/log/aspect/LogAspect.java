@@ -44,7 +44,7 @@ public class LogAspect {
 
     /**
      * @Description: 环绕通知
-     * @Author: 孟耀
+     * @Author: mengyao
      * @Date: 2021/8/4 8:21
      */
     @Around("logPointCut()")
@@ -68,7 +68,7 @@ public class LogAspect {
 
     /**
      * @Description: 保存操作日志
-     * @Author: 孟耀
+     * @Author: mengyao
      * @Date: 2021/8/4
      */
     private void saveLog(ProceedingJoinPoint joinPoint, Exception e, long time) {

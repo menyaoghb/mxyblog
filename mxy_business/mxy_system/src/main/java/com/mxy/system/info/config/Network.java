@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 网络相关信息
  *
- * @author 孟耀
+ * @author mengyao
  */
 @Data
 public class Network {
