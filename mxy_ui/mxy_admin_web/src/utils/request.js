@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {MessageBox, Message} from 'element-ui'
 import store from '@/store'
-import {getToken} from '@/utils/auth'
+import {getToken,setToken} from '@/utils/auth'
 
 // 创建一个axios实例
 const service = axios.create({
@@ -17,6 +17,14 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
+
+    var arr, reg = new RegExp("(^| )" + "Authorization" + "=([^;]*)(;|$)")
+    if (arr = document.cookie.match(reg)) {
+      if (unescape(arr[2]) != undefined)
+        setToken(unescape(arr[2]))
+        config.headers['Authorization'] = unescape(arr[2])
+    }
+
     if (store.getters.token) {
       // let each request carry token
       // ['Authorization'] is a custom headers key
