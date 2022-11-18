@@ -69,6 +69,7 @@
           </p>
         </el-tab-pane>
         <div style="height: 70px;">
+          <!-- 其它方式登录 -->
           <el-divider><span style="color: #8c92a4">其它方式登录</span></el-divider>
           <social-sign />
         </div>
