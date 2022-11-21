@@ -41,7 +41,7 @@ public class LogUtil {
             // 方法名称
             sysOperLog.setMethod("com.mxy");
             // 请求参数
-            sysOperLog.setOperParam("");
+            sysOperLog.setOperParam(String.valueOf(ServletUtils.getRequest()));
             // 请求方式
             sysOperLog.setRequestMethod(Objects.requireNonNull(ServletUtils.getRequest()).getMethod());
             String ip = IPUtils.getClientIp(Objects.requireNonNull(ServletUtils.getRequest()));
@@ -53,9 +53,9 @@ public class LogUtil {
                 ipName = IPUtils.getIpAddress(ip);
             } else {
                 sysOperLog.setOperIp("0.0.0.0");
-                ipName = "地球";
+                ipName = "X-X-X-X";
             }
-            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName) ? ipName : "地球");
+            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName) ? ipName : "X-X-X-X");
             // 请求URL
             sysOperLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
             // 请求时长
@@ -100,9 +100,9 @@ public class LogUtil {
                 ipName = IPUtils.getIpAddress(ip);
             } else {
                 sysOperLog.setOperIp("0.0.0.0");
-                ipName = "地球";
+                ipName = "X-X-X-X";
             }
-            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName) ? ipName : "地球");
+            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName) ? ipName : "X-X-X-X");
             // 请求URL
             sysOperLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
             // 请求时长
@@ -141,9 +141,9 @@ public class LogUtil {
                 ipName = IPUtils.getIpAddress(ip);
             } else {
                 login.setIp("0.0.0.0");
-                ipName = "地球";
+                ipName = "X-X-X-X";
             }
-            login.setAddress(StringUtils.isNotBlank(ipName) ? ipName : "地球");
+            login.setAddress(StringUtils.isNotBlank(ipName) ? ipName : "X-X-X-X");
             login.setDescription(description);
             login.insert();
         } catch (Exception e) {
@@ -178,9 +178,9 @@ public class LogUtil {
                 ipName = IPUtils.getIpAddress(ip);
             } else {
                 sysOperLog.setOperIp("0.0.0.0");
-                ipName = "地球";
+                ipName = "X-X-X-X";
             }
-            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName) ? ipName : "地球");
+            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName) ? ipName : "X-X-X-X");
             // 请求URL
             sysOperLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
             // 请求时长
