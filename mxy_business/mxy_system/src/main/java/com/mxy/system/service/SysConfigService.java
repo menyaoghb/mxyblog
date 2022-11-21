@@ -34,4 +34,12 @@ public interface SysConfigService extends IService<SysConfig> {
     */
     public String delete(SysConfigVO sysConfigVO);
 
+    /**
+     * 获取系统配置-参数值
+     *
+     * @param configType 参数类型
+     * @return 参数值
+     */
+    public String getConfigValueByType(String configType);
+
 }
