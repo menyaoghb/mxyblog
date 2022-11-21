@@ -13,8 +13,8 @@ import java.util.List;
  * 用户信息 服务类
  * </p>
  *
- * @author 孟小耀
- * @since 2021-07-21
+ * @author mengyao
+ * @since 2022-11-21
  */
 public interface SysUserService extends IService<SysUser> {
 

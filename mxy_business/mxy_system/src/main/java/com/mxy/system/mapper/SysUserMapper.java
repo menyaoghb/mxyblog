@@ -4,6 +4,7 @@ import com.mxy.common.core.entity.SysMenu;
 import com.mxy.common.core.entity.SysRole;
 import com.mxy.common.core.entity.SysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -12,9 +13,10 @@ import java.util.List;
  * 用户信息 Mapper 接口
  * </p>
  *
- * @author 孟小耀
- * @since 2021-07-21
+ * @author mengyao
+ * @since 2022-11-21
  */
+@Mapper
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
 

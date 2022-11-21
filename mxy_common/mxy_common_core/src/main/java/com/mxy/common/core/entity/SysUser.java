@@ -1,21 +1,25 @@
 package com.mxy.common.core.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.mxy.common.core.entity.vo.BaseEntity;
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
  * 用户信息
  * </p>
  *
- * @author 孟小耀
- * @since 2021-07-21
+ * @author mengyao
+ * @since 2022-11-21
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -28,8 +32,13 @@ public class SysUser extends BaseEntity<SysUser> {
     /**
      * 用户ID
      */
-      @TableId(value = "user_id", type = IdType.UUID)
+    @TableId(value = "user_id", type = IdType.UUID)
     private String userId;
+
+    /**
+     * 用户昵称
+     */
+    private String nickName;
 
     /**
      * 用户账号
@@ -37,9 +46,9 @@ public class SysUser extends BaseEntity<SysUser> {
     private String username;
 
     /**
-     * 用户昵称
+     * 密码
      */
-    private String nickName;
+    private String password;
 
     /**
      * 用户类型（00系统用户）
@@ -67,9 +76,39 @@ public class SysUser extends BaseEntity<SysUser> {
     private String avatar;
 
     /**
-     * 密码
+     * 注册类型
      */
-    private String password;
+    private String registrationType;
+
+    /**
+     * 平台UUID
+     */
+    private String uuid;
+
+    /**
+     * 登录次数
+     */
+    private Integer loginCount;
+
+    /**
+     * 操作系统
+     */
+    private String os;
+
+    /**
+     * 浏览器
+     */
+    private String browser;
+
+    /**
+     * ip来源
+     */
+    private String ipSource;
+
+    /**
+     * 验证码
+     */
+    private String validCode;
 
     /**
      * 帐号状态（0正常 1停用）

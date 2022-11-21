@@ -8,16 +8,16 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * <p>
  * 用户信息 前端控制器
  * </p>
  *
- * @author 孟小耀
- * @since 2021-07-21
+ * @author mengyao
+ * @since 2022-11-21
  */
 @Api(value = "用户信息",tags = "用户信息")
 @RestController
@@ -31,22 +31,23 @@ public class SysUserController {
     public SysUserService sysUserService;
 
     /**
-     * @Description 获取用户信息列表
-     * @author 孟小耀
-     * @date 2021-07-21
+     * @Description 查询用户信息列表
+     * @author mengyao
+     * @date 2022-11-21
      */
-    @ApiOperation(value = "用户信息列表")
-    @PostMapping(value = "/getList")
-    public String getList(@RequestBody(required = false) SysUserVO sysUserVO) {
+    @SysLog(module = "查询用户信息列表")
+    @ApiOperation(value = "查询用户信息列表")
+    @PostMapping("/getList")
+    public String getList(@RequestBody SysUserVO sysUserVO) {
         return sysUserService.getList(sysUserVO);
     }
 
     /**
      * @Description 新增用户信息
-     * @author 孟小耀
-     * @date 2021-07-21
+     * @author mengyao
+     * @date 2022-11-21
      */
-    @SysLog(module = "新增用户",operType = OperType.ADD)
+    @SysLog(module = "新增用户", operType = OperType.ADD)
     @ApiOperation(value = "新增用户")
     @PostMapping("/add")
     public String add(@RequestBody SysUserVO sysUserVO) {
@@ -55,8 +56,8 @@ public class SysUserController {
 
     /**
      * @Description 编辑用户信息
-     * @author 孟小耀
-     * @date 2021-07-21
+     * @author mengyao
+     * @date 2022-11-21
      */
     @SysLog(module = "编辑用户", operType = OperType.UPDATE)
     @ApiOperation(value = "编辑用户")
@@ -67,10 +68,10 @@ public class SysUserController {
 
     /**
      * @Description 删除用户信息
-     * @author 孟小耀
-     * @date 2021-07-21
+     * @author mengyao
+     * @date 2022-11-21
      */
-    @SysLog(module = "删除用户",operType = OperType.DELETE)
+    @SysLog(module = "删除用户", operType = OperType.DELETE)
     @ApiOperation(value = "删除用户")
     @PostMapping("/delete")
     public String delete(@RequestBody SysUserVO sysUserVO) {
