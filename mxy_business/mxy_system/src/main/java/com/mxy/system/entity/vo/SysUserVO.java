@@ -1,20 +1,19 @@
 package com.mxy.system.entity.vo;
 
-import java.util.Date;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import com.mxy.common.core.entity.vo.BaseVO;
 import com.mxy.common.core.entity.SysUser;
-import lombok.EqualsAndHashCode;
 
+import java.util.Date;
 /**
  * <p>
  * 用户信息-VO
  * </p>
  *
- * @author 孟小耀
- * @since 2021-07-21
+ * @author mengyao
+ * @since 2022-11-21
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 public class SysUserVO extends BaseVO<SysUser> {
 
@@ -23,13 +22,17 @@ public class SysUserVO extends BaseVO<SysUser> {
      */
     private String userId;
     /**
+     * 用户昵称
+     */
+    private String nickName;
+    /**
      * 用户账号
      */
     private String username;
     /**
-     * 用户昵称
+     * 密码
      */
-    private String nickName;
+    private String password;
     /**
      * 用户类型（00系统用户）
      */
@@ -51,13 +54,33 @@ public class SysUserVO extends BaseVO<SysUser> {
      */
     private String avatar;
     /**
-     * 旧密码
+     * 注册类型
      */
-    private String oldPassword;
+    private String registrationType;
     /**
-     * 密码
+     * 平台UUID
      */
-    private String password;
+    private String uuid;
+    /**
+     * 登录次数
+     */
+    private Integer loginCount;
+    /**
+     * 操作系统
+     */
+    private String os;
+    /**
+     * 浏览器
+     */
+    private String browser;
+    /**
+     * ip来源
+     */
+    private String ipSource;
+    /**
+     * 验证码
+     */
+    private String validCode;
     /**
      * 帐号状态（0正常 1停用）
      */
@@ -94,5 +117,8 @@ public class SysUserVO extends BaseVO<SysUser> {
      * 备注
      */
     private String remark;
-
+    /**
+     * 旧密码
+     */
+    private String oldPassword;
 }

@@ -3,18 +3,22 @@ package com.mxy.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
+import com.mxy.common.core.constant.Constants;
 import com.mxy.common.core.entity.*;
 import com.mxy.common.core.utils.ServiceResult;
+import com.mxy.security.common.util.SecurityUtil;
 import com.mxy.system.entity.vo.SysUserVO;
 import com.mxy.system.mapper.SysUserMapper;
-import com.mxy.security.common.util.SecurityUtil;
+import com.mxy.system.service.SysConfigService;
+import com.mxy.system.service.SysDictDataService;
 import com.mxy.system.service.SysUserService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.BeanUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -24,14 +28,20 @@ import java.util.List;
  * 用户信息 服务实现类
  * </p>
  *
- * @author 孟小耀
- * @since 2021-07-21
+ * @author mengyao
+ * @since 2022-11-21
  */
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Resource
+    public SysConfigService sysConfigService;
+
+    @Resource
+    public SysDictDataService sysDictDataService;
 
     @Override
     public String getList(SysUserVO sysUserVO) {
@@ -68,8 +78,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(sysUserVO, sysUser);
         sysUser.setPassword(bCryptPasswordEncoder.encode(sysUserVO.getPassword()));
-        sysUser.setAvatar("http://mxy.mxyit.com/b5abd829-8544-4378-8642-c099345f1579");
+        sysUser.setAvatar(sysConfigService.getConfigValueByType(Constants.DEFAULT_USER_AVATAR));
         sysUser.setCreateUser(userDetails.getUsername());
+        // 注册类型
+        sysUser.setRegistrationType(Constants.SYSTEM);
         Boolean result = sysUser.insert();
         if (result) {
             // 新增用户角色关系

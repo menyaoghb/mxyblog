@@ -58,14 +58,18 @@
           <el-image :src="row.avatar" style="border-radius: 50%;width: 30px;height: 30px;"></el-image>
         </template>
       </el-table-column>
-      <el-table-column prop="nickName" label="姓名" align="center"></el-table-column>
-      <el-table-column prop="username" label="账号" align="center"></el-table-column>
+      <el-table-column prop="nickName" label="姓名" align="center" show-overflow-tooltip width="150"></el-table-column>
+      <el-table-column prop="username" label="账号" align="center" show-overflow-tooltip width="150"></el-table-column>
       <el-table-column label="权限" align="center">
         <template slot-scope="{row}">
           <span v-for="item in userTypeOptions" v-if="row.userType===item.key">{{ item.name }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="email" show-overflow-tooltip label="邮箱" align="center"></el-table-column>
+      <el-table-column prop="registrationType" label="注册类型" show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column prop="loginCount" label="登录次数" show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column prop="os" label="操作系统" show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column prop="browser" label="浏览器" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column label="最后登录时间" align="center" width="150">
         <template slot-scope="{row}">
           <span>{{ row.loginDate | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}</span>
@@ -74,21 +78,21 @@
       <el-table-column label="状态" width="90" class-name="status-col">
         <template slot-scope="{row}">
           <el-tooltip v-for="item in statusOptions" v-if="row.status===item.key" :content="item.name" placement="right">
-          <el-switch
-            v-model="row.status"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-            active-value="0"
-            inactive-value="1"
-            @change="handleModifyStatus(row)">
-          </el-switch>
+            <el-switch
+              v-model="row.status"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-value="0"
+              inactive-value="1"
+              @change="handleModifyStatus(row)">
+            </el-switch>
           </el-tooltip>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding">
         <template slot-scope="{row,$index}">
-          <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
           <el-button size="mini" @click="handleView(row)" type="text">详情</el-button>
+          <el-button size="mini" @click="handleUpdate(row)" type="text">编辑</el-button>
           <el-popconfirm confirm-button-text='删除' cancel-button-text='取消' icon="el-icon-info"
                          icon-color="red" title="确定删除该用户吗？" @confirm="handleDelete(row)">
             <el-button slot="reference" size="mini" type="text">删除</el-button>
@@ -119,7 +123,9 @@
         </el-form-item>
         <el-form-item label="角色">
           <el-radio-group v-model="temp.userType">
-            <el-radio v-for="item in userTypeOptions" :key="item.key" :label="item.key" class="el-radio-role">{{ item.name }}</el-radio>
+            <el-radio v-for="item in userTypeOptions" :key="item.key" :label="item.key" class="el-radio-role">
+              {{ item.name }}
+            </el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注">
@@ -171,14 +177,34 @@
             <el-form-item label="最后登录IP：">{{ temp.loginIp }}</el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="最后登录时间：">{{ temp.loginDate | parseTime('{y}-{m}-{d} {h}:{i}')}}</el-form-item>
+            <el-form-item label="最后登录时间：">{{ temp.loginDate | parseTime('{y}-{m}-{d} {h}:{i}') }}</el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="创建时间：">{{ temp.createTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</el-form-item>
+            <el-form-item label="创建时间：">{{ temp.createTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="更新时间：">{{ temp.updateTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</el-form-item>
+            <el-form-item label="更新时间：">{{ temp.updateTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</el-form-item>
           </el-col>
+
+          <el-col :span="12">
+            <el-form-item label="注册类型：">{{ temp.registrationType }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="平台UUID：">{{ temp.uuid }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="登录次数：">{{ temp.loginCount }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="操作系统：">{{ temp.os }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="浏览器：">{{ temp.browser }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="ip来源：">{{ temp.ipSource }}</el-form-item>
+          </el-col>
+
           <el-col :span="24">
             <el-form-item label="备注：">
               <div>{{ temp.remark }}</div>
@@ -195,266 +221,277 @@
 </template>
 
 <script>
-  import {getSysUserList, addUser, editUser, deleteUser,getRoles,resetPassword,editUserStatus} from '@/api/sys/user/user'
-  import Pagination from '@/components/Pagination' // 分页
-  import {validateEmail, validateAccount, validatePassword} from '@/utils/validate'
+import {
+  getSysUserList,
+  addUser,
+  editUser,
+  deleteUser,
+  getRoles,
+  resetPassword,
+  editUserStatus
+} from '@/api/sys/user/user'
+import Pagination from '@/components/Pagination' // 分页
+import {validateEmail, validateAccount, validatePassword} from '@/utils/validate'
 
-  // 权限
-  const userTypeOptions = []
-  // 状态
-  const statusOptions = [
-    {key: '0', name: '启用'},
-    {key: '1', name: '禁用'}
-  ]
-  // 性别
-  const sexOptions = [
-    {key: '0', name: '男'},
-    {key: '1', name: '女'},
-    {key: '2', name: '未知'}
-  ]
+// 权限
+const userTypeOptions = []
+// 状态
+const statusOptions = [
+  {key: '0', name: '启用'},
+  {key: '1', name: '禁用'}
+]
+// 性别
+const sexOptions = [
+  {key: '0', name: '男'},
+  {key: '1', name: '女'},
+  {key: '2', name: '未知'}
+]
 
-  export default {
-    name: 'ComplexTable',
-    components: {Pagination},
-    filters: {},
-    data() {
-      return {
-        list: null, //表格列表数据
-        total: 0, // 总条数
-        listLoading: true,
-        listQuery: {
-          currentPage: 1,
-          pageSize: 10,
-          userType: undefined,
-          nickName: undefined,
-          username: undefined,
-          startTime: undefined,
-          endTime: undefined
-        },
-        createTime: undefined,
-        userTypeOptions, // 用户权限
-        statusOptions, // 用户状态
-        sexOptions, // 用户性别
-        temp: {
-          userId: undefined,
-          nickName: '',
-          username: '',
-          password: '',
-          email: '',
-          phoneNumber: '',
-          userType: '',
-          sex: '',
-          loginIp: '',
-          loginDate: '',
-          createTime: '',
-          updateTime: '',
-          status: '0',
-          remark: ''
-        },
-        dialogFormVisible: false, //控制新增页关闭
-        dialogFormVisibleView: false, //控制新增页关闭
-        dialogStatus: '', // 判断当前操作是新增还是修改
-        textMap: {
-          add: '新增',
-          edit: '编辑'
-        },
-        rules: {
-          nickName: [
-            {required: true, message: '请输入姓名', trigger: 'blur'},
-            {min: 2, max: 6, message: '长度在 2 到 6 个字符', trigger: 'blur'}
-          ],
-          username: [
-            {required: true, message: '请输入账号', trigger: 'blur'},
-            {min: 2, max: 12, message: '长度在 2 到 12 个字符', trigger: 'blur'}
-          ],
-          password: [
-            {required: true, message: '请输入密码', trigger: 'blur'},
-            {validator: validatePassword, trigger: 'blur'}
-          ],
-          email: [
-            {required: true, message: '请输入邮箱', trigger: 'blur'},
-            {validator: validateEmail, trigger: 'blur'}
-          ],
-          date1: [
-            {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
-          ],
-          date2: [
-            {type: 'date', required: true, message: '请选择时间', trigger: 'change'}
-          ],
-          type: [
-            {type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change'}
-          ],
-          userType: [
-            {required: true, message: '请选择用户权限', trigger: 'change'}
-          ],
-          desc: [
-            {required: true, message: '请填写活动形式', trigger: 'blur'}
-          ]
-        }
-      }
-    },
-    created() {
-      this.getList();
-      this.getRoleList();
-    },
-    methods: {
-      /*列表查询*/
-      getList() {
-        this.listLoading = true
-        getSysUserList(this.listQuery).then(response => {
-          this.list = response.data.records
-          this.total = response.data.total
-          this.listLoading = false
-        })
+export default {
+  name: 'ComplexTable',
+  components: {Pagination},
+  filters: {},
+  data() {
+    return {
+      list: null, //表格列表数据
+      total: 0, // 总条数
+      listLoading: true,
+      listQuery: {
+        currentPage: 1,
+        pageSize: 10,
+        userType: undefined,
+        nickName: undefined,
+        username: undefined,
+        startTime: undefined,
+        endTime: undefined
       },
-      /*角色查询*/
-      getRoleList() {
-        getRoles().then(response => {
-          let roles = response.data;
-          this.userTypeOptions = [];
-          for (const role of roles) {
-            this.userTypeOptions.push({key: role.roleId, name: role.roleName})
-          }
-        })
+      createTime: undefined,
+      userTypeOptions, // 用户权限
+      statusOptions, // 用户状态
+      sexOptions, // 用户性别
+      temp: {
+        userId: undefined,
+        nickName: '',
+        username: '',
+        password: '',
+        email: '',
+        phoneNumber: '',
+        userType: '',
+        sex: '',
+        loginIp: '',
+        loginDate: '',
+        createTime: '',
+        updateTime: '',
+        status: '0',
+        remark: ''
       },
-      /*条件查询*/
-      handleFilter() {
-        this.listQuery.currentPage = 1
-        const createTime = this.createTime;
-        if (createTime !== null && createTime !== ''){
-          this.listQuery.startTime = createTime[0];
-          this.listQuery.endTime = createTime[1]
-        }
-        this.getList()
+      dialogFormVisible: false, //控制新增页关闭
+      dialogFormVisibleView: false, //控制新增页关闭
+      dialogStatus: '', // 判断当前操作是新增还是修改
+      textMap: {
+        add: '新增',
+        edit: '编辑'
       },
-      /*条件重置*/
-      handleRest() {
-        this.listQuery.nickName = "";
-        this.listQuery.username = "";
-        this.listQuery.startTime = "";
-        this.listQuery.endTime = "";
-        this.createTime = [];
-      },
-      /*用户状态改变*/
-      handleModifyStatus(row) {
-        this.temp.userId = row.userId;
-        let param = {};
-        param.userId = row.userId;
-        param.status = row.status;
-        editUserStatus(param).then(() => {
-          this.$message({
-            message: '更新成功',
-            type: 'success'
-          });
-          this.getList();
-        })
-      },
-      /*表单重置*/
-      resetTemp() {
-        this.temp = {
-          userId: undefined,
-          username: '',
-          nickName: '',
-          password: '',
-          email: '',
-          userType: '',
-          status: '0',
-          remark: '',
-        }
-      },
-      /*新增跳转*/
-      handleCreate() {
-        this.resetTemp()
-        this.dialogStatus = 'add'
-        this.dialogFormVisible = true
-        this.$nextTick(() => {
-          this.$refs['dataForm'].clearValidate()
-        })
-      },
-      /*新增提交*/
-      createData() {
-        this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
-            addUser(this.temp).then(() => {
-              this.$message({
-                message: '新增成功',
-                type: 'success'
-              });
-              this.dialogFormVisible = false
-              this.getList();
-            })
-          }
-        })
-      },
-      /*修改跳转*/
-      handleUpdate(row) {
-        this.temp = Object.assign({}, row) // copy obj
-        this.temp.password = ''
-        this.dialogStatus = 'edit'
-        this.dialogFormVisible = true
-        this.$nextTick(() => {
-          this.$refs['dataForm'].clearValidate()
-        })
-      },
-      /*修改提交*/
-      updateData() {
-        this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
-            editUser(this.temp).then(() => {
-              this.$message({
-                message: '修改成功',
-                type: 'success'
-              });
-              this.dialogFormVisible = false
-              this.getList();
-            })
-          }
-        })
-      },
-      /*数据删除*/
-      handleDelete(row) {
-        this.temp.userId = row.userId;
-        deleteUser(this.temp).then(() => {
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          });
-          this.dialogFormVisible = false
-          this.getList();
-        })
-      },
-      /*数据详情*/
-      handleView(row) {
-        this.dialogFormVisibleView = true;
-        this.temp = row;
-      },
-      /*重置密码*/
-      resetPassword(row) {
-        this.temp.userId = row.userId;
-        resetPassword(this.temp).then(() => {
-          this.$message({
-            message: '重置成功，新密码为：123456',
-            type: 'success'
-          });
-          this.dialogFormVisible = false
-          this.getList();
-        })
+      rules: {
+        nickName: [
+          {required: true, message: '请输入姓名', trigger: 'blur'},
+          {min: 2, max: 6, message: '长度在 2 到 6 个字符', trigger: 'blur'}
+        ],
+        username: [
+          {required: true, message: '请输入账号', trigger: 'blur'},
+          {min: 1, max: 99, message: '长度在 1 到 99 个字符', trigger: 'blur'}
+        ],
+        password: [
+          {required: true, message: '请输入密码', trigger: 'blur'},
+          {validator: validatePassword, trigger: 'blur'}
+        ],
+        email: [
+          {required: true, message: '请输入邮箱', trigger: 'blur'},
+          {validator: validateEmail, trigger: 'blur'}
+        ],
+        date1: [
+          {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
+        ],
+        date2: [
+          {type: 'date', required: true, message: '请选择时间', trigger: 'change'}
+        ],
+        type: [
+          {type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change'}
+        ],
+        userType: [
+          {required: true, message: '请选择用户权限', trigger: 'change'}
+        ],
+        desc: [
+          {required: true, message: '请填写活动形式', trigger: 'blur'}
+        ]
       }
     }
+  },
+  created() {
+    this.getList();
+    this.getRoleList();
+  },
+  methods: {
+    /*列表查询*/
+    getList() {
+      this.listLoading = true
+      getSysUserList(this.listQuery).then(response => {
+        this.list = response.data.records
+        this.total = response.data.total
+        this.listLoading = false
+      })
+    },
+    /*角色查询*/
+    getRoleList() {
+      getRoles().then(response => {
+        let roles = response.data;
+        this.userTypeOptions = [];
+        for (const role of roles) {
+          this.userTypeOptions.push({key: role.roleId, name: role.roleName})
+        }
+      })
+    },
+    /*条件查询*/
+    handleFilter() {
+      this.listQuery.currentPage = 1
+      const createTime = this.createTime;
+      if (createTime !== null && createTime !== '') {
+        this.listQuery.startTime = createTime[0];
+        this.listQuery.endTime = createTime[1]
+      }
+      this.getList()
+    },
+    /*条件重置*/
+    handleRest() {
+      this.listQuery.nickName = "";
+      this.listQuery.username = "";
+      this.listQuery.startTime = "";
+      this.listQuery.endTime = "";
+      this.createTime = [];
+    },
+    /*用户状态改变*/
+    handleModifyStatus(row) {
+      this.temp.userId = row.userId;
+      let param = {};
+      param.userId = row.userId;
+      param.status = row.status;
+      editUserStatus(param).then(() => {
+        this.$message({
+          message: '更新成功',
+          type: 'success'
+        });
+        this.getList();
+      })
+    },
+    /*表单重置*/
+    resetTemp() {
+      this.temp = {
+        userId: undefined,
+        username: '',
+        nickName: '',
+        password: '',
+        email: '',
+        userType: '',
+        status: '0',
+        remark: '',
+      }
+    },
+    /*新增跳转*/
+    handleCreate() {
+      this.resetTemp()
+      this.dialogStatus = 'add'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    /*新增提交*/
+    createData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          addUser(this.temp).then(() => {
+            this.$message({
+              message: '新增成功',
+              type: 'success'
+            });
+            this.dialogFormVisible = false
+            this.getList();
+          })
+        }
+      })
+    },
+    /*修改跳转*/
+    handleUpdate(row) {
+      this.temp = Object.assign({}, row) // copy obj
+      this.temp.password = ''
+      this.dialogStatus = 'edit'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    /*修改提交*/
+    updateData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          editUser(this.temp).then(() => {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            });
+            this.dialogFormVisible = false
+            this.getList();
+          })
+        }
+      })
+    },
+    /*数据删除*/
+    handleDelete(row) {
+      this.temp.userId = row.userId;
+      deleteUser(this.temp).then(() => {
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        });
+        this.dialogFormVisible = false
+        this.getList();
+      })
+    },
+    /*数据详情*/
+    handleView(row) {
+      this.dialogFormVisibleView = true;
+      this.temp = row;
+    },
+    /*重置密码*/
+    resetPassword(row) {
+      this.temp.userId = row.userId;
+      resetPassword(this.temp).then(() => {
+        this.$message({
+          message: '重置成功，新密码为：123456',
+          type: 'success'
+        });
+        this.dialogFormVisible = false
+        this.getList();
+      })
+    }
   }
+}
 </script>
 <style>
-  /*新增页按钮居中--（写法暂定）*/
-  .dialog-footer {
-    text-align: center;
-  }
-  .el-radio-role{
-    margin-bottom: 10px;
-  }
-  .el-dialog__body {
-    padding: 10px 10px;
-  }
-  .filter-container{
-    margin-bottom: 18px;
-  }
+/*新增页按钮居中--（写法暂定）*/
+.dialog-footer {
+  text-align: center;
+}
+
+.el-radio-role {
+  margin-bottom: 10px;
+}
+
+.el-dialog__body {
+  padding: 10px 10px;
+}
+
+.filter-container {
+  margin-bottom: 18px;
+}
 </style>
