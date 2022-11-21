@@ -2,6 +2,7 @@ package com.mxy.security.security.handler;
 
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysUser;
+import com.mxy.common.core.utils.IPUtils;
 import com.mxy.common.log.enums.OperType;
 import com.mxy.security.common.config.JWTConfig;
 import com.mxy.security.common.util.JWTTokenUtil;
@@ -45,6 +46,15 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
         sysUser.setUserId(userDetails.getUserId());
         sysUser.setLoginDate(new Date());
         sysUser.setUpdateUser(userDetails.getUsername());
+        sysUser.setValidCode(token);
+        sysUser.setLoginCount(userDetails.getLoginCount() + 1);
+        Map<String, String> map = IPUtils.getOsAndBrowserInfo(request);
+        String os = map.get("OS");
+        String browser = map.get("BROWSER");
+        String ip = IPUtils.getClientIp(request);
+        sysUser.setLoginIp(ip);
+        sysUser.setOs(os);
+        sysUser.setBrowser(browser);
         sysUser.updateById();
         // 封装返回参数
         Map<String, Object> resultData = new HashMap<>();
@@ -52,8 +62,8 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
         resultData.put("msg", "登录成功");
         resultData.put("data", userDetails);
         resultData.put("token", token);
-        LogUtil.saveLog("登录", OperType.LOGIN.ordinal());
-        LogUtil.saveLoginLog(userDetails, "PC端-系统账号", "后台管理系统");
+        LogUtil.saveLog(userDetails.getRegistrationType() + "登录", OperType.LOGIN.ordinal());
+        LogUtil.saveLoginLog(userDetails, userDetails.getRegistrationType(), "博客系统");
         ResultUtil.responseJson(response, resultData);
     }
 }
