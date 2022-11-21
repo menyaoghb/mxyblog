@@ -3,8 +3,10 @@ package com.mxy.security.common.config;
 import com.alibaba.fastjson.JSONObject;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysUser;
+import com.mxy.common.core.utils.IPUtils;
 import com.mxy.common.core.utils.JsonUtils;
 import com.mxy.common.core.utils.RedisUtil;
+import com.mxy.common.core.utils.ServletUtils;
 import com.mxy.common.log.enums.OperType;
 import com.mxy.security.account.AccountAuthenticationFilter;
 import com.mxy.security.common.util.JWTTokenUtil;
@@ -22,6 +24,7 @@ import com.mxy.security.sms.PhoneAuthenticationProvider;
 import com.mxy.security.sms.PhoneNumAuthenticationFilter;
 import com.mxy.system.utils.LogUtil;
 import lombok.extern.slf4j.Slf4j;
+import me.zhyd.oauth.utils.IpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,6 +48,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * SpringSecurity配置类
@@ -287,6 +291,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     sysUser.setUserId(userDetails.getUserId());
                     sysUser.setLoginDate(new Date());
                     sysUser.setUpdateUser(userDetails.getUsername());
+                    sysUser.setValidCode(token);
+                    sysUser.setLoginCount(userDetails.getLoginCount() + 1);
+                    Map<String, String> map = IPUtils.getOsAndBrowserInfo(request);
+                    String os = map.get("OS");
+                    String browser = map.get("BROWSER");
+                    String ip = IPUtils.getClientIp(request);
+                    sysUser.setLoginIp(ip);
+                    sysUser.setOs(os);
+                    sysUser.setBrowser(browser);
                     sysUser.updateById();
                     // 封装返回参数
                     Map<String, Object> resultData = new HashMap<>();
@@ -294,8 +307,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     resultData.put("msg", "第三方登录成功");
                     resultData.put("data", userDetails);
                     resultData.put("token", token);
-                    LogUtil.saveLog("第三方登录", OperType.LOGIN.ordinal());
-                    LogUtil.saveLoginLog(userDetails, "PC端-第三方账号", "后台管理系统");
+                    LogUtil.saveLog(userDetails.getRegistrationType() + "登录", OperType.LOGIN.ordinal());
+                    LogUtil.saveLoginLog(userDetails, userDetails.getRegistrationType(), "博客系统");
                     response.sendRedirect("http://mxyit.com/#/dashboard?Authorization=" + token);
                     ResultUtil.responseJson(response, resultData);
 

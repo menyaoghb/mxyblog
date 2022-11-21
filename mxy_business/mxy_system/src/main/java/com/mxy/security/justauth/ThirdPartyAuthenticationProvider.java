@@ -6,7 +6,9 @@ import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysRole;
 import com.mxy.common.core.entity.SysUser;
 import com.mxy.common.core.entity.SysUserRole;
+import com.mxy.common.core.utils.IPUtils;
 import com.mxy.common.core.utils.RedisUtil;
+import com.mxy.common.core.utils.ServletUtils;
 import com.mxy.common.log.enums.OperType;
 import com.mxy.security.security.service.SelfUserDetailsService;
 import com.mxy.system.service.SysUserService;
@@ -70,8 +72,8 @@ public class ThirdPartyAuthenticationProvider implements AuthenticationProvider 
         }
         AuthUser authUser = (AuthUser) response.getData();
         log.info("------------认证用户：{}", authUser);
-        // 根据 openId 查询用户信息
-        SelfUserEntity userInfo = selfUserDetailsService.loadUserByUsername(authUser.getUuid());
+        // 根据 uuid 查询用户信息
+        SelfUserEntity userInfo = selfUserDetailsService.getUserInfoByUuid(authUser.getUuid());
         if (userInfo == null) {
             // 自动注册
             userInfo = doRegister(authUser);
@@ -100,10 +102,14 @@ public class ThirdPartyAuthenticationProvider implements AuthenticationProvider 
         SelfUserEntity selfUser = new SelfUserEntity();
         SysUser sysUser = new SysUser();
         sysUser.setNickName(authUser.getNickname());
-        sysUser.setUsername(authUser.getUuid());
+        sysUser.setUsername(authUser.getSource() + (random.nextInt(89999999) + 10000000));
         String password = String.valueOf(random.nextInt(899999) + 100000);
         sysUser.setPassword(bCryptPasswordEncoder.encode(password));
         sysUser.setAvatar(authUser.getAvatar());
+        sysUser.setRegistrationType(authUser.getSource());
+        sysUser.setUuid(authUser.getUuid());
+        sysUser.setLoginCount(0);
+        sysUser.setIpSource(IPUtils.getClientIp(Objects.requireNonNull(ServletUtils.getRequest())));
         // 2-男
         sysUser.setSex("2".equals(authUser.getRawUserInfo().getString("gender_type")) ? "0" : "1");
         sysUser.setCreateUser("system");
@@ -120,7 +126,7 @@ public class ThirdPartyAuthenticationProvider implements AuthenticationProvider 
         sysUserRole.insert();
         BeanUtils.copyProperties(sysUser, selfUser);
         selfUser.setRelName(sysUser.getNickName());
-        LogUtil.saveNoLoginLog("账号注册（QQ）", JSONObject.toJSONString(sysUser), OperType.REGISTRATION.ordinal());
+        LogUtil.saveNoLoginLog("账号注册（" + authUser.getSource() + "）", JSONObject.toJSONString(sysUser), OperType.REGISTRATION.ordinal());
         return selfUser;
     }
 
