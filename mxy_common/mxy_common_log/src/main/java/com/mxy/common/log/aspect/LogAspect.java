@@ -1,5 +1,7 @@
 package com.mxy.common.log.aspect;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.gson.Gson;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysOperLog;
@@ -23,7 +25,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Description 系统日志切面
+ * 系统日志切面
+ *
  * @Author 孟小耀
  * @Date 2021/8/2 14:31
  */
@@ -43,7 +46,8 @@ public class LogAspect {
 
 
     /**
-     * @Description: 环绕通知
+     * 环绕通知
+     *
      * @Author: mengyao
      * @Date: 2021/8/4 8:21
      */
@@ -67,7 +71,8 @@ public class LogAspect {
 
 
     /**
-     * @Description: 保存操作日志
+     * 保存操作日志
+     *
      * @Author: mengyao
      * @Date: 2021/8/4
      */
@@ -109,9 +114,9 @@ public class LogAspect {
                 ipName = IPUtils.getIpAddress(ip);
             } else {
                 sysOperLog.setOperIp("0.0.0.0");
-                ipName = "地球";
+                ipName = "X-X-X-X";
             }
-            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName)?ipName:"地球");
+            sysOperLog.setOperLocation(StringUtils.isNotBlank(ipName) ? ipName : "X-X-X-X");
             // 请求URL
             sysOperLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
             // 请求时长
@@ -121,11 +126,9 @@ public class LogAspect {
             // 错误消息
             if (e != null) {
                 sysOperLog.setStatus(Status.FAIL.ordinal());
-                if (!StringUtils.isEmpty(e.getMessage())) {
-                    sysOperLog.setErrorMsg(e.getMessage().substring(0, e.getMessage().length() - 1));
-                } else {
-                    sysOperLog.setErrorMsg("No error message");
-                }
+                sysOperLog.setErrorMsg(JSON.toJSONString(e,
+                        SerializerFeature.DisableCircularReferenceDetect,
+                        SerializerFeature.WriteMapNullValue));
             }
             // 操作时间
             sysOperLog.setOperTime(new Date());

@@ -139,7 +139,7 @@ public class HostUtil {
             return InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
         }
-        return "地球";
+        return "X-X-X-X";
     }
 
 }
