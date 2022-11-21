@@ -2,11 +2,13 @@ package com.mxy.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mxy.common.core.constant.BaseMessage;
 import com.mxy.common.core.entity.SelfUserEntity;
 import com.mxy.common.core.entity.SysConfig;
+import com.mxy.common.core.entity.SysDictData;
 import com.mxy.common.core.utils.ServiceResult;
 import com.mxy.system.entity.vo.SysConfigVO;
 import com.mxy.system.mapper.SysConfigMapper;
@@ -82,6 +84,18 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         } else {
             return ServiceResult.successMsg(BaseMessage.DELETE_FAIL);
         }
+    }
+
+    /**
+     * 获取系统配置-参数值
+     *
+     * @param configType 参数类型
+     * @return 参数值
+     */
+    @Override
+    public String getConfigValueByType(String configType) {
+        SysConfig data = this.baseMapper.selectOne(Wrappers.<SysConfig>lambdaQuery().eq(SysConfig::getConfigType, configType).eq(SysConfig::getIsDelete, "0").eq(SysConfig::getStatus, "0"));
+        return data != null ? data.getConfigValue() : "";
     }
 
 }

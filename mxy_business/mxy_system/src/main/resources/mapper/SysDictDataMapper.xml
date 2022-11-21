@@ -74,6 +74,7 @@
         WHERE
             DICT_TYPE = #{dictType}
             AND STATUS = '0'
+            AND is_delete = '0'
         ORDER BY
             DICT_SORT ASC
     </select>
