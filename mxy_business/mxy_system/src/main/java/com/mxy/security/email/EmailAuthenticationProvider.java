@@ -11,6 +11,7 @@ import com.mxy.common.core.utils.RedisUtil;
 import com.mxy.common.core.utils.ServletUtils;
 import com.mxy.common.log.enums.OperType;
 import com.mxy.security.security.service.SelfUserDetailsService;
+import com.mxy.system.service.SysConfigService;
 import com.mxy.system.service.SysUserService;
 import com.mxy.system.utils.LogUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -41,6 +42,8 @@ public class EmailAuthenticationProvider implements AuthenticationProvider {
     private SysUserService sysUserService;
     @Autowired
     private RedisUtil redisUtil;
+    @Resource
+    public SysConfigService sysConfigService;
 
     @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -140,7 +143,7 @@ public class EmailAuthenticationProvider implements AuthenticationProvider {
         sysUser.setEmail(email);
         String password = String.valueOf(random.nextInt(899999) + 100000);
         sysUser.setPassword(bCryptPasswordEncoder.encode(password));
-        sysUser.setAvatar(Constants.DEFAULT_USER_AVATAR);
+        sysUser.setAvatar(sysConfigService.getConfigValueByType(Constants.DEFAULT_USER_AVATAR));
         sysUser.setRegistrationType(Constants.EMAIL);
         sysUser.setLoginCount(0);
         sysUser.setIpSource(IPUtils.getClientIp(Objects.requireNonNull(ServletUtils.getRequest())));
