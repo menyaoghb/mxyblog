@@ -1,8 +1,13 @@
 package com.mxy.test;
 
+import com.alibaba.fastjson.JSON;
+import com.google.common.net.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static cn.hutool.core.util.CharsetUtil.GBK;
@@ -39,15 +44,40 @@ public class TestController {
 //        String gbkStr = new String(oldUnicode.getBytes("GBK"), "GBK");
 //        System.out.println(gbkStr );
 //    }
-    public static void main(String[] args) {
-        // /context/open/oauth/callback/gitee
-        String uri = "/api/login/callback/gitee";
-        String EXTEND_LOGIN_URL = "/api/login/callback/qq";
-        // "/open/oauth/callback/".length()
-        int common = EXTEND_LOGIN_URL.length() - 2;
-        int start = uri.indexOf(EXTEND_LOGIN_URL.substring(0, common));
-        System.out.println(uri.substring(start + common));
+//    public static void main(String[] args) {
+//        // /context/open/oauth/callback/gitee
+//        String uri = "/api/login/callback/gitee";
+//        String EXTEND_LOGIN_URL = "/api/login/callback/qq";
+//        // "/open/oauth/callback/".length()
+//        int common = EXTEND_LOGIN_URL.length() - 2;
+//        int start = uri.indexOf(EXTEND_LOGIN_URL.substring(0, common));
+//        System.out.println(uri.substring(start + common));
+//    }
+
+/*
+    public static String postRequestNoSecurity(String url, Map<String, String> headers, Object data) throws Exception {
+        String securityReq = JSON.toJSONString(data);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().readTimeout(30, TimeUnit.SECONDS).build();
+        //当时这句话报错了 在create()这个方法上
+        RequestBody body =RequestBody.create(MediaType.parse("application/json"), securityReq);
+
+        Request.Builder builder = new Request.Builder();
+        if (!BaseUtils.isEmpty(headers)) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.addHeader(entry.getKey(), entry.getValue());
+            }
+        }
+        final Request req = builder.addHeader("Content-Length", String.valueOf(securityReq.length()))
+                .url(url)
+                .post(body)
+                .build();
+        Call call = okHttpClient.newCall(req);
+        Response response = call.execute();
+
+        String securityRes = response.body().string();
+        return securityRes;
     }
+*/
 
 
 }
