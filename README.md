@@ -18,11 +18,11 @@ admin/888888
 user/123456
 
 #### 系统截图
-![输入图片说明](doc/image.png)
-![输入图片说明](doc/image-01.png)
-![输入图片说明](doc/image-02.png)
-![输入图片说明](doc/image-03.png)
-![输入图片说明](doc/image-04.png)
+![输入图片说明](doc/image/01/image.png)
+![输入图片说明](doc/image/01/image-01.png)
+![输入图片说明](doc/image/01/image-02.png)
+![输入图片说明](doc/image/01/image-03.png)
+![输入图片说明](doc/image/01/image-04.png)
 
 #### 使用说明
 
