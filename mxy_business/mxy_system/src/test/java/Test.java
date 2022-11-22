@@ -45,7 +45,7 @@ public class Test {
      * 注册用户
      */
         public void main(String[] args){
-            File file = new File("C:\\Users\\孟耀\\Documents\\bookmarks.txt");
+            File file = new File("C:\\Users\\mengyao\\Documents\\bookmarks.txt");
             String json = txt2String(file);
             String[] data = json.split("`");
             List<Map<String,String>> maps = new ArrayList<>();
